@@ -10,8 +10,8 @@ class AppStrings {
   const AppStrings._();
 
   static const Map<String, Map<String, String>> _dict = {
-    'appTitle': {'en': 'OneMaanicare', 'hi': 'वनमानिकेयर'},
-    'appSubtitle': {'en': 'Frontline', 'hi': 'फ्रंटलाइन'},
+    'appTitle': {'en': 'IFM', 'hi': 'IFM'},
+    'appSubtitle': {'en': 'Field App', 'hi': 'फील्ड ऐप'},
     'languageLabel': {'en': 'Language', 'hi': 'भाषा'},
     'identifierLabel': {'en': 'Email, mobile or employee ID', 'hi': 'ईमेल, मोबाइल या कर्मचारी आईडी'},
     'passwordLabel': {'en': 'Password', 'hi': 'पासवर्ड'},
@@ -33,7 +33,7 @@ class AppStrings {
     'viewAction': {'en': 'View', 'hi': 'देखें'},
     'reportIssue': {'en': 'Report issue', 'hi': 'समस्या बताएं'},
     'scanAsset': {'en': 'Scan asset', 'hi': 'एसेट स्कैन करें'},
-    'exitTitle': {'en': 'Exit OneMaanicare?', 'hi': 'OneMaanicare से बाहर जाएं?'},
+    'exitTitle': {'en': 'Exit IFM?', 'hi': 'IFM से बाहर जाएं?'},
     'exitBody': {'en': 'Are you sure you want to exit the app?', 'hi': 'क्या आप वाकई ऐप से बाहर जाना चाहते हैं?'},
     'exitCancel': {'en': 'Cancel', 'hi': 'रद्द करें'},
     'exitConfirm': {'en': 'Exit', 'hi': 'बाहर जाएं'},
