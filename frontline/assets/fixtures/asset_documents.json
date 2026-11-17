@@ -1,0 +1,9 @@
+[
+  { "id": "doc-ahu04-manual", "assetId": "ast-ahu-04", "documentType": "manual", "title": "AHU-04 Operation & Maintenance Manual", "url": "https://docs.onemaanicare.example.com/ahu-04-manual.pdf" },
+  { "id": "doc-ahu04-warranty", "assetId": "ast-ahu-04", "documentType": "warranty", "title": "AHU-04 Warranty Certificate", "url": "https://docs.onemaanicare.example.com/ahu-04-warranty.pdf" },
+  { "id": "doc-ahu04-sop", "assetId": "ast-ahu-04", "documentType": "sop", "title": "HVAC Preventive Maintenance SOP", "url": "https://docs.onemaanicare.example.com/hvac-pm-sop.pdf" },
+
+  { "id": "doc-p104-manual", "assetId": "ast-pump-104", "documentType": "manual", "title": "Pump P-104 Service Manual", "url": "https://docs.onemaanicare.example.com/p-104-manual.pdf" },
+  { "id": "doc-p104-drawing", "assetId": "ast-pump-104", "documentType": "drawing", "title": "Pump P-104 Installation Drawing", "url": "https://docs.onemaanicare.example.com/p-104-drawing.pdf" },
+  { "id": "doc-p104-cert", "assetId": "ast-pump-104", "documentType": "certificate", "title": "Pump P-104 Pressure Test Certificate", "url": "https://docs.onemaanicare.example.com/p-104-cert.pdf" }
+]

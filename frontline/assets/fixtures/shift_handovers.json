@@ -1,0 +1,16 @@
+[
+  {
+    "id": "sh-2026-shift-001",
+    "siteId": "site-brt-01",
+    "openJobsNote": "WO-2026-1001 (Pump P-104) still in progress, overdue SLA. WO-2026-1002 (AHU-04 PM) scheduled for later today.",
+    "equipmentIssueNote": "DG-02 under observation - slight oil leak noticed, not yet urgent.",
+    "temporaryFixNote": "Floor 3 plant room door latch tied with cable - replacement latch ordered.",
+    "vendorExpectedNote": "Pump vendor (HydroServe) expected onsite 11:00 for P-104 inspection.",
+    "safetyConcernNote": "Wet floor near Floor 8 pantry after a minor leak - cordoned off, awaiting mop-up.",
+    "clientCommitmentNote": "Promised client facility team an update on Lift 3 by 2pm.",
+    "materialShortageNote": "Mechanical seal (Pump P-104 type) stock is low - only 2 left.",
+    "specialInstructionNote": "VIP visitor expected at Floor 8 at 14:00 - keep lobby and Floor 8 presentable.",
+    "createdBy": "usr-tech-001",
+    "createdAtOffsetMinutes": -480
+  }
+]

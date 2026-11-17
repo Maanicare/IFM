@@ -1,0 +1,38 @@
+[
+  {
+    "id": "usr-tech-001",
+    "employeeId": "MC-1042",
+    "name": "Arjun Mehta",
+    "email": "arjun.mehta@onemaanicare.com",
+    "mobile": "9820012345",
+    "designation": "HVAC Technician",
+    "role": "technician",
+    "organisationId": "org-maanicare",
+    "siteIds": ["site-brt-01"],
+    "approvalLimit": null
+  },
+  {
+    "id": "usr-super-001",
+    "employeeId": "MC-0511",
+    "name": "Priya Nair",
+    "email": "priya.nair@onemaanicare.com",
+    "mobile": "9820099887",
+    "designation": "Site Facility Manager",
+    "role": "siteFacilityManager",
+    "organisationId": "org-maanicare",
+    "siteIds": ["site-brt-01", "site-brt-02"],
+    "approvalLimit": 50000
+  },
+  {
+    "id": "usr-hk-001",
+    "employeeId": "MC-2201",
+    "name": "Sunita Devi",
+    "email": "sunita.devi@onemaanicare.com",
+    "mobile": "9820055440",
+    "designation": "Housekeeping Employee",
+    "role": "housekeepingEmployee",
+    "organisationId": "org-maanicare",
+    "siteIds": ["site-brt-01"],
+    "approvalLimit": null
+  }
+]

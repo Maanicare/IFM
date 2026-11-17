@@ -1,0 +1,35 @@
+[
+  {
+    "id": "roster-brt01-tech001-today",
+    "siteId": "site-brt-01",
+    "userId": "usr-tech-001",
+    "userName": "Arjun Mehta",
+    "role": "technician",
+    "skill": "HVAC",
+    "shiftStartOffsetMinutes": -120,
+    "shiftEndOffsetMinutes": 360,
+    "attendanceStatus": "present"
+  },
+  {
+    "id": "roster-brt01-hk001-today",
+    "siteId": "site-brt-01",
+    "userId": "usr-hk-001",
+    "userName": "Sunita Devi",
+    "role": "housekeepingEmployee",
+    "skill": "Housekeeping",
+    "shiftStartOffsetMinutes": -180,
+    "shiftEndOffsetMinutes": 300,
+    "attendanceStatus": "present"
+  },
+  {
+    "id": "roster-brt01-super001-today",
+    "siteId": "site-brt-01",
+    "userId": "usr-super-001",
+    "userName": "Priya Nair",
+    "role": "siteFacilityManager",
+    "skill": null,
+    "shiftStartOffsetMinutes": -240,
+    "shiftEndOffsetMinutes": 240,
+    "attendanceStatus": "scheduled"
+  }
+]

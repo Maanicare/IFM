@@ -1,0 +1,82 @@
+import 'dart:convert';
+
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../core/db/app_database.dart';
+import '../../../core/rbac/action.dart';
+import '../../../core/rbac/current_access_context_provider.dart';
+import '../../../core/rbac/policy_guard.dart';
+import '../../../core/util/id_generator.dart';
+import '../data/request_repository_provider.dart';
+
+part 'request_controller.g.dart';
+
+/// Backs "Report an Issue" (Journey 1 / SCREEN 06). Creating a request is
+/// itself treated as an offline-first mutation: the repository writes the
+/// row locally and returns a ticket number instantly, and this controller
+/// enqueues the outbox entry that pushes it to the server.
+@riverpod
+class RequestController extends _$RequestController {
+  @override
+  void build() {}
+
+  Future<String> createRequest({
+    required String siteId,
+    String? spaceId,
+    String? assetId,
+    required String categoryId,
+    required String title,
+    String? description,
+    required String priority,
+    int? affectedPeopleCount,
+    bool safetyConcern = false,
+    List<String> photoPaths = const [],
+  }) async {
+    final guard = ref.read(policyGuardProvider);
+    final accessContext = ref.read(currentAccessContextProvider);
+    if (accessContext == null) {
+      throw StateError('Cannot create a request without a logged-in user.');
+    }
+    guard.ensure(accessContext, AppAction.createServiceRequest, siteId: siteId);
+
+    final repo = ref.read(requestRepositoryProvider);
+    final db = ref.read(appDatabaseProvider);
+
+    final requestId = await repo.createRequest(
+      siteId: siteId,
+      spaceId: spaceId,
+      assetId: assetId,
+      categoryId: categoryId,
+      title: title,
+      description: description,
+      priority: priority,
+      requesterId: accessContext.userId,
+      source: 'mobile',
+      affectedPeopleCount: affectedPeopleCount,
+      safetyConcern: safetyConcern,
+    );
+
+    for (final path in photoPaths) {
+      await db.attachmentDao.add(AttachmentsCompanion.insert(
+        id: IdGenerator.newId(),
+        entityType: 'service_request',
+        entityId: requestId,
+        fileType: 'photo',
+        localPath: path,
+        uploadedBy: accessContext.userId,
+        createdAt: DateTime.now(),
+      ));
+    }
+
+    await db.outboxDao.enqueue(
+      id: IdGenerator.newId(),
+      entityType: 'service_request',
+      entityId: requestId,
+      operation: 'create',
+      payloadJson: jsonEncode({'requestId': requestId}),
+      createdBy: accessContext.userId,
+    );
+
+    return requestId;
+  }
+}

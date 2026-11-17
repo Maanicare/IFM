@@ -1,0 +1,24 @@
+/// Closed set of mobile-relevant actions a [PolicyGuard] can evaluate.
+/// Kept as an enum (rather than free-form strings) so every call site is
+/// checked at compile time and `PolicyGuard.can` can exhaustively switch.
+enum AppAction {
+  viewWorkOrder,
+  acceptWorkOrder,
+  startWorkOrder,
+  checkInWorkOrder,
+  completeWorkOrder,
+  reopenWorkOrder,
+  verifyWorkOrder, // supervisor QA sign-off
+  reassignWorkOrder,
+  escalateWorkOrder,
+  createServiceRequest,
+  cancelServiceRequest,
+  recordMeterReading,
+  recordPartsUsage,
+  manageShiftHandover,
+  captureAttachment,
+  submitChecklistResponse,
+  approveQuoteOrSpend, // gated additionally by approvalLimit
+  viewClientCommercialData,
+  viewOtherClientsData,
+}

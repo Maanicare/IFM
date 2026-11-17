@@ -1,0 +1,47 @@
+{
+  "sites": [
+    {
+      "id": "site-brt-01",
+      "code": "BRT-01",
+      "name": "BharatTower - Lower Parel",
+      "timezone": "Asia/Kolkata",
+      "latitude": 18.9957,
+      "longitude": 72.8254,
+      "operationalStatus": "active"
+    },
+    {
+      "id": "site-brt-02",
+      "code": "BRT-02",
+      "name": "BharatTower - Andheri East",
+      "timezone": "Asia/Kolkata",
+      "latitude": 19.1197,
+      "longitude": 72.8697,
+      "operationalStatus": "active"
+    }
+  ],
+  "buildings": [
+    { "id": "bld-01", "siteId": "site-brt-01", "name": "Tower A", "floors": 12 }
+  ],
+  "floors": [
+    { "id": "flr-01", "buildingId": "bld-01", "name": "Floor 8", "floorNumber": "8" },
+    { "id": "flr-02", "buildingId": "bld-01", "name": "Floor 3 - Plant Room", "floorNumber": "3" }
+  ],
+  "spaces": [
+    {
+      "id": "spc-01",
+      "floorId": "flr-01",
+      "spaceCode": "F8-MR-02",
+      "name": "Meeting Room 2, Floor 8",
+      "spaceType": "meeting_room",
+      "criticality": "high"
+    },
+    {
+      "id": "spc-02",
+      "floorId": "flr-02",
+      "spaceCode": "F3-PLANT",
+      "name": "Plant Room, Floor 3",
+      "spaceType": "plant_room",
+      "criticality": "critical"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "req-5001",
+    "requestNumber": "REQ-2026-5001",
+    "requesterId": "client-emp-221",
+    "siteId": "site-brt-01",
+    "spaceId": "spc-02",
+    "assetId": "ast-pump-104",
+    "categoryId": "plumbing",
+    "title": "Pump noise and pressure loss",
+    "description": "Loud noise from plant room pump, water pressure on floors 3-6 is low.",
+    "priority": "critical",
+    "status": "work_order_created",
+    "source": "mobile",
+    "createdAtOffsetMinutes": -180,
+    "responseDueOffsetMinutes": -150,
+    "resolutionDueOffsetMinutes": -5
+  },
+  {
+    "id": "req-5002",
+    "requestNumber": "REQ-2026-5002",
+    "requesterId": "client-emp-104",
+    "siteId": "site-brt-01",
+    "spaceId": "spc-02",
+    "assetId": "ast-ahu-04",
+    "categoryId": "hvac",
+    "title": "Quarterly AHU-04 preventive maintenance",
+    "description": null,
+    "priority": "medium",
+    "status": "work_order_created",
+    "source": "web",
+    "createdAtOffsetMinutes": -1440,
+    "responseDueOffsetMinutes": 60,
+    "resolutionDueOffsetMinutes": 180
+  }
+]

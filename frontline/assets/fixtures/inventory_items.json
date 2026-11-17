@@ -1,0 +1,8 @@
+[
+  { "id": "inv-item-001", "sku": "BRG-6204", "name": "Bearing 6204", "category": "mechanical", "unit": "pcs", "unitCost": 180.0, "reorderLevel": 5 },
+  { "id": "inv-item-002", "sku": "BELT-A42", "name": "V-Belt A42", "category": "mechanical", "unit": "pcs", "unitCost": 320.0, "reorderLevel": 4 },
+  { "id": "inv-item-003", "sku": "FLT-HVAC-M8", "name": "HVAC Air Filter (M8)", "category": "hvac", "unit": "pcs", "unitCost": 450.0, "reorderLevel": 10 },
+  { "id": "inv-item-004", "sku": "GRS-LITH-500", "name": "Lithium Grease 500g", "category": "consumable", "unit": "tube", "unitCost": 95.0, "reorderLevel": 5 },
+  { "id": "inv-item-005", "sku": "SEAL-PUMP-104", "name": "Mechanical Seal (Pump P-104 type)", "category": "mechanical", "unit": "pcs", "unitCost": 2200.0, "reorderLevel": 5 },
+  { "id": "inv-item-006", "sku": "LAMP-LED-18W", "name": "LED Lamp 18W", "category": "electrical", "unit": "pcs", "unitCost": 220.0, "reorderLevel": 10 }
+]

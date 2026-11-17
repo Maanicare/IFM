@@ -1,0 +1,7 @@
+# Local tooling / IDE - not part of the project
+.idea/
+.claude/
+
+# Working/derived files from spec extraction - the source .docx is kept,
+# this plain-text dump was only a local reading aid
+ifm_full_text.txt

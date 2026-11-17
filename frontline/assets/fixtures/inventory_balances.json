@@ -1,0 +1,8 @@
+[
+  { "itemId": "inv-item-001", "siteId": "site-brt-01", "quantity": 12 },
+  { "itemId": "inv-item-002", "siteId": "site-brt-01", "quantity": 8 },
+  { "itemId": "inv-item-003", "siteId": "site-brt-01", "quantity": 25 },
+  { "itemId": "inv-item-004", "siteId": "site-brt-01", "quantity": 15 },
+  { "itemId": "inv-item-005", "siteId": "site-brt-01", "quantity": 2 },
+  { "itemId": "inv-item-006", "siteId": "site-brt-01", "quantity": 40 }
+]

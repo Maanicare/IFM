@@ -1,0 +1,19 @@
+{
+  "checklists": [
+    { "id": "chk-hvac-pm", "name": "HVAC Preventive Maintenance", "version": 2, "category": "hvac", "active": true },
+    { "id": "chk-pump-repair", "name": "Pump Repair Safety Checklist", "version": 1, "category": "plumbing", "active": true }
+  ],
+  "items": [
+    { "id": "itm-01", "checklistId": "chk-hvac-pm", "sequence": 1, "question": "Is the area isolated and LOTO applied?", "inputType": "boolean", "required": true },
+    { "id": "itm-02", "checklistId": "chk-hvac-pm", "sequence": 2, "question": "Filter condition acceptable?", "inputType": "boolean", "required": true },
+    { "id": "itm-03", "checklistId": "chk-hvac-pm", "sequence": 3, "question": "Supply air temperature (°C)", "inputType": "number", "required": true, "minValue": 10, "maxValue": 30 },
+    { "id": "itm-04", "checklistId": "chk-hvac-pm", "sequence": 4, "question": "Before photo of unit", "inputType": "photo", "required": true },
+    { "id": "itm-05", "checklistId": "chk-hvac-pm", "sequence": 5, "question": "After photo of unit", "inputType": "photo", "required": true },
+    { "id": "itm-06", "checklistId": "chk-hvac-pm", "sequence": 6, "question": "Supervisor sign-off", "inputType": "signature", "required": false },
+
+    { "id": "itm-11", "checklistId": "chk-pump-repair", "sequence": 1, "question": "Power isolated at DB?", "inputType": "boolean", "required": true },
+    { "id": "itm-12", "checklistId": "chk-pump-repair", "sequence": 2, "question": "PPE worn (gloves, goggles)?", "inputType": "boolean", "required": true },
+    { "id": "itm-13", "checklistId": "chk-pump-repair", "sequence": 3, "question": "Leak observed after repair?", "inputType": "boolean", "required": true },
+    { "id": "itm-14", "checklistId": "chk-pump-repair", "sequence": 4, "question": "Vibration reading (mm/s)", "inputType": "number", "required": false, "minValue": 0, "maxValue": 20 }
+  ]
+}

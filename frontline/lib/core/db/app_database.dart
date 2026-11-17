@@ -1,0 +1,122 @@
+import 'dart:io';
+
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+// ensures native sqlite3 is bundled
+
+import 'daos/asset_dao.dart';
+import 'daos/attachment_dao.dart';
+import 'daos/checklist_dao.dart';
+import 'daos/identity_dao.dart';
+import 'daos/inventory_dao.dart';
+import 'daos/location_dao.dart';
+import 'daos/notification_dao.dart';
+import 'daos/outbox_dao.dart';
+import 'daos/request_dao.dart';
+import 'daos/safety_gate_dao.dart';
+import 'daos/shift_handover_dao.dart';
+import 'daos/shift_roster_dao.dart';
+import 'daos/work_order_dao.dart';
+import 'tables/asset_tables.dart';
+import 'tables/attachment_tables.dart';
+import 'tables/checklist_tables.dart';
+import 'tables/identity_tables.dart';
+import 'tables/inventory_tables.dart';
+import 'tables/location_tables.dart';
+import 'tables/notification_table.dart';
+import 'tables/outbox_table.dart';
+import 'tables/request_tables.dart';
+import 'tables/safety_gate_tables.dart';
+import 'tables/shift_handover_tables.dart';
+import 'tables/shift_roster_tables.dart';
+import 'tables/work_order_tables.dart';
+
+part 'app_database.g.dart';
+
+/// The single offline-first relational store for the frontline app.
+///
+/// Holds the full relational graph described in the architecture brief:
+/// WorkOrders -> Checklists -> ChecklistItems -> ChecklistResponses,
+/// Asset -> AssetMeters -> MeterReadings, plus the location hierarchy,
+/// service requests, the attachment queue and the outbox sync queue.
+///
+/// All reference data (sites/assets/checklists/work orders as assigned)
+/// flows one-way from server -> device via `upsertFromServer` calls; all
+/// user-authored mutations flow device -> server through [OutboxEntries].
+@DriftDatabase(
+  tables: [
+    Sites,
+    Buildings,
+    Floors,
+    Spaces,
+    Assets,
+    AssetMeters,
+    MeterReadings,
+    AssetDocuments,
+    ServiceRequests,
+    WorkOrders,
+    WorkOrderStatusHistory,
+    Checklists,
+    ChecklistItems,
+    ChecklistResponses,
+    Attachments,
+    OutboxEntries,
+    CachedUsers,
+    AppNotifications,
+    InventoryItems,
+    InventoryBalances,
+    InventoryTransactions,
+    ShiftHandovers,
+    ShiftRosterEntries,
+    SafetyGateResponses,
+  ],
+  daos: [
+    LocationDao,
+    AssetDao,
+    RequestDao,
+    WorkOrderDao,
+    ChecklistDao,
+    AttachmentDao,
+    OutboxDao,
+    IdentityDao,
+    NotificationDao,
+    InventoryDao,
+    ShiftHandoverDao,
+    ShiftRosterDao,
+    SafetyGateDao,
+  ],
+)
+class AppDatabase extends _$AppDatabase {
+  AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
+
+  /// Named constructor used by tests to run entirely in memory.
+  AppDatabase.forTesting(super.executor);
+
+  @override
+  int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) => m.createAll(),
+        // Future schema changes land here as `onUpgrade` steps keyed by
+        // schemaVersion. Nothing to migrate yet at v1.
+      );
+
+  static QueryExecutor _openConnection() {
+    return LazyDatabase(() async {
+      final dbFolder = await getApplicationDocumentsDirectory();
+      final file = File(p.join(dbFolder.path, 'onemaanicare_frontline.sqlite'));
+      return NativeDatabase.createInBackground(file);
+    });
+  }
+}
+
+@Riverpod(keepAlive: true)
+AppDatabase appDatabase(Ref ref) {
+  final db = AppDatabase();
+  ref.onDispose(db.close);
+  return db;
+}

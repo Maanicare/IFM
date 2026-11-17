@@ -1,0 +1,6 @@
+[
+  { "id": "mtr-ahu04-runtime", "assetId": "ast-ahu-04", "meterType": "runtime_hours", "unit": "hrs", "currentValue": 18420 },
+  { "id": "mtr-ahu04-temp", "assetId": "ast-ahu-04", "meterType": "supply_air_temperature", "unit": "°C", "currentValue": 18.5 },
+  { "id": "mtr-p104-vibration", "assetId": "ast-pump-104", "meterType": "vibration", "unit": "mm/s", "currentValue": 7.8 },
+  { "id": "mtr-p104-runtime", "assetId": "ast-pump-104", "meterType": "runtime_hours", "unit": "hrs", "currentValue": 31220 }
+]
