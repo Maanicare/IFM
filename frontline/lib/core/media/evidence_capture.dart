@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 import 'package:signature/signature.dart';
 
 import '../util/id_generator.dart';
@@ -28,6 +29,18 @@ class EvidenceCapture {
     return _persist(await picked.readAsBytes(), extension: 'jpg');
   }
 
+  /// Opens the device camera in video mode (Screen 06: "Optional: ...
+  /// Video"). Capped at 60s - this is evidence for a request, not a
+  /// general-purpose camcorder. Returns null if cancelled.
+  static Future<String?> captureVideo() async {
+    final picked = await ImagePicker().pickVideo(
+      source: ImageSource.camera,
+      maxDuration: const Duration(seconds: 60),
+    );
+    if (picked == null) return null;
+    return _persistExistingFile(picked.path, extension: 'mp4');
+  }
+
   /// Shows a full-screen signature pad and saves the result as a PNG.
   /// Returns null if the technician cancels without drawing anything.
   static Future<String?> captureSignature(
@@ -40,15 +53,118 @@ class EvidenceCapture {
     );
   }
 
+  /// Shows a record/stop control and saves the result as an audio file
+  /// (Screen 06: "Optional: ... Voice note"). Returns null if the
+  /// technician cancels without recording anything.
+  static Future<String?> captureVoiceNote(BuildContext context) async {
+    return showDialog<String>(
+      context: context,
+      builder: (context) => const _VoiceNoteDialog(),
+    );
+  }
+
   static Future<String> _persist(List<int> bytes, {required String extension}) async {
+    final filePath = await _newAttachmentPath(extension);
+    await File(filePath).writeAsBytes(bytes, flush: true);
+    return filePath;
+  }
+
+  /// For files a plugin already wrote somewhere else on disk (video,
+  /// audio) - copying avoids reading a potentially large file fully
+  /// into memory just to write it straight back out.
+  static Future<String> _persistExistingFile(String sourcePath, {required String extension}) async {
+    final filePath = await _newAttachmentPath(extension);
+    await File(sourcePath).copy(filePath);
+    return filePath;
+  }
+
+  static Future<String> _newAttachmentPath(String extension) async {
     final dir = await getApplicationDocumentsDirectory();
     final attachmentsDir = Directory(p.join(dir.path, 'attachments'));
     if (!await attachmentsDir.exists()) {
       await attachmentsDir.create(recursive: true);
     }
-    final filePath = p.join(attachmentsDir.path, '${IdGenerator.newId()}.$extension');
-    await File(filePath).writeAsBytes(bytes, flush: true);
-    return filePath;
+    return p.join(attachmentsDir.path, '${IdGenerator.newId()}.$extension');
+  }
+}
+
+class _VoiceNoteDialog extends StatefulWidget {
+  const _VoiceNoteDialog();
+
+  @override
+  State<_VoiceNoteDialog> createState() => _VoiceNoteDialogState();
+}
+
+class _VoiceNoteDialogState extends State<_VoiceNoteDialog> {
+  final AudioRecorder _recorder = AudioRecorder();
+  bool _recording = false;
+  bool _hasRecording = false;
+  String? _path;
+
+  @override
+  void dispose() {
+    _recorder.dispose();
+    super.dispose();
+  }
+
+  Future<void> _start() async {
+    if (!await _recorder.hasPermission()) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Microphone permission is required to record a voice note.')),
+        );
+      }
+      return;
+    }
+    final path = await EvidenceCapture._newAttachmentPath('m4a');
+    await _recorder.start(const RecordConfig(), path: path);
+    setState(() {
+      _recording = true;
+      _path = path;
+    });
+  }
+
+  Future<void> _stop() async {
+    await _recorder.stop();
+    setState(() {
+      _recording = false;
+      _hasRecording = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Voice note'),
+      content: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            _recording ? Icons.fiber_manual_record : Icons.mic_none,
+            color: _recording ? Colors.red : null,
+          ),
+          const SizedBox(width: 12),
+          Text(_recording ? 'Recording...' : (_hasRecording ? 'Recorded.' : 'Tap record to start.')),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+        if (!_hasRecording)
+          FilledButton.icon(
+            icon: Icon(_recording ? Icons.stop : Icons.fiber_manual_record),
+            onPressed: _recording ? _stop : _start,
+            label: Text(_recording ? 'Stop' : 'Record'),
+          )
+        else
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(_path),
+            child: const Text('Use recording'),
+          ),
+      ],
+    );
   }
 }
 

@@ -31,6 +31,8 @@ class RequestController extends _$RequestController {
     int? affectedPeopleCount,
     bool safetyConcern = false,
     List<String> photoPaths = const [],
+    List<String> videoPaths = const [],
+    String? voiceNotePath,
   }) async {
     final guard = ref.read(policyGuardProvider);
     final accessContext = ref.read(currentAccessContextProvider);
@@ -56,16 +58,26 @@ class RequestController extends _$RequestController {
       safetyConcern: safetyConcern,
     );
 
-    for (final path in photoPaths) {
-      await db.attachmentDao.add(AttachmentsCompanion.insert(
+    Future<void> saveAttachment(String path, String fileType) {
+      return db.attachmentDao.add(AttachmentsCompanion.insert(
         id: IdGenerator.newId(),
         entityType: 'service_request',
         entityId: requestId,
-        fileType: 'photo',
+        fileType: fileType,
         localPath: path,
         uploadedBy: accessContext.userId,
         createdAt: DateTime.now(),
       ));
+    }
+
+    for (final path in photoPaths) {
+      await saveAttachment(path, 'photo');
+    }
+    for (final path in videoPaths) {
+      await saveAttachment(path, 'video');
+    }
+    if (voiceNotePath != null) {
+      await saveAttachment(voiceNotePath, 'voice');
     }
 
     await db.outboxDao.enqueue(

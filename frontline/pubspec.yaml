@@ -73,6 +73,9 @@ dependencies:
   # PDFs itself.
   url_launcher: ^6.3.1
 
+  # Voice note recording (Screen 06: "Optional: ... Voice note")
+  record: ^6.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

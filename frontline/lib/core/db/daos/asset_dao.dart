@@ -22,6 +22,11 @@ class AssetDao extends DatabaseAccessor<AppDatabase> with _$AssetDaoMixin {
         .get();
   }
 
+  /// Screen 06 (Create Request): the "Asset" optional field's generic
+  /// picker, for a request not raised from a Scan.
+  Future<List<Asset>> forSite(String siteId) =>
+      (select(assets)..where((t) => t.siteId.equals(siteId))).get();
+
   Future<Asset?> byQrCode(String qrCode) =>
       (select(assets)..where((t) => t.qrCode.equals(qrCode)))
           .getSingleOrNull();

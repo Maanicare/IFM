@@ -10,9 +10,9 @@ import '../../location/presentation/current_site_provider.dart';
 import 'request_controller.dart';
 
 /// SCREEN 06 - Create Request. Required: category, description,
-/// location. Optional: asset, photo, affected people, safety concern
-/// (Smart Behaviour - AI category suggestion/duplicate detection - is a
-/// server-side concern out of scope for this screen).
+/// location. Optional: asset, photo, video, voice note, affected
+/// people, safety concern (Smart Behaviour - AI category suggestion/
+/// duplicate detection - is deferred, not part of this screen yet).
 class CreateRequestScreen extends ConsumerStatefulWidget {
   const CreateRequestScreen({super.key, this.initialAssetId, this.initialSpaceId});
 
@@ -31,9 +31,12 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
   String _category = 'general';
   String _priority = 'medium';
   String? _spaceId;
+  String? _assetId;
   bool _safetyConcern = false;
   bool _submitting = false;
   final List<String> _photoPaths = [];
+  final List<String> _videoPaths = [];
+  String? _voiceNotePath;
 
   static const _categories = ['hvac', 'electrical', 'plumbing', 'housekeeping', 'general'];
   static const _priorities = ['low', 'medium', 'high', 'critical'];
@@ -42,6 +45,7 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
   void initState() {
     super.initState();
     _spaceId = widget.initialSpaceId;
+    _assetId = widget.initialAssetId;
   }
 
   @override
@@ -55,6 +59,16 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
   Future<void> _addPhoto() async {
     final path = await EvidenceCapture.capturePhoto();
     if (path != null) setState(() => _photoPaths.add(path));
+  }
+
+  Future<void> _addVideo() async {
+    final path = await EvidenceCapture.captureVideo();
+    if (path != null) setState(() => _videoPaths.add(path));
+  }
+
+  Future<void> _recordVoiceNote() async {
+    final path = await EvidenceCapture.captureVoiceNote(context);
+    if (path != null) setState(() => _voiceNotePath = path);
   }
 
   Future<void> _submit() async {
@@ -76,7 +90,7 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
       final requestId = await ref.read(requestControllerProvider.notifier).createRequest(
             siteId: siteId,
             spaceId: _spaceId,
-            assetId: widget.initialAssetId,
+            assetId: _assetId,
             categoryId: _category,
             title: _titleController.text.trim(),
             description: _descriptionController.text.trim().isEmpty
@@ -86,6 +100,8 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
             affectedPeopleCount: int.tryParse(_affectedPeopleController.text.trim()),
             safetyConcern: _safetyConcern,
             photoPaths: _photoPaths,
+            videoPaths: _videoPaths,
+            voiceNotePath: _voiceNotePath,
           );
       if (!mounted) return;
       // Replace (not push) this form with the detail screen - back from
@@ -143,6 +159,19 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
                 onChanged: (v) => setState(() => _spaceId = v),
               ),
               const SizedBox(height: 12),
+              // Asset: only a free picker when the request wasn't already
+              // scoped to one by a scan - that link is the more reliable
+              // identification and shouldn't be second-guessed by a
+              // separate manual picker on the same screen.
+              if (widget.initialAssetId == null && siteId != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _AssetPicker(
+                    siteId: siteId,
+                    value: _assetId,
+                    onChanged: (v) => setState(() => _assetId = v),
+                  ),
+                ),
               TextFormField(
                 controller: _titleController,
                 decoration: const InputDecoration(labelText: 'What\'s the issue?'),
@@ -187,6 +216,16 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
                       borderRadius: BorderRadius.circular(8),
                       child: Image.file(File(path), width: 64, height: 64, fit: BoxFit.cover),
                     ),
+                  for (final _ in _videoPaths)
+                    Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.videocam, color: Colors.grey),
+                    ),
                   InkWell(
                     onTap: _addPhoto,
                     borderRadius: BorderRadius.circular(8),
@@ -200,7 +239,26 @@ class _CreateRequestScreenState extends ConsumerState<CreateRequestScreen> {
                       child: const Icon(Icons.add_a_photo_outlined, color: Colors.grey),
                     ),
                   ),
+                  InkWell(
+                    onTap: _addVideo,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.videocam_outlined, color: Colors.grey),
+                    ),
+                  ),
                 ],
+              ),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: _recordVoiceNote,
+                icon: Icon(_voiceNotePath != null ? Icons.mic : Icons.mic_none),
+                label: Text(_voiceNotePath != null ? 'Voice note recorded' : 'Add voice note'),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
@@ -252,4 +310,33 @@ final _spacesForSiteProvider = FutureProvider.family<List<Space>, String>((ref, 
     }
   }
   return spaces;
+});
+
+/// Screen 06's "Asset" optional field - a generic picker for when the
+/// request wasn't already scoped to an asset by a scan.
+class _AssetPicker extends ConsumerWidget {
+  const _AssetPicker({required this.siteId, required this.value, required this.onChanged});
+
+  final String siteId;
+  final String? value;
+  final ValueChanged<String?> onChanged;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final assets = ref.watch(_assetsForSiteProvider(siteId)).value ?? const [];
+
+    return DropdownButtonFormField<String>(
+      initialValue: value,
+      decoration: const InputDecoration(labelText: 'Asset (optional)'),
+      items: [
+        const DropdownMenuItem(value: null, child: Text('None')),
+        for (final a in assets) DropdownMenuItem(value: a.id, child: Text('${a.name} (${a.assetCode})')),
+      ],
+      onChanged: onChanged,
+    );
+  }
+}
+
+final _assetsForSiteProvider = FutureProvider.family<List<Asset>, String>((ref, siteId) {
+  return ref.watch(appDatabaseProvider).assetDao.forSite(siteId);
 });
