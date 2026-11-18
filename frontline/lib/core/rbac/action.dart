@@ -22,3 +22,7 @@ enum AppAction {
   viewClientCommercialData,
   viewOtherClientsData,
 }
+
+/// The flat Frontline bottom-nav tabs (Section 14). A role's app shell
+/// only renders the subset [PolicyGuard.visibleTabs] returns for it.
+enum AppTab { home, myWork, scan, requests, more }

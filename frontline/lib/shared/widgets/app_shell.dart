@@ -7,27 +7,47 @@ import '../../core/db/app_database.dart';
 import '../../core/localization/app_locale.dart';
 import '../../core/localization/app_strings.dart';
 import '../../core/network/connectivity_service.dart';
+import '../../core/rbac/action.dart';
+import '../../core/rbac/current_access_context_provider.dart';
+import '../../core/rbac/policy_guard.dart';
 
-/// Persistent shell around the five flat frontline tabs (Section 14),
-/// plus a thin offline banner that appears the instant connectivity
-/// drops - frontline staff should never wonder whether their taps are
-/// being recorded.
+/// Persistent shell around the flat frontline tabs (Section 14) - which
+/// tabs actually render is role-driven ([PolicyGuard.visibleTabs]), not
+/// a fixed five for everyone: a role with no work-order actions at all
+/// has no "My Work"/"Scan" to show, matching Section 8's role-specific
+/// home experiences.
 class AppShell extends ConsumerWidget {
   const AppShell({super.key, required this.child});
 
   final Widget child;
 
-  static const _tabs = ['/home', '/my-work', '/scan', '/requests', '/more'];
+  static const _allTabDefs = {
+    AppTab.home: _TabDef('/home', Icons.home_outlined, Icons.home, 'navHome'),
+    AppTab.myWork: _TabDef('/my-work', Icons.assignment_outlined, Icons.assignment, 'navMyWork'),
+    AppTab.scan: _TabDef('/scan', Icons.qr_code_scanner, Icons.qr_code_scanner, 'navScan'),
+    AppTab.requests: _TabDef('/requests', Icons.list_alt_outlined, Icons.list_alt, 'navRequests'),
+    AppTab.more: _TabDef('/more', Icons.more_horiz, Icons.more_horiz, 'navMore'),
+  };
 
-  int _indexForLocation(String location) {
-    final index = _tabs.indexWhere((t) => location.startsWith(t));
+  int _indexForLocation(String location, List<String> tabPaths) {
+    final index = tabPaths.indexWhere((t) => location.startsWith(t));
     return index < 0 ? 0 : index;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final accessContext = ref.watch(currentAccessContextProvider);
+    final guard = ref.watch(policyGuardProvider);
+    // No access context means something upstream is wrong (this shell
+    // only ever mounts for a logged-in user) - fail toward the minimum
+    // safe nav rather than crashing.
+    final visibleTabs = accessContext != null
+        ? guard.visibleTabs(accessContext)
+        : const [AppTab.home, AppTab.more];
+    final tabPaths = [for (final tab in visibleTabs) _allTabDefs[tab]!.path];
+
     final location = GoRouterState.of(context).matchedLocation;
-    final currentIndex = _indexForLocation(location);
+    final currentIndex = _indexForLocation(location, tabPaths);
     final isOnline = ref.watch(isOnlineProvider).value ?? true;
     final pendingCount = ref.watch(_pendingOutboxCountProvider).value ?? 0;
     final language = ref.watch(appLocaleProvider).value ?? 'en';
@@ -43,7 +63,7 @@ class AppShell extends ConsumerWidget {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
         if (currentIndex != 0) {
-          context.go('/home');
+          context.go(tabPaths.first);
           return;
         }
         final shouldExit = await _confirmExit(context, t);
@@ -61,13 +81,14 @@ class AppShell extends ConsumerWidget {
         ),
         bottomNavigationBar: NavigationBar(
           selectedIndex: currentIndex,
-          onDestinationSelected: (index) => context.go(_tabs[index]),
+          onDestinationSelected: (index) => context.go(tabPaths[index]),
           destinations: [
-            NavigationDestination(icon: const Icon(Icons.home_outlined), selectedIcon: const Icon(Icons.home), label: t('navHome')),
-            NavigationDestination(icon: const Icon(Icons.assignment_outlined), selectedIcon: const Icon(Icons.assignment), label: t('navMyWork')),
-            NavigationDestination(icon: const Icon(Icons.qr_code_scanner), label: t('navScan')),
-            NavigationDestination(icon: const Icon(Icons.list_alt_outlined), selectedIcon: const Icon(Icons.list_alt), label: t('navRequests')),
-            NavigationDestination(icon: const Icon(Icons.more_horiz), label: t('navMore')),
+            for (final tab in visibleTabs)
+              NavigationDestination(
+                icon: Icon(_allTabDefs[tab]!.icon),
+                selectedIcon: Icon(_allTabDefs[tab]!.selectedIcon),
+                label: t(_allTabDefs[tab]!.labelKey),
+              ),
           ],
         ),
       ),
@@ -94,6 +115,14 @@ class AppShell extends ConsumerWidget {
     );
     return result ?? false;
   }
+}
+
+class _TabDef {
+  const _TabDef(this.path, this.icon, this.selectedIcon, this.labelKey);
+  final String path;
+  final IconData icon;
+  final IconData selectedIcon;
+  final String labelKey;
 }
 
 final _pendingOutboxCountProvider = StreamProvider<int>((ref) {

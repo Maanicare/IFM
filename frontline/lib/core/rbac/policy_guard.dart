@@ -151,6 +151,26 @@ class PolicyGuard {
     return true;
   }
 
+  /// Which of the flat Frontline nav tabs (Section 14: Home, My Work,
+  /// Scan, Requests, More) a role should even see. Derived from the same
+  /// per-role action grants above rather than a second hardcoded
+  /// role->tab map, so adding an action to a role automatically keeps
+  /// its nav consistent with what it can actually do - a role with no
+  /// work-order actions at all (e.g. a client employee, who only ever
+  /// raises requests) has no reason to see "My Work" or "Scan".
+  List<AppTab> visibleTabs(UserAccessContext context) {
+    return [
+      AppTab.home,
+      if (can(context, AppAction.viewWorkOrder)) AppTab.myWork,
+      if (can(context, AppAction.captureAttachment) ||
+          can(context, AppAction.recordMeterReading) ||
+          can(context, AppAction.recordPartsUsage))
+        AppTab.scan,
+      if (can(context, AppAction.createServiceRequest)) AppTab.requests,
+      AppTab.more,
+    ];
+  }
+
   /// Same decision as [can], but throws [PolicyDeniedError] - used as a
   /// defensive guard immediately before firing a mutation, in case a
   /// button somehow rendered despite the role not actually being allowed

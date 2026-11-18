@@ -6,6 +6,9 @@ import '../../../core/db/app_database.dart';
 import '../../../core/db/daos/inventory_dao.dart';
 import '../../../core/localization/app_locale.dart';
 import '../../../core/localization/app_strings.dart';
+import '../../../core/rbac/action.dart';
+import '../../../core/rbac/current_access_context_provider.dart';
+import '../../../core/rbac/policy_guard.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../identity/presentation/auth_controller.dart';
 import '../../location/presentation/current_site_provider.dart';
@@ -30,6 +33,18 @@ class HomeScreen extends ConsumerWidget {
     final language = ref.watch(appLocaleProvider).value ?? 'en';
     String t(String key) => AppStrings.of(key, language);
 
+    // Same tab visibility rule the shell uses (Section 8: a role with no
+    // work-order/request actions shouldn't see shortcuts to screens it
+    // can't do anything on either).
+    final accessContext = ref.watch(currentAccessContextProvider);
+    final guard = ref.watch(policyGuardProvider);
+    final tabs = accessContext != null
+        ? guard.visibleTabs(accessContext)
+        : const [AppTab.home, AppTab.more];
+    final showMyWork = tabs.contains(AppTab.myWork);
+    final showScan = tabs.contains(AppTab.scan);
+    final showRequests = tabs.contains(AppTab.requests);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Hi, ${user?.name.split(' ').first ?? ''}'),
@@ -48,57 +63,62 @@ class HomeScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Card(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${workOrders.length} ${t('jobsAssigned')}',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Text(
-                          urgentCount > 0
-                              ? '$urgentCount need urgent attention'
-                              : t('nothingUrgent'),
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
+          if (showMyWork) ...[
+            Card(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${workOrders.length} ${t('jobsAssigned')}',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Text(
+                            urgentCount > 0
+                                ? '$urgentCount need urgent attention'
+                                : t('nothingUrgent'),
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  FilledButton(
-                    onPressed: () => context.go('/my-work'),
-                    child: Text(t('viewAction')),
-                  ),
-                ],
+                    FilledButton(
+                      onPressed: () => context.go('/my-work'),
+                      child: Text(t('viewAction')),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _QuickAction(
-                  icon: Icons.add_circle_outline,
-                  label: t('reportIssue'),
-                  onTap: () => context.push('/requests/new'),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _QuickAction(
-                  icon: Icons.qr_code_scanner,
-                  label: t('scanAsset'),
-                  onTap: () => context.go('/scan'),
-                ),
-              ),
-            ],
-          ),
+            const SizedBox(height: 16),
+          ],
+          if (showRequests || showScan)
+            Row(
+              children: [
+                if (showRequests)
+                  Expanded(
+                    child: _QuickAction(
+                      icon: Icons.add_circle_outline,
+                      label: t('reportIssue'),
+                      onTap: () => context.push('/requests/new'),
+                    ),
+                  ),
+                if (showRequests && showScan) const SizedBox(width: 12),
+                if (showScan)
+                  Expanded(
+                    child: _QuickAction(
+                      icon: Icons.qr_code_scanner,
+                      label: t('scanAsset'),
+                      onTap: () => context.go('/scan'),
+                    ),
+                  ),
+              ],
+            ),
           if (siteId != null) ...[
             const SizedBox(height: 16),
             _SafetyAlertsRow(),
