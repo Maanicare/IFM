@@ -162,35 +162,72 @@ class _SiteTileState extends ConsumerState<_SiteTile> {
     final site = widget.site;
     final isActive = site.operationalStatus == 'active';
 
+    // A custom layout rather than ListTile's title/subtitle/trailing
+    // slots - cramming the pin button, "Current" label and chevron all
+    // into `trailing` squeezed the name/location down to the point of
+    // truncating with "..." even for moderate-length site names. The
+    // name now gets its own full-width row.
     return Card(
       color: widget.isCurrent ? Theme.of(context).colorScheme.primaryContainer : null,
-      child: ListTile(
+      child: InkWell(
         onTap: _busy ? null : _switch,
-        leading: Icon(
-          widget.isCurrent ? Icons.check_circle : Icons.apartment_outlined,
-          color: widget.isCurrent ? Theme.of(context).colorScheme.primary : Colors.grey,
-        ),
-        title: Text(site.name),
-        subtitle: Text('${site.code} · ${isActive ? 'Operational' : site.operationalStatus}'),
-        trailing: _busy
-            ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2))
-            : Row(
-                mainAxisSize: MainAxisSize.min,
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  IconButton(
-                    tooltip: 'Set as default',
-                    icon: const Icon(Icons.push_pin_outlined, size: 20),
-                    onPressed: _setDefault,
+                  Icon(
+                    widget.isCurrent ? Icons.check_circle : Icons.apartment_outlined,
+                    color: widget.isCurrent ? Theme.of(context).colorScheme.primary : Colors.grey,
+                    size: 20,
                   ),
-                  if (widget.isCurrent)
-                    const Padding(
-                      padding: EdgeInsets.only(left: 4),
-                      child: Text('Current', style: TextStyle(fontWeight: FontWeight.w600)),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      site.name,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  if (_busy)
+                    const SizedBox(
+                      height: 18,
+                      width: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     )
+                  else if (widget.isCurrent)
+                    Text('Current', style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primary))
                   else
-                    const Icon(Icons.chevron_right),
+                    const Icon(Icons.chevron_right, size: 20),
                 ],
               ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${site.code} · ${isActive ? 'Operational' : site.operationalStatus}',
+                        style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: 'Set as default',
+                      icon: const Icon(Icons.push_pin_outlined, size: 18),
+                      visualDensity: VisualDensity.compact,
+                      onPressed: _busy ? null : _setDefault,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
