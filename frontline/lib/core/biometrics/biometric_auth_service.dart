@@ -9,11 +9,16 @@ class BiometricAuthService {
 
   static final _auth = LocalAuthentication();
 
+  /// Whether [authenticate] even has a chance of succeeding on this
+  /// device. Deliberately checks `isDeviceSupported` alone, not ANDed
+  /// with `canCheckBiometrics` - a device with no fingerprint/face
+  /// enrolled but a PIN/pattern set still supports authentication via
+  /// [authenticate]'s device-credential fallback (`biometricOnly:
+  /// false` below), so requiring enrolled biometrics here would block a
+  /// login path that actually works.
   static Future<bool> isDeviceSupported() async {
     try {
-      final canCheck = await _auth.canCheckBiometrics;
-      final isSupported = await _auth.isDeviceSupported();
-      return canCheck && isSupported;
+      return await _auth.isDeviceSupported();
     } catch (_) {
       return false;
     }

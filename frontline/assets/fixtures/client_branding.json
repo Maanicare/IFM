@@ -1,0 +1,4 @@
+[
+  { "domain": "client.example.com", "name": "Client Co. Facilities", "color": "#1E88E5" },
+  { "domain": "hydroserve.example.com", "name": "HydroServe Partner Portal", "color": "#00897B" }
+]

@@ -7,11 +7,12 @@ import '../../../core/config/app_config.dart';
 import '../../../core/localization/app_locale.dart';
 import '../../../core/localization/app_strings.dart';
 import 'auth_controller.dart';
+import 'client_branding.dart';
 
-/// SCREEN 01 - Login. Identifier + password, plus biometric (once
-/// enabled from More, Screen 54-adjacent) and SSO. SSO has no real
-/// identity provider behind it in this app - see [_handleSso] - and is
-/// not faked as a working login.
+/// SCREEN 01 - Login. Identifier + password/OTP, plus biometric (once
+/// enabled from More, Screen 54-adjacent), SSO and client branding.
+/// SSO has no real identity provider behind it in this app - see
+/// [_handleSso] - and is not faked as a working login.
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
@@ -26,12 +27,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController(
     text: AppConfig.useMock ? 'demo' : '',
   );
+  final _otpController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  bool _useOtp = false;
+  bool _otpSent = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Branding depends on the identifier's domain - re-render as the
+    // user types rather than only after they submit.
+    _identifierController.addListener(_onIdentifierChanged);
+  }
+
+  void _onIdentifierChanged() => setState(() {});
 
   @override
   void dispose() {
+    _identifierController.removeListener(_onIdentifierChanged);
     _identifierController.dispose();
     _passwordController.dispose();
+    _otpController.dispose();
     super.dispose();
   }
 
@@ -43,6 +60,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     String t(String key) => AppStrings.of(key, language);
     final biometricPref = ref.watch(biometricPreferenceProvider).value;
     final biometricReady = biometricPref?.enabled == true && biometricPref?.identifier != null;
+    final branding = ref.watch(clientBrandingProvider(_identifierController.text.trim())).value;
 
     ref.listen(authControllerProvider, (previous, next) {
       if (next.hasError) {
@@ -70,10 +88,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       onChanged: (v) => ref.read(appLocaleProvider.notifier).setLanguage(v),
                     ),
                   ),
-                  const Icon(Icons.apartment, size: 56, color: Color(0xFF0B5FFF)),
+                  Icon(Icons.apartment, size: 56, color: branding?.color ?? const Color(0xFF0B5FFF)),
                   const SizedBox(height: 12),
                   Text(
-                    t('appTitle'),
+                    // Section: "client branding if configured" - falls back to
+                    // the platform name when the identifier's domain doesn't
+                    // match a known client.
+                    branding?.name ?? t('appTitle'),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
@@ -90,13 +111,50 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         (v == null || v.isEmpty) ? 'Required' : null,
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(labelText: t('passwordLabel')),
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? 'Required' : null,
+                  // Section: Input "Password / OTP" - a toggle rather than two
+                  // separate screens, matching how the rest of the field app
+                  // keeps a single decision point per task.
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SegmentedButton<bool>(
+                          segments: const [
+                            ButtonSegment(value: false, label: Text('Password')),
+                            ButtonSegment(value: true, label: Text('OTP')),
+                          ],
+                          selected: {_useOtp},
+                          onSelectionChanged: (s) => setState(() {
+                            _useOtp = s.first;
+                            _otpSent = false;
+                          }),
+                        ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: 12),
+                  if (!_useOtp)
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(labelText: t('passwordLabel')),
+                      validator: (v) =>
+                          (!_useOtp && (v == null || v.isEmpty)) ? 'Required' : null,
+                    )
+                  else ...[
+                    if (!_otpSent)
+                      OutlinedButton(
+                        onPressed: _sendOtp,
+                        child: const Text('Send OTP'),
+                      )
+                    else
+                      TextFormField(
+                        controller: _otpController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(labelText: 'Enter OTP'),
+                        validator: (v) =>
+                            (_useOtp && (v == null || v.isEmpty)) ? 'Required' : null,
+                      ),
+                  ],
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: isLoading ? null : _submit,
@@ -109,7 +167,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         : Text(t('loginButton')),
                   ),
                   const SizedBox(height: 8),
-                  TextButton(onPressed: () {}, child: Text(t('forgotPassword'))),
+                  TextButton(onPressed: _handleForgotPassword, child: Text(t('forgotPassword'))),
                   if (biometricReady) ...[
                     const SizedBox(height: 12),
                     OutlinedButton.icon(
@@ -143,11 +201,59 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _submit() {
+    if (_useOtp && !_otpSent) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tap "Send OTP" first.')),
+      );
+      return;
+    }
     if (!_formKey.currentState!.validate()) return;
+    // Mock mode accepts anything for either credential; a real backend
+    // would have a distinct OTP-verification endpoint rather than
+    // reusing the password field, but the UI decision point is the same.
     ref.read(authControllerProvider.notifier).login(
           _identifierController.text.trim(),
-          _passwordController.text,
+          _useOtp ? _otpController.text : _passwordController.text,
         );
+  }
+
+  void _sendOtp() {
+    final identifier = _identifierController.text.trim();
+    if (identifier.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enter your email, mobile or employee ID first.')),
+      );
+      return;
+    }
+    setState(() => _otpSent = true);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('OTP sent to $identifier.${AppConfig.useMock ? ' (mock mode: any digits work)' : ''}')),
+    );
+  }
+
+  /// Section: Actions "Forgot password". No backend to actually send a
+  /// reset email from in this app, so this is an honest placeholder -
+  /// it collects the identifier and confirms what would happen, rather
+  /// than silently doing nothing (the previous state of this button).
+  void _handleForgotPassword() {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reset password'),
+        content: Text(
+          _identifierController.text.trim().isEmpty
+              ? 'Enter your email, mobile or employee ID above first, then tap "Forgot password?" again.'
+              : 'A password reset link would be sent to ${_identifierController.text.trim()}.\n\n'
+                  'This app has no mail server configured yet - this is a placeholder until the backend provides a reset endpoint.',
+        ),
+        actions: [
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Screen 01: "Biometric login after first authentication". The
@@ -168,7 +274,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final confirmed = await BiometricAuthService.authenticate(
       reason: 'Log in to OneMaanicare',
     );
-    if (!confirmed) return;
+    if (!confirmed) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Biometric authentication was not completed.')),
+      );
+      return;
+    }
     ref.read(authControllerProvider.notifier).login(identifier, '');
   }
 
