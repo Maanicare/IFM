@@ -105,14 +105,32 @@ class AppDatabase extends _$AppDatabase {
   /// Named constructor used by tests to run entirely in memory.
   AppDatabase.forTesting(super.executor);
 
+  // IMPORTANT: bump this on every table/column change from now on. It
+  // was left at 1 through several rounds of added columns/tables
+  // earlier in this app's history, so an install from that period opens
+  // its on-disk sqlite file expecting the *old* table shape - querying
+  // a column that was added since (e.g. CachedUsers.recentSiteIdsJson)
+  // then fails with a Drift row-mapping error ("Null check operator
+  // used on a null value"), not a clean "no such column" message.
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) => m.createAll(),
-        // Future schema changes land here as `onUpgrade` steps keyed by
-        // schemaVersion. Nothing to migrate yet at v1.
+        onUpgrade: (m, from, to) async {
+          // Pre-release app, still under active schema changes - there
+          // is no production data to preserve yet, so a destructive
+          // recreate is simpler and safer than reconstructing the exact
+          // sequence of columns added across versions that were never
+          // individually bumped. Once this app has real installs with
+          // data worth keeping, replace this with proper per-version
+          // `m.addColumn`/`m.createTable` steps.
+          for (final table in allTables) {
+            await m.deleteTable(table.actualTableName);
+          }
+          await m.createAll();
+        },
       );
 
   static QueryExecutor _openConnection() {
