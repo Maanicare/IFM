@@ -50,7 +50,6 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text('Hi, ${user?.name.split(' ').first ?? ''}'),
         actions: [
-          if ((user?.siteIds.length ?? 0) > 1) const _SiteSwitcherAction(),
           IconButton(
             icon: const Icon(Icons.search),
             tooltip: 'Search',
@@ -70,7 +69,7 @@ class HomeScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           if (siteId != null) ...[
-            _SiteStatusChip(siteId: siteId),
+            _SiteStatusChip(siteId: siteId, canSwitch: (user?.siteIds.length ?? 0) > 1),
             const SizedBox(height: 12),
           ],
           const _CurrentShiftRow(),
@@ -153,9 +152,15 @@ class HomeScreen extends ConsumerWidget {
 }
 
 /// Screen 03: "Site status" - the current site's operational state.
+/// Also the one and only place Home surfaces "which site am I on" -
+/// doubling that up with a second, differently-styled site label in
+/// the AppBar (the previous design) read as two unrelated pieces of
+/// UI rather than one coherent control, so switching lives here too
+/// when the user has more than one site.
 class _SiteStatusChip extends ConsumerWidget {
-  const _SiteStatusChip({required this.siteId});
+  const _SiteStatusChip({required this.siteId, required this.canSwitch});
   final String siteId;
+  final bool canSwitch;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -163,19 +168,27 @@ class _SiteStatusChip extends ConsumerWidget {
     if (site == null) return const SizedBox.shrink();
     final isActive = site.operationalStatus == 'active';
 
-    return Row(
-      children: [
-        Icon(
-          isActive ? Icons.check_circle_outline : Icons.error_outline,
-          size: 16,
-          color: isActive ? Colors.green : Colors.orange,
-        ),
-        const SizedBox(width: 6),
-        Text(
-          '${site.name} · ${isActive ? 'Operational' : site.operationalStatus}',
-          style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
-        ),
-      ],
+    return InkWell(
+      onTap: canSwitch ? () => context.push('/site-selector') : null,
+      borderRadius: BorderRadius.circular(8),
+      child: Row(
+        children: [
+          Icon(
+            isActive ? Icons.check_circle_outline : Icons.error_outline,
+            size: 16,
+            color: isActive ? Colors.green : Colors.orange,
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              '${site.name} · ${isActive ? 'Operational' : site.operationalStatus}',
+              style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          if (canSwitch) Icon(Icons.swap_horiz, size: 16, color: Colors.grey.shade500),
+        ],
+      ),
     );
   }
 }
@@ -460,35 +473,6 @@ final _unreadNotificationCountProvider = StreamProvider<int>((ref) {
   final db = ref.watch(appDatabaseProvider);
   return db.notificationDao.watchUnreadCount();
 });
-
-/// Only rendered for a user assigned to more than one site - shows which
-/// site is currently active and opens Screen 02 to switch (Section 6:
-/// e.g. a Regional Head covering several sites).
-class _SiteSwitcherAction extends ConsumerWidget {
-  const _SiteSwitcherAction();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final siteId = ref.watch(currentSiteIdProvider).value;
-    final siteAsync = siteId == null
-        ? null
-        : ref.watch(_siteNameProvider(siteId));
-
-    final site = siteAsync?.value;
-    // The AppBar only has limited width here (it shares the row with
-    // the notification bell), so the site's short code is shown
-    // instead of its full name - the selector screen (which has room)
-    // still shows the full name; this is just a "where am I" glance.
-    return Tooltip(
-      message: site?.name ?? 'Select site',
-      child: TextButton.icon(
-        onPressed: () => context.push('/site-selector'),
-        icon: const Icon(Icons.apartment_outlined, size: 18),
-        label: Text(site?.code ?? 'Select site'),
-      ),
-    );
-  }
-}
 
 final _siteNameProvider = FutureProvider.family<Site?, String>((ref, siteId) {
   final db = ref.watch(appDatabaseProvider);
