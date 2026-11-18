@@ -6,13 +6,19 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/db/app_database.dart';
+import '../../../core/rbac/action.dart';
+import '../../../core/rbac/current_access_context_provider.dart';
+import '../../../core/rbac/policy_guard.dart';
+import '../../identity/presentation/auth_controller.dart';
 import '../../sla/presentation/sla_chip.dart';
+import 'request_controller.dart';
 
-/// SCREEN 07 - Request Detail (read-focused subset for the frontline
-/// app; assignment/escalation/merge actions belong to the helpdesk/
-/// manager surface per the role model in Section 6). Evidence (photos
-/// captured at creation), a simple timeline, and the linked work order
-/// are shown - comments/related-requests stay with the manager surface.
+/// SCREEN 07 - Request Detail. Comments and Related requests/Merge
+/// duplicate stay pending (see PENDING_FEATURES.md) - they need a
+/// comment-thread model and duplicate-detection logic this app doesn't
+/// have yet. Assign/Escalate/Cancel/Change priority are plain field
+/// updates on the existing request row, so those are live here,
+/// gated the same way Work Order actions are.
 class RequestDetailScreen extends ConsumerWidget {
   const RequestDetailScreen({super.key, required this.requestId});
 
@@ -20,15 +26,14 @@ class RequestDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final db = ref.watch(appDatabaseProvider);
+    final requestAsync = ref.watch(_requestStreamProvider(requestId));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Request')),
-      body: FutureBuilder<ServiceRequest?>(
-        future: db.requestDao.byId(requestId),
-        builder: (context, snapshot) {
-          final r = snapshot.data;
-          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+      body: requestAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('Error: $e')),
+        data: (r) {
           if (r == null) return const Center(child: Text('Not found.'));
 
           return ListView(
@@ -46,6 +51,7 @@ class RequestDetailScreen extends ConsumerWidget {
                 children: [
                   Chip(label: Text(r.priority.toUpperCase())),
                   Chip(label: Text(r.status.replaceAll('_', ' '))),
+                  if (r.escalated) const Chip(label: Text('ESCALATED'), backgroundColor: Colors.orange),
                   if (r.safetyConcern)
                     Chip(
                       avatar: const Icon(Icons.warning_amber, size: 16, color: Colors.red),
@@ -66,14 +72,87 @@ class RequestDetailScreen extends ConsumerWidget {
                 Text('Affected people: ${r.affectedPeopleCount}'),
               ],
               const SizedBox(height: 16),
+              _DetailsSection(request: r),
+              const SizedBox(height: 12),
               _EvidenceSection(requestId: r.id),
               const SizedBox(height: 12),
               _LinkedWorkOrderSection(requestId: r.id),
               const SizedBox(height: 12),
               _TimelineSection(request: r),
+              const SizedBox(height: 16),
+              _ActionBar(request: r),
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+final _requestStreamProvider =
+    StreamProvider.family<ServiceRequest?, String>((ref, id) {
+  return ref.watch(appDatabaseProvider).requestDao.watchById(id);
+});
+
+/// Content: Requester, Location, Asset, Assigned team, Resolution.
+class _DetailsSection extends ConsumerWidget {
+  const _DetailsSection({required this.request});
+  final ServiceRequest request;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final db = ref.watch(appDatabaseProvider);
+    final currentUserId = ref.watch(authControllerProvider).value?.id;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _DetailRow(
+              label: 'Requester',
+              value: request.requesterId == null
+                  ? '-'
+                  : (request.requesterId == currentUserId ? 'You' : request.requesterId!),
+            ),
+            if (request.spaceId != null)
+              FutureBuilder<Space?>(
+                future: db.locationDao.spaceById(request.spaceId!),
+                builder: (context, snapshot) =>
+                    _DetailRow(label: 'Location', value: snapshot.data?.name ?? '...'),
+              ),
+            if (request.assetId != null)
+              FutureBuilder<Asset?>(
+                future: db.assetDao.byId(request.assetId!),
+                builder: (context, snapshot) =>
+                    _DetailRow(label: 'Asset', value: snapshot.data?.name ?? '...'),
+              ),
+            _DetailRow(label: 'Assigned team', value: request.assignedTeam ?? 'Not yet assigned'),
+            if (request.resolutionNote != null)
+              _DetailRow(label: 'Resolution', value: request.resolutionNote!),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DetailRow extends StatelessWidget {
+  const _DetailRow({required this.label, required this.value});
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(width: 110, child: Text(label, style: const TextStyle(color: Colors.grey))),
+          Expanded(child: Text(value)),
+        ],
       ),
     );
   }
@@ -102,16 +181,27 @@ class _EvidenceSection extends ConsumerWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: attachments.length,
                 separatorBuilder: (_, _) => const SizedBox(width: 8),
-                itemBuilder: (context, index) => ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.file(
-                    File(attachments[index].localPath),
-                    width: 72,
-                    height: 72,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => const Icon(Icons.broken_image_outlined),
-                  ),
-                ),
+                itemBuilder: (context, index) {
+                  final a = attachments[index];
+                  if (a.fileType != 'photo') {
+                    return Container(
+                      width: 72,
+                      height: 72,
+                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(8)),
+                      child: Icon(a.fileType == 'video' ? Icons.videocam : Icons.mic, color: Colors.grey),
+                    );
+                  }
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(
+                      File(a.localPath),
+                      width: 72,
+                      height: 72,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => const Icon(Icons.broken_image_outlined),
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -189,5 +279,111 @@ class _TimelineSection extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Actions: Assign, Escalate, Cancel, Change priority - each gated by
+/// the same permission a role already has for the equivalent Work
+/// Order action, since this is the same triage/escalation capability
+/// applied to a request instead.
+class _ActionBar extends ConsumerWidget {
+  const _ActionBar({required this.request});
+  final ServiceRequest request;
+
+  static const _terminalStatuses = {'closed', 'cancelled', 'rejected', 'duplicate'};
+  static const _teams = ['HVAC Team', 'Electrical Team', 'Plumbing Team', 'Housekeeping Team', 'Security Team'];
+  static const _priorities = ['low', 'medium', 'high', 'critical'];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final accessContext = ref.watch(currentAccessContextProvider);
+    final guard = ref.watch(policyGuardProvider);
+    if (accessContext == null || _terminalStatuses.contains(request.status)) {
+      return const SizedBox.shrink();
+    }
+
+    final controller = ref.read(requestControllerProvider.notifier);
+    final canTriage = guard.can(accessContext, AppAction.reassignWorkOrder, siteId: request.siteId);
+    final canEscalate = guard.can(accessContext, AppAction.escalateWorkOrder, siteId: request.siteId);
+    final canCancel = guard.can(accessContext, AppAction.cancelServiceRequest, siteId: request.siteId);
+
+    if (!canTriage && !canEscalate && !canCancel) return const SizedBox.shrink();
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        if (canTriage)
+          OutlinedButton.icon(
+            icon: const Icon(Icons.group_outlined, size: 18),
+            label: const Text('Assign'),
+            onPressed: () => _pickFromList(
+              context,
+              title: 'Assign to team',
+              options: _teams,
+              onPicked: (team) => controller.assignTeam(request.id, team),
+            ),
+          ),
+        if (canTriage)
+          OutlinedButton.icon(
+            icon: const Icon(Icons.low_priority, size: 18),
+            label: const Text('Change priority'),
+            onPressed: () => _pickFromList(
+              context,
+              title: 'Change priority',
+              options: _priorities,
+              onPicked: (p) => controller.changePriority(request.id, p),
+            ),
+          ),
+        if (canEscalate && !request.escalated)
+          OutlinedButton.icon(
+            icon: const Icon(Icons.priority_high, size: 18, color: Colors.orange),
+            label: const Text('Escalate'),
+            onPressed: () => controller.escalate(request.id),
+          ),
+        if (canCancel)
+          OutlinedButton.icon(
+            icon: const Icon(Icons.cancel_outlined, size: 18, color: Colors.red),
+            label: const Text('Cancel'),
+            onPressed: () => _confirmCancel(context, () => controller.cancel(request.id)),
+          ),
+      ],
+    );
+  }
+
+  Future<void> _pickFromList(
+    BuildContext context, {
+    required String title,
+    required List<String> options,
+    required void Function(String) onPicked,
+  }) async {
+    final picked = await showModalBottomSheet<String>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(padding: const EdgeInsets.all(16), child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold))),
+            for (final option in options)
+              ListTile(title: Text(option), onTap: () => Navigator.of(context).pop(option)),
+          ],
+        ),
+      ),
+    );
+    if (picked != null) onPicked(picked);
+  }
+
+  Future<void> _confirmCancel(BuildContext context, VoidCallback onConfirmed) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cancel this request?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('No')),
+          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Yes, cancel')),
+        ],
+      ),
+    );
+    if (confirmed == true) onConfirmed();
   }
 }

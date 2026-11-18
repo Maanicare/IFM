@@ -91,4 +91,73 @@ class RequestController extends _$RequestController {
 
     return requestId;
   }
+
+  Future<void> _updateAndQueue(
+    String requestId,
+    AppAction action,
+    Future<void> Function() applyLocally,
+  ) async {
+    final guard = ref.read(policyGuardProvider);
+    final accessContext = ref.read(currentAccessContextProvider);
+    if (accessContext == null) return;
+    final db = ref.read(appDatabaseProvider);
+    final request = await db.requestDao.byId(requestId);
+    if (request == null) return;
+    guard.ensure(accessContext, action, siteId: request.siteId);
+
+    await db.transaction(() async {
+      await applyLocally();
+      await db.outboxDao.enqueue(
+        id: IdGenerator.newId(),
+        entityType: 'service_request',
+        entityId: requestId,
+        operation: 'update',
+        payloadJson: jsonEncode({'requestId': requestId}),
+        createdBy: accessContext.userId,
+      );
+    });
+  }
+
+  /// Screen 07 action: "Assign" - to a team/trade (Section 6: Helpdesk
+  /// Executive's "ticket triage" function), not an individual.
+  Future<void> assignTeam(String requestId, String team) {
+    final db = ref.read(appDatabaseProvider);
+    return _updateAndQueue(
+      requestId,
+      AppAction.reassignWorkOrder,
+      () => db.requestDao.assignTeam(requestId, team),
+    );
+  }
+
+  /// Screen 07 action: "Escalate" - also bumps priority if it wasn't
+  /// already at the top, since an escalation that leaves priority
+  /// unchanged wouldn't actually change how it's triaged.
+  Future<void> escalate(String requestId) {
+    final db = ref.read(appDatabaseProvider);
+    return _updateAndQueue(
+      requestId,
+      AppAction.escalateWorkOrder,
+      () => db.requestDao.escalate(requestId, bumpedPriority: 'critical'),
+    );
+  }
+
+  /// Screen 07 action: "Change priority".
+  Future<void> changePriority(String requestId, String priority) {
+    final db = ref.read(appDatabaseProvider);
+    return _updateAndQueue(
+      requestId,
+      AppAction.reassignWorkOrder,
+      () => db.requestDao.changePriority(requestId, priority),
+    );
+  }
+
+  /// Screen 07 action: "Cancel".
+  Future<void> cancel(String requestId) {
+    final db = ref.read(appDatabaseProvider);
+    return _updateAndQueue(
+      requestId,
+      AppAction.cancelServiceRequest,
+      () => db.requestDao.cancel(requestId),
+    );
+  }
 }

@@ -28,6 +28,13 @@ class ServiceRequests extends Table {
   IntColumn get affectedPeopleCount => integer().nullable()();
   BoolColumn get safetyConcern => boolean().withDefault(const Constant(false))();
 
+  // Screen 07 actions: Assign, Escalate, Change priority, Resolution
+  // content. "Assign" targets a team/trade rather than an individual -
+  // this app has no synced user directory to pick a person from.
+  TextColumn get assignedTeam => text().nullable()();
+  BoolColumn get escalated => boolean().withDefault(const Constant(false))();
+  TextColumn get resolutionNote => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

@@ -21,4 +21,10 @@ abstract interface class RequestRepository {
   });
 
   Future<void> pushNewRequest(String requestId);
+
+  /// Screen 07 actions: Assign/Escalate/Change priority/Cancel all land
+  /// here as one generic "push whatever's on the local row now" call -
+  /// they're all plain field updates, not a workflow transition that
+  /// needs its own endpoint shape.
+  Future<void> pushUpdate(String requestId);
 }

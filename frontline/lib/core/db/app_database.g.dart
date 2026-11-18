@@ -4322,6 +4322,43 @@ class $ServiceRequestsTable extends ServiceRequests
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _assignedTeamMeta = const VerificationMeta(
+    'assignedTeam',
+  );
+  @override
+  late final GeneratedColumn<String> assignedTeam = GeneratedColumn<String>(
+    'assigned_team',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _escalatedMeta = const VerificationMeta(
+    'escalated',
+  );
+  @override
+  late final GeneratedColumn<bool> escalated = GeneratedColumn<bool>(
+    'escalated',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("escalated" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _resolutionNoteMeta = const VerificationMeta(
+    'resolutionNote',
+  );
+  @override
+  late final GeneratedColumn<String> resolutionNote = GeneratedColumn<String>(
+    'resolution_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4342,6 +4379,9 @@ class $ServiceRequestsTable extends ServiceRequests
     closedAt,
     affectedPeopleCount,
     safetyConcern,
+    assignedTeam,
+    escalated,
+    resolutionNote,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4499,6 +4539,30 @@ class $ServiceRequestsTable extends ServiceRequests
         ),
       );
     }
+    if (data.containsKey('assigned_team')) {
+      context.handle(
+        _assignedTeamMeta,
+        assignedTeam.isAcceptableOrUnknown(
+          data['assigned_team']!,
+          _assignedTeamMeta,
+        ),
+      );
+    }
+    if (data.containsKey('escalated')) {
+      context.handle(
+        _escalatedMeta,
+        escalated.isAcceptableOrUnknown(data['escalated']!, _escalatedMeta),
+      );
+    }
+    if (data.containsKey('resolution_note')) {
+      context.handle(
+        _resolutionNoteMeta,
+        resolutionNote.isAcceptableOrUnknown(
+          data['resolution_note']!,
+          _resolutionNoteMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4580,6 +4644,18 @@ class $ServiceRequestsTable extends ServiceRequests
         DriftSqlType.bool,
         data['${effectivePrefix}safety_concern'],
       )!,
+      assignedTeam: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}assigned_team'],
+      ),
+      escalated: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}escalated'],
+      )!,
+      resolutionNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}resolution_note'],
+      ),
     );
   }
 
@@ -4608,6 +4684,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
   final DateTime? closedAt;
   final int? affectedPeopleCount;
   final bool safetyConcern;
+  final String? assignedTeam;
+  final bool escalated;
+  final String? resolutionNote;
   const ServiceRequest({
     required this.id,
     required this.requestNumber,
@@ -4627,6 +4706,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
     this.closedAt,
     this.affectedPeopleCount,
     required this.safetyConcern,
+    this.assignedTeam,
+    required this.escalated,
+    this.resolutionNote,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4665,6 +4747,13 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
       map['affected_people_count'] = Variable<int>(affectedPeopleCount);
     }
     map['safety_concern'] = Variable<bool>(safetyConcern);
+    if (!nullToAbsent || assignedTeam != null) {
+      map['assigned_team'] = Variable<String>(assignedTeam);
+    }
+    map['escalated'] = Variable<bool>(escalated);
+    if (!nullToAbsent || resolutionNote != null) {
+      map['resolution_note'] = Variable<String>(resolutionNote);
+    }
     return map;
   }
 
@@ -4704,6 +4793,13 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
           ? const Value.absent()
           : Value(affectedPeopleCount),
       safetyConcern: Value(safetyConcern),
+      assignedTeam: assignedTeam == null && nullToAbsent
+          ? const Value.absent()
+          : Value(assignedTeam),
+      escalated: Value(escalated),
+      resolutionNote: resolutionNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resolutionNote),
     );
   }
 
@@ -4733,6 +4829,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
         json['affectedPeopleCount'],
       ),
       safetyConcern: serializer.fromJson<bool>(json['safetyConcern']),
+      assignedTeam: serializer.fromJson<String?>(json['assignedTeam']),
+      escalated: serializer.fromJson<bool>(json['escalated']),
+      resolutionNote: serializer.fromJson<String?>(json['resolutionNote']),
     );
   }
   @override
@@ -4757,6 +4856,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
       'closedAt': serializer.toJson<DateTime?>(closedAt),
       'affectedPeopleCount': serializer.toJson<int?>(affectedPeopleCount),
       'safetyConcern': serializer.toJson<bool>(safetyConcern),
+      'assignedTeam': serializer.toJson<String?>(assignedTeam),
+      'escalated': serializer.toJson<bool>(escalated),
+      'resolutionNote': serializer.toJson<String?>(resolutionNote),
     };
   }
 
@@ -4779,6 +4881,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
     Value<DateTime?> closedAt = const Value.absent(),
     Value<int?> affectedPeopleCount = const Value.absent(),
     bool? safetyConcern,
+    Value<String?> assignedTeam = const Value.absent(),
+    bool? escalated,
+    Value<String?> resolutionNote = const Value.absent(),
   }) => ServiceRequest(
     id: id ?? this.id,
     requestNumber: requestNumber ?? this.requestNumber,
@@ -4804,6 +4909,11 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
         ? affectedPeopleCount.value
         : this.affectedPeopleCount,
     safetyConcern: safetyConcern ?? this.safetyConcern,
+    assignedTeam: assignedTeam.present ? assignedTeam.value : this.assignedTeam,
+    escalated: escalated ?? this.escalated,
+    resolutionNote: resolutionNote.present
+        ? resolutionNote.value
+        : this.resolutionNote,
   );
   ServiceRequest copyWithCompanion(ServiceRequestsCompanion data) {
     return ServiceRequest(
@@ -4841,6 +4951,13 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
       safetyConcern: data.safetyConcern.present
           ? data.safetyConcern.value
           : this.safetyConcern,
+      assignedTeam: data.assignedTeam.present
+          ? data.assignedTeam.value
+          : this.assignedTeam,
+      escalated: data.escalated.present ? data.escalated.value : this.escalated,
+      resolutionNote: data.resolutionNote.present
+          ? data.resolutionNote.value
+          : this.resolutionNote,
     );
   }
 
@@ -4864,13 +4981,16 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
           ..write('resolutionDueAt: $resolutionDueAt, ')
           ..write('closedAt: $closedAt, ')
           ..write('affectedPeopleCount: $affectedPeopleCount, ')
-          ..write('safetyConcern: $safetyConcern')
+          ..write('safetyConcern: $safetyConcern, ')
+          ..write('assignedTeam: $assignedTeam, ')
+          ..write('escalated: $escalated, ')
+          ..write('resolutionNote: $resolutionNote')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     requestNumber,
     requesterId,
@@ -4889,7 +5009,10 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
     closedAt,
     affectedPeopleCount,
     safetyConcern,
-  );
+    assignedTeam,
+    escalated,
+    resolutionNote,
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4911,7 +5034,10 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
           other.resolutionDueAt == this.resolutionDueAt &&
           other.closedAt == this.closedAt &&
           other.affectedPeopleCount == this.affectedPeopleCount &&
-          other.safetyConcern == this.safetyConcern);
+          other.safetyConcern == this.safetyConcern &&
+          other.assignedTeam == this.assignedTeam &&
+          other.escalated == this.escalated &&
+          other.resolutionNote == this.resolutionNote);
 }
 
 class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
@@ -4933,6 +5059,9 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
   final Value<DateTime?> closedAt;
   final Value<int?> affectedPeopleCount;
   final Value<bool> safetyConcern;
+  final Value<String?> assignedTeam;
+  final Value<bool> escalated;
+  final Value<String?> resolutionNote;
   final Value<int> rowid;
   const ServiceRequestsCompanion({
     this.id = const Value.absent(),
@@ -4953,6 +5082,9 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     this.closedAt = const Value.absent(),
     this.affectedPeopleCount = const Value.absent(),
     this.safetyConcern = const Value.absent(),
+    this.assignedTeam = const Value.absent(),
+    this.escalated = const Value.absent(),
+    this.resolutionNote = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ServiceRequestsCompanion.insert({
@@ -4974,6 +5106,9 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     this.closedAt = const Value.absent(),
     this.affectedPeopleCount = const Value.absent(),
     this.safetyConcern = const Value.absent(),
+    this.assignedTeam = const Value.absent(),
+    this.escalated = const Value.absent(),
+    this.resolutionNote = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        requestNumber = Value(requestNumber),
@@ -5003,6 +5138,9 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     Expression<DateTime>? closedAt,
     Expression<int>? affectedPeopleCount,
     Expression<bool>? safetyConcern,
+    Expression<String>? assignedTeam,
+    Expression<bool>? escalated,
+    Expression<String>? resolutionNote,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5025,6 +5163,9 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
       if (affectedPeopleCount != null)
         'affected_people_count': affectedPeopleCount,
       if (safetyConcern != null) 'safety_concern': safetyConcern,
+      if (assignedTeam != null) 'assigned_team': assignedTeam,
+      if (escalated != null) 'escalated': escalated,
+      if (resolutionNote != null) 'resolution_note': resolutionNote,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5048,6 +5189,9 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     Value<DateTime?>? closedAt,
     Value<int?>? affectedPeopleCount,
     Value<bool>? safetyConcern,
+    Value<String?>? assignedTeam,
+    Value<bool>? escalated,
+    Value<String?>? resolutionNote,
     Value<int>? rowid,
   }) {
     return ServiceRequestsCompanion(
@@ -5069,6 +5213,9 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
       closedAt: closedAt ?? this.closedAt,
       affectedPeopleCount: affectedPeopleCount ?? this.affectedPeopleCount,
       safetyConcern: safetyConcern ?? this.safetyConcern,
+      assignedTeam: assignedTeam ?? this.assignedTeam,
+      escalated: escalated ?? this.escalated,
+      resolutionNote: resolutionNote ?? this.resolutionNote,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5130,6 +5277,15 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     if (safetyConcern.present) {
       map['safety_concern'] = Variable<bool>(safetyConcern.value);
     }
+    if (assignedTeam.present) {
+      map['assigned_team'] = Variable<String>(assignedTeam.value);
+    }
+    if (escalated.present) {
+      map['escalated'] = Variable<bool>(escalated.value);
+    }
+    if (resolutionNote.present) {
+      map['resolution_note'] = Variable<String>(resolutionNote.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -5157,6 +5313,9 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
           ..write('closedAt: $closedAt, ')
           ..write('affectedPeopleCount: $affectedPeopleCount, ')
           ..write('safetyConcern: $safetyConcern, ')
+          ..write('assignedTeam: $assignedTeam, ')
+          ..write('escalated: $escalated, ')
+          ..write('resolutionNote: $resolutionNote, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -23051,6 +23210,9 @@ typedef $$ServiceRequestsTableCreateCompanionBuilder =
       Value<DateTime?> closedAt,
       Value<int?> affectedPeopleCount,
       Value<bool> safetyConcern,
+      Value<String?> assignedTeam,
+      Value<bool> escalated,
+      Value<String?> resolutionNote,
       Value<int> rowid,
     });
 typedef $$ServiceRequestsTableUpdateCompanionBuilder =
@@ -23073,6 +23235,9 @@ typedef $$ServiceRequestsTableUpdateCompanionBuilder =
       Value<DateTime?> closedAt,
       Value<int?> affectedPeopleCount,
       Value<bool> safetyConcern,
+      Value<String?> assignedTeam,
+      Value<bool> escalated,
+      Value<String?> resolutionNote,
       Value<int> rowid,
     });
 
@@ -23229,6 +23394,21 @@ class $$ServiceRequestsTableFilterComposer
 
   ColumnFilters<bool> get safetyConcern => $composableBuilder(
     column: $table.safetyConcern,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get assignedTeam => $composableBuilder(
+    column: $table.assignedTeam,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get escalated => $composableBuilder(
+    column: $table.escalated,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get resolutionNote => $composableBuilder(
+    column: $table.resolutionNote,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -23393,6 +23573,21 @@ class $$ServiceRequestsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get assignedTeam => $composableBuilder(
+    column: $table.assignedTeam,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get escalated => $composableBuilder(
+    column: $table.escalated,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get resolutionNote => $composableBuilder(
+    column: $table.resolutionNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$SitesTableOrderingComposer get siteId {
     final $$SitesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -23510,6 +23705,19 @@ class $$ServiceRequestsTableAnnotationComposer
 
   GeneratedColumn<bool> get safetyConcern => $composableBuilder(
     column: $table.safetyConcern,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get assignedTeam => $composableBuilder(
+    column: $table.assignedTeam,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get escalated =>
+      $composableBuilder(column: $table.escalated, builder: (column) => column);
+
+  GeneratedColumn<String> get resolutionNote => $composableBuilder(
+    column: $table.resolutionNote,
     builder: (column) => column,
   );
 
@@ -23637,6 +23845,9 @@ class $$ServiceRequestsTableTableManager
                 Value<DateTime?> closedAt = const Value.absent(),
                 Value<int?> affectedPeopleCount = const Value.absent(),
                 Value<bool> safetyConcern = const Value.absent(),
+                Value<String?> assignedTeam = const Value.absent(),
+                Value<bool> escalated = const Value.absent(),
+                Value<String?> resolutionNote = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ServiceRequestsCompanion(
                 id: id,
@@ -23657,6 +23868,9 @@ class $$ServiceRequestsTableTableManager
                 closedAt: closedAt,
                 affectedPeopleCount: affectedPeopleCount,
                 safetyConcern: safetyConcern,
+                assignedTeam: assignedTeam,
+                escalated: escalated,
+                resolutionNote: resolutionNote,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -23679,6 +23893,9 @@ class $$ServiceRequestsTableTableManager
                 Value<DateTime?> closedAt = const Value.absent(),
                 Value<int?> affectedPeopleCount = const Value.absent(),
                 Value<bool> safetyConcern = const Value.absent(),
+                Value<String?> assignedTeam = const Value.absent(),
+                Value<bool> escalated = const Value.absent(),
+                Value<String?> resolutionNote = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ServiceRequestsCompanion.insert(
                 id: id,
@@ -23699,6 +23916,9 @@ class $$ServiceRequestsTableTableManager
                 closedAt: closedAt,
                 affectedPeopleCount: affectedPeopleCount,
                 safetyConcern: safetyConcern,
+                assignedTeam: assignedTeam,
+                escalated: escalated,
+                resolutionNote: resolutionNote,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

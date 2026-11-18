@@ -233,9 +233,13 @@ class SyncEngine {
 
   Future<void> _pushServiceRequest(OutboxEntry entry) async {
     final payload = jsonDecode(entry.payloadJson) as Map<String, dynamic>;
-    await _ref
-        .read(requestRepositoryProvider)
-        .pushNewRequest(payload['requestId'] as String);
+    final repo = _ref.read(requestRepositoryProvider);
+    final requestId = payload['requestId'] as String;
+    if (entry.operation == 'update') {
+      await repo.pushUpdate(requestId);
+    } else {
+      await repo.pushNewRequest(requestId);
+    }
   }
 
   Future<void> _pushFleetTrip(OutboxEntry entry) async {

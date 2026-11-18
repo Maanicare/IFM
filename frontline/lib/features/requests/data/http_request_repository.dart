@@ -113,4 +113,17 @@ class HttpRequestRepository implements RequestRepository {
       ));
     }
   }
+
+  @override
+  Future<void> pushUpdate(String requestId) async {
+    final request = await _db.requestDao.byId(requestId);
+    if (request == null) return;
+    await _dio.patch<void>('/v1/requests/$requestId', data: {
+      'priority': request.priority,
+      'status': request.status,
+      'assigned_team': request.assignedTeam,
+      'escalated': request.escalated,
+      'resolution_note': request.resolutionNote,
+    });
+  }
 }

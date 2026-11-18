@@ -53,7 +53,7 @@ final class RequestControllerProvider
   }
 }
 
-String _$requestControllerHash() => r'4b45b9db15e454a61989497696de49e7a1ff1fc4';
+String _$requestControllerHash() => r'b483e6093748972693011f8ba9e6f881cc38fa00';
 
 /// Backs "Report an Issue" (Journey 1 / SCREEN 06). Creating a request is
 /// itself treated as an offline-first mutation: the repository writes the

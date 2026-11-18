@@ -21,6 +21,39 @@ class RequestDao extends DatabaseAccessor<AppDatabase>
       (select(serviceRequests)..where((t) => t.id.equals(id)))
           .getSingleOrNull();
 
+  Stream<ServiceRequest?> watchById(String id) =>
+      (select(serviceRequests)..where((t) => t.id.equals(id)))
+          .watchSingleOrNull();
+
+  /// Screen 07 action: "Assign" - to a team/trade, not an individual
+  /// (this app has no synced user directory).
+  Future<void> assignTeam(String id, String team) {
+    return (update(serviceRequests)..where((t) => t.id.equals(id))).write(
+      ServiceRequestsCompanion(assignedTeam: Value(team)),
+    );
+  }
+
+  /// Screen 07 action: "Escalate".
+  Future<void> escalate(String id, {required String bumpedPriority}) {
+    return (update(serviceRequests)..where((t) => t.id.equals(id))).write(
+      ServiceRequestsCompanion(escalated: const Value(true), priority: Value(bumpedPriority)),
+    );
+  }
+
+  /// Screen 07 action: "Change priority".
+  Future<void> changePriority(String id, String priority) {
+    return (update(serviceRequests)..where((t) => t.id.equals(id))).write(
+      ServiceRequestsCompanion(priority: Value(priority)),
+    );
+  }
+
+  /// Screen 07 action: "Cancel".
+  Future<void> cancel(String id) {
+    return (update(serviceRequests)..where((t) => t.id.equals(id))).write(
+      const ServiceRequestsCompanion(status: Value('cancelled')),
+    );
+  }
+
   Future<void> upsertFromServer(ServiceRequestsCompanion row) =>
       into(serviceRequests).insertOnConflictUpdate(row);
 
