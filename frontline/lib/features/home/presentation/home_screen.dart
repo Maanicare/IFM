@@ -302,12 +302,17 @@ class _SiteSwitcherAction extends ConsumerWidget {
         ? null
         : ref.watch(_siteNameProvider(siteId));
 
-    return TextButton.icon(
-      onPressed: () => context.push('/site-selector'),
-      icon: const Icon(Icons.apartment_outlined, size: 18),
-      label: Text(
-        siteAsync?.value?.name ?? 'Select site',
-        overflow: TextOverflow.ellipsis,
+    final site = siteAsync?.value;
+    // The AppBar only has limited width here (it shares the row with
+    // the notification bell), so the site's short code is shown
+    // instead of its full name - the selector screen (which has room)
+    // still shows the full name; this is just a "where am I" glance.
+    return Tooltip(
+      message: site?.name ?? 'Select site',
+      child: TextButton.icon(
+        onPressed: () => context.push('/site-selector'),
+        icon: const Icon(Icons.apartment_outlined, size: 18),
+        label: Text(site?.code ?? 'Select site'),
       ),
     );
   }
