@@ -11,6 +11,17 @@ part 'asset_dao.g.dart';
 class AssetDao extends DatabaseAccessor<AppDatabase> with _$AssetDaoMixin {
   AssetDao(super.db);
 
+  /// Section 63 (Universal Search).
+  Future<List<Asset>> searchAtSite(String siteId, String query) {
+    final like = '%$query%';
+    return (select(assets)
+          ..where((t) =>
+              t.siteId.equals(siteId) &
+              (t.name.like(like) | t.assetCode.like(like)))
+          ..limit(20))
+        .get();
+  }
+
   Future<Asset?> byQrCode(String qrCode) =>
       (select(assets)..where((t) => t.qrCode.equals(qrCode)))
           .getSingleOrNull();

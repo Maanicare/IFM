@@ -12,6 +12,7 @@ import '../../../core/rbac/policy_guard.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../identity/presentation/auth_controller.dart';
 import '../../location/presentation/current_site_provider.dart';
+import '../../work_orders/domain/work_order_status.dart';
 import '../../work_orders/presentation/my_work_screen.dart' show myWorkStreamProvider;
 
 /// SCREEN 03 - Personal Home. Shows only what this shift needs right now:
@@ -51,6 +52,11 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           if ((user?.siteIds.length ?? 0) > 1) const _SiteSwitcherAction(),
           IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: 'Search',
+            onPressed: () => context.push('/search'),
+          ),
+          IconButton(
             icon: Badge(
               isLabelVisible: unreadNotifications > 0,
               label: Text('$unreadNotifications'),
@@ -63,6 +69,11 @@ class HomeScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          if (siteId != null) ...[
+            _SiteStatusChip(siteId: siteId),
+            const SizedBox(height: 12),
+          ],
+          const _CurrentShiftRow(),
           if (showMyWork) ...[
             Card(
               color: Theme.of(context).colorScheme.primaryContainer,
@@ -95,6 +106,14 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 8),
+            _StartTaskButton(workOrders: workOrders),
+            const SizedBox(height: 16),
+          ],
+          if (siteId != null &&
+              accessContext != null &&
+              guard.can(accessContext, AppAction.verifyWorkOrder)) ...[
+            _PendingApprovalsRow(siteId: siteId),
             const SizedBox(height: 16),
           ],
           if (showRequests || showScan)
@@ -132,6 +151,159 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
+
+/// Screen 03: "Site status" - the current site's operational state.
+class _SiteStatusChip extends ConsumerWidget {
+  const _SiteStatusChip({required this.siteId});
+  final String siteId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final site = ref.watch(_siteNameProvider(siteId)).value;
+    if (site == null) return const SizedBox.shrink();
+    final isActive = site.operationalStatus == 'active';
+
+    return Row(
+      children: [
+        Icon(
+          isActive ? Icons.check_circle_outline : Icons.error_outline,
+          size: 16,
+          color: isActive ? Colors.green : Colors.orange,
+        ),
+        const SizedBox(width: 6),
+        Text(
+          '${site.name} · ${isActive ? 'Operational' : site.operationalStatus}',
+          style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+        ),
+      ],
+    );
+  }
+}
+
+/// Screen 03: "Current shift" - today's own roster entry, if any.
+class _CurrentShiftRow extends ConsumerWidget {
+  const _CurrentShiftRow();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final siteId = ref.watch(currentSiteIdProvider).value;
+    final userId = ref.watch(authControllerProvider).value?.id;
+    if (siteId == null || userId == null) return const SizedBox.shrink();
+
+    final shift = ref.watch(_myShiftProvider((siteId: siteId, userId: userId))).value;
+    if (shift == null) return const SizedBox.shrink();
+
+    String formatTime(DateTime t) => TimeOfDay.fromDateTime(t).format(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          const Icon(Icons.schedule, size: 16, color: Colors.grey),
+          const SizedBox(width: 6),
+          Text(
+            'Shift: ${formatTime(shift.shiftStart)} - ${formatTime(shift.shiftEnd)} '
+            '(${shift.attendanceStatus})',
+            style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+final _myShiftProvider =
+    StreamProvider.family<ShiftRosterEntry?, ({String siteId, String userId})>((ref, args) {
+  return ref
+      .watch(appDatabaseProvider)
+      .shiftRosterDao
+      .watchMyShiftToday(args.siteId, args.userId, DateTime.now());
+});
+
+/// Screen 03 action: "Start task" - jumps straight into the next
+/// actionable job (critical/high priority first, else the earliest
+/// scheduled) instead of making the technician open My Work and pick.
+class _StartTaskButton extends StatelessWidget {
+  const _StartTaskButton({required this.workOrders});
+  final List<WorkOrder> workOrders;
+
+  static const _actionableStatuses = {
+    WorkOrderStatus.assigned,
+    WorkOrderStatus.accepted,
+    WorkOrderStatus.enRoute,
+    WorkOrderStatus.checkedIn,
+    WorkOrderStatus.inProgress,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final actionable = workOrders.where((w) => _actionableStatuses.contains(w.status)).toList()
+      ..sort((a, b) {
+        final aCritical = a.priority == 'critical' || a.priority == 'high';
+        final bCritical = b.priority == 'critical' || b.priority == 'high';
+        if (aCritical != bCritical) return aCritical ? -1 : 1;
+        final aStart = a.scheduledStart;
+        final bStart = b.scheduledStart;
+        if (aStart == null || bStart == null) return 0;
+        return aStart.compareTo(bStart);
+      });
+    if (actionable.isEmpty) return const SizedBox.shrink();
+
+    final next = actionable.first;
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        icon: const Icon(Icons.play_arrow),
+        label: Text('Start task: ${next.woNumber}'),
+        onPressed: () => context.push('/work-orders/${next.id}'),
+      ),
+    );
+  }
+}
+
+/// Screen 03: "Approvals" - work completed and awaiting this role's
+/// sign-off. Only rendered for a role that can act on it (gated at the
+/// call site by `verifyWorkOrder`).
+class _PendingApprovalsRow extends ConsumerWidget {
+  const _PendingApprovalsRow({required this.siteId});
+  final String siteId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count = ref.watch(_pendingApprovalCountProvider(siteId)).value ?? 0;
+    if (count == 0) return const SizedBox.shrink();
+
+    return InkWell(
+      onTap: () => context.go('/my-work'),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.blue.shade50,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.blue.shade200),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.task_alt, color: Colors.blue.shade700),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                '$count job${count == 1 ? '' : 's'} awaiting your approval',
+                style: TextStyle(color: Colors.blue.shade800, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+final _pendingApprovalCountProvider =
+    StreamProvider.family<int, String>((ref, siteId) {
+  return ref.watch(appDatabaseProvider).workOrderDao.watchPendingApprovalCountAtSite(siteId);
+});
 
 /// Section 8 (Technician Home): "safety alerts". Shown above the other
 /// exception rows - a safety issue takes precedence over cost/asset

@@ -26,6 +26,22 @@ class ShiftRosterDao extends DatabaseAccessor<AppDatabase>
         .watch();
   }
 
+  /// This user's own shift entry for today (Screen 03: "Current
+  /// shift") - a scoped-down version of [watchForSite], which lists
+  /// everyone's shift rather than just the logged-in technician's own.
+  Stream<ShiftRosterEntry?> watchMyShiftToday(String siteId, String userId, DateTime day) {
+    final start = DateTime(day.year, day.month, day.day);
+    final end = start.add(const Duration(days: 1));
+    return (select(shiftRosterEntries)
+          ..where((t) =>
+              t.siteId.equals(siteId) &
+              t.userId.equals(userId) &
+              t.shiftStart.isBiggerOrEqualValue(start) &
+              t.shiftStart.isSmallerThanValue(end))
+          ..limit(1))
+        .watchSingleOrNull();
+  }
+
   Future<void> setAttendanceStatus(String id, String status) {
     return (update(shiftRosterEntries)..where((t) => t.id.equals(id))).write(
       ShiftRosterEntriesCompanion(attendanceStatus: Value(status)),

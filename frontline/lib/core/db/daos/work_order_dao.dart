@@ -127,6 +127,31 @@ class WorkOrderDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
+  /// Jobs awaiting this site's sign-off (Screen 03: "Approvals") - work
+  /// completed by a technician but not yet verified by a supervisor.
+  /// Only meaningful to show to a role that can actually act on it
+  /// (gated by `verifyWorkOrder`/`approveQuoteOrSpend` at the call
+  /// site, not here).
+  Stream<int> watchPendingApprovalCountAtSite(String siteId) {
+    final countExp = workOrders.id.count();
+    final query = selectOnly(workOrders)
+      ..addColumns([countExp])
+      ..where(workOrders.siteId.equals(siteId) & workOrders.status.equals('work_completed'));
+    return query.map((row) => row.read(countExp) ?? 0).watchSingle();
+  }
+
+  /// Section 63 (Universal Search): "AHU 5 should return the asset,
+  /// current work orders...".
+  Future<List<WorkOrder>> searchAtSite(String siteId, String query) {
+    final like = '%$query%';
+    return (select(workOrders)
+          ..where((t) =>
+              t.siteId.equals(siteId) &
+              (t.woNumber.like(like) | t.problemDescription.like(like)))
+          ..limit(20))
+        .get();
+  }
+
   Future<void> clearPendingFlag(String workOrderId) {
     return (update(workOrders)..where((t) => t.id.equals(workOrderId))).write(
       const WorkOrdersCompanion(hasPendingLocalChanges: Value(false)),

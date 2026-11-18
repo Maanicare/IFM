@@ -26,4 +26,15 @@ class RequestDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> insertLocal(ServiceRequestsCompanion row) =>
       into(serviceRequests).insert(row);
+
+  /// Section 63 (Universal Search).
+  Future<List<ServiceRequest>> searchAtSite(String siteId, String query) {
+    final like = '%$query%';
+    return (select(serviceRequests)
+          ..where((t) =>
+              t.siteId.equals(siteId) &
+              (t.requestNumber.like(like) | t.title.like(like)))
+          ..limit(20))
+        .get();
+  }
 }

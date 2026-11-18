@@ -48,6 +48,22 @@ class LocationDao extends DatabaseAccessor<AppDatabase>
   Future<Space?> spaceByCode(String spaceCode) =>
       (select(spaces)..where((t) => t.spaceCode.equals(spaceCode))).getSingleOrNull();
 
+  /// Section 63 (Universal Search) - "room" - joined through Floor ->
+  /// Building to scope by site, since Spaces don't carry a siteId of
+  /// their own.
+  Future<List<Space>> searchSpacesAtSite(String siteId, String query) async {
+    final like = '%$query%';
+    final q = select(spaces).join([
+      innerJoin(floors, floors.id.equalsExp(spaces.floorId)),
+      innerJoin(buildings, buildings.id.equalsExp(floors.buildingId)),
+    ])
+      ..where(buildings.siteId.equals(siteId) &
+          (spaces.name.like(like) | spaces.spaceCode.like(like)))
+      ..limit(20);
+    final rows = await q.get();
+    return rows.map((r) => r.readTable(spaces)).toList();
+  }
+
   Future<void> upsertSite(SitesCompanion row) =>
       into(sites).insertOnConflictUpdate(row);
   Future<void> upsertBuilding(BuildingsCompanion row) =>

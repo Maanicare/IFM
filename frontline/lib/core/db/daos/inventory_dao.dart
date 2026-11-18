@@ -14,6 +14,23 @@ class InventoryDao extends DatabaseAccessor<AppDatabase>
 
   /// Resolves a scanned QR/barcode against an inventory item SKU
   /// (Screen 11: Scan "can identify ... Inventory item").
+  /// Section 63 (Universal Search) - only items actually stocked at
+  /// [siteId], same reasoning as [watchAvailableAtSite].
+  Future<List<InventoryItem>> searchAtSite(String siteId, String query) async {
+    final like = '%$query%';
+    final q = select(inventoryItems).join([
+      innerJoin(
+        inventoryBalances,
+        inventoryBalances.itemId.equalsExp(inventoryItems.id) &
+            inventoryBalances.siteId.equals(siteId),
+      ),
+    ])
+      ..where(inventoryItems.name.like(like) | inventoryItems.sku.like(like))
+      ..limit(20);
+    final rows = await q.get();
+    return rows.map((r) => r.readTable(inventoryItems)).toList();
+  }
+
   Future<InventoryItem?> byQrOrSku(String code) =>
       (select(inventoryItems)..where((t) => t.sku.equals(code))).getSingleOrNull();
 

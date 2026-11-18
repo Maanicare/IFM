@@ -17,6 +17,7 @@ import '../../features/requests/presentation/request_detail_screen.dart';
 import '../../features/requests/presentation/requests_screen.dart';
 import '../../features/safety/presentation/report_safety_issue_screen.dart';
 import '../../features/scan/presentation/scan_screen.dart';
+import '../../features/search/presentation/search_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/work_orders/presentation/my_work_screen.dart';
 import '../../features/work_orders/presentation/work_order_detail_screen.dart';
@@ -89,6 +90,10 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/my-vehicle',
         builder: (context, state) => const MyVehicleScreen(),
+      ),
+      GoRoute(
+        path: '/search',
+        builder: (context, state) => const SearchScreen(),
       ),
       GoRoute(
         path: '/shift-handover/new',
