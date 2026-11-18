@@ -80,6 +80,26 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
         type: DriftSqlType.string,
         requiredDuringInsert: true,
       );
+  static const VerificationMeta _regionMeta = const VerificationMeta('region');
+  @override
+  late final GeneratedColumn<String> region = GeneratedColumn<String>(
+    'region',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _portfolioNameMeta = const VerificationMeta(
+    'portfolioName',
+  );
+  @override
+  late final GeneratedColumn<String> portfolioName = GeneratedColumn<String>(
+    'portfolio_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -89,6 +109,8 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
     latitude,
     longitude,
     operationalStatus,
+    region,
+    portfolioName,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -154,6 +176,21 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
     } else if (isInserting) {
       context.missing(_operationalStatusMeta);
     }
+    if (data.containsKey('region')) {
+      context.handle(
+        _regionMeta,
+        region.isAcceptableOrUnknown(data['region']!, _regionMeta),
+      );
+    }
+    if (data.containsKey('portfolio_name')) {
+      context.handle(
+        _portfolioNameMeta,
+        portfolioName.isAcceptableOrUnknown(
+          data['portfolio_name']!,
+          _portfolioNameMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -191,6 +228,14 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
         DriftSqlType.string,
         data['${effectivePrefix}operational_status'],
       )!,
+      region: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}region'],
+      ),
+      portfolioName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}portfolio_name'],
+      ),
     );
   }
 
@@ -208,6 +253,8 @@ class Site extends DataClass implements Insertable<Site> {
   final double? latitude;
   final double? longitude;
   final String operationalStatus;
+  final String? region;
+  final String? portfolioName;
   const Site({
     required this.id,
     required this.code,
@@ -216,6 +263,8 @@ class Site extends DataClass implements Insertable<Site> {
     this.latitude,
     this.longitude,
     required this.operationalStatus,
+    this.region,
+    this.portfolioName,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -231,6 +280,12 @@ class Site extends DataClass implements Insertable<Site> {
       map['longitude'] = Variable<double>(longitude);
     }
     map['operational_status'] = Variable<String>(operationalStatus);
+    if (!nullToAbsent || region != null) {
+      map['region'] = Variable<String>(region);
+    }
+    if (!nullToAbsent || portfolioName != null) {
+      map['portfolio_name'] = Variable<String>(portfolioName);
+    }
     return map;
   }
 
@@ -247,6 +302,12 @@ class Site extends DataClass implements Insertable<Site> {
           ? const Value.absent()
           : Value(longitude),
       operationalStatus: Value(operationalStatus),
+      region: region == null && nullToAbsent
+          ? const Value.absent()
+          : Value(region),
+      portfolioName: portfolioName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(portfolioName),
     );
   }
 
@@ -263,6 +324,8 @@ class Site extends DataClass implements Insertable<Site> {
       latitude: serializer.fromJson<double?>(json['latitude']),
       longitude: serializer.fromJson<double?>(json['longitude']),
       operationalStatus: serializer.fromJson<String>(json['operationalStatus']),
+      region: serializer.fromJson<String?>(json['region']),
+      portfolioName: serializer.fromJson<String?>(json['portfolioName']),
     );
   }
   @override
@@ -276,6 +339,8 @@ class Site extends DataClass implements Insertable<Site> {
       'latitude': serializer.toJson<double?>(latitude),
       'longitude': serializer.toJson<double?>(longitude),
       'operationalStatus': serializer.toJson<String>(operationalStatus),
+      'region': serializer.toJson<String?>(region),
+      'portfolioName': serializer.toJson<String?>(portfolioName),
     };
   }
 
@@ -287,6 +352,8 @@ class Site extends DataClass implements Insertable<Site> {
     Value<double?> latitude = const Value.absent(),
     Value<double?> longitude = const Value.absent(),
     String? operationalStatus,
+    Value<String?> region = const Value.absent(),
+    Value<String?> portfolioName = const Value.absent(),
   }) => Site(
     id: id ?? this.id,
     code: code ?? this.code,
@@ -295,6 +362,10 @@ class Site extends DataClass implements Insertable<Site> {
     latitude: latitude.present ? latitude.value : this.latitude,
     longitude: longitude.present ? longitude.value : this.longitude,
     operationalStatus: operationalStatus ?? this.operationalStatus,
+    region: region.present ? region.value : this.region,
+    portfolioName: portfolioName.present
+        ? portfolioName.value
+        : this.portfolioName,
   );
   Site copyWithCompanion(SitesCompanion data) {
     return Site(
@@ -307,6 +378,10 @@ class Site extends DataClass implements Insertable<Site> {
       operationalStatus: data.operationalStatus.present
           ? data.operationalStatus.value
           : this.operationalStatus,
+      region: data.region.present ? data.region.value : this.region,
+      portfolioName: data.portfolioName.present
+          ? data.portfolioName.value
+          : this.portfolioName,
     );
   }
 
@@ -319,7 +394,9 @@ class Site extends DataClass implements Insertable<Site> {
           ..write('timezone: $timezone, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
-          ..write('operationalStatus: $operationalStatus')
+          ..write('operationalStatus: $operationalStatus, ')
+          ..write('region: $region, ')
+          ..write('portfolioName: $portfolioName')
           ..write(')'))
         .toString();
   }
@@ -333,6 +410,8 @@ class Site extends DataClass implements Insertable<Site> {
     latitude,
     longitude,
     operationalStatus,
+    region,
+    portfolioName,
   );
   @override
   bool operator ==(Object other) =>
@@ -344,7 +423,9 @@ class Site extends DataClass implements Insertable<Site> {
           other.timezone == this.timezone &&
           other.latitude == this.latitude &&
           other.longitude == this.longitude &&
-          other.operationalStatus == this.operationalStatus);
+          other.operationalStatus == this.operationalStatus &&
+          other.region == this.region &&
+          other.portfolioName == this.portfolioName);
 }
 
 class SitesCompanion extends UpdateCompanion<Site> {
@@ -355,6 +436,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
   final Value<double?> latitude;
   final Value<double?> longitude;
   final Value<String> operationalStatus;
+  final Value<String?> region;
+  final Value<String?> portfolioName;
   final Value<int> rowid;
   const SitesCompanion({
     this.id = const Value.absent(),
@@ -364,6 +447,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     this.operationalStatus = const Value.absent(),
+    this.region = const Value.absent(),
+    this.portfolioName = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SitesCompanion.insert({
@@ -374,6 +459,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
     required String operationalStatus,
+    this.region = const Value.absent(),
+    this.portfolioName = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        code = Value(code),
@@ -388,6 +475,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
     Expression<double>? latitude,
     Expression<double>? longitude,
     Expression<String>? operationalStatus,
+    Expression<String>? region,
+    Expression<String>? portfolioName,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -398,6 +487,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
       if (latitude != null) 'latitude': latitude,
       if (longitude != null) 'longitude': longitude,
       if (operationalStatus != null) 'operational_status': operationalStatus,
+      if (region != null) 'region': region,
+      if (portfolioName != null) 'portfolio_name': portfolioName,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -410,6 +501,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
     Value<double?>? latitude,
     Value<double?>? longitude,
     Value<String>? operationalStatus,
+    Value<String?>? region,
+    Value<String?>? portfolioName,
     Value<int>? rowid,
   }) {
     return SitesCompanion(
@@ -420,6 +513,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       operationalStatus: operationalStatus ?? this.operationalStatus,
+      region: region ?? this.region,
+      portfolioName: portfolioName ?? this.portfolioName,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -448,6 +543,12 @@ class SitesCompanion extends UpdateCompanion<Site> {
     if (operationalStatus.present) {
       map['operational_status'] = Variable<String>(operationalStatus.value);
     }
+    if (region.present) {
+      map['region'] = Variable<String>(region.value);
+    }
+    if (portfolioName.present) {
+      map['portfolio_name'] = Variable<String>(portfolioName.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -464,6 +565,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
           ..write('operationalStatus: $operationalStatus, ')
+          ..write('region: $region, ')
+          ..write('portfolioName: $portfolioName, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -10690,6 +10793,30 @@ class $CachedUsersTable extends CachedUsers
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _defaultSiteIdMeta = const VerificationMeta(
+    'defaultSiteId',
+  );
+  @override
+  late final GeneratedColumn<String> defaultSiteId = GeneratedColumn<String>(
+    'default_site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _recentSiteIdsJsonMeta = const VerificationMeta(
+    'recentSiteIdsJson',
+  );
+  @override
+  late final GeneratedColumn<String> recentSiteIdsJson =
+      GeneratedColumn<String>(
+        'recent_site_ids_json',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -10704,6 +10831,8 @@ class $CachedUsersTable extends CachedUsers
     approvalLimit,
     isCurrentUser,
     currentSiteId,
+    defaultSiteId,
+    recentSiteIdsJson,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -10812,6 +10941,24 @@ class $CachedUsersTable extends CachedUsers
         ),
       );
     }
+    if (data.containsKey('default_site_id')) {
+      context.handle(
+        _defaultSiteIdMeta,
+        defaultSiteId.isAcceptableOrUnknown(
+          data['default_site_id']!,
+          _defaultSiteIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('recent_site_ids_json')) {
+      context.handle(
+        _recentSiteIdsJsonMeta,
+        recentSiteIdsJson.isAcceptableOrUnknown(
+          data['recent_site_ids_json']!,
+          _recentSiteIdsJsonMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -10869,6 +11016,14 @@ class $CachedUsersTable extends CachedUsers
         DriftSqlType.string,
         data['${effectivePrefix}current_site_id'],
       ),
+      defaultSiteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}default_site_id'],
+      ),
+      recentSiteIdsJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}recent_site_ids_json'],
+      )!,
     );
   }
 
@@ -10895,6 +11050,19 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
   /// Role/Site Selector). Null until the technician has switched at least
   /// once; callers fall back to the first assigned site.
   final String? currentSiteId;
+
+  /// Screen 02's second, distinct action: "Set default" - the site to
+  /// land on at the *next* login, independent of whatever
+  /// [currentSiteId] is mid-session. Kept as its own column rather than
+  /// overloading [currentSiteId], so confirming a default doesn't
+  /// silently change what the rest of the app is currently looking at.
+  final String? defaultSiteId;
+
+  /// Screen 02: "Recent site" - a JSON array of site ids, most recent
+  /// first, capped at 3 by [IdentityDao.pushRecentSite]. Tracks sites
+  /// switched *away from*, so it surfaces "where was I before this"
+  /// rather than just restating the current site.
+  final String recentSiteIdsJson;
   const CachedUser({
     required this.id,
     this.employeeId,
@@ -10908,6 +11076,8 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
     this.approvalLimit,
     required this.isCurrentUser,
     this.currentSiteId,
+    this.defaultSiteId,
+    required this.recentSiteIdsJson,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -10936,6 +11106,10 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
     if (!nullToAbsent || currentSiteId != null) {
       map['current_site_id'] = Variable<String>(currentSiteId);
     }
+    if (!nullToAbsent || defaultSiteId != null) {
+      map['default_site_id'] = Variable<String>(defaultSiteId);
+    }
+    map['recent_site_ids_json'] = Variable<String>(recentSiteIdsJson);
     return map;
   }
 
@@ -10965,6 +11139,10 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
       currentSiteId: currentSiteId == null && nullToAbsent
           ? const Value.absent()
           : Value(currentSiteId),
+      defaultSiteId: defaultSiteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultSiteId),
+      recentSiteIdsJson: Value(recentSiteIdsJson),
     );
   }
 
@@ -10986,6 +11164,8 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
       approvalLimit: serializer.fromJson<double?>(json['approvalLimit']),
       isCurrentUser: serializer.fromJson<bool>(json['isCurrentUser']),
       currentSiteId: serializer.fromJson<String?>(json['currentSiteId']),
+      defaultSiteId: serializer.fromJson<String?>(json['defaultSiteId']),
+      recentSiteIdsJson: serializer.fromJson<String>(json['recentSiteIdsJson']),
     );
   }
   @override
@@ -11004,6 +11184,8 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
       'approvalLimit': serializer.toJson<double?>(approvalLimit),
       'isCurrentUser': serializer.toJson<bool>(isCurrentUser),
       'currentSiteId': serializer.toJson<String?>(currentSiteId),
+      'defaultSiteId': serializer.toJson<String?>(defaultSiteId),
+      'recentSiteIdsJson': serializer.toJson<String>(recentSiteIdsJson),
     };
   }
 
@@ -11020,6 +11202,8 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
     Value<double?> approvalLimit = const Value.absent(),
     bool? isCurrentUser,
     Value<String?> currentSiteId = const Value.absent(),
+    Value<String?> defaultSiteId = const Value.absent(),
+    String? recentSiteIdsJson,
   }) => CachedUser(
     id: id ?? this.id,
     employeeId: employeeId.present ? employeeId.value : this.employeeId,
@@ -11037,6 +11221,10 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
     currentSiteId: currentSiteId.present
         ? currentSiteId.value
         : this.currentSiteId,
+    defaultSiteId: defaultSiteId.present
+        ? defaultSiteId.value
+        : this.defaultSiteId,
+    recentSiteIdsJson: recentSiteIdsJson ?? this.recentSiteIdsJson,
   );
   CachedUser copyWithCompanion(CachedUsersCompanion data) {
     return CachedUser(
@@ -11066,6 +11254,12 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
       currentSiteId: data.currentSiteId.present
           ? data.currentSiteId.value
           : this.currentSiteId,
+      defaultSiteId: data.defaultSiteId.present
+          ? data.defaultSiteId.value
+          : this.defaultSiteId,
+      recentSiteIdsJson: data.recentSiteIdsJson.present
+          ? data.recentSiteIdsJson.value
+          : this.recentSiteIdsJson,
     );
   }
 
@@ -11083,7 +11277,9 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
           ..write('siteScopeJson: $siteScopeJson, ')
           ..write('approvalLimit: $approvalLimit, ')
           ..write('isCurrentUser: $isCurrentUser, ')
-          ..write('currentSiteId: $currentSiteId')
+          ..write('currentSiteId: $currentSiteId, ')
+          ..write('defaultSiteId: $defaultSiteId, ')
+          ..write('recentSiteIdsJson: $recentSiteIdsJson')
           ..write(')'))
         .toString();
   }
@@ -11102,6 +11298,8 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
     approvalLimit,
     isCurrentUser,
     currentSiteId,
+    defaultSiteId,
+    recentSiteIdsJson,
   );
   @override
   bool operator ==(Object other) =>
@@ -11118,7 +11316,9 @@ class CachedUser extends DataClass implements Insertable<CachedUser> {
           other.siteScopeJson == this.siteScopeJson &&
           other.approvalLimit == this.approvalLimit &&
           other.isCurrentUser == this.isCurrentUser &&
-          other.currentSiteId == this.currentSiteId);
+          other.currentSiteId == this.currentSiteId &&
+          other.defaultSiteId == this.defaultSiteId &&
+          other.recentSiteIdsJson == this.recentSiteIdsJson);
 }
 
 class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
@@ -11134,6 +11334,8 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
   final Value<double?> approvalLimit;
   final Value<bool> isCurrentUser;
   final Value<String?> currentSiteId;
+  final Value<String?> defaultSiteId;
+  final Value<String> recentSiteIdsJson;
   final Value<int> rowid;
   const CachedUsersCompanion({
     this.id = const Value.absent(),
@@ -11148,6 +11350,8 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
     this.approvalLimit = const Value.absent(),
     this.isCurrentUser = const Value.absent(),
     this.currentSiteId = const Value.absent(),
+    this.defaultSiteId = const Value.absent(),
+    this.recentSiteIdsJson = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CachedUsersCompanion.insert({
@@ -11163,6 +11367,8 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
     this.approvalLimit = const Value.absent(),
     this.isCurrentUser = const Value.absent(),
     this.currentSiteId = const Value.absent(),
+    this.defaultSiteId = const Value.absent(),
+    this.recentSiteIdsJson = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
@@ -11181,6 +11387,8 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
     Expression<double>? approvalLimit,
     Expression<bool>? isCurrentUser,
     Expression<String>? currentSiteId,
+    Expression<String>? defaultSiteId,
+    Expression<String>? recentSiteIdsJson,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -11196,6 +11404,8 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
       if (approvalLimit != null) 'approval_limit': approvalLimit,
       if (isCurrentUser != null) 'is_current_user': isCurrentUser,
       if (currentSiteId != null) 'current_site_id': currentSiteId,
+      if (defaultSiteId != null) 'default_site_id': defaultSiteId,
+      if (recentSiteIdsJson != null) 'recent_site_ids_json': recentSiteIdsJson,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -11213,6 +11423,8 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
     Value<double?>? approvalLimit,
     Value<bool>? isCurrentUser,
     Value<String?>? currentSiteId,
+    Value<String?>? defaultSiteId,
+    Value<String>? recentSiteIdsJson,
     Value<int>? rowid,
   }) {
     return CachedUsersCompanion(
@@ -11228,6 +11440,8 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
       approvalLimit: approvalLimit ?? this.approvalLimit,
       isCurrentUser: isCurrentUser ?? this.isCurrentUser,
       currentSiteId: currentSiteId ?? this.currentSiteId,
+      defaultSiteId: defaultSiteId ?? this.defaultSiteId,
+      recentSiteIdsJson: recentSiteIdsJson ?? this.recentSiteIdsJson,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -11271,6 +11485,12 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
     if (currentSiteId.present) {
       map['current_site_id'] = Variable<String>(currentSiteId.value);
     }
+    if (defaultSiteId.present) {
+      map['default_site_id'] = Variable<String>(defaultSiteId.value);
+    }
+    if (recentSiteIdsJson.present) {
+      map['recent_site_ids_json'] = Variable<String>(recentSiteIdsJson.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -11292,6 +11512,8 @@ class CachedUsersCompanion extends UpdateCompanion<CachedUser> {
           ..write('approvalLimit: $approvalLimit, ')
           ..write('isCurrentUser: $isCurrentUser, ')
           ..write('currentSiteId: $currentSiteId, ')
+          ..write('defaultSiteId: $defaultSiteId, ')
+          ..write('recentSiteIdsJson: $recentSiteIdsJson, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -17959,6 +18181,8 @@ typedef $$SitesTableCreateCompanionBuilder =
       Value<double?> latitude,
       Value<double?> longitude,
       required String operationalStatus,
+      Value<String?> region,
+      Value<String?> portfolioName,
       Value<int> rowid,
     });
 typedef $$SitesTableUpdateCompanionBuilder =
@@ -17970,6 +18194,8 @@ typedef $$SitesTableUpdateCompanionBuilder =
       Value<double?> latitude,
       Value<double?> longitude,
       Value<String> operationalStatus,
+      Value<String?> region,
+      Value<String?> portfolioName,
       Value<int> rowid,
     });
 
@@ -18196,6 +18422,16 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
 
   ColumnFilters<String> get operationalStatus => $composableBuilder(
     column: $table.operationalStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get region => $composableBuilder(
+    column: $table.region,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get portfolioName => $composableBuilder(
+    column: $table.portfolioName,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -18468,6 +18704,16 @@ class $$SitesTableOrderingComposer
     column: $table.operationalStatus,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get region => $composableBuilder(
+    column: $table.region,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get portfolioName => $composableBuilder(
+    column: $table.portfolioName,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SitesTableAnnotationComposer
@@ -18499,6 +18745,14 @@ class $$SitesTableAnnotationComposer
 
   GeneratedColumn<String> get operationalStatus => $composableBuilder(
     column: $table.operationalStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get region =>
+      $composableBuilder(column: $table.region, builder: (column) => column);
+
+  GeneratedColumn<String> get portfolioName => $composableBuilder(
+    column: $table.portfolioName,
     builder: (column) => column,
   );
 
@@ -18775,6 +19029,8 @@ class $$SitesTableTableManager
                 Value<double?> latitude = const Value.absent(),
                 Value<double?> longitude = const Value.absent(),
                 Value<String> operationalStatus = const Value.absent(),
+                Value<String?> region = const Value.absent(),
+                Value<String?> portfolioName = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SitesCompanion(
                 id: id,
@@ -18784,6 +19040,8 @@ class $$SitesTableTableManager
                 latitude: latitude,
                 longitude: longitude,
                 operationalStatus: operationalStatus,
+                region: region,
+                portfolioName: portfolioName,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -18795,6 +19053,8 @@ class $$SitesTableTableManager
                 Value<double?> latitude = const Value.absent(),
                 Value<double?> longitude = const Value.absent(),
                 required String operationalStatus,
+                Value<String?> region = const Value.absent(),
+                Value<String?> portfolioName = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SitesCompanion.insert(
                 id: id,
@@ -18804,6 +19064,8 @@ class $$SitesTableTableManager
                 latitude: latitude,
                 longitude: longitude,
                 operationalStatus: operationalStatus,
+                region: region,
+                portfolioName: portfolioName,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -27599,6 +27861,8 @@ typedef $$CachedUsersTableCreateCompanionBuilder =
       Value<double?> approvalLimit,
       Value<bool> isCurrentUser,
       Value<String?> currentSiteId,
+      Value<String?> defaultSiteId,
+      Value<String> recentSiteIdsJson,
       Value<int> rowid,
     });
 typedef $$CachedUsersTableUpdateCompanionBuilder =
@@ -27615,6 +27879,8 @@ typedef $$CachedUsersTableUpdateCompanionBuilder =
       Value<double?> approvalLimit,
       Value<bool> isCurrentUser,
       Value<String?> currentSiteId,
+      Value<String?> defaultSiteId,
+      Value<String> recentSiteIdsJson,
       Value<int> rowid,
     });
 
@@ -27684,6 +27950,16 @@ class $$CachedUsersTableFilterComposer
 
   ColumnFilters<String> get currentSiteId => $composableBuilder(
     column: $table.currentSiteId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get defaultSiteId => $composableBuilder(
+    column: $table.defaultSiteId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get recentSiteIdsJson => $composableBuilder(
+    column: $table.recentSiteIdsJson,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -27756,6 +28032,16 @@ class $$CachedUsersTableOrderingComposer
     column: $table.currentSiteId,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get defaultSiteId => $composableBuilder(
+    column: $table.defaultSiteId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get recentSiteIdsJson => $composableBuilder(
+    column: $table.recentSiteIdsJson,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CachedUsersTableAnnotationComposer
@@ -27816,6 +28102,16 @@ class $$CachedUsersTableAnnotationComposer
     column: $table.currentSiteId,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get defaultSiteId => $composableBuilder(
+    column: $table.defaultSiteId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get recentSiteIdsJson => $composableBuilder(
+    column: $table.recentSiteIdsJson,
+    builder: (column) => column,
+  );
 }
 
 class $$CachedUsersTableTableManager
@@ -27861,6 +28157,8 @@ class $$CachedUsersTableTableManager
                 Value<double?> approvalLimit = const Value.absent(),
                 Value<bool> isCurrentUser = const Value.absent(),
                 Value<String?> currentSiteId = const Value.absent(),
+                Value<String?> defaultSiteId = const Value.absent(),
+                Value<String> recentSiteIdsJson = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CachedUsersCompanion(
                 id: id,
@@ -27875,6 +28173,8 @@ class $$CachedUsersTableTableManager
                 approvalLimit: approvalLimit,
                 isCurrentUser: isCurrentUser,
                 currentSiteId: currentSiteId,
+                defaultSiteId: defaultSiteId,
+                recentSiteIdsJson: recentSiteIdsJson,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -27891,6 +28191,8 @@ class $$CachedUsersTableTableManager
                 Value<double?> approvalLimit = const Value.absent(),
                 Value<bool> isCurrentUser = const Value.absent(),
                 Value<String?> currentSiteId = const Value.absent(),
+                Value<String?> defaultSiteId = const Value.absent(),
+                Value<String> recentSiteIdsJson = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CachedUsersCompanion.insert(
                 id: id,
@@ -27905,6 +28207,8 @@ class $$CachedUsersTableTableManager
                 approvalLimit: approvalLimit,
                 isCurrentUser: isCurrentUser,
                 currentSiteId: currentSiteId,
+                defaultSiteId: defaultSiteId,
+                recentSiteIdsJson: recentSiteIdsJson,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

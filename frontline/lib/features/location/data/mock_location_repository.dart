@@ -26,6 +26,8 @@ class MockLocationRepository implements LocationRepository {
           latitude: Value((site['latitude'] as num?)?.toDouble()),
           longitude: Value((site['longitude'] as num?)?.toDouble()),
           operationalStatus: site['operationalStatus'] as String,
+          region: Value(site['region'] as String?),
+          portfolioName: Value(site['portfolioName'] as String?),
         ));
       }
       for (final b in (data['buildings'] as List).cast<Map<String, dynamic>>()) {

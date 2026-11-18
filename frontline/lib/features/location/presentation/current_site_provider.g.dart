@@ -56,4 +56,4 @@ final class CurrentSiteIdProvider
   }
 }
 
-String _$currentSiteIdHash() => r'1a305a0761327bebc70378e030ec27099d3d84e2';
+String _$currentSiteIdHash() => r'3c58ca74d0e0c51e5ea607180ee0be75dd3303bb';

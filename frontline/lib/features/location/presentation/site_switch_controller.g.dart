@@ -60,7 +60,7 @@ final class SiteSwitchControllerProvider
 }
 
 String _$siteSwitchControllerHash() =>
-    r'be41cfa91643c0c0b3c390c4eee9c0e88ce911ba';
+    r'164cc291f96b9aef4b64e083a22ca5deb767ed0d';
 
 /// Switching the active site (Screen 02: "Switch site") isn't just a UI
 /// preference - everything the offline cache holds (assets, requests,

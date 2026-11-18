@@ -30,6 +30,11 @@ class SiteSwitchController extends _$SiteSwitchController {
     final user = ref.read(authControllerProvider).value;
     if (user == null) return;
 
+    final cached = await db.identityDao.byId(user.id);
+    final previousSiteId = cached?.currentSiteId;
+    if (previousSiteId != null && previousSiteId != siteId) {
+      await db.identityDao.pushRecentSite(user.id, previousSiteId);
+    }
     await db.identityDao.setCurrentSite(user.id, siteId);
 
     try {
@@ -47,5 +52,18 @@ class SiteSwitchController extends _$SiteSwitchController {
     } catch (e, st) {
       AppLogger.instance.error(_tag, 'Site switch sync failed', error: e, stackTrace: st);
     }
+  }
+
+  /// Screen 02's second, distinct action: "Set default" - marks a site
+  /// as the one to land on at next login, without necessarily switching
+  /// to it (and without re-syncing) right now. Separate from
+  /// [switchTo], which both changes what's on screen immediately and
+  /// re-pulls that site's data.
+  Future<void> setDefault(String siteId) async {
+    final db = ref.read(appDatabaseProvider);
+    final user = ref.read(authControllerProvider).value;
+    if (user == null) return;
+    await db.identityDao.setDefaultSite(user.id, siteId);
+    AppLogger.instance.info(_tag, 'Set default site to $siteId');
   }
 }

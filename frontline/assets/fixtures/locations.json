@@ -7,7 +7,9 @@
       "timezone": "Asia/Kolkata",
       "latitude": 18.9957,
       "longitude": 72.8254,
-      "operationalStatus": "active"
+      "operationalStatus": "active",
+      "region": "Mumbai Region",
+      "portfolioName": "BharatTower Portfolio"
     },
     {
       "id": "site-brt-02",
@@ -16,7 +18,9 @@
       "timezone": "Asia/Kolkata",
       "latitude": 19.1197,
       "longitude": 72.8697,
-      "operationalStatus": "active"
+      "operationalStatus": "active",
+      "region": "Mumbai Region",
+      "portfolioName": "BharatTower Portfolio"
     }
   ],
   "buildings": [

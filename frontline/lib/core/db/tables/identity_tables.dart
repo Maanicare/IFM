@@ -24,6 +24,20 @@ class CachedUsers extends Table {
   /// once; callers fall back to the first assigned site.
   TextColumn get currentSiteId => text().nullable()();
 
+  /// Screen 02's second, distinct action: "Set default" - the site to
+  /// land on at the *next* login, independent of whatever
+  /// [currentSiteId] is mid-session. Kept as its own column rather than
+  /// overloading [currentSiteId], so confirming a default doesn't
+  /// silently change what the rest of the app is currently looking at.
+  TextColumn get defaultSiteId => text().nullable()();
+
+  /// Screen 02: "Recent site" - a JSON array of site ids, most recent
+  /// first, capped at 3 by [IdentityDao.pushRecentSite]. Tracks sites
+  /// switched *away from*, so it surfaces "where was I before this"
+  /// rather than just restating the current site.
+  TextColumn get recentSiteIdsJson =>
+      text().withDefault(const Constant('[]'))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

@@ -19,6 +19,12 @@ Stream<String?> currentSiteId(Ref ref) {
   return db.identityDao.watchCurrentUser().map((cached) {
     final selected = cached?.currentSiteId;
     if (selected != null && user.siteIds.contains(selected)) return selected;
+
+    // No active session site yet (fresh login) - land on the
+    // confirmed default (Screen 02: "Set default") if one was set.
+    final defaultSite = cached?.defaultSiteId;
+    if (defaultSite != null && user.siteIds.contains(defaultSite)) return defaultSite;
+
     return user.siteIds.isNotEmpty ? user.siteIds.first : null;
   });
 }

@@ -13,6 +13,12 @@ class Sites extends Table {
   RealColumn get longitude => real().nullable()();
   TextColumn get operationalStatus => text()();
 
+  // Screen 02 (Role/Site Selector): "Portfolio; Region" grouping. Not
+  // modelled as their own tables here - a Frontline user only ever
+  // needs to group/filter by these labels, not manage them.
+  TextColumn get region => text().nullable()();
+  TextColumn get portfolioName => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

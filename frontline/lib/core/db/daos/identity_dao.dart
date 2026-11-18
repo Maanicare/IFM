@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 
 import '../app_database.dart';
@@ -40,6 +42,27 @@ class IdentityDao extends DatabaseAccessor<AppDatabase>
   Future<void> setCurrentSite(String userId, String siteId) {
     return (update(cachedUsers)..where((t) => t.id.equals(userId))).write(
       CachedUsersCompanion(currentSiteId: Value(siteId)),
+    );
+  }
+
+  /// Screen 02: "Set default" - independent of [setCurrentSite].
+  Future<void> setDefaultSite(String userId, String siteId) {
+    return (update(cachedUsers)..where((t) => t.id.equals(userId))).write(
+      CachedUsersCompanion(defaultSiteId: Value(siteId)),
+    );
+  }
+
+  /// Records a site as "recent" (Screen 02: "Recent site") - called
+  /// with whatever site is being switched *away from*, so the list
+  /// surfaces "where was I before this" rather than the current site
+  /// restating itself. Deduplicates and caps at 3.
+  Future<void> pushRecentSite(String userId, String siteId) async {
+    final user = await byId(userId);
+    if (user == null) return;
+    final existing = (jsonDecode(user.recentSiteIdsJson) as List).cast<String>();
+    final updated = [siteId, ...existing.where((id) => id != siteId)].take(3).toList();
+    await (update(cachedUsers)..where((t) => t.id.equals(userId))).write(
+      CachedUsersCompanion(recentSiteIdsJson: Value(jsonEncode(updated))),
     );
   }
 }
