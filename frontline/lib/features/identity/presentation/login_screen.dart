@@ -166,7 +166,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return;
     }
     final confirmed = await BiometricAuthService.authenticate(
-      reason: 'Log in to IFM',
+      reason: 'Log in to OneMaanicare',
     );
     if (!confirmed) return;
     ref.read(authControllerProvider.notifier).login(identifier, '');

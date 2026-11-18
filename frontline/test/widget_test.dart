@@ -26,7 +26,7 @@ void main() {
     // routing to the login screen, so settle rather than pumping once.
     await tester.pumpAndSettle();
 
-    expect(find.text('IFM'), findsWidgets);
+    expect(find.text('OneMaanicare'), findsWidgets);
 
     // Disposing the ProviderScope schedules a zero-duration Timer inside
     // drift's stream-query teardown (StreamQueryStore.markAsClosed). Done

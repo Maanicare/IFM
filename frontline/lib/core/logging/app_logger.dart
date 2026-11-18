@@ -161,7 +161,7 @@ class AppLogger {
     await SharePlus.instance.share(
       ShareParams(
         files: [for (final f in files) XFile(f.path)],
-        subject: subject ?? 'IFM — Diagnostics Export',
+        subject: subject ?? 'OneMaanicare — Diagnostics Export',
       ),
     );
   }

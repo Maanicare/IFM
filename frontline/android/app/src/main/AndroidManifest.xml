@@ -12,7 +12,7 @@
     <!-- Biometric login (Screen 01) -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <application
-        android:label="IFM"
+        android:label="OneMaanicare"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

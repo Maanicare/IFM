@@ -20,7 +20,7 @@ class OneMaanicareFrontlineApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
-      title: 'IFM',
+      title: 'OneMaanicare',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       routerConfig: router,
