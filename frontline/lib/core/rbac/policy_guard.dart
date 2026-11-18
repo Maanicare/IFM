@@ -44,6 +44,7 @@ class PolicyGuard {
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
       AppAction.submitChecklistResponse,
+      AppAction.reportIncident,
     },
     UserRole.vendorTechnician: {
       AppAction.viewWorkOrder,
@@ -56,6 +57,7 @@ class PolicyGuard {
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
       AppAction.submitChecklistResponse,
+      AppAction.reportIncident,
     },
     UserRole.housekeepingEmployee: {
       AppAction.viewWorkOrder,
@@ -65,6 +67,7 @@ class PolicyGuard {
       AppAction.captureAttachment,
       AppAction.submitChecklistResponse,
       AppAction.createServiceRequest,
+      AppAction.reportIncident,
     },
     UserRole.housekeepingSupervisor: {
       AppAction.viewWorkOrder,
@@ -77,6 +80,7 @@ class PolicyGuard {
       AppAction.submitChecklistResponse,
       AppAction.createServiceRequest,
       AppAction.cancelServiceRequest,
+      AppAction.reportIncident,
     },
     UserRole.vendorSupervisor: {
       AppAction.viewWorkOrder,
@@ -84,6 +88,7 @@ class PolicyGuard {
       AppAction.reassignWorkOrder,
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
+      AppAction.reportIncident,
     },
     UserRole.siteFacilityManager: {
       AppAction.viewWorkOrder,
@@ -96,6 +101,7 @@ class PolicyGuard {
       AppAction.approveQuoteOrSpend,
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
+      AppAction.reportIncident,
     },
     UserRole.technicalManager: {
       AppAction.viewWorkOrder,
@@ -106,12 +112,28 @@ class PolicyGuard {
       AppAction.approveQuoteOrSpend,
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
+      AppAction.reportIncident,
     },
     UserRole.safetyEhsManager: {
       AppAction.viewWorkOrder,
       AppAction.escalateWorkOrder,
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
+      AppAction.reportIncident,
+    },
+    // Section 6: "Security Supervisor | Security-related tasks and
+    // incident reporting" - previously left with no permissions at all.
+    UserRole.securitySupervisor: {
+      AppAction.viewWorkOrder,
+      AppAction.manageShiftHandover,
+      AppAction.captureAttachment,
+      AppAction.reportIncident,
+    },
+    // Section 6: "Driver | Vehicle-specific workflow".
+    UserRole.driver: {
+      AppAction.captureAttachment,
+      AppAction.reportIncident,
+      AppAction.manageFleetTrip,
     },
     UserRole.helpdeskExecutive: {
       AppAction.viewWorkOrder,

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/assets/presentation/asset_profile_screen.dart';
+import '../../features/fleet/presentation/my_vehicle_screen.dart';
 import '../../features/identity/presentation/auth_controller.dart';
 import '../../features/identity/presentation/login_screen.dart';
 import '../../features/location/presentation/site_selector_screen.dart';
@@ -14,6 +15,7 @@ import '../../features/notifications/presentation/notifications_screen.dart';
 import '../../features/requests/presentation/create_request_screen.dart';
 import '../../features/requests/presentation/request_detail_screen.dart';
 import '../../features/requests/presentation/requests_screen.dart';
+import '../../features/safety/presentation/report_safety_issue_screen.dart';
 import '../../features/scan/presentation/scan_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/work_orders/presentation/my_work_screen.dart';
@@ -79,6 +81,14 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/shift-roster',
         builder: (context, state) => const ShiftRosterScreen(),
+      ),
+      GoRoute(
+        path: '/report-safety-issue',
+        builder: (context, state) => const ReportSafetyIssueScreen(),
+      ),
+      GoRoute(
+        path: '/my-vehicle',
+        builder: (context, state) => const MyVehicleScreen(),
       ),
       GoRoute(
         path: '/shift-handover/new',

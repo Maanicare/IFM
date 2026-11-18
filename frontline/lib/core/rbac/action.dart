@@ -21,6 +21,8 @@ enum AppAction {
   approveQuoteOrSpend, // gated additionally by approvalLimit
   viewClientCommercialData,
   viewOtherClientsData,
+  reportIncident,
+  manageFleetTrip,
 }
 
 /// The flat Frontline bottom-nav tabs (Section 14). A role's app shell

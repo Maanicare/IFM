@@ -10,12 +10,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'daos/asset_dao.dart';
 import 'daos/attachment_dao.dart';
 import 'daos/checklist_dao.dart';
+import 'daos/fleet_dao.dart';
 import 'daos/identity_dao.dart';
 import 'daos/inventory_dao.dart';
 import 'daos/location_dao.dart';
 import 'daos/notification_dao.dart';
 import 'daos/outbox_dao.dart';
 import 'daos/request_dao.dart';
+import 'daos/safety_dao.dart';
 import 'daos/safety_gate_dao.dart';
 import 'daos/shift_handover_dao.dart';
 import 'daos/shift_roster_dao.dart';
@@ -23,6 +25,7 @@ import 'daos/work_order_dao.dart';
 import 'tables/asset_tables.dart';
 import 'tables/attachment_tables.dart';
 import 'tables/checklist_tables.dart';
+import 'tables/fleet_tables.dart';
 import 'tables/identity_tables.dart';
 import 'tables/inventory_tables.dart';
 import 'tables/location_tables.dart';
@@ -30,6 +33,7 @@ import 'tables/notification_table.dart';
 import 'tables/outbox_table.dart';
 import 'tables/request_tables.dart';
 import 'tables/safety_gate_tables.dart';
+import 'tables/safety_tables.dart';
 import 'tables/shift_handover_tables.dart';
 import 'tables/shift_roster_tables.dart';
 import 'tables/work_order_tables.dart';
@@ -72,6 +76,10 @@ part 'app_database.g.dart';
     ShiftHandovers,
     ShiftRosterEntries,
     SafetyGateResponses,
+    Incidents,
+    Hazards,
+    Vehicles,
+    Trips,
   ],
   daos: [
     LocationDao,
@@ -87,6 +95,8 @@ part 'app_database.g.dart';
     ShiftHandoverDao,
     ShiftRosterDao,
     SafetyGateDao,
+    SafetyDao,
+    FleetDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/assets/data/asset_repository_provider.dart';
 import '../../features/checklists/data/checklist_repository_provider.dart';
+import '../../features/fleet/data/fleet_repository_provider.dart';
 import '../../features/identity/presentation/auth_controller.dart';
 import '../../features/inventory/data/inventory_repository_provider.dart';
 import '../../features/location/data/location_repository_provider.dart';
@@ -41,6 +42,11 @@ class InitialSyncController extends _$InitialSyncController {
       await ref
           .read(locationRepositoryProvider)
           .syncHierarchyForOrganisation(organisationId);
+
+      // Keyed by driver, not site - a driver's assigned vehicle isn't a
+      // site-scoped resource the way assets/requests are. Harmless no-op
+      // for any user with no vehicle assigned.
+      await ref.read(fleetRepositoryProvider).syncAssignedVehicle(userId);
 
       if (siteId != null) {
         await Future.wait([

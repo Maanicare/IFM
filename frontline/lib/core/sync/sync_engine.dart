@@ -7,8 +7,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/assets/data/asset_repository_provider.dart';
 import '../../features/attachments/data/attachment_upload_repository_provider.dart';
 import '../../features/checklists/data/checklist_repository_provider.dart';
+import '../../features/fleet/data/fleet_repository_provider.dart';
 import '../../features/inventory/data/inventory_repository_provider.dart';
 import '../../features/requests/data/request_repository_provider.dart';
+import '../../features/safety/data/safety_repository_provider.dart';
 import '../../features/shift_handover/data/shift_handover_repository_provider.dart';
 import '../../features/safety_gate/presentation/safety_gate_controller.dart';
 import '../../features/work_orders/presentation/voice_note_controller.dart';
@@ -115,6 +117,15 @@ class SyncEngine {
           break;
         case 'service_request':
           await _pushServiceRequest(entry);
+          break;
+        case 'incident':
+          await _ref.read(safetyRepositoryProvider).pushIncident(entry.entityId);
+          break;
+        case 'hazard':
+          await _ref.read(safetyRepositoryProvider).pushHazard(entry.entityId);
+          break;
+        case 'fleet_trip':
+          await _pushFleetTrip(entry);
           break;
         default:
           AppLogger.instance.warning(
@@ -225,6 +236,10 @@ class SyncEngine {
     await _ref
         .read(requestRepositoryProvider)
         .pushNewRequest(payload['requestId'] as String);
+  }
+
+  Future<void> _pushFleetTrip(OutboxEntry entry) async {
+    await _ref.read(fleetRepositoryProvider).pushTrip(entry.entityId);
   }
 }
 

@@ -15043,6 +15043,2815 @@ class SafetyGateResponsesCompanion extends UpdateCompanion<SafetyGateResponse> {
   }
 }
 
+class $IncidentsTable extends Incidents
+    with TableInfo<$IncidentsTable, Incident> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $IncidentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _incidentNumberMeta = const VerificationMeta(
+    'incidentNumber',
+  );
+  @override
+  late final GeneratedColumn<String> incidentNumber = GeneratedColumn<String>(
+    'incident_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<String> siteId = GeneratedColumn<String>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _spaceIdMeta = const VerificationMeta(
+    'spaceId',
+  );
+  @override
+  late final GeneratedColumn<String> spaceId = GeneratedColumn<String>(
+    'space_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES spaces (id)',
+    ),
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _severityMeta = const VerificationMeta(
+    'severity',
+  );
+  @override
+  late final GeneratedColumn<String> severity = GeneratedColumn<String>(
+    'severity',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _occurredAtMeta = const VerificationMeta(
+    'occurredAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> occurredAt = GeneratedColumn<DateTime>(
+    'occurred_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reportedByMeta = const VerificationMeta(
+    'reportedBy',
+  );
+  @override
+  late final GeneratedColumn<String> reportedBy = GeneratedColumn<String>(
+    'reported_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _assetIdMeta = const VerificationMeta(
+    'assetId',
+  );
+  @override
+  late final GeneratedColumn<String> assetId = GeneratedColumn<String>(
+    'asset_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _injuryMeta = const VerificationMeta('injury');
+  @override
+  late final GeneratedColumn<bool> injury = GeneratedColumn<bool>(
+    'injury',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("injury" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _immediateActionMeta = const VerificationMeta(
+    'immediateAction',
+  );
+  @override
+  late final GeneratedColumn<String> immediateAction = GeneratedColumn<String>(
+    'immediate_action',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _investigationStatusMeta =
+      const VerificationMeta('investigationStatus');
+  @override
+  late final GeneratedColumn<String> investigationStatus =
+      GeneratedColumn<String>(
+        'investigation_status',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('open'),
+      );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    incidentNumber,
+    siteId,
+    spaceId,
+    type,
+    severity,
+    occurredAt,
+    reportedBy,
+    description,
+    assetId,
+    injury,
+    immediateAction,
+    investigationStatus,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'incidents';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Incident> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('incident_number')) {
+      context.handle(
+        _incidentNumberMeta,
+        incidentNumber.isAcceptableOrUnknown(
+          data['incident_number']!,
+          _incidentNumberMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_incidentNumberMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('space_id')) {
+      context.handle(
+        _spaceIdMeta,
+        spaceId.isAcceptableOrUnknown(data['space_id']!, _spaceIdMeta),
+      );
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('severity')) {
+      context.handle(
+        _severityMeta,
+        severity.isAcceptableOrUnknown(data['severity']!, _severityMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_severityMeta);
+    }
+    if (data.containsKey('occurred_at')) {
+      context.handle(
+        _occurredAtMeta,
+        occurredAt.isAcceptableOrUnknown(data['occurred_at']!, _occurredAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_occurredAtMeta);
+    }
+    if (data.containsKey('reported_by')) {
+      context.handle(
+        _reportedByMeta,
+        reportedBy.isAcceptableOrUnknown(data['reported_by']!, _reportedByMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_reportedByMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('asset_id')) {
+      context.handle(
+        _assetIdMeta,
+        assetId.isAcceptableOrUnknown(data['asset_id']!, _assetIdMeta),
+      );
+    }
+    if (data.containsKey('injury')) {
+      context.handle(
+        _injuryMeta,
+        injury.isAcceptableOrUnknown(data['injury']!, _injuryMeta),
+      );
+    }
+    if (data.containsKey('immediate_action')) {
+      context.handle(
+        _immediateActionMeta,
+        immediateAction.isAcceptableOrUnknown(
+          data['immediate_action']!,
+          _immediateActionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('investigation_status')) {
+      context.handle(
+        _investigationStatusMeta,
+        investigationStatus.isAcceptableOrUnknown(
+          data['investigation_status']!,
+          _investigationStatusMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Incident map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Incident(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      incidentNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}incident_number'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_id'],
+      )!,
+      spaceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}space_id'],
+      ),
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      severity: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}severity'],
+      )!,
+      occurredAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}occurred_at'],
+      )!,
+      reportedBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reported_by'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+      assetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}asset_id'],
+      ),
+      injury: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}injury'],
+      )!,
+      immediateAction: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}immediate_action'],
+      ),
+      investigationStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}investigation_status'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $IncidentsTable createAlias(String alias) {
+    return $IncidentsTable(attachedDatabase, alias);
+  }
+}
+
+class Incident extends DataClass implements Insertable<Incident> {
+  final String id;
+  final String incidentNumber;
+  final String siteId;
+  final String? spaceId;
+  final String type;
+  final String severity;
+  final DateTime occurredAt;
+  final String reportedBy;
+  final String description;
+  final String? assetId;
+  final bool injury;
+  final String? immediateAction;
+  final String investigationStatus;
+  final DateTime createdAt;
+  const Incident({
+    required this.id,
+    required this.incidentNumber,
+    required this.siteId,
+    this.spaceId,
+    required this.type,
+    required this.severity,
+    required this.occurredAt,
+    required this.reportedBy,
+    required this.description,
+    this.assetId,
+    required this.injury,
+    this.immediateAction,
+    required this.investigationStatus,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['incident_number'] = Variable<String>(incidentNumber);
+    map['site_id'] = Variable<String>(siteId);
+    if (!nullToAbsent || spaceId != null) {
+      map['space_id'] = Variable<String>(spaceId);
+    }
+    map['type'] = Variable<String>(type);
+    map['severity'] = Variable<String>(severity);
+    map['occurred_at'] = Variable<DateTime>(occurredAt);
+    map['reported_by'] = Variable<String>(reportedBy);
+    map['description'] = Variable<String>(description);
+    if (!nullToAbsent || assetId != null) {
+      map['asset_id'] = Variable<String>(assetId);
+    }
+    map['injury'] = Variable<bool>(injury);
+    if (!nullToAbsent || immediateAction != null) {
+      map['immediate_action'] = Variable<String>(immediateAction);
+    }
+    map['investigation_status'] = Variable<String>(investigationStatus);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  IncidentsCompanion toCompanion(bool nullToAbsent) {
+    return IncidentsCompanion(
+      id: Value(id),
+      incidentNumber: Value(incidentNumber),
+      siteId: Value(siteId),
+      spaceId: spaceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(spaceId),
+      type: Value(type),
+      severity: Value(severity),
+      occurredAt: Value(occurredAt),
+      reportedBy: Value(reportedBy),
+      description: Value(description),
+      assetId: assetId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(assetId),
+      injury: Value(injury),
+      immediateAction: immediateAction == null && nullToAbsent
+          ? const Value.absent()
+          : Value(immediateAction),
+      investigationStatus: Value(investigationStatus),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Incident.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Incident(
+      id: serializer.fromJson<String>(json['id']),
+      incidentNumber: serializer.fromJson<String>(json['incidentNumber']),
+      siteId: serializer.fromJson<String>(json['siteId']),
+      spaceId: serializer.fromJson<String?>(json['spaceId']),
+      type: serializer.fromJson<String>(json['type']),
+      severity: serializer.fromJson<String>(json['severity']),
+      occurredAt: serializer.fromJson<DateTime>(json['occurredAt']),
+      reportedBy: serializer.fromJson<String>(json['reportedBy']),
+      description: serializer.fromJson<String>(json['description']),
+      assetId: serializer.fromJson<String?>(json['assetId']),
+      injury: serializer.fromJson<bool>(json['injury']),
+      immediateAction: serializer.fromJson<String?>(json['immediateAction']),
+      investigationStatus: serializer.fromJson<String>(
+        json['investigationStatus'],
+      ),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'incidentNumber': serializer.toJson<String>(incidentNumber),
+      'siteId': serializer.toJson<String>(siteId),
+      'spaceId': serializer.toJson<String?>(spaceId),
+      'type': serializer.toJson<String>(type),
+      'severity': serializer.toJson<String>(severity),
+      'occurredAt': serializer.toJson<DateTime>(occurredAt),
+      'reportedBy': serializer.toJson<String>(reportedBy),
+      'description': serializer.toJson<String>(description),
+      'assetId': serializer.toJson<String?>(assetId),
+      'injury': serializer.toJson<bool>(injury),
+      'immediateAction': serializer.toJson<String?>(immediateAction),
+      'investigationStatus': serializer.toJson<String>(investigationStatus),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Incident copyWith({
+    String? id,
+    String? incidentNumber,
+    String? siteId,
+    Value<String?> spaceId = const Value.absent(),
+    String? type,
+    String? severity,
+    DateTime? occurredAt,
+    String? reportedBy,
+    String? description,
+    Value<String?> assetId = const Value.absent(),
+    bool? injury,
+    Value<String?> immediateAction = const Value.absent(),
+    String? investigationStatus,
+    DateTime? createdAt,
+  }) => Incident(
+    id: id ?? this.id,
+    incidentNumber: incidentNumber ?? this.incidentNumber,
+    siteId: siteId ?? this.siteId,
+    spaceId: spaceId.present ? spaceId.value : this.spaceId,
+    type: type ?? this.type,
+    severity: severity ?? this.severity,
+    occurredAt: occurredAt ?? this.occurredAt,
+    reportedBy: reportedBy ?? this.reportedBy,
+    description: description ?? this.description,
+    assetId: assetId.present ? assetId.value : this.assetId,
+    injury: injury ?? this.injury,
+    immediateAction: immediateAction.present
+        ? immediateAction.value
+        : this.immediateAction,
+    investigationStatus: investigationStatus ?? this.investigationStatus,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Incident copyWithCompanion(IncidentsCompanion data) {
+    return Incident(
+      id: data.id.present ? data.id.value : this.id,
+      incidentNumber: data.incidentNumber.present
+          ? data.incidentNumber.value
+          : this.incidentNumber,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      spaceId: data.spaceId.present ? data.spaceId.value : this.spaceId,
+      type: data.type.present ? data.type.value : this.type,
+      severity: data.severity.present ? data.severity.value : this.severity,
+      occurredAt: data.occurredAt.present
+          ? data.occurredAt.value
+          : this.occurredAt,
+      reportedBy: data.reportedBy.present
+          ? data.reportedBy.value
+          : this.reportedBy,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      assetId: data.assetId.present ? data.assetId.value : this.assetId,
+      injury: data.injury.present ? data.injury.value : this.injury,
+      immediateAction: data.immediateAction.present
+          ? data.immediateAction.value
+          : this.immediateAction,
+      investigationStatus: data.investigationStatus.present
+          ? data.investigationStatus.value
+          : this.investigationStatus,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Incident(')
+          ..write('id: $id, ')
+          ..write('incidentNumber: $incidentNumber, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('type: $type, ')
+          ..write('severity: $severity, ')
+          ..write('occurredAt: $occurredAt, ')
+          ..write('reportedBy: $reportedBy, ')
+          ..write('description: $description, ')
+          ..write('assetId: $assetId, ')
+          ..write('injury: $injury, ')
+          ..write('immediateAction: $immediateAction, ')
+          ..write('investigationStatus: $investigationStatus, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    incidentNumber,
+    siteId,
+    spaceId,
+    type,
+    severity,
+    occurredAt,
+    reportedBy,
+    description,
+    assetId,
+    injury,
+    immediateAction,
+    investigationStatus,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Incident &&
+          other.id == this.id &&
+          other.incidentNumber == this.incidentNumber &&
+          other.siteId == this.siteId &&
+          other.spaceId == this.spaceId &&
+          other.type == this.type &&
+          other.severity == this.severity &&
+          other.occurredAt == this.occurredAt &&
+          other.reportedBy == this.reportedBy &&
+          other.description == this.description &&
+          other.assetId == this.assetId &&
+          other.injury == this.injury &&
+          other.immediateAction == this.immediateAction &&
+          other.investigationStatus == this.investigationStatus &&
+          other.createdAt == this.createdAt);
+}
+
+class IncidentsCompanion extends UpdateCompanion<Incident> {
+  final Value<String> id;
+  final Value<String> incidentNumber;
+  final Value<String> siteId;
+  final Value<String?> spaceId;
+  final Value<String> type;
+  final Value<String> severity;
+  final Value<DateTime> occurredAt;
+  final Value<String> reportedBy;
+  final Value<String> description;
+  final Value<String?> assetId;
+  final Value<bool> injury;
+  final Value<String?> immediateAction;
+  final Value<String> investigationStatus;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const IncidentsCompanion({
+    this.id = const Value.absent(),
+    this.incidentNumber = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.spaceId = const Value.absent(),
+    this.type = const Value.absent(),
+    this.severity = const Value.absent(),
+    this.occurredAt = const Value.absent(),
+    this.reportedBy = const Value.absent(),
+    this.description = const Value.absent(),
+    this.assetId = const Value.absent(),
+    this.injury = const Value.absent(),
+    this.immediateAction = const Value.absent(),
+    this.investigationStatus = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  IncidentsCompanion.insert({
+    required String id,
+    required String incidentNumber,
+    required String siteId,
+    this.spaceId = const Value.absent(),
+    required String type,
+    required String severity,
+    required DateTime occurredAt,
+    required String reportedBy,
+    required String description,
+    this.assetId = const Value.absent(),
+    this.injury = const Value.absent(),
+    this.immediateAction = const Value.absent(),
+    this.investigationStatus = const Value.absent(),
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       incidentNumber = Value(incidentNumber),
+       siteId = Value(siteId),
+       type = Value(type),
+       severity = Value(severity),
+       occurredAt = Value(occurredAt),
+       reportedBy = Value(reportedBy),
+       description = Value(description),
+       createdAt = Value(createdAt);
+  static Insertable<Incident> custom({
+    Expression<String>? id,
+    Expression<String>? incidentNumber,
+    Expression<String>? siteId,
+    Expression<String>? spaceId,
+    Expression<String>? type,
+    Expression<String>? severity,
+    Expression<DateTime>? occurredAt,
+    Expression<String>? reportedBy,
+    Expression<String>? description,
+    Expression<String>? assetId,
+    Expression<bool>? injury,
+    Expression<String>? immediateAction,
+    Expression<String>? investigationStatus,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (incidentNumber != null) 'incident_number': incidentNumber,
+      if (siteId != null) 'site_id': siteId,
+      if (spaceId != null) 'space_id': spaceId,
+      if (type != null) 'type': type,
+      if (severity != null) 'severity': severity,
+      if (occurredAt != null) 'occurred_at': occurredAt,
+      if (reportedBy != null) 'reported_by': reportedBy,
+      if (description != null) 'description': description,
+      if (assetId != null) 'asset_id': assetId,
+      if (injury != null) 'injury': injury,
+      if (immediateAction != null) 'immediate_action': immediateAction,
+      if (investigationStatus != null)
+        'investigation_status': investigationStatus,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  IncidentsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? incidentNumber,
+    Value<String>? siteId,
+    Value<String?>? spaceId,
+    Value<String>? type,
+    Value<String>? severity,
+    Value<DateTime>? occurredAt,
+    Value<String>? reportedBy,
+    Value<String>? description,
+    Value<String?>? assetId,
+    Value<bool>? injury,
+    Value<String?>? immediateAction,
+    Value<String>? investigationStatus,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return IncidentsCompanion(
+      id: id ?? this.id,
+      incidentNumber: incidentNumber ?? this.incidentNumber,
+      siteId: siteId ?? this.siteId,
+      spaceId: spaceId ?? this.spaceId,
+      type: type ?? this.type,
+      severity: severity ?? this.severity,
+      occurredAt: occurredAt ?? this.occurredAt,
+      reportedBy: reportedBy ?? this.reportedBy,
+      description: description ?? this.description,
+      assetId: assetId ?? this.assetId,
+      injury: injury ?? this.injury,
+      immediateAction: immediateAction ?? this.immediateAction,
+      investigationStatus: investigationStatus ?? this.investigationStatus,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (incidentNumber.present) {
+      map['incident_number'] = Variable<String>(incidentNumber.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<String>(siteId.value);
+    }
+    if (spaceId.present) {
+      map['space_id'] = Variable<String>(spaceId.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (severity.present) {
+      map['severity'] = Variable<String>(severity.value);
+    }
+    if (occurredAt.present) {
+      map['occurred_at'] = Variable<DateTime>(occurredAt.value);
+    }
+    if (reportedBy.present) {
+      map['reported_by'] = Variable<String>(reportedBy.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (assetId.present) {
+      map['asset_id'] = Variable<String>(assetId.value);
+    }
+    if (injury.present) {
+      map['injury'] = Variable<bool>(injury.value);
+    }
+    if (immediateAction.present) {
+      map['immediate_action'] = Variable<String>(immediateAction.value);
+    }
+    if (investigationStatus.present) {
+      map['investigation_status'] = Variable<String>(investigationStatus.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IncidentsCompanion(')
+          ..write('id: $id, ')
+          ..write('incidentNumber: $incidentNumber, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('type: $type, ')
+          ..write('severity: $severity, ')
+          ..write('occurredAt: $occurredAt, ')
+          ..write('reportedBy: $reportedBy, ')
+          ..write('description: $description, ')
+          ..write('assetId: $assetId, ')
+          ..write('injury: $injury, ')
+          ..write('immediateAction: $immediateAction, ')
+          ..write('investigationStatus: $investigationStatus, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $HazardsTable extends Hazards with TableInfo<$HazardsTable, Hazard> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $HazardsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<String> siteId = GeneratedColumn<String>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _spaceIdMeta = const VerificationMeta(
+    'spaceId',
+  );
+  @override
+  late final GeneratedColumn<String> spaceId = GeneratedColumn<String>(
+    'space_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES spaces (id)',
+    ),
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _riskProbabilityMeta = const VerificationMeta(
+    'riskProbability',
+  );
+  @override
+  late final GeneratedColumn<int> riskProbability = GeneratedColumn<int>(
+    'risk_probability',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _riskConsequenceMeta = const VerificationMeta(
+    'riskConsequence',
+  );
+  @override
+  late final GeneratedColumn<int> riskConsequence = GeneratedColumn<int>(
+    'risk_consequence',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _riskScoreMeta = const VerificationMeta(
+    'riskScore',
+  );
+  @override
+  late final GeneratedColumn<int> riskScore = GeneratedColumn<int>(
+    'risk_score',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reportedByMeta = const VerificationMeta(
+    'reportedBy',
+  );
+  @override
+  late final GeneratedColumn<String> reportedBy = GeneratedColumn<String>(
+    'reported_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('open'),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    siteId,
+    spaceId,
+    category,
+    description,
+    riskProbability,
+    riskConsequence,
+    riskScore,
+    reportedBy,
+    status,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'hazards';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Hazard> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('space_id')) {
+      context.handle(
+        _spaceIdMeta,
+        spaceId.isAcceptableOrUnknown(data['space_id']!, _spaceIdMeta),
+      );
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('risk_probability')) {
+      context.handle(
+        _riskProbabilityMeta,
+        riskProbability.isAcceptableOrUnknown(
+          data['risk_probability']!,
+          _riskProbabilityMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_riskProbabilityMeta);
+    }
+    if (data.containsKey('risk_consequence')) {
+      context.handle(
+        _riskConsequenceMeta,
+        riskConsequence.isAcceptableOrUnknown(
+          data['risk_consequence']!,
+          _riskConsequenceMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_riskConsequenceMeta);
+    }
+    if (data.containsKey('risk_score')) {
+      context.handle(
+        _riskScoreMeta,
+        riskScore.isAcceptableOrUnknown(data['risk_score']!, _riskScoreMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_riskScoreMeta);
+    }
+    if (data.containsKey('reported_by')) {
+      context.handle(
+        _reportedByMeta,
+        reportedBy.isAcceptableOrUnknown(data['reported_by']!, _reportedByMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_reportedByMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Hazard map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Hazard(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_id'],
+      )!,
+      spaceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}space_id'],
+      ),
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+      riskProbability: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}risk_probability'],
+      )!,
+      riskConsequence: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}risk_consequence'],
+      )!,
+      riskScore: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}risk_score'],
+      )!,
+      reportedBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reported_by'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $HazardsTable createAlias(String alias) {
+    return $HazardsTable(attachedDatabase, alias);
+  }
+}
+
+class Hazard extends DataClass implements Insertable<Hazard> {
+  final String id;
+  final String siteId;
+  final String? spaceId;
+  final String category;
+  final String description;
+  final int riskProbability;
+  final int riskConsequence;
+  final int riskScore;
+  final String reportedBy;
+  final String status;
+  final DateTime createdAt;
+  const Hazard({
+    required this.id,
+    required this.siteId,
+    this.spaceId,
+    required this.category,
+    required this.description,
+    required this.riskProbability,
+    required this.riskConsequence,
+    required this.riskScore,
+    required this.reportedBy,
+    required this.status,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['site_id'] = Variable<String>(siteId);
+    if (!nullToAbsent || spaceId != null) {
+      map['space_id'] = Variable<String>(spaceId);
+    }
+    map['category'] = Variable<String>(category);
+    map['description'] = Variable<String>(description);
+    map['risk_probability'] = Variable<int>(riskProbability);
+    map['risk_consequence'] = Variable<int>(riskConsequence);
+    map['risk_score'] = Variable<int>(riskScore);
+    map['reported_by'] = Variable<String>(reportedBy);
+    map['status'] = Variable<String>(status);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  HazardsCompanion toCompanion(bool nullToAbsent) {
+    return HazardsCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      spaceId: spaceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(spaceId),
+      category: Value(category),
+      description: Value(description),
+      riskProbability: Value(riskProbability),
+      riskConsequence: Value(riskConsequence),
+      riskScore: Value(riskScore),
+      reportedBy: Value(reportedBy),
+      status: Value(status),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Hazard.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Hazard(
+      id: serializer.fromJson<String>(json['id']),
+      siteId: serializer.fromJson<String>(json['siteId']),
+      spaceId: serializer.fromJson<String?>(json['spaceId']),
+      category: serializer.fromJson<String>(json['category']),
+      description: serializer.fromJson<String>(json['description']),
+      riskProbability: serializer.fromJson<int>(json['riskProbability']),
+      riskConsequence: serializer.fromJson<int>(json['riskConsequence']),
+      riskScore: serializer.fromJson<int>(json['riskScore']),
+      reportedBy: serializer.fromJson<String>(json['reportedBy']),
+      status: serializer.fromJson<String>(json['status']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'siteId': serializer.toJson<String>(siteId),
+      'spaceId': serializer.toJson<String?>(spaceId),
+      'category': serializer.toJson<String>(category),
+      'description': serializer.toJson<String>(description),
+      'riskProbability': serializer.toJson<int>(riskProbability),
+      'riskConsequence': serializer.toJson<int>(riskConsequence),
+      'riskScore': serializer.toJson<int>(riskScore),
+      'reportedBy': serializer.toJson<String>(reportedBy),
+      'status': serializer.toJson<String>(status),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Hazard copyWith({
+    String? id,
+    String? siteId,
+    Value<String?> spaceId = const Value.absent(),
+    String? category,
+    String? description,
+    int? riskProbability,
+    int? riskConsequence,
+    int? riskScore,
+    String? reportedBy,
+    String? status,
+    DateTime? createdAt,
+  }) => Hazard(
+    id: id ?? this.id,
+    siteId: siteId ?? this.siteId,
+    spaceId: spaceId.present ? spaceId.value : this.spaceId,
+    category: category ?? this.category,
+    description: description ?? this.description,
+    riskProbability: riskProbability ?? this.riskProbability,
+    riskConsequence: riskConsequence ?? this.riskConsequence,
+    riskScore: riskScore ?? this.riskScore,
+    reportedBy: reportedBy ?? this.reportedBy,
+    status: status ?? this.status,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Hazard copyWithCompanion(HazardsCompanion data) {
+    return Hazard(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      spaceId: data.spaceId.present ? data.spaceId.value : this.spaceId,
+      category: data.category.present ? data.category.value : this.category,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      riskProbability: data.riskProbability.present
+          ? data.riskProbability.value
+          : this.riskProbability,
+      riskConsequence: data.riskConsequence.present
+          ? data.riskConsequence.value
+          : this.riskConsequence,
+      riskScore: data.riskScore.present ? data.riskScore.value : this.riskScore,
+      reportedBy: data.reportedBy.present
+          ? data.reportedBy.value
+          : this.reportedBy,
+      status: data.status.present ? data.status.value : this.status,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Hazard(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('category: $category, ')
+          ..write('description: $description, ')
+          ..write('riskProbability: $riskProbability, ')
+          ..write('riskConsequence: $riskConsequence, ')
+          ..write('riskScore: $riskScore, ')
+          ..write('reportedBy: $reportedBy, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    siteId,
+    spaceId,
+    category,
+    description,
+    riskProbability,
+    riskConsequence,
+    riskScore,
+    reportedBy,
+    status,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Hazard &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.spaceId == this.spaceId &&
+          other.category == this.category &&
+          other.description == this.description &&
+          other.riskProbability == this.riskProbability &&
+          other.riskConsequence == this.riskConsequence &&
+          other.riskScore == this.riskScore &&
+          other.reportedBy == this.reportedBy &&
+          other.status == this.status &&
+          other.createdAt == this.createdAt);
+}
+
+class HazardsCompanion extends UpdateCompanion<Hazard> {
+  final Value<String> id;
+  final Value<String> siteId;
+  final Value<String?> spaceId;
+  final Value<String> category;
+  final Value<String> description;
+  final Value<int> riskProbability;
+  final Value<int> riskConsequence;
+  final Value<int> riskScore;
+  final Value<String> reportedBy;
+  final Value<String> status;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const HazardsCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.spaceId = const Value.absent(),
+    this.category = const Value.absent(),
+    this.description = const Value.absent(),
+    this.riskProbability = const Value.absent(),
+    this.riskConsequence = const Value.absent(),
+    this.riskScore = const Value.absent(),
+    this.reportedBy = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  HazardsCompanion.insert({
+    required String id,
+    required String siteId,
+    this.spaceId = const Value.absent(),
+    required String category,
+    required String description,
+    required int riskProbability,
+    required int riskConsequence,
+    required int riskScore,
+    required String reportedBy,
+    this.status = const Value.absent(),
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       siteId = Value(siteId),
+       category = Value(category),
+       description = Value(description),
+       riskProbability = Value(riskProbability),
+       riskConsequence = Value(riskConsequence),
+       riskScore = Value(riskScore),
+       reportedBy = Value(reportedBy),
+       createdAt = Value(createdAt);
+  static Insertable<Hazard> custom({
+    Expression<String>? id,
+    Expression<String>? siteId,
+    Expression<String>? spaceId,
+    Expression<String>? category,
+    Expression<String>? description,
+    Expression<int>? riskProbability,
+    Expression<int>? riskConsequence,
+    Expression<int>? riskScore,
+    Expression<String>? reportedBy,
+    Expression<String>? status,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (spaceId != null) 'space_id': spaceId,
+      if (category != null) 'category': category,
+      if (description != null) 'description': description,
+      if (riskProbability != null) 'risk_probability': riskProbability,
+      if (riskConsequence != null) 'risk_consequence': riskConsequence,
+      if (riskScore != null) 'risk_score': riskScore,
+      if (reportedBy != null) 'reported_by': reportedBy,
+      if (status != null) 'status': status,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  HazardsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? siteId,
+    Value<String?>? spaceId,
+    Value<String>? category,
+    Value<String>? description,
+    Value<int>? riskProbability,
+    Value<int>? riskConsequence,
+    Value<int>? riskScore,
+    Value<String>? reportedBy,
+    Value<String>? status,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return HazardsCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      spaceId: spaceId ?? this.spaceId,
+      category: category ?? this.category,
+      description: description ?? this.description,
+      riskProbability: riskProbability ?? this.riskProbability,
+      riskConsequence: riskConsequence ?? this.riskConsequence,
+      riskScore: riskScore ?? this.riskScore,
+      reportedBy: reportedBy ?? this.reportedBy,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<String>(siteId.value);
+    }
+    if (spaceId.present) {
+      map['space_id'] = Variable<String>(spaceId.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (riskProbability.present) {
+      map['risk_probability'] = Variable<int>(riskProbability.value);
+    }
+    if (riskConsequence.present) {
+      map['risk_consequence'] = Variable<int>(riskConsequence.value);
+    }
+    if (riskScore.present) {
+      map['risk_score'] = Variable<int>(riskScore.value);
+    }
+    if (reportedBy.present) {
+      map['reported_by'] = Variable<String>(reportedBy.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HazardsCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('category: $category, ')
+          ..write('description: $description, ')
+          ..write('riskProbability: $riskProbability, ')
+          ..write('riskConsequence: $riskConsequence, ')
+          ..write('riskScore: $riskScore, ')
+          ..write('reportedBy: $reportedBy, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $VehiclesTable extends Vehicles with TableInfo<$VehiclesTable, Vehicle> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $VehiclesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _registrationMeta = const VerificationMeta(
+    'registration',
+  );
+  @override
+  late final GeneratedColumn<String> registration = GeneratedColumn<String>(
+    'registration',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _makeMeta = const VerificationMeta('make');
+  @override
+  late final GeneratedColumn<String> make = GeneratedColumn<String>(
+    'make',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _modelMeta = const VerificationMeta('model');
+  @override
+  late final GeneratedColumn<String> model = GeneratedColumn<String>(
+    'model',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _odometerMeta = const VerificationMeta(
+    'odometer',
+  );
+  @override
+  late final GeneratedColumn<double> odometer = GeneratedColumn<double>(
+    'odometer',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _fuelTypeMeta = const VerificationMeta(
+    'fuelType',
+  );
+  @override
+  late final GeneratedColumn<String> fuelType = GeneratedColumn<String>(
+    'fuel_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _assignedDriverIdMeta = const VerificationMeta(
+    'assignedDriverId',
+  );
+  @override
+  late final GeneratedColumn<String> assignedDriverId = GeneratedColumn<String>(
+    'assigned_driver_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _insuranceExpiryMeta = const VerificationMeta(
+    'insuranceExpiry',
+  );
+  @override
+  late final GeneratedColumn<DateTime> insuranceExpiry =
+      GeneratedColumn<DateTime>(
+        'insurance_expiry',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _pucExpiryMeta = const VerificationMeta(
+    'pucExpiry',
+  );
+  @override
+  late final GeneratedColumn<DateTime> pucExpiry = GeneratedColumn<DateTime>(
+    'puc_expiry',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _serviceDueDateMeta = const VerificationMeta(
+    'serviceDueDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> serviceDueDate =
+      GeneratedColumn<DateTime>(
+        'service_due_date',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    registration,
+    type,
+    make,
+    model,
+    odometer,
+    fuelType,
+    assignedDriverId,
+    status,
+    insuranceExpiry,
+    pucExpiry,
+    serviceDueDate,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'vehicles';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Vehicle> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('registration')) {
+      context.handle(
+        _registrationMeta,
+        registration.isAcceptableOrUnknown(
+          data['registration']!,
+          _registrationMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_registrationMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('make')) {
+      context.handle(
+        _makeMeta,
+        make.isAcceptableOrUnknown(data['make']!, _makeMeta),
+      );
+    }
+    if (data.containsKey('model')) {
+      context.handle(
+        _modelMeta,
+        model.isAcceptableOrUnknown(data['model']!, _modelMeta),
+      );
+    }
+    if (data.containsKey('odometer')) {
+      context.handle(
+        _odometerMeta,
+        odometer.isAcceptableOrUnknown(data['odometer']!, _odometerMeta),
+      );
+    }
+    if (data.containsKey('fuel_type')) {
+      context.handle(
+        _fuelTypeMeta,
+        fuelType.isAcceptableOrUnknown(data['fuel_type']!, _fuelTypeMeta),
+      );
+    }
+    if (data.containsKey('assigned_driver_id')) {
+      context.handle(
+        _assignedDriverIdMeta,
+        assignedDriverId.isAcceptableOrUnknown(
+          data['assigned_driver_id']!,
+          _assignedDriverIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('insurance_expiry')) {
+      context.handle(
+        _insuranceExpiryMeta,
+        insuranceExpiry.isAcceptableOrUnknown(
+          data['insurance_expiry']!,
+          _insuranceExpiryMeta,
+        ),
+      );
+    }
+    if (data.containsKey('puc_expiry')) {
+      context.handle(
+        _pucExpiryMeta,
+        pucExpiry.isAcceptableOrUnknown(data['puc_expiry']!, _pucExpiryMeta),
+      );
+    }
+    if (data.containsKey('service_due_date')) {
+      context.handle(
+        _serviceDueDateMeta,
+        serviceDueDate.isAcceptableOrUnknown(
+          data['service_due_date']!,
+          _serviceDueDateMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Vehicle map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Vehicle(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      registration: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}registration'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      make: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}make'],
+      ),
+      model: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model'],
+      ),
+      odometer: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}odometer'],
+      ),
+      fuelType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}fuel_type'],
+      ),
+      assignedDriverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}assigned_driver_id'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      insuranceExpiry: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}insurance_expiry'],
+      ),
+      pucExpiry: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}puc_expiry'],
+      ),
+      serviceDueDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}service_due_date'],
+      ),
+    );
+  }
+
+  @override
+  $VehiclesTable createAlias(String alias) {
+    return $VehiclesTable(attachedDatabase, alias);
+  }
+}
+
+class Vehicle extends DataClass implements Insertable<Vehicle> {
+  final String id;
+  final String registration;
+  final String type;
+  final String? make;
+  final String? model;
+  final double? odometer;
+  final String? fuelType;
+  final String? assignedDriverId;
+  final String status;
+  final DateTime? insuranceExpiry;
+  final DateTime? pucExpiry;
+  final DateTime? serviceDueDate;
+  const Vehicle({
+    required this.id,
+    required this.registration,
+    required this.type,
+    this.make,
+    this.model,
+    this.odometer,
+    this.fuelType,
+    this.assignedDriverId,
+    required this.status,
+    this.insuranceExpiry,
+    this.pucExpiry,
+    this.serviceDueDate,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['registration'] = Variable<String>(registration);
+    map['type'] = Variable<String>(type);
+    if (!nullToAbsent || make != null) {
+      map['make'] = Variable<String>(make);
+    }
+    if (!nullToAbsent || model != null) {
+      map['model'] = Variable<String>(model);
+    }
+    if (!nullToAbsent || odometer != null) {
+      map['odometer'] = Variable<double>(odometer);
+    }
+    if (!nullToAbsent || fuelType != null) {
+      map['fuel_type'] = Variable<String>(fuelType);
+    }
+    if (!nullToAbsent || assignedDriverId != null) {
+      map['assigned_driver_id'] = Variable<String>(assignedDriverId);
+    }
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || insuranceExpiry != null) {
+      map['insurance_expiry'] = Variable<DateTime>(insuranceExpiry);
+    }
+    if (!nullToAbsent || pucExpiry != null) {
+      map['puc_expiry'] = Variable<DateTime>(pucExpiry);
+    }
+    if (!nullToAbsent || serviceDueDate != null) {
+      map['service_due_date'] = Variable<DateTime>(serviceDueDate);
+    }
+    return map;
+  }
+
+  VehiclesCompanion toCompanion(bool nullToAbsent) {
+    return VehiclesCompanion(
+      id: Value(id),
+      registration: Value(registration),
+      type: Value(type),
+      make: make == null && nullToAbsent ? const Value.absent() : Value(make),
+      model: model == null && nullToAbsent
+          ? const Value.absent()
+          : Value(model),
+      odometer: odometer == null && nullToAbsent
+          ? const Value.absent()
+          : Value(odometer),
+      fuelType: fuelType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fuelType),
+      assignedDriverId: assignedDriverId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(assignedDriverId),
+      status: Value(status),
+      insuranceExpiry: insuranceExpiry == null && nullToAbsent
+          ? const Value.absent()
+          : Value(insuranceExpiry),
+      pucExpiry: pucExpiry == null && nullToAbsent
+          ? const Value.absent()
+          : Value(pucExpiry),
+      serviceDueDate: serviceDueDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(serviceDueDate),
+    );
+  }
+
+  factory Vehicle.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Vehicle(
+      id: serializer.fromJson<String>(json['id']),
+      registration: serializer.fromJson<String>(json['registration']),
+      type: serializer.fromJson<String>(json['type']),
+      make: serializer.fromJson<String?>(json['make']),
+      model: serializer.fromJson<String?>(json['model']),
+      odometer: serializer.fromJson<double?>(json['odometer']),
+      fuelType: serializer.fromJson<String?>(json['fuelType']),
+      assignedDriverId: serializer.fromJson<String?>(json['assignedDriverId']),
+      status: serializer.fromJson<String>(json['status']),
+      insuranceExpiry: serializer.fromJson<DateTime?>(json['insuranceExpiry']),
+      pucExpiry: serializer.fromJson<DateTime?>(json['pucExpiry']),
+      serviceDueDate: serializer.fromJson<DateTime?>(json['serviceDueDate']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'registration': serializer.toJson<String>(registration),
+      'type': serializer.toJson<String>(type),
+      'make': serializer.toJson<String?>(make),
+      'model': serializer.toJson<String?>(model),
+      'odometer': serializer.toJson<double?>(odometer),
+      'fuelType': serializer.toJson<String?>(fuelType),
+      'assignedDriverId': serializer.toJson<String?>(assignedDriverId),
+      'status': serializer.toJson<String>(status),
+      'insuranceExpiry': serializer.toJson<DateTime?>(insuranceExpiry),
+      'pucExpiry': serializer.toJson<DateTime?>(pucExpiry),
+      'serviceDueDate': serializer.toJson<DateTime?>(serviceDueDate),
+    };
+  }
+
+  Vehicle copyWith({
+    String? id,
+    String? registration,
+    String? type,
+    Value<String?> make = const Value.absent(),
+    Value<String?> model = const Value.absent(),
+    Value<double?> odometer = const Value.absent(),
+    Value<String?> fuelType = const Value.absent(),
+    Value<String?> assignedDriverId = const Value.absent(),
+    String? status,
+    Value<DateTime?> insuranceExpiry = const Value.absent(),
+    Value<DateTime?> pucExpiry = const Value.absent(),
+    Value<DateTime?> serviceDueDate = const Value.absent(),
+  }) => Vehicle(
+    id: id ?? this.id,
+    registration: registration ?? this.registration,
+    type: type ?? this.type,
+    make: make.present ? make.value : this.make,
+    model: model.present ? model.value : this.model,
+    odometer: odometer.present ? odometer.value : this.odometer,
+    fuelType: fuelType.present ? fuelType.value : this.fuelType,
+    assignedDriverId: assignedDriverId.present
+        ? assignedDriverId.value
+        : this.assignedDriverId,
+    status: status ?? this.status,
+    insuranceExpiry: insuranceExpiry.present
+        ? insuranceExpiry.value
+        : this.insuranceExpiry,
+    pucExpiry: pucExpiry.present ? pucExpiry.value : this.pucExpiry,
+    serviceDueDate: serviceDueDate.present
+        ? serviceDueDate.value
+        : this.serviceDueDate,
+  );
+  Vehicle copyWithCompanion(VehiclesCompanion data) {
+    return Vehicle(
+      id: data.id.present ? data.id.value : this.id,
+      registration: data.registration.present
+          ? data.registration.value
+          : this.registration,
+      type: data.type.present ? data.type.value : this.type,
+      make: data.make.present ? data.make.value : this.make,
+      model: data.model.present ? data.model.value : this.model,
+      odometer: data.odometer.present ? data.odometer.value : this.odometer,
+      fuelType: data.fuelType.present ? data.fuelType.value : this.fuelType,
+      assignedDriverId: data.assignedDriverId.present
+          ? data.assignedDriverId.value
+          : this.assignedDriverId,
+      status: data.status.present ? data.status.value : this.status,
+      insuranceExpiry: data.insuranceExpiry.present
+          ? data.insuranceExpiry.value
+          : this.insuranceExpiry,
+      pucExpiry: data.pucExpiry.present ? data.pucExpiry.value : this.pucExpiry,
+      serviceDueDate: data.serviceDueDate.present
+          ? data.serviceDueDate.value
+          : this.serviceDueDate,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Vehicle(')
+          ..write('id: $id, ')
+          ..write('registration: $registration, ')
+          ..write('type: $type, ')
+          ..write('make: $make, ')
+          ..write('model: $model, ')
+          ..write('odometer: $odometer, ')
+          ..write('fuelType: $fuelType, ')
+          ..write('assignedDriverId: $assignedDriverId, ')
+          ..write('status: $status, ')
+          ..write('insuranceExpiry: $insuranceExpiry, ')
+          ..write('pucExpiry: $pucExpiry, ')
+          ..write('serviceDueDate: $serviceDueDate')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    registration,
+    type,
+    make,
+    model,
+    odometer,
+    fuelType,
+    assignedDriverId,
+    status,
+    insuranceExpiry,
+    pucExpiry,
+    serviceDueDate,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Vehicle &&
+          other.id == this.id &&
+          other.registration == this.registration &&
+          other.type == this.type &&
+          other.make == this.make &&
+          other.model == this.model &&
+          other.odometer == this.odometer &&
+          other.fuelType == this.fuelType &&
+          other.assignedDriverId == this.assignedDriverId &&
+          other.status == this.status &&
+          other.insuranceExpiry == this.insuranceExpiry &&
+          other.pucExpiry == this.pucExpiry &&
+          other.serviceDueDate == this.serviceDueDate);
+}
+
+class VehiclesCompanion extends UpdateCompanion<Vehicle> {
+  final Value<String> id;
+  final Value<String> registration;
+  final Value<String> type;
+  final Value<String?> make;
+  final Value<String?> model;
+  final Value<double?> odometer;
+  final Value<String?> fuelType;
+  final Value<String?> assignedDriverId;
+  final Value<String> status;
+  final Value<DateTime?> insuranceExpiry;
+  final Value<DateTime?> pucExpiry;
+  final Value<DateTime?> serviceDueDate;
+  final Value<int> rowid;
+  const VehiclesCompanion({
+    this.id = const Value.absent(),
+    this.registration = const Value.absent(),
+    this.type = const Value.absent(),
+    this.make = const Value.absent(),
+    this.model = const Value.absent(),
+    this.odometer = const Value.absent(),
+    this.fuelType = const Value.absent(),
+    this.assignedDriverId = const Value.absent(),
+    this.status = const Value.absent(),
+    this.insuranceExpiry = const Value.absent(),
+    this.pucExpiry = const Value.absent(),
+    this.serviceDueDate = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  VehiclesCompanion.insert({
+    required String id,
+    required String registration,
+    required String type,
+    this.make = const Value.absent(),
+    this.model = const Value.absent(),
+    this.odometer = const Value.absent(),
+    this.fuelType = const Value.absent(),
+    this.assignedDriverId = const Value.absent(),
+    required String status,
+    this.insuranceExpiry = const Value.absent(),
+    this.pucExpiry = const Value.absent(),
+    this.serviceDueDate = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       registration = Value(registration),
+       type = Value(type),
+       status = Value(status);
+  static Insertable<Vehicle> custom({
+    Expression<String>? id,
+    Expression<String>? registration,
+    Expression<String>? type,
+    Expression<String>? make,
+    Expression<String>? model,
+    Expression<double>? odometer,
+    Expression<String>? fuelType,
+    Expression<String>? assignedDriverId,
+    Expression<String>? status,
+    Expression<DateTime>? insuranceExpiry,
+    Expression<DateTime>? pucExpiry,
+    Expression<DateTime>? serviceDueDate,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (registration != null) 'registration': registration,
+      if (type != null) 'type': type,
+      if (make != null) 'make': make,
+      if (model != null) 'model': model,
+      if (odometer != null) 'odometer': odometer,
+      if (fuelType != null) 'fuel_type': fuelType,
+      if (assignedDriverId != null) 'assigned_driver_id': assignedDriverId,
+      if (status != null) 'status': status,
+      if (insuranceExpiry != null) 'insurance_expiry': insuranceExpiry,
+      if (pucExpiry != null) 'puc_expiry': pucExpiry,
+      if (serviceDueDate != null) 'service_due_date': serviceDueDate,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  VehiclesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? registration,
+    Value<String>? type,
+    Value<String?>? make,
+    Value<String?>? model,
+    Value<double?>? odometer,
+    Value<String?>? fuelType,
+    Value<String?>? assignedDriverId,
+    Value<String>? status,
+    Value<DateTime?>? insuranceExpiry,
+    Value<DateTime?>? pucExpiry,
+    Value<DateTime?>? serviceDueDate,
+    Value<int>? rowid,
+  }) {
+    return VehiclesCompanion(
+      id: id ?? this.id,
+      registration: registration ?? this.registration,
+      type: type ?? this.type,
+      make: make ?? this.make,
+      model: model ?? this.model,
+      odometer: odometer ?? this.odometer,
+      fuelType: fuelType ?? this.fuelType,
+      assignedDriverId: assignedDriverId ?? this.assignedDriverId,
+      status: status ?? this.status,
+      insuranceExpiry: insuranceExpiry ?? this.insuranceExpiry,
+      pucExpiry: pucExpiry ?? this.pucExpiry,
+      serviceDueDate: serviceDueDate ?? this.serviceDueDate,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (registration.present) {
+      map['registration'] = Variable<String>(registration.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (make.present) {
+      map['make'] = Variable<String>(make.value);
+    }
+    if (model.present) {
+      map['model'] = Variable<String>(model.value);
+    }
+    if (odometer.present) {
+      map['odometer'] = Variable<double>(odometer.value);
+    }
+    if (fuelType.present) {
+      map['fuel_type'] = Variable<String>(fuelType.value);
+    }
+    if (assignedDriverId.present) {
+      map['assigned_driver_id'] = Variable<String>(assignedDriverId.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (insuranceExpiry.present) {
+      map['insurance_expiry'] = Variable<DateTime>(insuranceExpiry.value);
+    }
+    if (pucExpiry.present) {
+      map['puc_expiry'] = Variable<DateTime>(pucExpiry.value);
+    }
+    if (serviceDueDate.present) {
+      map['service_due_date'] = Variable<DateTime>(serviceDueDate.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VehiclesCompanion(')
+          ..write('id: $id, ')
+          ..write('registration: $registration, ')
+          ..write('type: $type, ')
+          ..write('make: $make, ')
+          ..write('model: $model, ')
+          ..write('odometer: $odometer, ')
+          ..write('fuelType: $fuelType, ')
+          ..write('assignedDriverId: $assignedDriverId, ')
+          ..write('status: $status, ')
+          ..write('insuranceExpiry: $insuranceExpiry, ')
+          ..write('pucExpiry: $pucExpiry, ')
+          ..write('serviceDueDate: $serviceDueDate, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TripsTable extends Trips with TableInfo<$TripsTable, Trip> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TripsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _vehicleIdMeta = const VerificationMeta(
+    'vehicleId',
+  );
+  @override
+  late final GeneratedColumn<String> vehicleId = GeneratedColumn<String>(
+    'vehicle_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES vehicles (id)',
+    ),
+  );
+  static const VerificationMeta _driverIdMeta = const VerificationMeta(
+    'driverId',
+  );
+  @override
+  late final GeneratedColumn<String> driverId = GeneratedColumn<String>(
+    'driver_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startTimeMeta = const VerificationMeta(
+    'startTime',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startTime = GeneratedColumn<DateTime>(
+    'start_time',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endTimeMeta = const VerificationMeta(
+    'endTime',
+  );
+  @override
+  late final GeneratedColumn<DateTime> endTime = GeneratedColumn<DateTime>(
+    'end_time',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _startOdometerMeta = const VerificationMeta(
+    'startOdometer',
+  );
+  @override
+  late final GeneratedColumn<double> startOdometer = GeneratedColumn<double>(
+    'start_odometer',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endOdometerMeta = const VerificationMeta(
+    'endOdometer',
+  );
+  @override
+  late final GeneratedColumn<double> endOdometer = GeneratedColumn<double>(
+    'end_odometer',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _fuelUsedMeta = const VerificationMeta(
+    'fuelUsed',
+  );
+  @override
+  late final GeneratedColumn<double> fuelUsed = GeneratedColumn<double>(
+    'fuel_used',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _purposeMeta = const VerificationMeta(
+    'purpose',
+  );
+  @override
+  late final GeneratedColumn<String> purpose = GeneratedColumn<String>(
+    'purpose',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    vehicleId,
+    driverId,
+    startTime,
+    endTime,
+    startOdometer,
+    endOdometer,
+    fuelUsed,
+    purpose,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'trips';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Trip> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('vehicle_id')) {
+      context.handle(
+        _vehicleIdMeta,
+        vehicleId.isAcceptableOrUnknown(data['vehicle_id']!, _vehicleIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_vehicleIdMeta);
+    }
+    if (data.containsKey('driver_id')) {
+      context.handle(
+        _driverIdMeta,
+        driverId.isAcceptableOrUnknown(data['driver_id']!, _driverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_driverIdMeta);
+    }
+    if (data.containsKey('start_time')) {
+      context.handle(
+        _startTimeMeta,
+        startTime.isAcceptableOrUnknown(data['start_time']!, _startTimeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startTimeMeta);
+    }
+    if (data.containsKey('end_time')) {
+      context.handle(
+        _endTimeMeta,
+        endTime.isAcceptableOrUnknown(data['end_time']!, _endTimeMeta),
+      );
+    }
+    if (data.containsKey('start_odometer')) {
+      context.handle(
+        _startOdometerMeta,
+        startOdometer.isAcceptableOrUnknown(
+          data['start_odometer']!,
+          _startOdometerMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_startOdometerMeta);
+    }
+    if (data.containsKey('end_odometer')) {
+      context.handle(
+        _endOdometerMeta,
+        endOdometer.isAcceptableOrUnknown(
+          data['end_odometer']!,
+          _endOdometerMeta,
+        ),
+      );
+    }
+    if (data.containsKey('fuel_used')) {
+      context.handle(
+        _fuelUsedMeta,
+        fuelUsed.isAcceptableOrUnknown(data['fuel_used']!, _fuelUsedMeta),
+      );
+    }
+    if (data.containsKey('purpose')) {
+      context.handle(
+        _purposeMeta,
+        purpose.isAcceptableOrUnknown(data['purpose']!, _purposeMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Trip map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Trip(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      vehicleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vehicle_id'],
+      )!,
+      driverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}driver_id'],
+      )!,
+      startTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_time'],
+      )!,
+      endTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}end_time'],
+      ),
+      startOdometer: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}start_odometer'],
+      )!,
+      endOdometer: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}end_odometer'],
+      ),
+      fuelUsed: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}fuel_used'],
+      ),
+      purpose: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}purpose'],
+      ),
+    );
+  }
+
+  @override
+  $TripsTable createAlias(String alias) {
+    return $TripsTable(attachedDatabase, alias);
+  }
+}
+
+class Trip extends DataClass implements Insertable<Trip> {
+  final String id;
+  final String vehicleId;
+  final String driverId;
+  final DateTime startTime;
+  final DateTime? endTime;
+  final double startOdometer;
+  final double? endOdometer;
+  final double? fuelUsed;
+  final String? purpose;
+  const Trip({
+    required this.id,
+    required this.vehicleId,
+    required this.driverId,
+    required this.startTime,
+    this.endTime,
+    required this.startOdometer,
+    this.endOdometer,
+    this.fuelUsed,
+    this.purpose,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['vehicle_id'] = Variable<String>(vehicleId);
+    map['driver_id'] = Variable<String>(driverId);
+    map['start_time'] = Variable<DateTime>(startTime);
+    if (!nullToAbsent || endTime != null) {
+      map['end_time'] = Variable<DateTime>(endTime);
+    }
+    map['start_odometer'] = Variable<double>(startOdometer);
+    if (!nullToAbsent || endOdometer != null) {
+      map['end_odometer'] = Variable<double>(endOdometer);
+    }
+    if (!nullToAbsent || fuelUsed != null) {
+      map['fuel_used'] = Variable<double>(fuelUsed);
+    }
+    if (!nullToAbsent || purpose != null) {
+      map['purpose'] = Variable<String>(purpose);
+    }
+    return map;
+  }
+
+  TripsCompanion toCompanion(bool nullToAbsent) {
+    return TripsCompanion(
+      id: Value(id),
+      vehicleId: Value(vehicleId),
+      driverId: Value(driverId),
+      startTime: Value(startTime),
+      endTime: endTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endTime),
+      startOdometer: Value(startOdometer),
+      endOdometer: endOdometer == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endOdometer),
+      fuelUsed: fuelUsed == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fuelUsed),
+      purpose: purpose == null && nullToAbsent
+          ? const Value.absent()
+          : Value(purpose),
+    );
+  }
+
+  factory Trip.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Trip(
+      id: serializer.fromJson<String>(json['id']),
+      vehicleId: serializer.fromJson<String>(json['vehicleId']),
+      driverId: serializer.fromJson<String>(json['driverId']),
+      startTime: serializer.fromJson<DateTime>(json['startTime']),
+      endTime: serializer.fromJson<DateTime?>(json['endTime']),
+      startOdometer: serializer.fromJson<double>(json['startOdometer']),
+      endOdometer: serializer.fromJson<double?>(json['endOdometer']),
+      fuelUsed: serializer.fromJson<double?>(json['fuelUsed']),
+      purpose: serializer.fromJson<String?>(json['purpose']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'vehicleId': serializer.toJson<String>(vehicleId),
+      'driverId': serializer.toJson<String>(driverId),
+      'startTime': serializer.toJson<DateTime>(startTime),
+      'endTime': serializer.toJson<DateTime?>(endTime),
+      'startOdometer': serializer.toJson<double>(startOdometer),
+      'endOdometer': serializer.toJson<double?>(endOdometer),
+      'fuelUsed': serializer.toJson<double?>(fuelUsed),
+      'purpose': serializer.toJson<String?>(purpose),
+    };
+  }
+
+  Trip copyWith({
+    String? id,
+    String? vehicleId,
+    String? driverId,
+    DateTime? startTime,
+    Value<DateTime?> endTime = const Value.absent(),
+    double? startOdometer,
+    Value<double?> endOdometer = const Value.absent(),
+    Value<double?> fuelUsed = const Value.absent(),
+    Value<String?> purpose = const Value.absent(),
+  }) => Trip(
+    id: id ?? this.id,
+    vehicleId: vehicleId ?? this.vehicleId,
+    driverId: driverId ?? this.driverId,
+    startTime: startTime ?? this.startTime,
+    endTime: endTime.present ? endTime.value : this.endTime,
+    startOdometer: startOdometer ?? this.startOdometer,
+    endOdometer: endOdometer.present ? endOdometer.value : this.endOdometer,
+    fuelUsed: fuelUsed.present ? fuelUsed.value : this.fuelUsed,
+    purpose: purpose.present ? purpose.value : this.purpose,
+  );
+  Trip copyWithCompanion(TripsCompanion data) {
+    return Trip(
+      id: data.id.present ? data.id.value : this.id,
+      vehicleId: data.vehicleId.present ? data.vehicleId.value : this.vehicleId,
+      driverId: data.driverId.present ? data.driverId.value : this.driverId,
+      startTime: data.startTime.present ? data.startTime.value : this.startTime,
+      endTime: data.endTime.present ? data.endTime.value : this.endTime,
+      startOdometer: data.startOdometer.present
+          ? data.startOdometer.value
+          : this.startOdometer,
+      endOdometer: data.endOdometer.present
+          ? data.endOdometer.value
+          : this.endOdometer,
+      fuelUsed: data.fuelUsed.present ? data.fuelUsed.value : this.fuelUsed,
+      purpose: data.purpose.present ? data.purpose.value : this.purpose,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Trip(')
+          ..write('id: $id, ')
+          ..write('vehicleId: $vehicleId, ')
+          ..write('driverId: $driverId, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime, ')
+          ..write('startOdometer: $startOdometer, ')
+          ..write('endOdometer: $endOdometer, ')
+          ..write('fuelUsed: $fuelUsed, ')
+          ..write('purpose: $purpose')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    vehicleId,
+    driverId,
+    startTime,
+    endTime,
+    startOdometer,
+    endOdometer,
+    fuelUsed,
+    purpose,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Trip &&
+          other.id == this.id &&
+          other.vehicleId == this.vehicleId &&
+          other.driverId == this.driverId &&
+          other.startTime == this.startTime &&
+          other.endTime == this.endTime &&
+          other.startOdometer == this.startOdometer &&
+          other.endOdometer == this.endOdometer &&
+          other.fuelUsed == this.fuelUsed &&
+          other.purpose == this.purpose);
+}
+
+class TripsCompanion extends UpdateCompanion<Trip> {
+  final Value<String> id;
+  final Value<String> vehicleId;
+  final Value<String> driverId;
+  final Value<DateTime> startTime;
+  final Value<DateTime?> endTime;
+  final Value<double> startOdometer;
+  final Value<double?> endOdometer;
+  final Value<double?> fuelUsed;
+  final Value<String?> purpose;
+  final Value<int> rowid;
+  const TripsCompanion({
+    this.id = const Value.absent(),
+    this.vehicleId = const Value.absent(),
+    this.driverId = const Value.absent(),
+    this.startTime = const Value.absent(),
+    this.endTime = const Value.absent(),
+    this.startOdometer = const Value.absent(),
+    this.endOdometer = const Value.absent(),
+    this.fuelUsed = const Value.absent(),
+    this.purpose = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  TripsCompanion.insert({
+    required String id,
+    required String vehicleId,
+    required String driverId,
+    required DateTime startTime,
+    this.endTime = const Value.absent(),
+    required double startOdometer,
+    this.endOdometer = const Value.absent(),
+    this.fuelUsed = const Value.absent(),
+    this.purpose = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       vehicleId = Value(vehicleId),
+       driverId = Value(driverId),
+       startTime = Value(startTime),
+       startOdometer = Value(startOdometer);
+  static Insertable<Trip> custom({
+    Expression<String>? id,
+    Expression<String>? vehicleId,
+    Expression<String>? driverId,
+    Expression<DateTime>? startTime,
+    Expression<DateTime>? endTime,
+    Expression<double>? startOdometer,
+    Expression<double>? endOdometer,
+    Expression<double>? fuelUsed,
+    Expression<String>? purpose,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (vehicleId != null) 'vehicle_id': vehicleId,
+      if (driverId != null) 'driver_id': driverId,
+      if (startTime != null) 'start_time': startTime,
+      if (endTime != null) 'end_time': endTime,
+      if (startOdometer != null) 'start_odometer': startOdometer,
+      if (endOdometer != null) 'end_odometer': endOdometer,
+      if (fuelUsed != null) 'fuel_used': fuelUsed,
+      if (purpose != null) 'purpose': purpose,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  TripsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? vehicleId,
+    Value<String>? driverId,
+    Value<DateTime>? startTime,
+    Value<DateTime?>? endTime,
+    Value<double>? startOdometer,
+    Value<double?>? endOdometer,
+    Value<double?>? fuelUsed,
+    Value<String?>? purpose,
+    Value<int>? rowid,
+  }) {
+    return TripsCompanion(
+      id: id ?? this.id,
+      vehicleId: vehicleId ?? this.vehicleId,
+      driverId: driverId ?? this.driverId,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+      startOdometer: startOdometer ?? this.startOdometer,
+      endOdometer: endOdometer ?? this.endOdometer,
+      fuelUsed: fuelUsed ?? this.fuelUsed,
+      purpose: purpose ?? this.purpose,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (vehicleId.present) {
+      map['vehicle_id'] = Variable<String>(vehicleId.value);
+    }
+    if (driverId.present) {
+      map['driver_id'] = Variable<String>(driverId.value);
+    }
+    if (startTime.present) {
+      map['start_time'] = Variable<DateTime>(startTime.value);
+    }
+    if (endTime.present) {
+      map['end_time'] = Variable<DateTime>(endTime.value);
+    }
+    if (startOdometer.present) {
+      map['start_odometer'] = Variable<double>(startOdometer.value);
+    }
+    if (endOdometer.present) {
+      map['end_odometer'] = Variable<double>(endOdometer.value);
+    }
+    if (fuelUsed.present) {
+      map['fuel_used'] = Variable<double>(fuelUsed.value);
+    }
+    if (purpose.present) {
+      map['purpose'] = Variable<String>(purpose.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TripsCompanion(')
+          ..write('id: $id, ')
+          ..write('vehicleId: $vehicleId, ')
+          ..write('driverId: $driverId, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime, ')
+          ..write('startOdometer: $startOdometer, ')
+          ..write('endOdometer: $endOdometer, ')
+          ..write('fuelUsed: $fuelUsed, ')
+          ..write('purpose: $purpose, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -15080,6 +17889,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $ShiftRosterEntriesTable(this);
   late final $SafetyGateResponsesTable safetyGateResponses =
       $SafetyGateResponsesTable(this);
+  late final $IncidentsTable incidents = $IncidentsTable(this);
+  late final $HazardsTable hazards = $HazardsTable(this);
+  late final $VehiclesTable vehicles = $VehiclesTable(this);
+  late final $TripsTable trips = $TripsTable(this);
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -15099,6 +17912,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     this as AppDatabase,
   );
   late final SafetyGateDao safetyGateDao = SafetyGateDao(this as AppDatabase);
+  late final SafetyDao safetyDao = SafetyDao(this as AppDatabase);
+  late final FleetDao fleetDao = FleetDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -15128,6 +17943,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     shiftHandovers,
     shiftRosterEntries,
     safetyGateResponses,
+    incidents,
+    hazards,
+    vehicles,
+    trips,
   ];
 }
 
@@ -15294,6 +18113,43 @@ final class $$SitesTableReferences
     final cache = $_typedResult.readTableOrNull(
       _shiftRosterEntriesRefsTable($_db),
     );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$IncidentsTable, List<Incident>>
+  _incidentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.incidents,
+    aliasName: $_aliasNameGenerator(db.sites.id, db.incidents.siteId),
+  );
+
+  $$IncidentsTableProcessedTableManager get incidentsRefs {
+    final manager = $$IncidentsTableTableManager(
+      $_db,
+      $_db.incidents,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_incidentsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$HazardsTable, List<Hazard>> _hazardsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.hazards,
+    aliasName: $_aliasNameGenerator(db.sites.id, db.hazards.siteId),
+  );
+
+  $$HazardsTableProcessedTableManager get hazardsRefs {
+    final manager = $$HazardsTableTableManager(
+      $_db,
+      $_db.hazards,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_hazardsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -15509,6 +18365,56 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$ShiftRosterEntriesTableFilterComposer(
             $db: $db,
             $table: $db.shiftRosterEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> incidentsRefs(
+    Expression<bool> Function($$IncidentsTableFilterComposer f) f,
+  ) {
+    final $$IncidentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.incidents,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IncidentsTableFilterComposer(
+            $db: $db,
+            $table: $db.incidents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> hazardsRefs(
+    Expression<bool> Function($$HazardsTableFilterComposer f) f,
+  ) {
+    final $$HazardsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.hazards,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$HazardsTableFilterComposer(
+            $db: $db,
+            $table: $db.hazards,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -15772,6 +18678,56 @@ class $$SitesTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> incidentsRefs<T extends Object>(
+    Expression<T> Function($$IncidentsTableAnnotationComposer a) f,
+  ) {
+    final $$IncidentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.incidents,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IncidentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.incidents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> hazardsRefs<T extends Object>(
+    Expression<T> Function($$HazardsTableAnnotationComposer a) f,
+  ) {
+    final $$HazardsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.hazards,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$HazardsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.hazards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -15795,6 +18751,8 @@ class $$SitesTableTableManager
             bool inventoryBalancesRefs,
             bool shiftHandoversRefs,
             bool shiftRosterEntriesRefs,
+            bool incidentsRefs,
+            bool hazardsRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -15863,6 +18821,8 @@ class $$SitesTableTableManager
                 inventoryBalancesRefs = false,
                 shiftHandoversRefs = false,
                 shiftRosterEntriesRefs = false,
+                incidentsRefs = false,
+                hazardsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -15874,6 +18834,8 @@ class $$SitesTableTableManager
                     if (inventoryBalancesRefs) db.inventoryBalances,
                     if (shiftHandoversRefs) db.shiftHandovers,
                     if (shiftRosterEntriesRefs) db.shiftRosterEntries,
+                    if (incidentsRefs) db.incidents,
+                    if (hazardsRefs) db.hazards,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -16009,6 +18971,36 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (incidentsRefs)
+                        await $_getPrefetchedData<Site, $SitesTable, Incident>(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._incidentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).incidentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (hazardsRefs)
+                        await $_getPrefetchedData<Site, $SitesTable, Hazard>(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._hazardsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(db, table, p0).hazardsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -16037,6 +19029,8 @@ typedef $$SitesTableProcessedTableManager =
         bool inventoryBalancesRefs,
         bool shiftHandoversRefs,
         bool shiftRosterEntriesRefs,
+        bool incidentsRefs,
+        bool hazardsRefs,
       })
     >;
 typedef $$BuildingsTableCreateCompanionBuilder =
@@ -16898,6 +19892,43 @@ final class $$SpacesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$IncidentsTable, List<Incident>>
+  _incidentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.incidents,
+    aliasName: $_aliasNameGenerator(db.spaces.id, db.incidents.spaceId),
+  );
+
+  $$IncidentsTableProcessedTableManager get incidentsRefs {
+    final manager = $$IncidentsTableTableManager(
+      $_db,
+      $_db.incidents,
+    ).filter((f) => f.spaceId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_incidentsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$HazardsTable, List<Hazard>> _hazardsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.hazards,
+    aliasName: $_aliasNameGenerator(db.spaces.id, db.hazards.spaceId),
+  );
+
+  $$HazardsTableProcessedTableManager get hazardsRefs {
+    final manager = $$HazardsTableTableManager(
+      $_db,
+      $_db.hazards,
+    ).filter((f) => f.spaceId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_hazardsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SpacesTableFilterComposer
@@ -17023,6 +20054,56 @@ class $$SpacesTableFilterComposer
           }) => $$WorkOrdersTableFilterComposer(
             $db: $db,
             $table: $db.workOrders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> incidentsRefs(
+    Expression<bool> Function($$IncidentsTableFilterComposer f) f,
+  ) {
+    final $$IncidentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.incidents,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IncidentsTableFilterComposer(
+            $db: $db,
+            $table: $db.incidents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> hazardsRefs(
+    Expression<bool> Function($$HazardsTableFilterComposer f) f,
+  ) {
+    final $$HazardsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.hazards,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$HazardsTableFilterComposer(
+            $db: $db,
+            $table: $db.hazards,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -17214,6 +20295,56 @@ class $$SpacesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> incidentsRefs<T extends Object>(
+    Expression<T> Function($$IncidentsTableAnnotationComposer a) f,
+  ) {
+    final $$IncidentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.incidents,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IncidentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.incidents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> hazardsRefs<T extends Object>(
+    Expression<T> Function($$HazardsTableAnnotationComposer a) f,
+  ) {
+    final $$HazardsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.hazards,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$HazardsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.hazards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SpacesTableTableManager
@@ -17234,6 +20365,8 @@ class $$SpacesTableTableManager
             bool assetsRefs,
             bool serviceRequestsRefs,
             bool workOrdersRefs,
+            bool incidentsRefs,
+            bool hazardsRefs,
           })
         > {
   $$SpacesTableTableManager(_$AppDatabase db, $SpacesTable table)
@@ -17295,6 +20428,8 @@ class $$SpacesTableTableManager
                 assetsRefs = false,
                 serviceRequestsRefs = false,
                 workOrdersRefs = false,
+                incidentsRefs = false,
+                hazardsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -17302,6 +20437,8 @@ class $$SpacesTableTableManager
                     if (assetsRefs) db.assets,
                     if (serviceRequestsRefs) db.serviceRequests,
                     if (workOrdersRefs) db.workOrders,
+                    if (incidentsRefs) db.incidents,
+                    if (hazardsRefs) db.hazards,
                   ],
                   addJoins:
                       <
@@ -17392,6 +20529,44 @@ class $$SpacesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (incidentsRefs)
+                        await $_getPrefetchedData<
+                          Space,
+                          $SpacesTable,
+                          Incident
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SpacesTableReferences
+                              ._incidentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SpacesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).incidentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.spaceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (hazardsRefs)
+                        await $_getPrefetchedData<Space, $SpacesTable, Hazard>(
+                          currentTable: table,
+                          referencedTable: $$SpacesTableReferences
+                              ._hazardsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SpacesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).hazardsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.spaceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -17417,6 +20592,8 @@ typedef $$SpacesTableProcessedTableManager =
         bool assetsRefs,
         bool serviceRequestsRefs,
         bool workOrdersRefs,
+        bool incidentsRefs,
+        bool hazardsRefs,
       })
     >;
 typedef $$AssetsTableCreateCompanionBuilder =
@@ -27691,6 +30868,1950 @@ typedef $$SafetyGateResponsesTableProcessedTableManager =
       SafetyGateResponse,
       PrefetchHooks Function({bool workOrderId})
     >;
+typedef $$IncidentsTableCreateCompanionBuilder =
+    IncidentsCompanion Function({
+      required String id,
+      required String incidentNumber,
+      required String siteId,
+      Value<String?> spaceId,
+      required String type,
+      required String severity,
+      required DateTime occurredAt,
+      required String reportedBy,
+      required String description,
+      Value<String?> assetId,
+      Value<bool> injury,
+      Value<String?> immediateAction,
+      Value<String> investigationStatus,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$IncidentsTableUpdateCompanionBuilder =
+    IncidentsCompanion Function({
+      Value<String> id,
+      Value<String> incidentNumber,
+      Value<String> siteId,
+      Value<String?> spaceId,
+      Value<String> type,
+      Value<String> severity,
+      Value<DateTime> occurredAt,
+      Value<String> reportedBy,
+      Value<String> description,
+      Value<String?> assetId,
+      Value<bool> injury,
+      Value<String?> immediateAction,
+      Value<String> investigationStatus,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+final class $$IncidentsTableReferences
+    extends BaseReferences<_$AppDatabase, $IncidentsTable, Incident> {
+  $$IncidentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) => db.sites.createAlias(
+    $_aliasNameGenerator(db.incidents.siteId, db.sites.id),
+  );
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<String>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SpacesTable _spaceIdTable(_$AppDatabase db) => db.spaces.createAlias(
+    $_aliasNameGenerator(db.incidents.spaceId, db.spaces.id),
+  );
+
+  $$SpacesTableProcessedTableManager? get spaceId {
+    final $_column = $_itemColumn<String>('space_id');
+    if ($_column == null) return null;
+    final manager = $$SpacesTableTableManager(
+      $_db,
+      $_db.spaces,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_spaceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$IncidentsTableFilterComposer
+    extends Composer<_$AppDatabase, $IncidentsTable> {
+  $$IncidentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get incidentNumber => $composableBuilder(
+    column: $table.incidentNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get severity => $composableBuilder(
+    column: $table.severity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reportedBy => $composableBuilder(
+    column: $table.reportedBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get assetId => $composableBuilder(
+    column: $table.assetId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get injury => $composableBuilder(
+    column: $table.injury,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get immediateAction => $composableBuilder(
+    column: $table.immediateAction,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get investigationStatus => $composableBuilder(
+    column: $table.investigationStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableFilterComposer get spaceId {
+    final $$SpacesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableFilterComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$IncidentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $IncidentsTable> {
+  $$IncidentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get incidentNumber => $composableBuilder(
+    column: $table.incidentNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get severity => $composableBuilder(
+    column: $table.severity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reportedBy => $composableBuilder(
+    column: $table.reportedBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get assetId => $composableBuilder(
+    column: $table.assetId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get injury => $composableBuilder(
+    column: $table.injury,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get immediateAction => $composableBuilder(
+    column: $table.immediateAction,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get investigationStatus => $composableBuilder(
+    column: $table.investigationStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableOrderingComposer get spaceId {
+    final $$SpacesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableOrderingComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$IncidentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $IncidentsTable> {
+  $$IncidentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get incidentNumber => $composableBuilder(
+    column: $table.incidentNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get severity =>
+      $composableBuilder(column: $table.severity, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get reportedBy => $composableBuilder(
+    column: $table.reportedBy,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get assetId =>
+      $composableBuilder(column: $table.assetId, builder: (column) => column);
+
+  GeneratedColumn<bool> get injury =>
+      $composableBuilder(column: $table.injury, builder: (column) => column);
+
+  GeneratedColumn<String> get immediateAction => $composableBuilder(
+    column: $table.immediateAction,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get investigationStatus => $composableBuilder(
+    column: $table.investigationStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableAnnotationComposer get spaceId {
+    final $$SpacesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$IncidentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $IncidentsTable,
+          Incident,
+          $$IncidentsTableFilterComposer,
+          $$IncidentsTableOrderingComposer,
+          $$IncidentsTableAnnotationComposer,
+          $$IncidentsTableCreateCompanionBuilder,
+          $$IncidentsTableUpdateCompanionBuilder,
+          (Incident, $$IncidentsTableReferences),
+          Incident,
+          PrefetchHooks Function({bool siteId, bool spaceId})
+        > {
+  $$IncidentsTableTableManager(_$AppDatabase db, $IncidentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$IncidentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$IncidentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$IncidentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> incidentNumber = const Value.absent(),
+                Value<String> siteId = const Value.absent(),
+                Value<String?> spaceId = const Value.absent(),
+                Value<String> type = const Value.absent(),
+                Value<String> severity = const Value.absent(),
+                Value<DateTime> occurredAt = const Value.absent(),
+                Value<String> reportedBy = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<String?> assetId = const Value.absent(),
+                Value<bool> injury = const Value.absent(),
+                Value<String?> immediateAction = const Value.absent(),
+                Value<String> investigationStatus = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => IncidentsCompanion(
+                id: id,
+                incidentNumber: incidentNumber,
+                siteId: siteId,
+                spaceId: spaceId,
+                type: type,
+                severity: severity,
+                occurredAt: occurredAt,
+                reportedBy: reportedBy,
+                description: description,
+                assetId: assetId,
+                injury: injury,
+                immediateAction: immediateAction,
+                investigationStatus: investigationStatus,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String incidentNumber,
+                required String siteId,
+                Value<String?> spaceId = const Value.absent(),
+                required String type,
+                required String severity,
+                required DateTime occurredAt,
+                required String reportedBy,
+                required String description,
+                Value<String?> assetId = const Value.absent(),
+                Value<bool> injury = const Value.absent(),
+                Value<String?> immediateAction = const Value.absent(),
+                Value<String> investigationStatus = const Value.absent(),
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => IncidentsCompanion.insert(
+                id: id,
+                incidentNumber: incidentNumber,
+                siteId: siteId,
+                spaceId: spaceId,
+                type: type,
+                severity: severity,
+                occurredAt: occurredAt,
+                reportedBy: reportedBy,
+                description: description,
+                assetId: assetId,
+                injury: injury,
+                immediateAction: immediateAction,
+                investigationStatus: investigationStatus,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$IncidentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, spaceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$IncidentsTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn: $$IncidentsTableReferences
+                                    ._siteIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (spaceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.spaceId,
+                                referencedTable: $$IncidentsTableReferences
+                                    ._spaceIdTable(db),
+                                referencedColumn: $$IncidentsTableReferences
+                                    ._spaceIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$IncidentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $IncidentsTable,
+      Incident,
+      $$IncidentsTableFilterComposer,
+      $$IncidentsTableOrderingComposer,
+      $$IncidentsTableAnnotationComposer,
+      $$IncidentsTableCreateCompanionBuilder,
+      $$IncidentsTableUpdateCompanionBuilder,
+      (Incident, $$IncidentsTableReferences),
+      Incident,
+      PrefetchHooks Function({bool siteId, bool spaceId})
+    >;
+typedef $$HazardsTableCreateCompanionBuilder =
+    HazardsCompanion Function({
+      required String id,
+      required String siteId,
+      Value<String?> spaceId,
+      required String category,
+      required String description,
+      required int riskProbability,
+      required int riskConsequence,
+      required int riskScore,
+      required String reportedBy,
+      Value<String> status,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$HazardsTableUpdateCompanionBuilder =
+    HazardsCompanion Function({
+      Value<String> id,
+      Value<String> siteId,
+      Value<String?> spaceId,
+      Value<String> category,
+      Value<String> description,
+      Value<int> riskProbability,
+      Value<int> riskConsequence,
+      Value<int> riskScore,
+      Value<String> reportedBy,
+      Value<String> status,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+final class $$HazardsTableReferences
+    extends BaseReferences<_$AppDatabase, $HazardsTable, Hazard> {
+  $$HazardsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) => db.sites.createAlias(
+    $_aliasNameGenerator(db.hazards.siteId, db.sites.id),
+  );
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<String>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SpacesTable _spaceIdTable(_$AppDatabase db) => db.spaces.createAlias(
+    $_aliasNameGenerator(db.hazards.spaceId, db.spaces.id),
+  );
+
+  $$SpacesTableProcessedTableManager? get spaceId {
+    final $_column = $_itemColumn<String>('space_id');
+    if ($_column == null) return null;
+    final manager = $$SpacesTableTableManager(
+      $_db,
+      $_db.spaces,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_spaceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$HazardsTableFilterComposer
+    extends Composer<_$AppDatabase, $HazardsTable> {
+  $$HazardsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get riskProbability => $composableBuilder(
+    column: $table.riskProbability,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get riskConsequence => $composableBuilder(
+    column: $table.riskConsequence,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get riskScore => $composableBuilder(
+    column: $table.riskScore,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reportedBy => $composableBuilder(
+    column: $table.reportedBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableFilterComposer get spaceId {
+    final $$SpacesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableFilterComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$HazardsTableOrderingComposer
+    extends Composer<_$AppDatabase, $HazardsTable> {
+  $$HazardsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get riskProbability => $composableBuilder(
+    column: $table.riskProbability,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get riskConsequence => $composableBuilder(
+    column: $table.riskConsequence,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get riskScore => $composableBuilder(
+    column: $table.riskScore,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reportedBy => $composableBuilder(
+    column: $table.reportedBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableOrderingComposer get spaceId {
+    final $$SpacesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableOrderingComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$HazardsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $HazardsTable> {
+  $$HazardsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get riskProbability => $composableBuilder(
+    column: $table.riskProbability,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get riskConsequence => $composableBuilder(
+    column: $table.riskConsequence,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get riskScore =>
+      $composableBuilder(column: $table.riskScore, builder: (column) => column);
+
+  GeneratedColumn<String> get reportedBy => $composableBuilder(
+    column: $table.reportedBy,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableAnnotationComposer get spaceId {
+    final $$SpacesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$HazardsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $HazardsTable,
+          Hazard,
+          $$HazardsTableFilterComposer,
+          $$HazardsTableOrderingComposer,
+          $$HazardsTableAnnotationComposer,
+          $$HazardsTableCreateCompanionBuilder,
+          $$HazardsTableUpdateCompanionBuilder,
+          (Hazard, $$HazardsTableReferences),
+          Hazard,
+          PrefetchHooks Function({bool siteId, bool spaceId})
+        > {
+  $$HazardsTableTableManager(_$AppDatabase db, $HazardsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$HazardsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$HazardsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$HazardsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> siteId = const Value.absent(),
+                Value<String?> spaceId = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<int> riskProbability = const Value.absent(),
+                Value<int> riskConsequence = const Value.absent(),
+                Value<int> riskScore = const Value.absent(),
+                Value<String> reportedBy = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => HazardsCompanion(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                category: category,
+                description: description,
+                riskProbability: riskProbability,
+                riskConsequence: riskConsequence,
+                riskScore: riskScore,
+                reportedBy: reportedBy,
+                status: status,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String siteId,
+                Value<String?> spaceId = const Value.absent(),
+                required String category,
+                required String description,
+                required int riskProbability,
+                required int riskConsequence,
+                required int riskScore,
+                required String reportedBy,
+                Value<String> status = const Value.absent(),
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => HazardsCompanion.insert(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                category: category,
+                description: description,
+                riskProbability: riskProbability,
+                riskConsequence: riskConsequence,
+                riskScore: riskScore,
+                reportedBy: reportedBy,
+                status: status,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$HazardsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, spaceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$HazardsTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn: $$HazardsTableReferences
+                                    ._siteIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (spaceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.spaceId,
+                                referencedTable: $$HazardsTableReferences
+                                    ._spaceIdTable(db),
+                                referencedColumn: $$HazardsTableReferences
+                                    ._spaceIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$HazardsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $HazardsTable,
+      Hazard,
+      $$HazardsTableFilterComposer,
+      $$HazardsTableOrderingComposer,
+      $$HazardsTableAnnotationComposer,
+      $$HazardsTableCreateCompanionBuilder,
+      $$HazardsTableUpdateCompanionBuilder,
+      (Hazard, $$HazardsTableReferences),
+      Hazard,
+      PrefetchHooks Function({bool siteId, bool spaceId})
+    >;
+typedef $$VehiclesTableCreateCompanionBuilder =
+    VehiclesCompanion Function({
+      required String id,
+      required String registration,
+      required String type,
+      Value<String?> make,
+      Value<String?> model,
+      Value<double?> odometer,
+      Value<String?> fuelType,
+      Value<String?> assignedDriverId,
+      required String status,
+      Value<DateTime?> insuranceExpiry,
+      Value<DateTime?> pucExpiry,
+      Value<DateTime?> serviceDueDate,
+      Value<int> rowid,
+    });
+typedef $$VehiclesTableUpdateCompanionBuilder =
+    VehiclesCompanion Function({
+      Value<String> id,
+      Value<String> registration,
+      Value<String> type,
+      Value<String?> make,
+      Value<String?> model,
+      Value<double?> odometer,
+      Value<String?> fuelType,
+      Value<String?> assignedDriverId,
+      Value<String> status,
+      Value<DateTime?> insuranceExpiry,
+      Value<DateTime?> pucExpiry,
+      Value<DateTime?> serviceDueDate,
+      Value<int> rowid,
+    });
+
+final class $$VehiclesTableReferences
+    extends BaseReferences<_$AppDatabase, $VehiclesTable, Vehicle> {
+  $$VehiclesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$TripsTable, List<Trip>> _tripsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.trips,
+    aliasName: $_aliasNameGenerator(db.vehicles.id, db.trips.vehicleId),
+  );
+
+  $$TripsTableProcessedTableManager get tripsRefs {
+    final manager = $$TripsTableTableManager(
+      $_db,
+      $_db.trips,
+    ).filter((f) => f.vehicleId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_tripsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$VehiclesTableFilterComposer
+    extends Composer<_$AppDatabase, $VehiclesTable> {
+  $$VehiclesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get registration => $composableBuilder(
+    column: $table.registration,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get make => $composableBuilder(
+    column: $table.make,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get model => $composableBuilder(
+    column: $table.model,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get odometer => $composableBuilder(
+    column: $table.odometer,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fuelType => $composableBuilder(
+    column: $table.fuelType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get assignedDriverId => $composableBuilder(
+    column: $table.assignedDriverId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get insuranceExpiry => $composableBuilder(
+    column: $table.insuranceExpiry,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get pucExpiry => $composableBuilder(
+    column: $table.pucExpiry,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get serviceDueDate => $composableBuilder(
+    column: $table.serviceDueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> tripsRefs(
+    Expression<bool> Function($$TripsTableFilterComposer f) f,
+  ) {
+    final $$TripsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.trips,
+      getReferencedColumn: (t) => t.vehicleId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TripsTableFilterComposer(
+            $db: $db,
+            $table: $db.trips,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$VehiclesTableOrderingComposer
+    extends Composer<_$AppDatabase, $VehiclesTable> {
+  $$VehiclesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get registration => $composableBuilder(
+    column: $table.registration,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get make => $composableBuilder(
+    column: $table.make,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get model => $composableBuilder(
+    column: $table.model,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get odometer => $composableBuilder(
+    column: $table.odometer,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fuelType => $composableBuilder(
+    column: $table.fuelType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get assignedDriverId => $composableBuilder(
+    column: $table.assignedDriverId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get insuranceExpiry => $composableBuilder(
+    column: $table.insuranceExpiry,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get pucExpiry => $composableBuilder(
+    column: $table.pucExpiry,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get serviceDueDate => $composableBuilder(
+    column: $table.serviceDueDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$VehiclesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $VehiclesTable> {
+  $$VehiclesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get registration => $composableBuilder(
+    column: $table.registration,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get make =>
+      $composableBuilder(column: $table.make, builder: (column) => column);
+
+  GeneratedColumn<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => column);
+
+  GeneratedColumn<double> get odometer =>
+      $composableBuilder(column: $table.odometer, builder: (column) => column);
+
+  GeneratedColumn<String> get fuelType =>
+      $composableBuilder(column: $table.fuelType, builder: (column) => column);
+
+  GeneratedColumn<String> get assignedDriverId => $composableBuilder(
+    column: $table.assignedDriverId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get insuranceExpiry => $composableBuilder(
+    column: $table.insuranceExpiry,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get pucExpiry =>
+      $composableBuilder(column: $table.pucExpiry, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get serviceDueDate => $composableBuilder(
+    column: $table.serviceDueDate,
+    builder: (column) => column,
+  );
+
+  Expression<T> tripsRefs<T extends Object>(
+    Expression<T> Function($$TripsTableAnnotationComposer a) f,
+  ) {
+    final $$TripsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.trips,
+      getReferencedColumn: (t) => t.vehicleId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TripsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.trips,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$VehiclesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $VehiclesTable,
+          Vehicle,
+          $$VehiclesTableFilterComposer,
+          $$VehiclesTableOrderingComposer,
+          $$VehiclesTableAnnotationComposer,
+          $$VehiclesTableCreateCompanionBuilder,
+          $$VehiclesTableUpdateCompanionBuilder,
+          (Vehicle, $$VehiclesTableReferences),
+          Vehicle,
+          PrefetchHooks Function({bool tripsRefs})
+        > {
+  $$VehiclesTableTableManager(_$AppDatabase db, $VehiclesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$VehiclesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$VehiclesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$VehiclesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> registration = const Value.absent(),
+                Value<String> type = const Value.absent(),
+                Value<String?> make = const Value.absent(),
+                Value<String?> model = const Value.absent(),
+                Value<double?> odometer = const Value.absent(),
+                Value<String?> fuelType = const Value.absent(),
+                Value<String?> assignedDriverId = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> insuranceExpiry = const Value.absent(),
+                Value<DateTime?> pucExpiry = const Value.absent(),
+                Value<DateTime?> serviceDueDate = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => VehiclesCompanion(
+                id: id,
+                registration: registration,
+                type: type,
+                make: make,
+                model: model,
+                odometer: odometer,
+                fuelType: fuelType,
+                assignedDriverId: assignedDriverId,
+                status: status,
+                insuranceExpiry: insuranceExpiry,
+                pucExpiry: pucExpiry,
+                serviceDueDate: serviceDueDate,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String registration,
+                required String type,
+                Value<String?> make = const Value.absent(),
+                Value<String?> model = const Value.absent(),
+                Value<double?> odometer = const Value.absent(),
+                Value<String?> fuelType = const Value.absent(),
+                Value<String?> assignedDriverId = const Value.absent(),
+                required String status,
+                Value<DateTime?> insuranceExpiry = const Value.absent(),
+                Value<DateTime?> pucExpiry = const Value.absent(),
+                Value<DateTime?> serviceDueDate = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => VehiclesCompanion.insert(
+                id: id,
+                registration: registration,
+                type: type,
+                make: make,
+                model: model,
+                odometer: odometer,
+                fuelType: fuelType,
+                assignedDriverId: assignedDriverId,
+                status: status,
+                insuranceExpiry: insuranceExpiry,
+                pucExpiry: pucExpiry,
+                serviceDueDate: serviceDueDate,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$VehiclesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({tripsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (tripsRefs) db.trips],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (tripsRefs)
+                    await $_getPrefetchedData<Vehicle, $VehiclesTable, Trip>(
+                      currentTable: table,
+                      referencedTable: $$VehiclesTableReferences
+                          ._tripsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$VehiclesTableReferences(db, table, p0).tripsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.vehicleId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$VehiclesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $VehiclesTable,
+      Vehicle,
+      $$VehiclesTableFilterComposer,
+      $$VehiclesTableOrderingComposer,
+      $$VehiclesTableAnnotationComposer,
+      $$VehiclesTableCreateCompanionBuilder,
+      $$VehiclesTableUpdateCompanionBuilder,
+      (Vehicle, $$VehiclesTableReferences),
+      Vehicle,
+      PrefetchHooks Function({bool tripsRefs})
+    >;
+typedef $$TripsTableCreateCompanionBuilder =
+    TripsCompanion Function({
+      required String id,
+      required String vehicleId,
+      required String driverId,
+      required DateTime startTime,
+      Value<DateTime?> endTime,
+      required double startOdometer,
+      Value<double?> endOdometer,
+      Value<double?> fuelUsed,
+      Value<String?> purpose,
+      Value<int> rowid,
+    });
+typedef $$TripsTableUpdateCompanionBuilder =
+    TripsCompanion Function({
+      Value<String> id,
+      Value<String> vehicleId,
+      Value<String> driverId,
+      Value<DateTime> startTime,
+      Value<DateTime?> endTime,
+      Value<double> startOdometer,
+      Value<double?> endOdometer,
+      Value<double?> fuelUsed,
+      Value<String?> purpose,
+      Value<int> rowid,
+    });
+
+final class $$TripsTableReferences
+    extends BaseReferences<_$AppDatabase, $TripsTable, Trip> {
+  $$TripsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $VehiclesTable _vehicleIdTable(_$AppDatabase db) => db.vehicles
+      .createAlias($_aliasNameGenerator(db.trips.vehicleId, db.vehicles.id));
+
+  $$VehiclesTableProcessedTableManager get vehicleId {
+    final $_column = $_itemColumn<String>('vehicle_id')!;
+
+    final manager = $$VehiclesTableTableManager(
+      $_db,
+      $_db.vehicles,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_vehicleIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TripsTableFilterComposer extends Composer<_$AppDatabase, $TripsTable> {
+  $$TripsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get driverId => $composableBuilder(
+    column: $table.driverId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startTime => $composableBuilder(
+    column: $table.startTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get endTime => $composableBuilder(
+    column: $table.endTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get startOdometer => $composableBuilder(
+    column: $table.startOdometer,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get endOdometer => $composableBuilder(
+    column: $table.endOdometer,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get fuelUsed => $composableBuilder(
+    column: $table.fuelUsed,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get purpose => $composableBuilder(
+    column: $table.purpose,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$VehiclesTableFilterComposer get vehicleId {
+    final $$VehiclesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.vehicleId,
+      referencedTable: $db.vehicles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VehiclesTableFilterComposer(
+            $db: $db,
+            $table: $db.vehicles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TripsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TripsTable> {
+  $$TripsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get driverId => $composableBuilder(
+    column: $table.driverId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startTime => $composableBuilder(
+    column: $table.startTime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get endTime => $composableBuilder(
+    column: $table.endTime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get startOdometer => $composableBuilder(
+    column: $table.startOdometer,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get endOdometer => $composableBuilder(
+    column: $table.endOdometer,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get fuelUsed => $composableBuilder(
+    column: $table.fuelUsed,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get purpose => $composableBuilder(
+    column: $table.purpose,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$VehiclesTableOrderingComposer get vehicleId {
+    final $$VehiclesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.vehicleId,
+      referencedTable: $db.vehicles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VehiclesTableOrderingComposer(
+            $db: $db,
+            $table: $db.vehicles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TripsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TripsTable> {
+  $$TripsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get driverId =>
+      $composableBuilder(column: $table.driverId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startTime =>
+      $composableBuilder(column: $table.startTime, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endTime =>
+      $composableBuilder(column: $table.endTime, builder: (column) => column);
+
+  GeneratedColumn<double> get startOdometer => $composableBuilder(
+    column: $table.startOdometer,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get endOdometer => $composableBuilder(
+    column: $table.endOdometer,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get fuelUsed =>
+      $composableBuilder(column: $table.fuelUsed, builder: (column) => column);
+
+  GeneratedColumn<String> get purpose =>
+      $composableBuilder(column: $table.purpose, builder: (column) => column);
+
+  $$VehiclesTableAnnotationComposer get vehicleId {
+    final $$VehiclesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.vehicleId,
+      referencedTable: $db.vehicles,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VehiclesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.vehicles,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TripsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TripsTable,
+          Trip,
+          $$TripsTableFilterComposer,
+          $$TripsTableOrderingComposer,
+          $$TripsTableAnnotationComposer,
+          $$TripsTableCreateCompanionBuilder,
+          $$TripsTableUpdateCompanionBuilder,
+          (Trip, $$TripsTableReferences),
+          Trip,
+          PrefetchHooks Function({bool vehicleId})
+        > {
+  $$TripsTableTableManager(_$AppDatabase db, $TripsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TripsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TripsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TripsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> vehicleId = const Value.absent(),
+                Value<String> driverId = const Value.absent(),
+                Value<DateTime> startTime = const Value.absent(),
+                Value<DateTime?> endTime = const Value.absent(),
+                Value<double> startOdometer = const Value.absent(),
+                Value<double?> endOdometer = const Value.absent(),
+                Value<double?> fuelUsed = const Value.absent(),
+                Value<String?> purpose = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TripsCompanion(
+                id: id,
+                vehicleId: vehicleId,
+                driverId: driverId,
+                startTime: startTime,
+                endTime: endTime,
+                startOdometer: startOdometer,
+                endOdometer: endOdometer,
+                fuelUsed: fuelUsed,
+                purpose: purpose,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String vehicleId,
+                required String driverId,
+                required DateTime startTime,
+                Value<DateTime?> endTime = const Value.absent(),
+                required double startOdometer,
+                Value<double?> endOdometer = const Value.absent(),
+                Value<double?> fuelUsed = const Value.absent(),
+                Value<String?> purpose = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TripsCompanion.insert(
+                id: id,
+                vehicleId: vehicleId,
+                driverId: driverId,
+                startTime: startTime,
+                endTime: endTime,
+                startOdometer: startOdometer,
+                endOdometer: endOdometer,
+                fuelUsed: fuelUsed,
+                purpose: purpose,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$TripsTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback: ({vehicleId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (vehicleId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.vehicleId,
+                                referencedTable: $$TripsTableReferences
+                                    ._vehicleIdTable(db),
+                                referencedColumn: $$TripsTableReferences
+                                    ._vehicleIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TripsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TripsTable,
+      Trip,
+      $$TripsTableFilterComposer,
+      $$TripsTableOrderingComposer,
+      $$TripsTableAnnotationComposer,
+      $$TripsTableCreateCompanionBuilder,
+      $$TripsTableUpdateCompanionBuilder,
+      (Trip, $$TripsTableReferences),
+      Trip,
+      PrefetchHooks Function({bool vehicleId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -27746,6 +32867,14 @@ class $AppDatabaseManager {
       $$ShiftRosterEntriesTableTableManager(_db, _db.shiftRosterEntries);
   $$SafetyGateResponsesTableTableManager get safetyGateResponses =>
       $$SafetyGateResponsesTableTableManager(_db, _db.safetyGateResponses);
+  $$IncidentsTableTableManager get incidents =>
+      $$IncidentsTableTableManager(_db, _db.incidents);
+  $$HazardsTableTableManager get hazards =>
+      $$HazardsTableTableManager(_db, _db.hazards);
+  $$VehiclesTableTableManager get vehicles =>
+      $$VehiclesTableTableManager(_db, _db.vehicles);
+  $$TripsTableTableManager get trips =>
+      $$TripsTableTableManager(_db, _db.trips);
 }
 
 // **************************************************************************

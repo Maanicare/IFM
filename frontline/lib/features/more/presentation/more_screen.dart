@@ -6,6 +6,9 @@ import '../../../core/biometrics/biometric_auth_service.dart';
 import '../../../core/biometrics/biometric_preference.dart';
 import '../../../core/db/app_database.dart';
 import '../../../core/logging/app_logger.dart';
+import '../../../core/rbac/action.dart';
+import '../../../core/rbac/current_access_context_provider.dart';
+import '../../../core/rbac/policy_guard.dart';
 import '../../../core/sync/sync_engine.dart';
 import '../../identity/presentation/auth_controller.dart';
 import '../../location/presentation/current_site_provider.dart';
@@ -27,6 +30,9 @@ class MoreScreen extends ConsumerWidget {
         ? null
         : ref.watch(_siteProvider(currentSiteId)).value;
     final biometricPref = ref.watch(biometricPreferenceProvider).value;
+    final accessContext = ref.watch(currentAccessContextProvider);
+    final guard = ref.watch(policyGuardProvider);
+    bool can(AppAction action) => accessContext != null && guard.can(accessContext, action);
 
     return Scaffold(
       appBar: AppBar(title: const Text('More')),
@@ -49,18 +55,34 @@ class MoreScreen extends ConsumerWidget {
                   )
                 : null,
           ),
-          ListTile(
-            leading: const Icon(Icons.swap_horiz),
-            title: const Text('Shift handover'),
-            subtitle: const Text('Outgoing briefing / incoming acknowledgement'),
-            onTap: () => context.push('/shift-handover'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.groups_outlined),
-            title: const Text('Shift roster'),
-            subtitle: const Text("Today's schedule, attendance"),
-            onTap: () => context.push('/shift-roster'),
-          ),
+          if (can(AppAction.manageShiftHandover)) ...[
+            ListTile(
+              leading: const Icon(Icons.swap_horiz),
+              title: const Text('Shift handover'),
+              subtitle: const Text('Outgoing briefing / incoming acknowledgement'),
+              onTap: () => context.push('/shift-handover'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.groups_outlined),
+              title: const Text('Shift roster'),
+              subtitle: const Text("Today's schedule, attendance"),
+              onTap: () => context.push('/shift-roster'),
+            ),
+          ],
+          if (can(AppAction.reportIncident))
+            ListTile(
+              leading: const Icon(Icons.report_outlined),
+              title: const Text('Report safety issue'),
+              subtitle: const Text('Incident, hazard or near miss'),
+              onTap: () => context.push('/report-safety-issue'),
+            ),
+          if (can(AppAction.manageFleetTrip))
+            ListTile(
+              leading: const Icon(Icons.local_shipping_outlined),
+              title: const Text('My vehicle'),
+              subtitle: const Text('Vehicle details, start/end trip'),
+              onTap: () => context.push('/my-vehicle'),
+            ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.sync),

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "veh-001",
+    "registration": "MH-02-AB-4521",
+    "type": "utility_vehicle",
+    "make": "Mahindra",
+    "model": "Bolero Pickup",
+    "odometer": 48210.0,
+    "fuelType": "diesel",
+    "assignedDriverId": "usr-driver-001",
+    "status": "active",
+    "insuranceExpiry": "2027-03-31T00:00:00.000Z",
+    "pucExpiry": "2026-12-15T00:00:00.000Z",
+    "serviceDueDate": "2026-12-20T00:00:00.000Z"
+  }
+]

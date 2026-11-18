@@ -21,7 +21,8 @@ enum UserRole {
   vendorSupervisor,
   clientFacilityAdministrator,
   clientEmployee,
-  auditor;
+  auditor,
+  driver;
 
   static UserRole fromWire(String value) {
     return UserRole.values.firstWhere(

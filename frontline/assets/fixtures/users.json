@@ -142,5 +142,29 @@
     "organisationId": "org-maanicare",
     "siteIds": ["site-brt-01"],
     "approvalLimit": null
+  },
+  {
+    "id": "usr-security-001",
+    "employeeId": "MC-1150",
+    "name": "Imran Sheikh",
+    "email": "imran.sheikh@onemaanicare.com",
+    "mobile": "9820011500",
+    "designation": "Security Supervisor",
+    "role": "securitySupervisor",
+    "organisationId": "org-maanicare",
+    "siteIds": ["site-brt-01"],
+    "approvalLimit": null
+  },
+  {
+    "id": "usr-driver-001",
+    "employeeId": "MC-1260",
+    "name": "Ramesh Yadav",
+    "email": "ramesh.yadav@onemaanicare.com",
+    "mobile": "9820012600",
+    "designation": "Driver",
+    "role": "driver",
+    "organisationId": "org-maanicare",
+    "siteIds": ["site-brt-01"],
+    "approvalLimit": null
   }
 ]
