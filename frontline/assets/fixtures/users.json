@@ -69,7 +69,7 @@
     "role": "siteFacilityManager",
     "organisationId": "org-maanicare",
     "siteIds": ["site-brt-01", "site-brt-02"],
-    "approvalLimit": 50000
+    "approvalLimit": null
   },
   {
     "id": "usr-techmgr-001",
@@ -81,7 +81,7 @@
     "role": "technicalManager",
     "organisationId": "org-maanicare",
     "siteIds": ["site-brt-01"],
-    "approvalLimit": 75000
+    "approvalLimit": null
   },
   {
     "id": "usr-safety-001",

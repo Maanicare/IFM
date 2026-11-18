@@ -22,6 +22,15 @@ class PolicyGuard {
 
   /// Role -> allowed actions. Roles not listed here get the empty set,
   /// i.e. the mobile app shows them nothing but read-only views.
+  ///
+  /// IMPORTANT: the spec (Sections 6-7) gives each role only a one-line
+  /// responsibility description (e.g. "Housekeeping Supervisor |
+  /// Soft-service inspections, deployment and closure") - it does not
+  /// define an exact action-by-action permission matrix. This map is an
+  /// implementation-level interpretation of those descriptions plus the
+  /// journey/workflow sections (9-11), not a literal table copied from
+  /// the document. Treat it as a draft to be confirmed by the product
+  /// owner / backend team, not as spec-verified ground truth.
   static const Map<UserRole, Set<AppAction>> _rolePermissions = {
     UserRole.technician: {
       AppAction.viewWorkOrder,
