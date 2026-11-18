@@ -68,11 +68,6 @@ class HomeScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          if (siteId != null) ...[
-            _SiteStatusChip(siteId: siteId, canSwitch: (user?.siteIds.length ?? 0) > 1),
-            const SizedBox(height: 12),
-          ],
-          const _CurrentShiftRow(),
           if (showMyWork) ...[
             Card(
               color: Theme.of(context).colorScheme.primaryContainer,
@@ -107,6 +102,22 @@ class HomeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             _StartTaskButton(workOrders: workOrders),
+            const SizedBox(height: 16),
+          ],
+          // Site + shift together, as two compact chips - previously
+          // two separate small grey text lines that read as leftover
+          // debug text rather than a deliberate part of the screen.
+          if (siteId != null) ...[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: _SiteStatusChip(siteId: siteId, canSwitch: (user?.siteIds.length ?? 0) > 1),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(child: _CurrentShiftChip()),
+              ],
+            ),
             const SizedBox(height: 16),
           ],
           if (siteId != null &&
@@ -151,6 +162,64 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
+/// Shared compact "fact" card for the site-status/shift pair - gives
+/// both a matching boxed look instead of each being a bare line of
+/// grey text that read as leftover debug output.
+class _HomeChip extends StatelessWidget {
+  const _HomeChip({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    required this.sublabel,
+    this.trailing,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final String label;
+  final String sublabel;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 18, color: iconColor),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(sublabel, style: TextStyle(color: Colors.grey.shade600, fontSize: 11)),
+                ],
+              ),
+            ),
+            ?trailing,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// Screen 03: "Site status" - the current site's operational state.
 /// Also the one and only place Home surfaces "which site am I on" -
 /// doubling that up with a second, differently-styled site label in
@@ -168,34 +237,20 @@ class _SiteStatusChip extends ConsumerWidget {
     if (site == null) return const SizedBox.shrink();
     final isActive = site.operationalStatus == 'active';
 
-    return InkWell(
+    return _HomeChip(
       onTap: canSwitch ? () => context.push('/site-selector') : null,
-      borderRadius: BorderRadius.circular(8),
-      child: Row(
-        children: [
-          Icon(
-            isActive ? Icons.check_circle_outline : Icons.error_outline,
-            size: 16,
-            color: isActive ? Colors.green : Colors.orange,
-          ),
-          const SizedBox(width: 6),
-          Expanded(
-            child: Text(
-              '${site.name} · ${isActive ? 'Operational' : site.operationalStatus}',
-              style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          if (canSwitch) Icon(Icons.swap_horiz, size: 16, color: Colors.grey.shade500),
-        ],
-      ),
+      icon: isActive ? Icons.check_circle_outline : Icons.error_outline,
+      iconColor: isActive ? Colors.green : Colors.orange,
+      label: site.name,
+      sublabel: isActive ? 'Operational' : site.operationalStatus,
+      trailing: canSwitch ? Icon(Icons.swap_horiz, size: 16, color: Colors.grey.shade500) : null,
     );
   }
 }
 
 /// Screen 03: "Current shift" - today's own roster entry, if any.
-class _CurrentShiftRow extends ConsumerWidget {
-  const _CurrentShiftRow();
+class _CurrentShiftChip extends ConsumerWidget {
+  const _CurrentShiftChip();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -208,19 +263,11 @@ class _CurrentShiftRow extends ConsumerWidget {
 
     String formatTime(DateTime t) => TimeOfDay.fromDateTime(t).format(context);
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        children: [
-          const Icon(Icons.schedule, size: 16, color: Colors.grey),
-          const SizedBox(width: 6),
-          Text(
-            'Shift: ${formatTime(shift.shiftStart)} - ${formatTime(shift.shiftEnd)} '
-            '(${shift.attendanceStatus})',
-            style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
-          ),
-        ],
-      ),
+    return _HomeChip(
+      icon: Icons.schedule,
+      iconColor: Colors.grey.shade600,
+      label: '${formatTime(shift.shiftStart)} - ${formatTime(shift.shiftEnd)}',
+      sublabel: shift.attendanceStatus,
     );
   }
 }
