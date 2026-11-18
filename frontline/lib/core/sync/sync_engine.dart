@@ -14,6 +14,7 @@ import '../../features/safety/data/safety_repository_provider.dart';
 import '../../features/shift_handover/data/shift_handover_repository_provider.dart';
 import '../../features/safety_gate/presentation/safety_gate_controller.dart';
 import '../../features/work_orders/presentation/voice_note_controller.dart';
+import '../../features/work_orders/presentation/work_order_actions_controller.dart';
 import '../../features/shift_roster/data/shift_roster_repository_provider.dart';
 import '../../features/work_orders/data/work_order_repository_provider.dart';
 import '../db/app_database.dart';
@@ -114,6 +115,10 @@ class SyncEngine {
         case 'work_order_voice_note':
           await _ref.read(voiceNoteControllerProvider.notifier)
               .push(entry.entityId, jsonDecode(entry.payloadJson) as Map<String, dynamic>);
+          break;
+        case 'work_order_closure':
+          await _ref.read(workOrderActionsControllerProvider.notifier)
+              .pushClosure(entry.entityId);
           break;
         case 'service_request':
           await _pushServiceRequest(entry);

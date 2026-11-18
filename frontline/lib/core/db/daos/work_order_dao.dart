@@ -152,6 +152,41 @@ class WorkOrderDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
+  /// Section E (Closure): Root cause, Work performed, Remaining issue,
+  /// Follow-up. A plain field update, not a status transition - a
+  /// technician can fill these in while still `in_progress`, not only
+  /// at the moment of submitting completion.
+  Future<void> updateClosureDetails({
+    required String workOrderId,
+    String? rootCause,
+    String? workPerformed,
+    String? remainingIssue,
+    String? followUp,
+  }) {
+    return (update(workOrders)..where((t) => t.id.equals(workOrderId))).write(
+      WorkOrdersCompanion(
+        rootCauseCode: Value(rootCause),
+        resolutionCode: Value(workPerformed),
+        remainingIssueNote: Value(remainingIssue),
+        followUpNote: Value(followUp),
+        hasPendingLocalChanges: const Value(true),
+        updatedAt: Value(DateTime.now()),
+      ),
+    );
+  }
+
+  /// Section E (Closure): "QA" - set by whoever verifies the job
+  /// (gated at the call site by `verifyWorkOrder`).
+  Future<void> updateQaStatus(String workOrderId, String qaStatus) {
+    return (update(workOrders)..where((t) => t.id.equals(workOrderId))).write(
+      WorkOrdersCompanion(
+        qaStatus: Value(qaStatus),
+        hasPendingLocalChanges: const Value(true),
+        updatedAt: Value(DateTime.now()),
+      ),
+    );
+  }
+
   Future<void> clearPendingFlag(String workOrderId) {
     return (update(workOrders)..where((t) => t.id.equals(workOrderId))).write(
       const WorkOrdersCompanion(hasPendingLocalChanges: Value(false)),

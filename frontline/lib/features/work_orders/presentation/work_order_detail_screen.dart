@@ -104,6 +104,8 @@ class WorkOrderDetailScreen extends ConsumerWidget {
               PartsUsedSection(workOrderId: wo.id, siteId: wo.siteId),
               const SizedBox(height: 12),
               WorkOrderEvidenceSection(workOrderId: wo.id),
+              const SizedBox(height: 12),
+              _ClosureSection(wo: wo),
               const SizedBox(height: 16),
               _ActionBar(wo: wo),
             ],
@@ -166,6 +168,135 @@ class _AssetMetersRow extends ConsumerWidget {
 final _metersForWoProvider = FutureProvider.family<List<AssetMeter>, String>((ref, assetId) {
   return ref.watch(appDatabaseProvider).assetDao.metersFor(assetId);
 });
+
+/// Section E (Closure): Root cause, Work performed, Remaining issue,
+/// Follow-up, QA. Shown once the job is past "assigned" - a technician
+/// can fill the notes any time while working, not only at submission;
+/// QA is a separate control for whoever verifies (may differ from the
+/// person who did the work).
+class _ClosureSection extends ConsumerStatefulWidget {
+  const _ClosureSection({required this.wo});
+  final WorkOrder wo;
+
+  @override
+  ConsumerState<_ClosureSection> createState() => _ClosureSectionState();
+}
+
+class _ClosureSectionState extends ConsumerState<_ClosureSection> {
+  late final _rootCauseController = TextEditingController(text: widget.wo.rootCauseCode);
+  late final _workPerformedController = TextEditingController(text: widget.wo.resolutionCode);
+  late final _remainingIssueController = TextEditingController(text: widget.wo.remainingIssueNote);
+  late final _followUpController = TextEditingController(text: widget.wo.followUpNote);
+  bool _saving = false;
+
+  @override
+  void dispose() {
+    _rootCauseController.dispose();
+    _workPerformedController.dispose();
+    _remainingIssueController.dispose();
+    _followUpController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    setState(() => _saving = true);
+    await ref.read(workOrderActionsControllerProvider.notifier).saveClosureDetails(
+          widget.wo.id,
+          rootCause: _rootCauseController.text.trim().isEmpty ? null : _rootCauseController.text.trim(),
+          workPerformed: _workPerformedController.text.trim().isEmpty ? null : _workPerformedController.text.trim(),
+          remainingIssue: _remainingIssueController.text.trim().isEmpty ? null : _remainingIssueController.text.trim(),
+          followUp: _followUpController.text.trim().isEmpty ? null : _followUpController.text.trim(),
+        );
+    if (mounted) {
+      setState(() => _saving = false);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Closure details saved.')));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final accessContext = ref.watch(currentAccessContextProvider);
+    final guard = ref.watch(policyGuardProvider);
+    if (accessContext == null || widget.wo.status == WorkOrderStatus.assigned) {
+      return const SizedBox.shrink();
+    }
+
+    final canEditClosure = guard.can(accessContext, AppAction.completeWorkOrder, siteId: widget.wo.siteId);
+    final canSetQa = guard.can(accessContext, AppAction.verifyWorkOrder, siteId: widget.wo.siteId);
+    if (!canEditClosure && !canSetQa) return const SizedBox.shrink();
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Closure', style: Theme.of(context).textTheme.titleSmall),
+            const SizedBox(height: 8),
+            if (canEditClosure) ...[
+              _ClosureField(label: 'Root cause', controller: _rootCauseController),
+              _ClosureField(label: 'Work performed', controller: _workPerformedController),
+              _ClosureField(label: 'Remaining issue', controller: _remainingIssueController),
+              _ClosureField(label: 'Follow-up', controller: _followUpController),
+              const SizedBox(height: 4),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: _saving ? null : _save,
+                  child: _saving
+                      ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                      : const Text('Save closure details'),
+                ),
+              ),
+            ],
+            if (canSetQa) ...[
+              if (canEditClosure) const Divider(height: 20),
+              Row(
+                children: [
+                  const Text('QA: '),
+                  const SizedBox(width: 8),
+                  ChoiceChip(
+                    label: const Text('Pass'),
+                    selected: widget.wo.qaStatus == 'pass',
+                    onSelected: (_) => ref
+                        .read(workOrderActionsControllerProvider.notifier)
+                        .setQaStatus(widget.wo.id, 'pass'),
+                  ),
+                  const SizedBox(width: 8),
+                  ChoiceChip(
+                    label: const Text('Fail'),
+                    selected: widget.wo.qaStatus == 'fail',
+                    onSelected: (_) => ref
+                        .read(workOrderActionsControllerProvider.notifier)
+                        .setQaStatus(widget.wo.id, 'fail'),
+                  ),
+                ],
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ClosureField extends StatelessWidget {
+  const _ClosureField({required this.label, required this.controller});
+  final String label;
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: TextField(
+        controller: controller,
+        maxLines: 2,
+        decoration: InputDecoration(labelText: label, isDense: true),
+      ),
+    );
+  }
+}
 
 final _workOrderStreamProvider =
     StreamProvider.family<WorkOrder?, String>((ref, id) {

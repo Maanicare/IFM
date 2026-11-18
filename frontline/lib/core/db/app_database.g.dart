@@ -5590,6 +5590,28 @@ class $WorkOrdersTable extends WorkOrders
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _remainingIssueNoteMeta =
+      const VerificationMeta('remainingIssueNote');
+  @override
+  late final GeneratedColumn<String> remainingIssueNote =
+      GeneratedColumn<String>(
+        'remaining_issue_note',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _followUpNoteMeta = const VerificationMeta(
+    'followUpNote',
+  );
+  @override
+  late final GeneratedColumn<String> followUpNote = GeneratedColumn<String>(
+    'follow_up_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _blockerReasonMeta = const VerificationMeta(
     'blockerReason',
   );
@@ -5754,6 +5776,8 @@ class $WorkOrdersTable extends WorkOrders
     resolutionCode,
     qaRequired,
     qaStatus,
+    remainingIssueNote,
+    followUpNote,
     blockerReason,
     checklistId,
     voiceFindingNote,
@@ -5956,6 +5980,24 @@ class $WorkOrdersTable extends WorkOrders
       context.handle(
         _qaStatusMeta,
         qaStatus.isAcceptableOrUnknown(data['qa_status']!, _qaStatusMeta),
+      );
+    }
+    if (data.containsKey('remaining_issue_note')) {
+      context.handle(
+        _remainingIssueNoteMeta,
+        remainingIssueNote.isAcceptableOrUnknown(
+          data['remaining_issue_note']!,
+          _remainingIssueNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('follow_up_note')) {
+      context.handle(
+        _followUpNoteMeta,
+        followUpNote.isAcceptableOrUnknown(
+          data['follow_up_note']!,
+          _followUpNoteMeta,
+        ),
       );
     }
     if (data.containsKey('blocker_reason')) {
@@ -6166,6 +6208,14 @@ class $WorkOrdersTable extends WorkOrders
         DriftSqlType.string,
         data['${effectivePrefix}qa_status'],
       ),
+      remainingIssueNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}remaining_issue_note'],
+      ),
+      followUpNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}follow_up_note'],
+      ),
       blockerReason: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}blocker_reason'],
@@ -6247,6 +6297,8 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
   final String? resolutionCode;
   final bool qaRequired;
   final String? qaStatus;
+  final String? remainingIssueNote;
+  final String? followUpNote;
   final String? blockerReason;
   final String? checklistId;
   final String? voiceFindingNote;
@@ -6288,6 +6340,8 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
     this.resolutionCode,
     required this.qaRequired,
     this.qaStatus,
+    this.remainingIssueNote,
+    this.followUpNote,
     this.blockerReason,
     this.checklistId,
     this.voiceFindingNote,
@@ -6356,6 +6410,12 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
     map['qa_required'] = Variable<bool>(qaRequired);
     if (!nullToAbsent || qaStatus != null) {
       map['qa_status'] = Variable<String>(qaStatus);
+    }
+    if (!nullToAbsent || remainingIssueNote != null) {
+      map['remaining_issue_note'] = Variable<String>(remainingIssueNote);
+    }
+    if (!nullToAbsent || followUpNote != null) {
+      map['follow_up_note'] = Variable<String>(followUpNote);
     }
     if (!nullToAbsent || blockerReason != null) {
       map['blocker_reason'] = Variable<String>(blockerReason);
@@ -6445,6 +6505,12 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
       qaStatus: qaStatus == null && nullToAbsent
           ? const Value.absent()
           : Value(qaStatus),
+      remainingIssueNote: remainingIssueNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(remainingIssueNote),
+      followUpNote: followUpNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(followUpNote),
       blockerReason: blockerReason == null && nullToAbsent
           ? const Value.absent()
           : Value(blockerReason),
@@ -6507,6 +6573,10 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
       resolutionCode: serializer.fromJson<String?>(json['resolutionCode']),
       qaRequired: serializer.fromJson<bool>(json['qaRequired']),
       qaStatus: serializer.fromJson<String?>(json['qaStatus']),
+      remainingIssueNote: serializer.fromJson<String?>(
+        json['remainingIssueNote'],
+      ),
+      followUpNote: serializer.fromJson<String?>(json['followUpNote']),
       blockerReason: serializer.fromJson<String?>(json['blockerReason']),
       checklistId: serializer.fromJson<String?>(json['checklistId']),
       voiceFindingNote: serializer.fromJson<String?>(json['voiceFindingNote']),
@@ -6558,6 +6628,8 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
       'resolutionCode': serializer.toJson<String?>(resolutionCode),
       'qaRequired': serializer.toJson<bool>(qaRequired),
       'qaStatus': serializer.toJson<String?>(qaStatus),
+      'remainingIssueNote': serializer.toJson<String?>(remainingIssueNote),
+      'followUpNote': serializer.toJson<String?>(followUpNote),
       'blockerReason': serializer.toJson<String?>(blockerReason),
       'checklistId': serializer.toJson<String?>(checklistId),
       'voiceFindingNote': serializer.toJson<String?>(voiceFindingNote),
@@ -6599,6 +6671,8 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
     Value<String?> resolutionCode = const Value.absent(),
     bool? qaRequired,
     Value<String?> qaStatus = const Value.absent(),
+    Value<String?> remainingIssueNote = const Value.absent(),
+    Value<String?> followUpNote = const Value.absent(),
     Value<String?> blockerReason = const Value.absent(),
     Value<String?> checklistId = const Value.absent(),
     Value<String?> voiceFindingNote = const Value.absent(),
@@ -6649,6 +6723,10 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
         : this.resolutionCode,
     qaRequired: qaRequired ?? this.qaRequired,
     qaStatus: qaStatus.present ? qaStatus.value : this.qaStatus,
+    remainingIssueNote: remainingIssueNote.present
+        ? remainingIssueNote.value
+        : this.remainingIssueNote,
+    followUpNote: followUpNote.present ? followUpNote.value : this.followUpNote,
     blockerReason: blockerReason.present
         ? blockerReason.value
         : this.blockerReason,
@@ -6724,6 +6802,12 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
           ? data.qaRequired.value
           : this.qaRequired,
       qaStatus: data.qaStatus.present ? data.qaStatus.value : this.qaStatus,
+      remainingIssueNote: data.remainingIssueNote.present
+          ? data.remainingIssueNote.value
+          : this.remainingIssueNote,
+      followUpNote: data.followUpNote.present
+          ? data.followUpNote.value
+          : this.followUpNote,
       blockerReason: data.blockerReason.present
           ? data.blockerReason.value
           : this.blockerReason,
@@ -6787,6 +6871,8 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
           ..write('resolutionCode: $resolutionCode, ')
           ..write('qaRequired: $qaRequired, ')
           ..write('qaStatus: $qaStatus, ')
+          ..write('remainingIssueNote: $remainingIssueNote, ')
+          ..write('followUpNote: $followUpNote, ')
           ..write('blockerReason: $blockerReason, ')
           ..write('checklistId: $checklistId, ')
           ..write('voiceFindingNote: $voiceFindingNote, ')
@@ -6828,6 +6914,8 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
     resolutionCode,
     qaRequired,
     qaStatus,
+    remainingIssueNote,
+    followUpNote,
     blockerReason,
     checklistId,
     voiceFindingNote,
@@ -6868,6 +6956,8 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
           other.resolutionCode == this.resolutionCode &&
           other.qaRequired == this.qaRequired &&
           other.qaStatus == this.qaStatus &&
+          other.remainingIssueNote == this.remainingIssueNote &&
+          other.followUpNote == this.followUpNote &&
           other.blockerReason == this.blockerReason &&
           other.checklistId == this.checklistId &&
           other.voiceFindingNote == this.voiceFindingNote &&
@@ -6906,6 +6996,8 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
   final Value<String?> resolutionCode;
   final Value<bool> qaRequired;
   final Value<String?> qaStatus;
+  final Value<String?> remainingIssueNote;
+  final Value<String?> followUpNote;
   final Value<String?> blockerReason;
   final Value<String?> checklistId;
   final Value<String?> voiceFindingNote;
@@ -6943,6 +7035,8 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     this.resolutionCode = const Value.absent(),
     this.qaRequired = const Value.absent(),
     this.qaStatus = const Value.absent(),
+    this.remainingIssueNote = const Value.absent(),
+    this.followUpNote = const Value.absent(),
     this.blockerReason = const Value.absent(),
     this.checklistId = const Value.absent(),
     this.voiceFindingNote = const Value.absent(),
@@ -6981,6 +7075,8 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     this.resolutionCode = const Value.absent(),
     this.qaRequired = const Value.absent(),
     this.qaStatus = const Value.absent(),
+    this.remainingIssueNote = const Value.absent(),
+    this.followUpNote = const Value.absent(),
     this.blockerReason = const Value.absent(),
     this.checklistId = const Value.absent(),
     this.voiceFindingNote = const Value.absent(),
@@ -7026,6 +7122,8 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     Expression<String>? resolutionCode,
     Expression<bool>? qaRequired,
     Expression<String>? qaStatus,
+    Expression<String>? remainingIssueNote,
+    Expression<String>? followUpNote,
     Expression<String>? blockerReason,
     Expression<String>? checklistId,
     Expression<String>? voiceFindingNote,
@@ -7064,6 +7162,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
       if (resolutionCode != null) 'resolution_code': resolutionCode,
       if (qaRequired != null) 'qa_required': qaRequired,
       if (qaStatus != null) 'qa_status': qaStatus,
+      if (remainingIssueNote != null)
+        'remaining_issue_note': remainingIssueNote,
+      if (followUpNote != null) 'follow_up_note': followUpNote,
       if (blockerReason != null) 'blocker_reason': blockerReason,
       if (checklistId != null) 'checklist_id': checklistId,
       if (voiceFindingNote != null) 'voice_finding_note': voiceFindingNote,
@@ -7108,6 +7209,8 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     Value<String?>? resolutionCode,
     Value<bool>? qaRequired,
     Value<String?>? qaStatus,
+    Value<String?>? remainingIssueNote,
+    Value<String?>? followUpNote,
     Value<String?>? blockerReason,
     Value<String?>? checklistId,
     Value<String?>? voiceFindingNote,
@@ -7146,6 +7249,8 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
       resolutionCode: resolutionCode ?? this.resolutionCode,
       qaRequired: qaRequired ?? this.qaRequired,
       qaStatus: qaStatus ?? this.qaStatus,
+      remainingIssueNote: remainingIssueNote ?? this.remainingIssueNote,
+      followUpNote: followUpNote ?? this.followUpNote,
       blockerReason: blockerReason ?? this.blockerReason,
       checklistId: checklistId ?? this.checklistId,
       voiceFindingNote: voiceFindingNote ?? this.voiceFindingNote,
@@ -7236,6 +7341,12 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     if (qaStatus.present) {
       map['qa_status'] = Variable<String>(qaStatus.value);
     }
+    if (remainingIssueNote.present) {
+      map['remaining_issue_note'] = Variable<String>(remainingIssueNote.value);
+    }
+    if (followUpNote.present) {
+      map['follow_up_note'] = Variable<String>(followUpNote.value);
+    }
     if (blockerReason.present) {
       map['blocker_reason'] = Variable<String>(blockerReason.value);
     }
@@ -7310,6 +7421,8 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
           ..write('resolutionCode: $resolutionCode, ')
           ..write('qaRequired: $qaRequired, ')
           ..write('qaStatus: $qaStatus, ')
+          ..write('remainingIssueNote: $remainingIssueNote, ')
+          ..write('followUpNote: $followUpNote, ')
           ..write('blockerReason: $blockerReason, ')
           ..write('checklistId: $checklistId, ')
           ..write('voiceFindingNote: $voiceFindingNote, ')
@@ -24053,6 +24166,8 @@ typedef $$WorkOrdersTableCreateCompanionBuilder =
       Value<String?> resolutionCode,
       Value<bool> qaRequired,
       Value<String?> qaStatus,
+      Value<String?> remainingIssueNote,
+      Value<String?> followUpNote,
       Value<String?> blockerReason,
       Value<String?> checklistId,
       Value<String?> voiceFindingNote,
@@ -24092,6 +24207,8 @@ typedef $$WorkOrdersTableUpdateCompanionBuilder =
       Value<String?> resolutionCode,
       Value<bool> qaRequired,
       Value<String?> qaStatus,
+      Value<String?> remainingIssueNote,
+      Value<String?> followUpNote,
       Value<String?> blockerReason,
       Value<String?> checklistId,
       Value<String?> voiceFindingNote,
@@ -24393,6 +24510,16 @@ class $$WorkOrdersTableFilterComposer
 
   ColumnFilters<String> get qaStatus => $composableBuilder(
     column: $table.qaStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get remainingIssueNote => $composableBuilder(
+    column: $table.remainingIssueNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get followUpNote => $composableBuilder(
+    column: $table.followUpNote,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -24755,6 +24882,16 @@ class $$WorkOrdersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get remainingIssueNote => $composableBuilder(
+    column: $table.remainingIssueNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get followUpNote => $composableBuilder(
+    column: $table.followUpNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get blockerReason => $composableBuilder(
     column: $table.blockerReason,
     builder: (column) => ColumnOrderings(column),
@@ -24995,6 +25132,16 @@ class $$WorkOrdersTableAnnotationComposer
 
   GeneratedColumn<String> get qaStatus =>
       $composableBuilder(column: $table.qaStatus, builder: (column) => column);
+
+  GeneratedColumn<String> get remainingIssueNote => $composableBuilder(
+    column: $table.remainingIssueNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get followUpNote => $composableBuilder(
+    column: $table.followUpNote,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get blockerReason => $composableBuilder(
     column: $table.blockerReason,
@@ -25311,6 +25458,8 @@ class $$WorkOrdersTableTableManager
                 Value<String?> resolutionCode = const Value.absent(),
                 Value<bool> qaRequired = const Value.absent(),
                 Value<String?> qaStatus = const Value.absent(),
+                Value<String?> remainingIssueNote = const Value.absent(),
+                Value<String?> followUpNote = const Value.absent(),
                 Value<String?> blockerReason = const Value.absent(),
                 Value<String?> checklistId = const Value.absent(),
                 Value<String?> voiceFindingNote = const Value.absent(),
@@ -25348,6 +25497,8 @@ class $$WorkOrdersTableTableManager
                 resolutionCode: resolutionCode,
                 qaRequired: qaRequired,
                 qaStatus: qaStatus,
+                remainingIssueNote: remainingIssueNote,
+                followUpNote: followUpNote,
                 blockerReason: blockerReason,
                 checklistId: checklistId,
                 voiceFindingNote: voiceFindingNote,
@@ -25387,6 +25538,8 @@ class $$WorkOrdersTableTableManager
                 Value<String?> resolutionCode = const Value.absent(),
                 Value<bool> qaRequired = const Value.absent(),
                 Value<String?> qaStatus = const Value.absent(),
+                Value<String?> remainingIssueNote = const Value.absent(),
+                Value<String?> followUpNote = const Value.absent(),
                 Value<String?> blockerReason = const Value.absent(),
                 Value<String?> checklistId = const Value.absent(),
                 Value<String?> voiceFindingNote = const Value.absent(),
@@ -25424,6 +25577,8 @@ class $$WorkOrdersTableTableManager
                 resolutionCode: resolutionCode,
                 qaRequired: qaRequired,
                 qaStatus: qaStatus,
+                remainingIssueNote: remainingIssueNote,
+                followUpNote: followUpNote,
                 blockerReason: blockerReason,
                 checklistId: checklistId,
                 voiceFindingNote: voiceFindingNote,

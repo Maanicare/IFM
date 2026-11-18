@@ -79,7 +79,7 @@ final class WorkOrderActionsControllerProvider
 }
 
 String _$workOrderActionsControllerHash() =>
-    r'e03853d448ea8b40ca6c6d8b2c537e32e6b89cb1';
+    r'8424791076115dc128a16aa756feeb8a60dc9ad8';
 
 /// Every technician-initiated status transition (Section 11: Accept ->
 /// En Route -> Checked In -> In Progress -> ... -> Work Completed) goes

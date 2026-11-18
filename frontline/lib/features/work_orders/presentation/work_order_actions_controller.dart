@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/config/app_config.dart';
 import '../../../core/db/app_database.dart';
 import '../../../core/db/tables/work_order_tables.dart';
 import '../../../core/location/device_location_service.dart';
+import '../../../core/network/dio_client.dart';
 import '../../../core/logging/app_logger.dart';
 import '../../../core/rbac/action.dart';
 import '../../../core/rbac/current_access_context_provider.dart';
@@ -233,4 +235,88 @@ class WorkOrderActionsController extends _$WorkOrderActionsController {
         newStatus: WorkOrderStatus.verified,
         action: AppAction.verifyWorkOrder,
       );
+
+  /// Section E (Closure): Root cause, Work performed, Remaining issue,
+  /// Follow-up - plain field updates, not a status transition, so a
+  /// technician can fill these in any time while the job is open.
+  Future<void> saveClosureDetails(
+    String workOrderId, {
+    String? rootCause,
+    String? workPerformed,
+    String? remainingIssue,
+    String? followUp,
+  }) async {
+    final db = ref.read(appDatabaseProvider);
+    final guard = ref.read(policyGuardProvider);
+    final accessContext = ref.read(currentAccessContextProvider);
+    if (accessContext == null) return;
+    final workOrder = await db.workOrderDao.byId(workOrderId);
+    if (workOrder == null) return;
+    guard.ensure(accessContext, AppAction.completeWorkOrder, siteId: workOrder.siteId);
+
+    await db.transaction(() async {
+      await db.workOrderDao.updateClosureDetails(
+        workOrderId: workOrderId,
+        rootCause: rootCause,
+        workPerformed: workPerformed,
+        remainingIssue: remainingIssue,
+        followUp: followUp,
+      );
+      await db.outboxDao.enqueue(
+        id: IdGenerator.newId(),
+        entityType: 'work_order_closure',
+        entityId: workOrderId,
+        operation: 'update',
+        payloadJson: jsonEncode({'workOrderId': workOrderId}),
+        createdBy: accessContext.userId,
+      );
+    });
+  }
+
+  /// Section E (Closure): "QA" - set by the supervisor verifying the
+  /// job, independent of the Verify status transition itself (a
+  /// supervisor might mark QA fail without moving the job to Verified).
+  Future<void> setQaStatus(String workOrderId, String qaStatus) async {
+    final db = ref.read(appDatabaseProvider);
+    final guard = ref.read(policyGuardProvider);
+    final accessContext = ref.read(currentAccessContextProvider);
+    if (accessContext == null) return;
+    final workOrder = await db.workOrderDao.byId(workOrderId);
+    if (workOrder == null) return;
+    guard.ensure(accessContext, AppAction.verifyWorkOrder, siteId: workOrder.siteId);
+
+    await db.transaction(() async {
+      await db.workOrderDao.updateQaStatus(workOrderId, qaStatus);
+      await db.outboxDao.enqueue(
+        id: IdGenerator.newId(),
+        entityType: 'work_order_closure',
+        entityId: workOrderId,
+        operation: 'update',
+        payloadJson: jsonEncode({'workOrderId': workOrderId}),
+        createdBy: accessContext.userId,
+      );
+    });
+  }
+
+  /// Pushes the current closure fields to the server - called by the
+  /// sync engine. Mock mode just simulates latency.
+  Future<void> pushClosure(String workOrderId) async {
+    if (AppConfig.useMock) {
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      return;
+    }
+    final db = ref.read(appDatabaseProvider);
+    final workOrder = await db.workOrderDao.byId(workOrderId);
+    if (workOrder == null) return;
+    await ref.read(dioClientProvider).patch<void>(
+          '/v1/work-orders/$workOrderId/closure',
+          data: {
+            'root_cause_code': workOrder.rootCauseCode,
+            'resolution_code': workOrder.resolutionCode,
+            'remaining_issue_note': workOrder.remainingIssueNote,
+            'follow_up_note': workOrder.followUpNote,
+            'qa_status': workOrder.qaStatus,
+          },
+        );
+  }
 }

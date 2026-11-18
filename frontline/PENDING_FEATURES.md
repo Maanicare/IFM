@@ -22,13 +22,27 @@ rushed.
   admin/manager-level fields (checklist assignment, scheduling) that
   don't have a mobile UI anywhere yet.
 
-## Screen 09 - Work Order Detail (Section E: Closure)
+## Screen 09 - Work Order Detail
 
-- **Root cause / Work performed / Remaining issue / Follow-up / QA**
-  text fields — the DB columns exist (`rootCauseCode`,
-  `resolutionCode`) but there's no UI to fill them before/at
-  completion. Signature capture is the only Closure field actually
-  wired up.
+**Section E (Closure) — DONE.** Root cause, Work performed, Remaining
+issue, Follow-up (editable text fields, `completeWorkOrder`-gated) and
+QA Pass/Fail (`verifyWorkOrder`-gated) are now wired up with outbox
+sync. Signature was already done.
+
+Still pending in this screen:
+- **Section A** — "request context" isn't shown: no link back to the
+  originating Request from the Work Order (requestId exists on the
+  row, just not surfaced/tappable).
+- **Section B (Asset Context)** — Health score, Warranty, Last
+  maintenance, Manuals aren't shown in this compact view (they do
+  exist one tap away on the full Asset Profile screen, but the spec
+  lists them for this screen too).
+- **Section C (Work Plan)** — Tools (required-tools list) and Parts
+  as a *planned/required* list (distinct from Section D's "parts
+  consumed", which is done) aren't modelled at all; Permit
+  requirements isn't modelled either (ties to Screen 37, also not
+  built). Safety controls is only partially covered by the generic
+  3-question Safety Gate, not a per-WO controls list.
 
 ## Screen 10 - My Work (job card)
 

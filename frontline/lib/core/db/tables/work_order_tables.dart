@@ -34,6 +34,13 @@ class WorkOrders extends Table {
   TextColumn get resolutionCode => text().nullable()();
   BoolColumn get qaRequired => boolean().withDefault(const Constant(false))();
   TextColumn get qaStatus => text().nullable()();
+
+  // Section E (Closure): "Remaining issue" and "Follow-up" - Root cause
+  // and Work performed reuse rootCauseCode/resolutionCode above (both
+  // free text here, despite the "Code" name - no fixed code list exists
+  // for either yet).
+  TextColumn get remainingIssueNote => text().nullable()();
+  TextColumn get followUpNote => text().nullable()();
   TextColumn get blockerReason => text().nullable()(); // see WorkOrderBlocker
   TextColumn get checklistId => text().nullable()();
 
