@@ -46,11 +46,6 @@ requirement is shown as a flag/type only (`permitRequired`/
 covered by the generic 3-question Safety Gate, not a per-WO controls
 list.
 
-## Screen 10 - My Work (job card)
-
-- Card doesn't show Location/Asset/Estimated duration, only priority/
-  WO number/description/SLA/status.
-
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
 - Screen 21 — Cleaning Task
