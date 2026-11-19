@@ -85,6 +85,38 @@ class MyWorkScreen extends ConsumerWidget {
   }
 }
 
+/// Screen 10 Job Card fields: Location, Asset, Estimated duration
+/// (Priority/Task/SLA are already rendered above this in `_JobCard`).
+class _JobCardMeta extends ConsumerWidget {
+  const _JobCardMeta({required this.workOrder});
+  final WorkOrder workOrder;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final db = ref.watch(appDatabaseProvider);
+    return FutureBuilder<List<Object?>>(
+      future: Future.wait([
+        db.locationDao.spaceById(workOrder.spaceId),
+        workOrder.assetId != null ? db.assetDao.byId(workOrder.assetId!) : Future.value(null),
+      ]),
+      builder: (context, snapshot) {
+        final space = snapshot.data?[0] as Space?;
+        final asset = snapshot.data?[1] as Asset?;
+        final parts = <String>[
+          if (space != null) space.name,
+          if (asset != null) asset.name,
+          if (workOrder.estimatedMinutes != null) '${workOrder.estimatedMinutes} min',
+        ];
+        if (parts.isEmpty) return const SizedBox.shrink();
+        return Text(
+          parts.join(' · '),
+          style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+        );
+      },
+    );
+  }
+}
+
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader(this.title);
   final String title;
@@ -139,6 +171,8 @@ class _JobCard extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               Text(workOrder.problemDescription ?? 'No description'),
+              const SizedBox(height: 6),
+              _JobCardMeta(workOrder: workOrder),
               const SizedBox(height: 6),
               Text(
                 workOrder.status.replaceAll('_', ' '),
