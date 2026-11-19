@@ -13,6 +13,8 @@ mixin _$WorkOrderDaoMixin on DatabaseAccessor<AppDatabase> {
   $WorkOrdersTable get workOrders => attachedDatabase.workOrders;
   $WorkOrderStatusHistoryTable get workOrderStatusHistory =>
       attachedDatabase.workOrderStatusHistory;
+  $WorkOrderPlannedPartsTable get workOrderPlannedParts =>
+      attachedDatabase.workOrderPlannedParts;
   WorkOrderDaoManager get managers => WorkOrderDaoManager(this);
 }
 
@@ -40,5 +42,10 @@ class WorkOrderDaoManager {
       $$WorkOrderStatusHistoryTableTableManager(
         _db.attachedDatabase,
         _db.workOrderStatusHistory,
+      );
+  $$WorkOrderPlannedPartsTableTableManager get workOrderPlannedParts =>
+      $$WorkOrderPlannedPartsTableTableManager(
+        _db.attachedDatabase,
+        _db.workOrderPlannedParts,
       );
 }

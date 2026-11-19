@@ -50,6 +50,9 @@ class MockWorkOrderRepository implements WorkOrderRepository {
           estimatedMinutes: Value((w['estimatedMinutes'] as num?)?.toInt()),
           problemDescription: Value(w['problemDescription'] as String?),
           checklistId: Value(w['checklistId'] as String?),
+          requiredToolsNote: Value(w['requiredToolsNote'] as String?),
+          permitRequired: Value(w['permitRequired'] as bool? ?? false),
+          permitType: Value(w['permitType'] as String?),
           slaResponseTarget:
               Value(FixtureLoader.resolveOffset(w, 'slaResponse')),
           slaResolutionTarget:
@@ -58,6 +61,28 @@ class MockWorkOrderRepository implements WorkOrderRepository {
             w['id'] == _conflictWorkOrderId ? _conflictServerVersion - 1 : 1,
           ),
           updatedAt: DateTime.now(),
+        ));
+      }
+    });
+
+    final plannedParts = await FixtureLoader.loadJson(
+      'assets/fixtures/work_order_planned_parts.json',
+    ) as List;
+    await _db.transaction(() async {
+      for (final p in plannedParts.cast<Map<String, dynamic>>()) {
+        final workOrder = list.cast<Map<String, dynamic>>().firstWhere(
+            (w) => w['id'] == p['workOrderId'],
+            orElse: () => const {});
+        if (workOrder['siteId'] != siteId ||
+            workOrder['assignedUserId'] != userId) {
+          continue;
+        }
+        await _db.workOrderDao.upsertPlannedPart(WorkOrderPlannedPartsCompanion.insert(
+          id: p['id'] as String,
+          workOrderId: p['workOrderId'] as String,
+          itemName: p['itemName'] as String,
+          plannedQuantity: (p['plannedQuantity'] as num).toDouble(),
+          unit: p['unit'] as String,
         ));
       }
     });

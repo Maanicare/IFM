@@ -41,6 +41,13 @@ class WorkOrders extends Table {
   // for either yet).
   TextColumn get remainingIssueNote => text().nullable()();
   TextColumn get followUpNote => text().nullable()();
+
+  // Section C (Work Plan): Tools, Permit requirements. Configured
+  // server-side (PM plan / WO creation), not editable on the device -
+  // Section 35: "Configuration before custom code".
+  TextColumn get requiredToolsNote => text().nullable()();
+  BoolColumn get permitRequired => boolean().withDefault(const Constant(false))();
+  TextColumn get permitType => text().nullable()();
   TextColumn get blockerReason => text().nullable()(); // see WorkOrderBlocker
   TextColumn get checklistId => text().nullable()();
 
@@ -62,6 +69,21 @@ class WorkOrders extends Table {
   BoolColumn get hasPendingLocalChanges =>
       boolean().withDefault(const Constant(false))();
   DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Section C (Work Plan): "Parts" - what's planned/required for the
+/// job, distinct from Section D's "Parts consumed" ([InventoryTransactions]
+/// via Parts Used). Read-only on this device - configured server-side
+/// at WO creation / PM plan time.
+class WorkOrderPlannedParts extends Table {
+  TextColumn get id => text()();
+  TextColumn get workOrderId => text().references(WorkOrders, #id)();
+  TextColumn get itemName => text()();
+  RealColumn get plannedQuantity => real()();
+  TextColumn get unit => text()();
 
   @override
   Set<Column> get primaryKey => {id};

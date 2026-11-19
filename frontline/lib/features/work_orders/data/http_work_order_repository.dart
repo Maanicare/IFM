@@ -48,6 +48,9 @@ class HttpWorkOrderRepository implements WorkOrderRepository {
           estimatedMinutes: Value((w['estimatedMinutes'] as num?)?.toInt()),
           problemDescription: Value(w['problemDescription'] as String?),
           checklistId: Value(w['checklistId'] as String?),
+          requiredToolsNote: Value(w['requiredToolsNote'] as String?),
+          permitRequired: Value(w['permitRequired'] as bool? ?? false),
+          permitType: Value(w['permitType'] as String?),
           slaResponseTarget: Value(
             w['slaResponseTarget'] != null
                 ? DateTime.parse(w['slaResponseTarget'] as String)
@@ -61,6 +64,19 @@ class HttpWorkOrderRepository implements WorkOrderRepository {
           serverVersion: Value((w['serverVersion'] as num?)?.toInt() ?? 1),
           updatedAt: DateTime.now(),
         ));
+
+        final plannedParts = w['plannedParts'] as List<dynamic>? ?? const [];
+        for (final p in plannedParts.cast<Map<String, dynamic>>()) {
+          await _db.workOrderDao.upsertPlannedPart(
+            WorkOrderPlannedPartsCompanion.insert(
+              id: p['id'] as String,
+              workOrderId: w['id'] as String,
+              itemName: p['itemName'] as String,
+              plannedQuantity: (p['plannedQuantity'] as num).toDouble(),
+              unit: p['unit'] as String,
+            ),
+          );
+        }
       }
     });
   }

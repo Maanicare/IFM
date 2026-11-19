@@ -5612,6 +5612,44 @@ class $WorkOrdersTable extends WorkOrders
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _requiredToolsNoteMeta = const VerificationMeta(
+    'requiredToolsNote',
+  );
+  @override
+  late final GeneratedColumn<String> requiredToolsNote =
+      GeneratedColumn<String>(
+        'required_tools_note',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _permitRequiredMeta = const VerificationMeta(
+    'permitRequired',
+  );
+  @override
+  late final GeneratedColumn<bool> permitRequired = GeneratedColumn<bool>(
+    'permit_required',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("permit_required" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _permitTypeMeta = const VerificationMeta(
+    'permitType',
+  );
+  @override
+  late final GeneratedColumn<String> permitType = GeneratedColumn<String>(
+    'permit_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _blockerReasonMeta = const VerificationMeta(
     'blockerReason',
   );
@@ -5778,6 +5816,9 @@ class $WorkOrdersTable extends WorkOrders
     qaStatus,
     remainingIssueNote,
     followUpNote,
+    requiredToolsNote,
+    permitRequired,
+    permitType,
     blockerReason,
     checklistId,
     voiceFindingNote,
@@ -6000,6 +6041,30 @@ class $WorkOrdersTable extends WorkOrders
         ),
       );
     }
+    if (data.containsKey('required_tools_note')) {
+      context.handle(
+        _requiredToolsNoteMeta,
+        requiredToolsNote.isAcceptableOrUnknown(
+          data['required_tools_note']!,
+          _requiredToolsNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('permit_required')) {
+      context.handle(
+        _permitRequiredMeta,
+        permitRequired.isAcceptableOrUnknown(
+          data['permit_required']!,
+          _permitRequiredMeta,
+        ),
+      );
+    }
+    if (data.containsKey('permit_type')) {
+      context.handle(
+        _permitTypeMeta,
+        permitType.isAcceptableOrUnknown(data['permit_type']!, _permitTypeMeta),
+      );
+    }
     if (data.containsKey('blocker_reason')) {
       context.handle(
         _blockerReasonMeta,
@@ -6216,6 +6281,18 @@ class $WorkOrdersTable extends WorkOrders
         DriftSqlType.string,
         data['${effectivePrefix}follow_up_note'],
       ),
+      requiredToolsNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}required_tools_note'],
+      ),
+      permitRequired: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}permit_required'],
+      )!,
+      permitType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}permit_type'],
+      ),
       blockerReason: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}blocker_reason'],
@@ -6299,6 +6376,9 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
   final String? qaStatus;
   final String? remainingIssueNote;
   final String? followUpNote;
+  final String? requiredToolsNote;
+  final bool permitRequired;
+  final String? permitType;
   final String? blockerReason;
   final String? checklistId;
   final String? voiceFindingNote;
@@ -6342,6 +6422,9 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
     this.qaStatus,
     this.remainingIssueNote,
     this.followUpNote,
+    this.requiredToolsNote,
+    required this.permitRequired,
+    this.permitType,
     this.blockerReason,
     this.checklistId,
     this.voiceFindingNote,
@@ -6416,6 +6499,13 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
     }
     if (!nullToAbsent || followUpNote != null) {
       map['follow_up_note'] = Variable<String>(followUpNote);
+    }
+    if (!nullToAbsent || requiredToolsNote != null) {
+      map['required_tools_note'] = Variable<String>(requiredToolsNote);
+    }
+    map['permit_required'] = Variable<bool>(permitRequired);
+    if (!nullToAbsent || permitType != null) {
+      map['permit_type'] = Variable<String>(permitType);
     }
     if (!nullToAbsent || blockerReason != null) {
       map['blocker_reason'] = Variable<String>(blockerReason);
@@ -6511,6 +6601,13 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
       followUpNote: followUpNote == null && nullToAbsent
           ? const Value.absent()
           : Value(followUpNote),
+      requiredToolsNote: requiredToolsNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(requiredToolsNote),
+      permitRequired: Value(permitRequired),
+      permitType: permitType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(permitType),
       blockerReason: blockerReason == null && nullToAbsent
           ? const Value.absent()
           : Value(blockerReason),
@@ -6577,6 +6674,11 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
         json['remainingIssueNote'],
       ),
       followUpNote: serializer.fromJson<String?>(json['followUpNote']),
+      requiredToolsNote: serializer.fromJson<String?>(
+        json['requiredToolsNote'],
+      ),
+      permitRequired: serializer.fromJson<bool>(json['permitRequired']),
+      permitType: serializer.fromJson<String?>(json['permitType']),
       blockerReason: serializer.fromJson<String?>(json['blockerReason']),
       checklistId: serializer.fromJson<String?>(json['checklistId']),
       voiceFindingNote: serializer.fromJson<String?>(json['voiceFindingNote']),
@@ -6630,6 +6732,9 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
       'qaStatus': serializer.toJson<String?>(qaStatus),
       'remainingIssueNote': serializer.toJson<String?>(remainingIssueNote),
       'followUpNote': serializer.toJson<String?>(followUpNote),
+      'requiredToolsNote': serializer.toJson<String?>(requiredToolsNote),
+      'permitRequired': serializer.toJson<bool>(permitRequired),
+      'permitType': serializer.toJson<String?>(permitType),
       'blockerReason': serializer.toJson<String?>(blockerReason),
       'checklistId': serializer.toJson<String?>(checklistId),
       'voiceFindingNote': serializer.toJson<String?>(voiceFindingNote),
@@ -6673,6 +6778,9 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
     Value<String?> qaStatus = const Value.absent(),
     Value<String?> remainingIssueNote = const Value.absent(),
     Value<String?> followUpNote = const Value.absent(),
+    Value<String?> requiredToolsNote = const Value.absent(),
+    bool? permitRequired,
+    Value<String?> permitType = const Value.absent(),
     Value<String?> blockerReason = const Value.absent(),
     Value<String?> checklistId = const Value.absent(),
     Value<String?> voiceFindingNote = const Value.absent(),
@@ -6727,6 +6835,11 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
         ? remainingIssueNote.value
         : this.remainingIssueNote,
     followUpNote: followUpNote.present ? followUpNote.value : this.followUpNote,
+    requiredToolsNote: requiredToolsNote.present
+        ? requiredToolsNote.value
+        : this.requiredToolsNote,
+    permitRequired: permitRequired ?? this.permitRequired,
+    permitType: permitType.present ? permitType.value : this.permitType,
     blockerReason: blockerReason.present
         ? blockerReason.value
         : this.blockerReason,
@@ -6808,6 +6921,15 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
       followUpNote: data.followUpNote.present
           ? data.followUpNote.value
           : this.followUpNote,
+      requiredToolsNote: data.requiredToolsNote.present
+          ? data.requiredToolsNote.value
+          : this.requiredToolsNote,
+      permitRequired: data.permitRequired.present
+          ? data.permitRequired.value
+          : this.permitRequired,
+      permitType: data.permitType.present
+          ? data.permitType.value
+          : this.permitType,
       blockerReason: data.blockerReason.present
           ? data.blockerReason.value
           : this.blockerReason,
@@ -6873,6 +6995,9 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
           ..write('qaStatus: $qaStatus, ')
           ..write('remainingIssueNote: $remainingIssueNote, ')
           ..write('followUpNote: $followUpNote, ')
+          ..write('requiredToolsNote: $requiredToolsNote, ')
+          ..write('permitRequired: $permitRequired, ')
+          ..write('permitType: $permitType, ')
           ..write('blockerReason: $blockerReason, ')
           ..write('checklistId: $checklistId, ')
           ..write('voiceFindingNote: $voiceFindingNote, ')
@@ -6916,6 +7041,9 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
     qaStatus,
     remainingIssueNote,
     followUpNote,
+    requiredToolsNote,
+    permitRequired,
+    permitType,
     blockerReason,
     checklistId,
     voiceFindingNote,
@@ -6958,6 +7086,9 @@ class WorkOrder extends DataClass implements Insertable<WorkOrder> {
           other.qaStatus == this.qaStatus &&
           other.remainingIssueNote == this.remainingIssueNote &&
           other.followUpNote == this.followUpNote &&
+          other.requiredToolsNote == this.requiredToolsNote &&
+          other.permitRequired == this.permitRequired &&
+          other.permitType == this.permitType &&
           other.blockerReason == this.blockerReason &&
           other.checklistId == this.checklistId &&
           other.voiceFindingNote == this.voiceFindingNote &&
@@ -6998,6 +7129,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
   final Value<String?> qaStatus;
   final Value<String?> remainingIssueNote;
   final Value<String?> followUpNote;
+  final Value<String?> requiredToolsNote;
+  final Value<bool> permitRequired;
+  final Value<String?> permitType;
   final Value<String?> blockerReason;
   final Value<String?> checklistId;
   final Value<String?> voiceFindingNote;
@@ -7037,6 +7171,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     this.qaStatus = const Value.absent(),
     this.remainingIssueNote = const Value.absent(),
     this.followUpNote = const Value.absent(),
+    this.requiredToolsNote = const Value.absent(),
+    this.permitRequired = const Value.absent(),
+    this.permitType = const Value.absent(),
     this.blockerReason = const Value.absent(),
     this.checklistId = const Value.absent(),
     this.voiceFindingNote = const Value.absent(),
@@ -7077,6 +7214,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     this.qaStatus = const Value.absent(),
     this.remainingIssueNote = const Value.absent(),
     this.followUpNote = const Value.absent(),
+    this.requiredToolsNote = const Value.absent(),
+    this.permitRequired = const Value.absent(),
+    this.permitType = const Value.absent(),
     this.blockerReason = const Value.absent(),
     this.checklistId = const Value.absent(),
     this.voiceFindingNote = const Value.absent(),
@@ -7124,6 +7264,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     Expression<String>? qaStatus,
     Expression<String>? remainingIssueNote,
     Expression<String>? followUpNote,
+    Expression<String>? requiredToolsNote,
+    Expression<bool>? permitRequired,
+    Expression<String>? permitType,
     Expression<String>? blockerReason,
     Expression<String>? checklistId,
     Expression<String>? voiceFindingNote,
@@ -7165,6 +7308,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
       if (remainingIssueNote != null)
         'remaining_issue_note': remainingIssueNote,
       if (followUpNote != null) 'follow_up_note': followUpNote,
+      if (requiredToolsNote != null) 'required_tools_note': requiredToolsNote,
+      if (permitRequired != null) 'permit_required': permitRequired,
+      if (permitType != null) 'permit_type': permitType,
       if (blockerReason != null) 'blocker_reason': blockerReason,
       if (checklistId != null) 'checklist_id': checklistId,
       if (voiceFindingNote != null) 'voice_finding_note': voiceFindingNote,
@@ -7211,6 +7357,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     Value<String?>? qaStatus,
     Value<String?>? remainingIssueNote,
     Value<String?>? followUpNote,
+    Value<String?>? requiredToolsNote,
+    Value<bool>? permitRequired,
+    Value<String?>? permitType,
     Value<String?>? blockerReason,
     Value<String?>? checklistId,
     Value<String?>? voiceFindingNote,
@@ -7251,6 +7400,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
       qaStatus: qaStatus ?? this.qaStatus,
       remainingIssueNote: remainingIssueNote ?? this.remainingIssueNote,
       followUpNote: followUpNote ?? this.followUpNote,
+      requiredToolsNote: requiredToolsNote ?? this.requiredToolsNote,
+      permitRequired: permitRequired ?? this.permitRequired,
+      permitType: permitType ?? this.permitType,
       blockerReason: blockerReason ?? this.blockerReason,
       checklistId: checklistId ?? this.checklistId,
       voiceFindingNote: voiceFindingNote ?? this.voiceFindingNote,
@@ -7347,6 +7499,15 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
     if (followUpNote.present) {
       map['follow_up_note'] = Variable<String>(followUpNote.value);
     }
+    if (requiredToolsNote.present) {
+      map['required_tools_note'] = Variable<String>(requiredToolsNote.value);
+    }
+    if (permitRequired.present) {
+      map['permit_required'] = Variable<bool>(permitRequired.value);
+    }
+    if (permitType.present) {
+      map['permit_type'] = Variable<String>(permitType.value);
+    }
     if (blockerReason.present) {
       map['blocker_reason'] = Variable<String>(blockerReason.value);
     }
@@ -7423,6 +7584,9 @@ class WorkOrdersCompanion extends UpdateCompanion<WorkOrder> {
           ..write('qaStatus: $qaStatus, ')
           ..write('remainingIssueNote: $remainingIssueNote, ')
           ..write('followUpNote: $followUpNote, ')
+          ..write('requiredToolsNote: $requiredToolsNote, ')
+          ..write('permitRequired: $permitRequired, ')
+          ..write('permitType: $permitType, ')
           ..write('blockerReason: $blockerReason, ')
           ..write('checklistId: $checklistId, ')
           ..write('voiceFindingNote: $voiceFindingNote, ')
@@ -8070,6 +8234,382 @@ class WorkOrderStatusHistoryCompanion
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
           ..write('locationSource: $locationSource, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $WorkOrderPlannedPartsTable extends WorkOrderPlannedParts
+    with TableInfo<$WorkOrderPlannedPartsTable, WorkOrderPlannedPart> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WorkOrderPlannedPartsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _workOrderIdMeta = const VerificationMeta(
+    'workOrderId',
+  );
+  @override
+  late final GeneratedColumn<String> workOrderId = GeneratedColumn<String>(
+    'work_order_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES work_orders (id)',
+    ),
+  );
+  static const VerificationMeta _itemNameMeta = const VerificationMeta(
+    'itemName',
+  );
+  @override
+  late final GeneratedColumn<String> itemName = GeneratedColumn<String>(
+    'item_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plannedQuantityMeta = const VerificationMeta(
+    'plannedQuantity',
+  );
+  @override
+  late final GeneratedColumn<double> plannedQuantity = GeneratedColumn<double>(
+    'planned_quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _unitMeta = const VerificationMeta('unit');
+  @override
+  late final GeneratedColumn<String> unit = GeneratedColumn<String>(
+    'unit',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    workOrderId,
+    itemName,
+    plannedQuantity,
+    unit,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'work_order_planned_parts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<WorkOrderPlannedPart> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('work_order_id')) {
+      context.handle(
+        _workOrderIdMeta,
+        workOrderId.isAcceptableOrUnknown(
+          data['work_order_id']!,
+          _workOrderIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_workOrderIdMeta);
+    }
+    if (data.containsKey('item_name')) {
+      context.handle(
+        _itemNameMeta,
+        itemName.isAcceptableOrUnknown(data['item_name']!, _itemNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_itemNameMeta);
+    }
+    if (data.containsKey('planned_quantity')) {
+      context.handle(
+        _plannedQuantityMeta,
+        plannedQuantity.isAcceptableOrUnknown(
+          data['planned_quantity']!,
+          _plannedQuantityMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_plannedQuantityMeta);
+    }
+    if (data.containsKey('unit')) {
+      context.handle(
+        _unitMeta,
+        unit.isAcceptableOrUnknown(data['unit']!, _unitMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_unitMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  WorkOrderPlannedPart map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return WorkOrderPlannedPart(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      workOrderId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}work_order_id'],
+      )!,
+      itemName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}item_name'],
+      )!,
+      plannedQuantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}planned_quantity'],
+      )!,
+      unit: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit'],
+      )!,
+    );
+  }
+
+  @override
+  $WorkOrderPlannedPartsTable createAlias(String alias) {
+    return $WorkOrderPlannedPartsTable(attachedDatabase, alias);
+  }
+}
+
+class WorkOrderPlannedPart extends DataClass
+    implements Insertable<WorkOrderPlannedPart> {
+  final String id;
+  final String workOrderId;
+  final String itemName;
+  final double plannedQuantity;
+  final String unit;
+  const WorkOrderPlannedPart({
+    required this.id,
+    required this.workOrderId,
+    required this.itemName,
+    required this.plannedQuantity,
+    required this.unit,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['work_order_id'] = Variable<String>(workOrderId);
+    map['item_name'] = Variable<String>(itemName);
+    map['planned_quantity'] = Variable<double>(plannedQuantity);
+    map['unit'] = Variable<String>(unit);
+    return map;
+  }
+
+  WorkOrderPlannedPartsCompanion toCompanion(bool nullToAbsent) {
+    return WorkOrderPlannedPartsCompanion(
+      id: Value(id),
+      workOrderId: Value(workOrderId),
+      itemName: Value(itemName),
+      plannedQuantity: Value(plannedQuantity),
+      unit: Value(unit),
+    );
+  }
+
+  factory WorkOrderPlannedPart.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return WorkOrderPlannedPart(
+      id: serializer.fromJson<String>(json['id']),
+      workOrderId: serializer.fromJson<String>(json['workOrderId']),
+      itemName: serializer.fromJson<String>(json['itemName']),
+      plannedQuantity: serializer.fromJson<double>(json['plannedQuantity']),
+      unit: serializer.fromJson<String>(json['unit']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'workOrderId': serializer.toJson<String>(workOrderId),
+      'itemName': serializer.toJson<String>(itemName),
+      'plannedQuantity': serializer.toJson<double>(plannedQuantity),
+      'unit': serializer.toJson<String>(unit),
+    };
+  }
+
+  WorkOrderPlannedPart copyWith({
+    String? id,
+    String? workOrderId,
+    String? itemName,
+    double? plannedQuantity,
+    String? unit,
+  }) => WorkOrderPlannedPart(
+    id: id ?? this.id,
+    workOrderId: workOrderId ?? this.workOrderId,
+    itemName: itemName ?? this.itemName,
+    plannedQuantity: plannedQuantity ?? this.plannedQuantity,
+    unit: unit ?? this.unit,
+  );
+  WorkOrderPlannedPart copyWithCompanion(WorkOrderPlannedPartsCompanion data) {
+    return WorkOrderPlannedPart(
+      id: data.id.present ? data.id.value : this.id,
+      workOrderId: data.workOrderId.present
+          ? data.workOrderId.value
+          : this.workOrderId,
+      itemName: data.itemName.present ? data.itemName.value : this.itemName,
+      plannedQuantity: data.plannedQuantity.present
+          ? data.plannedQuantity.value
+          : this.plannedQuantity,
+      unit: data.unit.present ? data.unit.value : this.unit,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WorkOrderPlannedPart(')
+          ..write('id: $id, ')
+          ..write('workOrderId: $workOrderId, ')
+          ..write('itemName: $itemName, ')
+          ..write('plannedQuantity: $plannedQuantity, ')
+          ..write('unit: $unit')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, workOrderId, itemName, plannedQuantity, unit);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WorkOrderPlannedPart &&
+          other.id == this.id &&
+          other.workOrderId == this.workOrderId &&
+          other.itemName == this.itemName &&
+          other.plannedQuantity == this.plannedQuantity &&
+          other.unit == this.unit);
+}
+
+class WorkOrderPlannedPartsCompanion
+    extends UpdateCompanion<WorkOrderPlannedPart> {
+  final Value<String> id;
+  final Value<String> workOrderId;
+  final Value<String> itemName;
+  final Value<double> plannedQuantity;
+  final Value<String> unit;
+  final Value<int> rowid;
+  const WorkOrderPlannedPartsCompanion({
+    this.id = const Value.absent(),
+    this.workOrderId = const Value.absent(),
+    this.itemName = const Value.absent(),
+    this.plannedQuantity = const Value.absent(),
+    this.unit = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  WorkOrderPlannedPartsCompanion.insert({
+    required String id,
+    required String workOrderId,
+    required String itemName,
+    required double plannedQuantity,
+    required String unit,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       workOrderId = Value(workOrderId),
+       itemName = Value(itemName),
+       plannedQuantity = Value(plannedQuantity),
+       unit = Value(unit);
+  static Insertable<WorkOrderPlannedPart> custom({
+    Expression<String>? id,
+    Expression<String>? workOrderId,
+    Expression<String>? itemName,
+    Expression<double>? plannedQuantity,
+    Expression<String>? unit,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (workOrderId != null) 'work_order_id': workOrderId,
+      if (itemName != null) 'item_name': itemName,
+      if (plannedQuantity != null) 'planned_quantity': plannedQuantity,
+      if (unit != null) 'unit': unit,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  WorkOrderPlannedPartsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? workOrderId,
+    Value<String>? itemName,
+    Value<double>? plannedQuantity,
+    Value<String>? unit,
+    Value<int>? rowid,
+  }) {
+    return WorkOrderPlannedPartsCompanion(
+      id: id ?? this.id,
+      workOrderId: workOrderId ?? this.workOrderId,
+      itemName: itemName ?? this.itemName,
+      plannedQuantity: plannedQuantity ?? this.plannedQuantity,
+      unit: unit ?? this.unit,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (workOrderId.present) {
+      map['work_order_id'] = Variable<String>(workOrderId.value);
+    }
+    if (itemName.present) {
+      map['item_name'] = Variable<String>(itemName.value);
+    }
+    if (plannedQuantity.present) {
+      map['planned_quantity'] = Variable<double>(plannedQuantity.value);
+    }
+    if (unit.present) {
+      map['unit'] = Variable<String>(unit.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WorkOrderPlannedPartsCompanion(')
+          ..write('id: $id, ')
+          ..write('workOrderId: $workOrderId, ')
+          ..write('itemName: $itemName, ')
+          ..write('plannedQuantity: $plannedQuantity, ')
+          ..write('unit: $unit, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -18363,6 +18903,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $WorkOrdersTable workOrders = $WorkOrdersTable(this);
   late final $WorkOrderStatusHistoryTable workOrderStatusHistory =
       $WorkOrderStatusHistoryTable(this);
+  late final $WorkOrderPlannedPartsTable workOrderPlannedParts =
+      $WorkOrderPlannedPartsTable(this);
   late final $ChecklistsTable checklists = $ChecklistsTable(this);
   late final $ChecklistItemsTable checklistItems = $ChecklistItemsTable(this);
   late final $ChecklistResponsesTable checklistResponses =
@@ -18424,6 +18966,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     serviceRequests,
     workOrders,
     workOrderStatusHistory,
+    workOrderPlannedParts,
     checklists,
     checklistItems,
     checklistResponses,
@@ -24168,6 +24711,9 @@ typedef $$WorkOrdersTableCreateCompanionBuilder =
       Value<String?> qaStatus,
       Value<String?> remainingIssueNote,
       Value<String?> followUpNote,
+      Value<String?> requiredToolsNote,
+      Value<bool> permitRequired,
+      Value<String?> permitType,
       Value<String?> blockerReason,
       Value<String?> checklistId,
       Value<String?> voiceFindingNote,
@@ -24209,6 +24755,9 @@ typedef $$WorkOrdersTableUpdateCompanionBuilder =
       Value<String?> qaStatus,
       Value<String?> remainingIssueNote,
       Value<String?> followUpNote,
+      Value<String?> requiredToolsNote,
+      Value<bool> permitRequired,
+      Value<String?> permitType,
       Value<String?> blockerReason,
       Value<String?> checklistId,
       Value<String?> voiceFindingNote,
@@ -24323,6 +24872,34 @@ final class $$WorkOrdersTableReferences
 
     final cache = $_typedResult.readTableOrNull(
       _workOrderStatusHistoryRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $WorkOrderPlannedPartsTable,
+    List<WorkOrderPlannedPart>
+  >
+  _workOrderPlannedPartsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.workOrderPlannedParts,
+        aliasName: $_aliasNameGenerator(
+          db.workOrders.id,
+          db.workOrderPlannedParts.workOrderId,
+        ),
+      );
+
+  $$WorkOrderPlannedPartsTableProcessedTableManager
+  get workOrderPlannedPartsRefs {
+    final manager = $$WorkOrderPlannedPartsTableTableManager(
+      $_db,
+      $_db.workOrderPlannedParts,
+    ).filter((f) => f.workOrderId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _workOrderPlannedPartsRefsTable($_db),
     );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
@@ -24523,6 +25100,21 @@ class $$WorkOrdersTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get requiredToolsNote => $composableBuilder(
+    column: $table.requiredToolsNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get permitRequired => $composableBuilder(
+    column: $table.permitRequired,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get permitType => $composableBuilder(
+    column: $table.permitType,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<String> get blockerReason => $composableBuilder(
     column: $table.blockerReason,
     builder: (column) => ColumnFilters(column),
@@ -24692,6 +25284,32 @@ class $$WorkOrdersTableFilterComposer
               }) => $$WorkOrderStatusHistoryTableFilterComposer(
                 $db: $db,
                 $table: $db.workOrderStatusHistory,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<bool> workOrderPlannedPartsRefs(
+    Expression<bool> Function($$WorkOrderPlannedPartsTableFilterComposer f) f,
+  ) {
+    final $$WorkOrderPlannedPartsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.workOrderPlannedParts,
+          getReferencedColumn: (t) => t.workOrderId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$WorkOrderPlannedPartsTableFilterComposer(
+                $db: $db,
+                $table: $db.workOrderPlannedParts,
                 $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                 joinBuilder: joinBuilder,
                 $removeJoinBuilderFromRootComposer:
@@ -24889,6 +25507,21 @@ class $$WorkOrdersTableOrderingComposer
 
   ColumnOrderings<String> get followUpNote => $composableBuilder(
     column: $table.followUpNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get requiredToolsNote => $composableBuilder(
+    column: $table.requiredToolsNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get permitRequired => $composableBuilder(
+    column: $table.permitRequired,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get permitType => $composableBuilder(
+    column: $table.permitType,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -25143,6 +25776,21 @@ class $$WorkOrdersTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get requiredToolsNote => $composableBuilder(
+    column: $table.requiredToolsNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get permitRequired => $composableBuilder(
+    column: $table.permitRequired,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get permitType => $composableBuilder(
+    column: $table.permitType,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<String> get blockerReason => $composableBuilder(
     column: $table.blockerReason,
     builder: (column) => column,
@@ -25319,6 +25967,32 @@ class $$WorkOrdersTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> workOrderPlannedPartsRefs<T extends Object>(
+    Expression<T> Function($$WorkOrderPlannedPartsTableAnnotationComposer a) f,
+  ) {
+    final $$WorkOrderPlannedPartsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.workOrderPlannedParts,
+          getReferencedColumn: (t) => t.workOrderId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$WorkOrderPlannedPartsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.workOrderPlannedParts,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
   Expression<T> checklistResponsesRefs<T extends Object>(
     Expression<T> Function($$ChecklistResponsesTableAnnotationComposer a) f,
   ) {
@@ -25417,6 +26091,7 @@ class $$WorkOrdersTableTableManager
             bool spaceId,
             bool siteId,
             bool workOrderStatusHistoryRefs,
+            bool workOrderPlannedPartsRefs,
             bool checklistResponsesRefs,
             bool inventoryTransactionsRefs,
             bool safetyGateResponsesRefs,
@@ -25460,6 +26135,9 @@ class $$WorkOrdersTableTableManager
                 Value<String?> qaStatus = const Value.absent(),
                 Value<String?> remainingIssueNote = const Value.absent(),
                 Value<String?> followUpNote = const Value.absent(),
+                Value<String?> requiredToolsNote = const Value.absent(),
+                Value<bool> permitRequired = const Value.absent(),
+                Value<String?> permitType = const Value.absent(),
                 Value<String?> blockerReason = const Value.absent(),
                 Value<String?> checklistId = const Value.absent(),
                 Value<String?> voiceFindingNote = const Value.absent(),
@@ -25499,6 +26177,9 @@ class $$WorkOrdersTableTableManager
                 qaStatus: qaStatus,
                 remainingIssueNote: remainingIssueNote,
                 followUpNote: followUpNote,
+                requiredToolsNote: requiredToolsNote,
+                permitRequired: permitRequired,
+                permitType: permitType,
                 blockerReason: blockerReason,
                 checklistId: checklistId,
                 voiceFindingNote: voiceFindingNote,
@@ -25540,6 +26221,9 @@ class $$WorkOrdersTableTableManager
                 Value<String?> qaStatus = const Value.absent(),
                 Value<String?> remainingIssueNote = const Value.absent(),
                 Value<String?> followUpNote = const Value.absent(),
+                Value<String?> requiredToolsNote = const Value.absent(),
+                Value<bool> permitRequired = const Value.absent(),
+                Value<String?> permitType = const Value.absent(),
                 Value<String?> blockerReason = const Value.absent(),
                 Value<String?> checklistId = const Value.absent(),
                 Value<String?> voiceFindingNote = const Value.absent(),
@@ -25579,6 +26263,9 @@ class $$WorkOrdersTableTableManager
                 qaStatus: qaStatus,
                 remainingIssueNote: remainingIssueNote,
                 followUpNote: followUpNote,
+                requiredToolsNote: requiredToolsNote,
+                permitRequired: permitRequired,
+                permitType: permitType,
                 blockerReason: blockerReason,
                 checklistId: checklistId,
                 voiceFindingNote: voiceFindingNote,
@@ -25608,6 +26295,7 @@ class $$WorkOrdersTableTableManager
                 spaceId = false,
                 siteId = false,
                 workOrderStatusHistoryRefs = false,
+                workOrderPlannedPartsRefs = false,
                 checklistResponsesRefs = false,
                 inventoryTransactionsRefs = false,
                 safetyGateResponsesRefs = false,
@@ -25616,6 +26304,7 @@ class $$WorkOrdersTableTableManager
                   db: db,
                   explicitlyWatchedTables: [
                     if (workOrderStatusHistoryRefs) db.workOrderStatusHistory,
+                    if (workOrderPlannedPartsRefs) db.workOrderPlannedParts,
                     if (checklistResponsesRefs) db.checklistResponses,
                     if (inventoryTransactionsRefs) db.inventoryTransactions,
                     if (safetyGateResponsesRefs) db.safetyGateResponses,
@@ -25718,6 +26407,27 @@ class $$WorkOrdersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (workOrderPlannedPartsRefs)
+                        await $_getPrefetchedData<
+                          WorkOrder,
+                          $WorkOrdersTable,
+                          WorkOrderPlannedPart
+                        >(
+                          currentTable: table,
+                          referencedTable: $$WorkOrdersTableReferences
+                              ._workOrderPlannedPartsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$WorkOrdersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).workOrderPlannedPartsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.workOrderId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                       if (checklistResponsesRefs)
                         await $_getPrefetchedData<
                           WorkOrder,
@@ -25807,6 +26517,7 @@ typedef $$WorkOrdersTableProcessedTableManager =
         bool spaceId,
         bool siteId,
         bool workOrderStatusHistoryRefs,
+        bool workOrderPlannedPartsRefs,
         bool checklistResponsesRefs,
         bool inventoryTransactionsRefs,
         bool safetyGateResponsesRefs,
@@ -26253,6 +26964,352 @@ typedef $$WorkOrderStatusHistoryTableProcessedTableManager =
       $$WorkOrderStatusHistoryTableUpdateCompanionBuilder,
       (WorkOrderStatusHistoryData, $$WorkOrderStatusHistoryTableReferences),
       WorkOrderStatusHistoryData,
+      PrefetchHooks Function({bool workOrderId})
+    >;
+typedef $$WorkOrderPlannedPartsTableCreateCompanionBuilder =
+    WorkOrderPlannedPartsCompanion Function({
+      required String id,
+      required String workOrderId,
+      required String itemName,
+      required double plannedQuantity,
+      required String unit,
+      Value<int> rowid,
+    });
+typedef $$WorkOrderPlannedPartsTableUpdateCompanionBuilder =
+    WorkOrderPlannedPartsCompanion Function({
+      Value<String> id,
+      Value<String> workOrderId,
+      Value<String> itemName,
+      Value<double> plannedQuantity,
+      Value<String> unit,
+      Value<int> rowid,
+    });
+
+final class $$WorkOrderPlannedPartsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $WorkOrderPlannedPartsTable,
+          WorkOrderPlannedPart
+        > {
+  $$WorkOrderPlannedPartsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $WorkOrdersTable _workOrderIdTable(_$AppDatabase db) =>
+      db.workOrders.createAlias(
+        $_aliasNameGenerator(
+          db.workOrderPlannedParts.workOrderId,
+          db.workOrders.id,
+        ),
+      );
+
+  $$WorkOrdersTableProcessedTableManager get workOrderId {
+    final $_column = $_itemColumn<String>('work_order_id')!;
+
+    final manager = $$WorkOrdersTableTableManager(
+      $_db,
+      $_db.workOrders,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_workOrderIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$WorkOrderPlannedPartsTableFilterComposer
+    extends Composer<_$AppDatabase, $WorkOrderPlannedPartsTable> {
+  $$WorkOrderPlannedPartsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get itemName => $composableBuilder(
+    column: $table.itemName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get plannedQuantity => $composableBuilder(
+    column: $table.plannedQuantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get unit => $composableBuilder(
+    column: $table.unit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$WorkOrdersTableFilterComposer get workOrderId {
+    final $$WorkOrdersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.workOrderId,
+      referencedTable: $db.workOrders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WorkOrdersTableFilterComposer(
+            $db: $db,
+            $table: $db.workOrders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$WorkOrderPlannedPartsTableOrderingComposer
+    extends Composer<_$AppDatabase, $WorkOrderPlannedPartsTable> {
+  $$WorkOrderPlannedPartsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get itemName => $composableBuilder(
+    column: $table.itemName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get plannedQuantity => $composableBuilder(
+    column: $table.plannedQuantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get unit => $composableBuilder(
+    column: $table.unit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$WorkOrdersTableOrderingComposer get workOrderId {
+    final $$WorkOrdersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.workOrderId,
+      referencedTable: $db.workOrders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WorkOrdersTableOrderingComposer(
+            $db: $db,
+            $table: $db.workOrders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$WorkOrderPlannedPartsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $WorkOrderPlannedPartsTable> {
+  $$WorkOrderPlannedPartsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get itemName =>
+      $composableBuilder(column: $table.itemName, builder: (column) => column);
+
+  GeneratedColumn<double> get plannedQuantity => $composableBuilder(
+    column: $table.plannedQuantity,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get unit =>
+      $composableBuilder(column: $table.unit, builder: (column) => column);
+
+  $$WorkOrdersTableAnnotationComposer get workOrderId {
+    final $$WorkOrdersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.workOrderId,
+      referencedTable: $db.workOrders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WorkOrdersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.workOrders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$WorkOrderPlannedPartsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $WorkOrderPlannedPartsTable,
+          WorkOrderPlannedPart,
+          $$WorkOrderPlannedPartsTableFilterComposer,
+          $$WorkOrderPlannedPartsTableOrderingComposer,
+          $$WorkOrderPlannedPartsTableAnnotationComposer,
+          $$WorkOrderPlannedPartsTableCreateCompanionBuilder,
+          $$WorkOrderPlannedPartsTableUpdateCompanionBuilder,
+          (WorkOrderPlannedPart, $$WorkOrderPlannedPartsTableReferences),
+          WorkOrderPlannedPart,
+          PrefetchHooks Function({bool workOrderId})
+        > {
+  $$WorkOrderPlannedPartsTableTableManager(
+    _$AppDatabase db,
+    $WorkOrderPlannedPartsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WorkOrderPlannedPartsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$WorkOrderPlannedPartsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$WorkOrderPlannedPartsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> workOrderId = const Value.absent(),
+                Value<String> itemName = const Value.absent(),
+                Value<double> plannedQuantity = const Value.absent(),
+                Value<String> unit = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => WorkOrderPlannedPartsCompanion(
+                id: id,
+                workOrderId: workOrderId,
+                itemName: itemName,
+                plannedQuantity: plannedQuantity,
+                unit: unit,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String workOrderId,
+                required String itemName,
+                required double plannedQuantity,
+                required String unit,
+                Value<int> rowid = const Value.absent(),
+              }) => WorkOrderPlannedPartsCompanion.insert(
+                id: id,
+                workOrderId: workOrderId,
+                itemName: itemName,
+                plannedQuantity: plannedQuantity,
+                unit: unit,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$WorkOrderPlannedPartsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({workOrderId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (workOrderId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.workOrderId,
+                                referencedTable:
+                                    $$WorkOrderPlannedPartsTableReferences
+                                        ._workOrderIdTable(db),
+                                referencedColumn:
+                                    $$WorkOrderPlannedPartsTableReferences
+                                        ._workOrderIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$WorkOrderPlannedPartsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $WorkOrderPlannedPartsTable,
+      WorkOrderPlannedPart,
+      $$WorkOrderPlannedPartsTableFilterComposer,
+      $$WorkOrderPlannedPartsTableOrderingComposer,
+      $$WorkOrderPlannedPartsTableAnnotationComposer,
+      $$WorkOrderPlannedPartsTableCreateCompanionBuilder,
+      $$WorkOrderPlannedPartsTableUpdateCompanionBuilder,
+      (WorkOrderPlannedPart, $$WorkOrderPlannedPartsTableReferences),
+      WorkOrderPlannedPart,
       PrefetchHooks Function({bool workOrderId})
     >;
 typedef $$ChecklistsTableCreateCompanionBuilder =
@@ -33520,6 +34577,8 @@ class $AppDatabaseManager {
         _db,
         _db.workOrderStatusHistory,
       );
+  $$WorkOrderPlannedPartsTableTableManager get workOrderPlannedParts =>
+      $$WorkOrderPlannedPartsTableTableManager(_db, _db.workOrderPlannedParts);
   $$ChecklistsTableTableManager get checklists =>
       $$ChecklistsTableTableManager(_db, _db.checklists);
   $$ChecklistItemsTableTableManager get checklistItems =>

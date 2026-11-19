@@ -1,0 +1,23 @@
+[
+  {
+    "id": "wopp-1",
+    "workOrderId": "wo-1001",
+    "itemName": "Mechanical seal kit",
+    "plannedQuantity": 1,
+    "unit": "kit"
+  },
+  {
+    "id": "wopp-2",
+    "workOrderId": "wo-1001",
+    "itemName": "Bearing, 6205-2RS",
+    "plannedQuantity": 2,
+    "unit": "pcs"
+  },
+  {
+    "id": "wopp-3",
+    "workOrderId": "wo-1002",
+    "itemName": "HVAC filter, 20x20x2",
+    "plannedQuantity": 4,
+    "unit": "pcs"
+  }
+]

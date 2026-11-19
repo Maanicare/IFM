@@ -22,27 +22,29 @@ rushed.
   admin/manager-level fields (checklist assignment, scheduling) that
   don't have a mobile UI anywhere yet.
 
-## Screen 09 - Work Order Detail
+## Screen 09 - Work Order Detail — DONE
 
-**Section E (Closure) — DONE.** Root cause, Work performed, Remaining
+**Section E (Closure)** — Root cause, Work performed, Remaining
 issue, Follow-up (editable text fields, `completeWorkOrder`-gated) and
-QA Pass/Fail (`verifyWorkOrder`-gated) are now wired up with outbox
-sync. Signature was already done.
+QA Pass/Fail (`verifyWorkOrder`-gated) are wired up with outbox sync.
+Signature was already done.
 
-Still pending in this screen:
-- **Section A** — "request context" isn't shown: no link back to the
-  originating Request from the Work Order (requestId exists on the
-  row, just not surfaced/tappable).
-- **Section B (Asset Context)** — Health score, Warranty, Last
-  maintenance, Manuals aren't shown in this compact view (they do
-  exist one tap away on the full Asset Profile screen, but the spec
-  lists them for this screen too).
-- **Section C (Work Plan)** — Tools (required-tools list) and Parts
-  as a *planned/required* list (distinct from Section D's "parts
-  consumed", which is done) aren't modelled at all; Permit
-  requirements isn't modelled either (ties to Screen 37, also not
-  built). Safety controls is only partially covered by the generic
-  3-question Safety Gate, not a per-WO controls list.
+**Section A** — the Problem card now links back to the originating
+Request (`requestId`) when one exists.
+
+**Section B (Asset Context)** — Health score, Warranty, Last
+maintenance and Manuals are now shown directly in the Asset context
+card (previously only reachable one tap away on the Asset Profile
+screen).
+
+**Section C (Work Plan)** — Tools (`requiredToolsNote`) and planned
+Parts (new `WorkOrderPlannedParts` table, distinct from Section D's
+"parts consumed") are now shown in a Work Plan card; Permit
+requirement is shown as a flag/type only (`permitRequired`/
+`permitType` on the Work Order) — the full Permit-to-Work workflow
+(Screen 37) is still not built. Safety controls remain only partially
+covered by the generic 3-question Safety Gate, not a per-WO controls
+list.
 
 ## Screen 10 - My Work (job card)
 

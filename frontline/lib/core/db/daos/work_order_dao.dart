@@ -7,7 +7,7 @@ part 'work_order_dao.g.dart';
 
 /// Queries backing the Technician "My Work" screen (Now/Next/Later) and the
 /// Work Order detail screen.
-@DriftAccessor(tables: [WorkOrders, WorkOrderStatusHistory])
+@DriftAccessor(tables: [WorkOrders, WorkOrderStatusHistory, WorkOrderPlannedParts])
 class WorkOrderDao extends DatabaseAccessor<AppDatabase>
     with _$WorkOrderDaoMixin {
   WorkOrderDao(super.db);
@@ -186,6 +186,19 @@ class WorkOrderDao extends DatabaseAccessor<AppDatabase>
       ),
     );
   }
+
+  /// Section C (Work Plan): planned/required parts list - read-only on
+  /// this device, configured server-side at WO creation / PM plan time
+  /// (distinct from Section D's "Parts Used", which the technician
+  /// records).
+  Future<List<WorkOrderPlannedPart>> plannedPartsFor(String workOrderId) {
+    return (select(workOrderPlannedParts)
+          ..where((t) => t.workOrderId.equals(workOrderId)))
+        .get();
+  }
+
+  Future<void> upsertPlannedPart(WorkOrderPlannedPartsCompanion row) =>
+      into(workOrderPlannedParts).insertOnConflictUpdate(row);
 
   Future<void> clearPendingFlag(String workOrderId) {
     return (update(workOrders)..where((t) => t.id.equals(workOrderId))).write(

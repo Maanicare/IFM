@@ -50,7 +50,26 @@ class WorkOrderDetailScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               _SectionCard(
                 title: 'Problem',
-                child: Text(wo.problemDescription ?? 'No description provided.'),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(wo.problemDescription ?? 'No description provided.'),
+                    if (wo.requestId != null) ...[
+                      const SizedBox(height: 6),
+                      InkWell(
+                        onTap: () => context.push('/requests/${wo.requestId}'),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(Icons.link, size: 16, color: Colors.grey),
+                            SizedBox(width: 4),
+                            Text('View originating request', style: TextStyle(fontSize: 13)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
               const SizedBox(height: 12),
               _SectionCard(
@@ -73,6 +92,40 @@ class WorkOrderDetailScreen extends ConsumerWidget {
                           ),
                         ),
                         Text('Criticality: ${asset.criticality} · Status: ${asset.status}'),
+                        if (asset.healthScore != null)
+                          Text('Health score: ${asset.healthScore!.toStringAsFixed(0)}'),
+                        Text(
+                          asset.warrantyEndDate != null
+                              ? 'Warranty: until ${_formatDate(asset.warrantyEndDate!)}'
+                              : 'Warranty: not on record',
+                        ),
+                        Text(
+                          asset.lastServiceDate != null
+                              ? 'Last maintenance: ${_formatDate(asset.lastServiceDate!)}'
+                              : 'Last maintenance: not on record',
+                        ),
+                        FutureBuilder<List<AssetDocument>>(
+                          future: db.assetDao.documentsFor(asset.id),
+                          builder: (context, docsSnapshot) {
+                            final manuals = (docsSnapshot.data ?? const [])
+                                .where((d) => d.documentType == 'manual')
+                                .toList();
+                            if (manuals.isEmpty) {
+                              return const Text('Manuals: none on record');
+                            }
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Manuals:'),
+                                for (final manual in manuals)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8, top: 2),
+                                    child: Text('• ${manual.title}', style: const TextStyle(fontSize: 13)),
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
                         if (asset.repeatFailureCount > 1)
                           Padding(
                             padding: const EdgeInsets.only(top: 6),
@@ -94,6 +147,8 @@ class WorkOrderDetailScreen extends ConsumerWidget {
                   },
                 ),
               ),
+              const SizedBox(height: 12),
+              _WorkPlanSection(wo: wo),
               if (wo.checklistId != null) ...[
                 const SizedBox(height: 12),
                 ChecklistSection(workOrderId: wo.id, checklistId: wo.checklistId!),
@@ -168,6 +223,69 @@ class _AssetMetersRow extends ConsumerWidget {
 final _metersForWoProvider = FutureProvider.family<List<AssetMeter>, String>((ref, assetId) {
   return ref.watch(appDatabaseProvider).assetDao.metersFor(assetId);
 });
+
+String _formatDate(DateTime date) =>
+    '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+
+final _plannedPartsProvider =
+    FutureProvider.family<List<WorkOrderPlannedPart>, String>((ref, workOrderId) {
+  return ref.watch(appDatabaseProvider).workOrderDao.plannedPartsFor(workOrderId);
+});
+
+/// Section C (Work Plan): Tools, planned Parts, Permit requirement - all
+/// configured server-side (PM plan / WO creation) and read-only here.
+/// Permit requirement is shown as a flag/note only; the full Permit-to-
+/// Work workflow (Screen 37) is not built yet - see PENDING_FEATURES.md.
+class _WorkPlanSection extends ConsumerWidget {
+  const _WorkPlanSection({required this.wo});
+  final WorkOrder wo;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final plannedParts = ref.watch(_plannedPartsProvider(wo.id)).value ?? const [];
+    final hasTools = wo.requiredToolsNote != null && wo.requiredToolsNote!.isNotEmpty;
+    if (!hasTools && plannedParts.isEmpty && !wo.permitRequired) {
+      return const SizedBox.shrink();
+    }
+
+    return _SectionCard(
+      title: 'Work Plan',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (hasTools) ...[
+            const Text('Tools required:', style: TextStyle(fontWeight: FontWeight.w600)),
+            Padding(
+              padding: const EdgeInsets.only(top: 2, bottom: 8),
+              child: Text(wo.requiredToolsNote!),
+            ),
+          ],
+          if (plannedParts.isNotEmpty) ...[
+            const Text('Planned parts:', style: TextStyle(fontWeight: FontWeight.w600)),
+            for (final part in plannedParts)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text('• ${part.itemName} — ${part.plannedQuantity} ${part.unit}'),
+              ),
+            const SizedBox(height: 8),
+          ],
+          if (wo.permitRequired)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade50,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                'Permit required: ${wo.permitType ?? "type not specified"}',
+                style: TextStyle(color: Colors.orange.shade800, fontSize: 12),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
 
 /// Section E (Closure): Root cause, Work performed, Remaining issue,
 /// Follow-up, QA. Shown once the job is past "assigned" - a technician

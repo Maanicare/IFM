@@ -63,6 +63,7 @@ part 'app_database.g.dart';
     ServiceRequests,
     WorkOrders,
     WorkOrderStatusHistory,
+    WorkOrderPlannedParts,
     Checklists,
     ChecklistItems,
     ChecklistResponses,
@@ -113,7 +114,7 @@ class AppDatabase extends _$AppDatabase {
   // then fails with a Drift row-mapping error ("Null check operator
   // used on a null value"), not a clean "no such column" message.
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
