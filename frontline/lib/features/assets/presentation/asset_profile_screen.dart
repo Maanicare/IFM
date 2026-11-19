@@ -43,7 +43,7 @@ class AssetProfileScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               _CommercialSection(asset: asset),
               const SizedBox(height: 12),
-              _MaintenanceSection(db: db, assetId: asset.id),
+              _MaintenanceSection(db: db, asset: asset),
               const SizedBox(height: 12),
               _DocumentsSection(db: db, assetId: asset.id),
             ],
@@ -276,12 +276,14 @@ class _CommercialSection extends StatelessWidget {
 }
 
 class _MaintenanceSection extends ConsumerWidget {
-  const _MaintenanceSection({required this.db, required this.assetId});
+  const _MaintenanceSection({required this.db, required this.asset});
   final AppDatabase db;
-  final String assetId;
+  final Asset asset;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final assetId = asset.id;
+    final fmt = DateFormat.yMMMd();
     final historyAsync = ref.watch(_woHistoryProvider(assetId));
 
     return historyAsync.when(
@@ -314,6 +316,19 @@ class _MaintenanceSection extends ConsumerWidget {
               children: [
                 Text('Maintenance', style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 8),
+                if (asset.lastServiceDate != null)
+                  Row(children: [
+                    const SizedBox(width: 120, child: Text('Last service', style: TextStyle(color: Colors.grey))),
+                    Expanded(child: Text(fmt.format(asset.lastServiceDate!))),
+                  ]),
+                if (asset.nextServiceDate != null) ...[
+                  const SizedBox(height: 4),
+                  Row(children: [
+                    const SizedBox(width: 120, child: Text('Next service', style: TextStyle(color: Colors.grey))),
+                    Expanded(child: Text(fmt.format(asset.nextServiceDate!))),
+                  ]),
+                ],
+                const SizedBox(height: 4),
                 Row(children: [
                   const SizedBox(width: 120, child: Text('Open WO', style: TextStyle(color: Colors.grey))),
                   Expanded(child: Text(open.isEmpty ? 'None' : open.map((w) => w.woNumber).join(', '))),
