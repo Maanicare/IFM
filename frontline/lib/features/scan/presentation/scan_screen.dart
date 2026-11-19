@@ -9,11 +9,13 @@ import '../../location/presentation/current_site_provider.dart';
 
 /// SCREEN 11 - Scan. Resolves a QR/barcode against the local cache across
 /// everything this mobile app actually manages - Asset, Space, Inventory
-/// item (Section: "Can Identify: Asset; Space; Inventory item; Vehicle;
-/// Equipment; Room") - checked in that order since a shared code space
-/// across entity types is a real-world risk; fleet vehicles are out of
-/// scope for this app (Section 70: Fleet is a P2/desktop module with no
-/// local vehicle cache here), so that one case is not attempted.
+/// item, Vehicle (Section: "Can Identify: Asset; Space; Inventory item;
+/// Vehicle; Equipment; Room") - checked in that order since a shared code
+/// space across entity types is a real-world risk. "Equipment" and "Room"
+/// are not separate data models in this schema - they're covered by
+/// Asset and Space respectively. NFC is not implemented: `mobile_scanner`
+/// only reads QR/barcode; NFC would need a separate plugin and tag-format
+/// decision, tracked in PENDING_FEATURES.md rather than guessed at here.
 class ScanScreen extends ConsumerStatefulWidget {
   const ScanScreen({super.key});
 
@@ -73,6 +75,18 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
         await showModalBottomSheet<void>(
           context: context,
           builder: (context) => _InventoryResultSheet(entry: withBalance!),
+        );
+      }
+      _handled = false;
+      return;
+    }
+
+    final vehicle = await db.fleetDao.byRegistration(code);
+    if (vehicle != null) {
+      if (mounted) {
+        await showModalBottomSheet<void>(
+          context: context,
+          builder: (context) => _VehicleResultSheet(vehicle: vehicle),
         );
       }
       _handled = false;
@@ -181,6 +195,38 @@ class _SpaceResultSheet extends StatelessWidget {
                 child: const Text('Report an issue for this space'),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _VehicleResultSheet extends StatelessWidget {
+  const _VehicleResultSheet({required this.vehicle});
+  final Vehicle vehicle;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.local_shipping_outlined),
+                const SizedBox(width: 8),
+                Expanded(child: Text(vehicle.registration, style: Theme.of(context).textTheme.titleLarge)),
+              ],
+            ),
+            Text('${vehicle.type} · ${vehicle.make ?? ''} ${vehicle.model ?? ''}'),
+            const SizedBox(height: 8),
+            Text('Status: ${vehicle.status}'),
+            if (vehicle.odometer != null)
+              Text('Odometer: ${vehicle.odometer!.toStringAsFixed(0)} km'),
           ],
         ),
       ),

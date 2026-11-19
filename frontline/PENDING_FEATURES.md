@@ -6,6 +6,14 @@ data that already exists. Each one was flagged during the Screen
 Contract (Section 15) audit and confirmed as "do later" rather than
 rushed.
 
+## Screen 11 - Scan
+
+- **NFC input** — spec lists QR/Barcode/NFC; only QR/Barcode are
+  implemented (`mobile_scanner` package). NFC needs a separate plugin
+  (e.g. `nfc_manager`), platform entitlements, and a decision on what
+  format is written to the tags - not a trivial add-on to the existing
+  scan flow.
+
 ## Screen 07 - Request Detail
 
 - **Comments** — no comment-thread data model exists for requests
