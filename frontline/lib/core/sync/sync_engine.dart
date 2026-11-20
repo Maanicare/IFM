@@ -109,6 +109,12 @@ class SyncEngine {
         case 'shift_roster_attendance':
           await _pushRosterAttendance(entry);
           break;
+        case 'shift_roster_swap':
+          await _pushRosterSwap(entry);
+          break;
+        case 'shift_roster_replace':
+          await _ref.read(shiftRosterRepositoryProvider).pushReplacement(entry.entityId);
+          break;
         case 'safety_gate_response':
           await _ref.read(safetyGateControllerProvider.notifier)
               .push(jsonDecode(entry.payloadJson) as Map<String, dynamic>);
@@ -243,6 +249,14 @@ class SyncEngine {
     await _ref.read(shiftRosterRepositoryProvider).pushAttendanceChange(
           rosterEntryId: entry.entityId,
           status: payload['status'] as String,
+        );
+  }
+
+  Future<void> _pushRosterSwap(OutboxEntry entry) async {
+    final payload = jsonDecode(entry.payloadJson) as Map<String, dynamic>;
+    await _ref.read(shiftRosterRepositoryProvider).pushSwap(
+          entryIdA: payload['entryIdA'] as String,
+          entryIdB: payload['entryIdB'] as String,
         );
   }
 

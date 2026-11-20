@@ -38,4 +38,14 @@ class MockShiftRosterRepository implements ShiftRosterRepository {
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 150));
   }
+
+  @override
+  Future<void> pushSwap({required String entryIdA, required String entryIdB}) async {
+    await Future<void>.delayed(const Duration(milliseconds: 150));
+  }
+
+  @override
+  Future<void> pushReplacement(String rosterEntryId) async {
+    await Future<void>.delayed(const Duration(milliseconds: 150));
+  }
 }

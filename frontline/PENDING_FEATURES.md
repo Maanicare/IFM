@@ -6,15 +6,14 @@ data that already exists. Each one was flagged during the Screen
 Contract (Section 15) audit and confirmed as "do later" rather than
 rushed.
 
-## Screen 25 - Shift Roster
+## Screen 25 - Shift Roster — DONE
 
-- **Swap / Replace** — spec lists these alongside Mark absence/Request
-  relief; only the two self-service actions (on the logged-in user's
-  own row) are built. Swap/Replace mean assigning a *different*
-  employee to a shift, which is roster authoring, not self-service -
-  needs an employee picker and is arguably a manager/desktop action,
-  but the spec does list it under this screen so it should be
-  confirmed rather than assumed out of scope.
+- **Swap** — trades shift times between two of today's roster entries
+  at the same site; picker lists other employees scheduled today
+  (there's no synced employee directory to pick from beyond that).
+- **Replace** — `replacementUserName` (already existed as a read-only
+  display field) is now settable from the device as plain text, not
+  linked to a specific employee record, for the same reason.
 
 ## Screen 48 - Vehicle Profile (My Vehicle)
 

@@ -8,21 +8,27 @@ part of 'shift_roster_controller.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Self-service attendance changes on Screen 25 - "Mark absence" and
-/// "Request relief". Full roster authoring (Swap/Replace another
-/// employee's entry) stays a manager action outside this mobile app.
+/// Self-service actions on Screen 25 - Mark absence / Request relief
+/// (attendance), and Swap / Replace (see the doc comments on
+/// [AppDatabase.shiftRosterDao]'s `swapShifts`/`setReplacement` for
+/// what those mean here given there's no synced employee directory
+/// beyond today's roster).
 
 @ProviderFor(ShiftRosterController)
 final shiftRosterControllerProvider = ShiftRosterControllerProvider._();
 
-/// Self-service attendance changes on Screen 25 - "Mark absence" and
-/// "Request relief". Full roster authoring (Swap/Replace another
-/// employee's entry) stays a manager action outside this mobile app.
+/// Self-service actions on Screen 25 - Mark absence / Request relief
+/// (attendance), and Swap / Replace (see the doc comments on
+/// [AppDatabase.shiftRosterDao]'s `swapShifts`/`setReplacement` for
+/// what those mean here given there's no synced employee directory
+/// beyond today's roster).
 final class ShiftRosterControllerProvider
     extends $NotifierProvider<ShiftRosterController, void> {
-  /// Self-service attendance changes on Screen 25 - "Mark absence" and
-  /// "Request relief". Full roster authoring (Swap/Replace another
-  /// employee's entry) stays a manager action outside this mobile app.
+  /// Self-service actions on Screen 25 - Mark absence / Request relief
+  /// (attendance), and Swap / Replace (see the doc comments on
+  /// [AppDatabase.shiftRosterDao]'s `swapShifts`/`setReplacement` for
+  /// what those mean here given there's no synced employee directory
+  /// beyond today's roster).
   ShiftRosterControllerProvider._()
     : super(
         from: null,
@@ -51,11 +57,13 @@ final class ShiftRosterControllerProvider
 }
 
 String _$shiftRosterControllerHash() =>
-    r'7d6740b04d85436b6481e0c8e4680632d64ebde7';
+    r'e841ebf6ddca8f5a8dbff141004602674b7f2528';
 
-/// Self-service attendance changes on Screen 25 - "Mark absence" and
-/// "Request relief". Full roster authoring (Swap/Replace another
-/// employee's entry) stays a manager action outside this mobile app.
+/// Self-service actions on Screen 25 - Mark absence / Request relief
+/// (attendance), and Swap / Replace (see the doc comments on
+/// [AppDatabase.shiftRosterDao]'s `swapShifts`/`setReplacement` for
+/// what those mean here given there's no synced employee directory
+/// beyond today's roster).
 
 abstract class _$ShiftRosterController extends $Notifier<void> {
   void build();

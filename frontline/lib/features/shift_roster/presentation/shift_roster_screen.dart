@@ -140,6 +140,24 @@ class _RosterTile extends ConsumerWidget {
                     ),
                 ],
               ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => _showSwapSheet(context, ref, entry, siteId),
+                      child: const Text('Swap'),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => _showReplaceDialog(context, ref, entry, siteId),
+                      child: Text(entry.replacementUserName == null ? 'Replace' : 'Edit replacement'),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ],
         ),
@@ -153,3 +171,86 @@ final _rosterProvider =
   final db = ref.watch(appDatabaseProvider);
   return db.shiftRosterDao.watchForSite(siteId, DateTime.now());
 });
+
+/// Screen 25 action: "Swap" - pick another employee scheduled at this
+/// site today; the two entries trade shift times.
+Future<void> _showSwapSheet(
+  BuildContext context,
+  WidgetRef ref,
+  ShiftRosterEntry entry,
+  String siteId,
+) async {
+  final db = ref.read(appDatabaseProvider);
+  final candidates = await db.shiftRosterDao.candidatesForSwap(siteId, entry.id, DateTime.now());
+  if (!context.mounted) return;
+  if (candidates.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('No one else is scheduled at this site today.')),
+    );
+    return;
+  }
+  final timeFmt = DateFormat.Hm();
+  final picked = await showModalBottomSheet<ShiftRosterEntry>(
+    context: context,
+    builder: (context) => SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text('Swap shift with...', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          for (final candidate in candidates)
+            ListTile(
+              title: Text(candidate.userName),
+              subtitle: Text('${timeFmt.format(candidate.shiftStart)} - ${timeFmt.format(candidate.shiftEnd)}'),
+              onTap: () => Navigator.of(context).pop(candidate),
+            ),
+        ],
+      ),
+    ),
+  );
+  if (picked != null) {
+    await ref.read(shiftRosterControllerProvider.notifier).swapShifts(
+          entryIdA: entry.id,
+          entryIdB: picked.id,
+          siteId: siteId,
+        );
+  }
+}
+
+/// Screen 25 action: "Replace" - recorded as a plain name (see the doc
+/// comment on `ShiftRosterDao.setReplacement`).
+Future<void> _showReplaceDialog(
+  BuildContext context,
+  WidgetRef ref,
+  ShiftRosterEntry entry,
+  String siteId,
+) async {
+  final controller = TextEditingController(text: entry.replacementUserName);
+  final name = await showDialog<String>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Replacement'),
+      content: TextField(
+        controller: controller,
+        autofocus: true,
+        decoration: const InputDecoration(labelText: 'Who is covering this shift?'),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.of(context).pop(''), child: const Text('Clear')),
+        TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(controller.text.trim()),
+          child: const Text('Save'),
+        ),
+      ],
+    ),
+  );
+  if (name == null) return;
+  await ref.read(shiftRosterControllerProvider.notifier).setReplacement(
+        entry.id,
+        replacementName: name.isEmpty ? null : name,
+        siteId: siteId,
+      );
+}

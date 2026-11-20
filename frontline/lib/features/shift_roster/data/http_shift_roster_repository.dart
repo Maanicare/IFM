@@ -41,4 +41,21 @@ class HttpShiftRosterRepository implements ShiftRosterRepository {
       'status': status,
     });
   }
+
+  @override
+  Future<void> pushSwap({required String entryIdA, required String entryIdB}) async {
+    await _dio.post<void>('/v1/shift-roster/swap', data: {
+      'entry_id_a': entryIdA,
+      'entry_id_b': entryIdB,
+    });
+  }
+
+  @override
+  Future<void> pushReplacement(String rosterEntryId) async {
+    final entry = await _db.shiftRosterDao.byId(rosterEntryId);
+    if (entry == null) return;
+    await _dio.patch<void>('/v1/shift-roster/$rosterEntryId/replacement', data: {
+      'replacement_user_name': entry.replacementUserName,
+    });
+  }
 }
