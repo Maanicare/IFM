@@ -22,8 +22,11 @@ class MockFleetRepository implements FleetRepository {
           type: v['type'] as String,
           make: Value(v['make'] as String?),
           model: Value(v['model'] as String?),
+          vin: Value(v['vin'] as String?),
           odometer: Value((v['odometer'] as num?)?.toDouble()),
           fuelType: Value(v['fuelType'] as String?),
+          batteryStatus: Value(v['batteryStatus'] as String?),
+          tyreStatus: Value(v['tyreStatus'] as String?),
           assignedDriverId: Value(v['assignedDriverId'] as String?),
           status: v['status'] as String,
           insuranceExpiry: Value(

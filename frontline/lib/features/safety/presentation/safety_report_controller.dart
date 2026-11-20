@@ -29,6 +29,8 @@ class SafetyReportController extends _$SafetyReportController {
     String? assetId,
     bool injury = false,
     String? immediateAction,
+    String? peopleInvolved,
+    String? witnesses,
   }) async {
     final db = ref.read(appDatabaseProvider);
     final guard = ref.read(policyGuardProvider);
@@ -55,6 +57,8 @@ class SafetyReportController extends _$SafetyReportController {
         assetId: Value(assetId),
         injury: Value(injury),
         immediateAction: Value(immediateAction),
+        peopleInvolved: Value(peopleInvolved),
+        witnesses: Value(witnesses),
         createdAt: now,
       ));
       await db.outboxDao.enqueue(

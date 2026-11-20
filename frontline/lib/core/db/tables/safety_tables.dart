@@ -19,6 +19,11 @@ class Incidents extends Table {
   TextColumn get assetId => text().nullable()();
   BoolColumn get injury => boolean().withDefault(const Constant(false))();
   TextColumn get immediateAction => text().nullable()();
+  // Free-text names, not links to CachedUsers rows - this app has no
+  // synced employee directory to pick specific people from (same
+  // reasoning as Request "Assign" and Shift Roster "Replace").
+  TextColumn get peopleInvolved => text().nullable()();
+  TextColumn get witnesses => text().nullable()();
   TextColumn get investigationStatus =>
       text().withDefault(const Constant('open'))();
   DateTimeColumn get createdAt => dateTime()();

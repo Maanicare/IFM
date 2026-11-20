@@ -28,6 +28,8 @@ class HttpSafetyRepository implements SafetyRepository {
       'asset_id': incident.assetId,
       'injury': incident.injury,
       'immediate_action': incident.immediateAction,
+      'people_involved': incident.peopleInvolved,
+      'witnesses': incident.witnesses,
     });
   }
 

@@ -15,15 +15,12 @@ rushed.
   display field) is now settable from the device as plain text, not
   linked to a specific employee record, for the same reason.
 
-## Screen 48 - Vehicle Profile (My Vehicle)
+## Screen 48 - Vehicle Profile (My Vehicle) — DONE
 
-Trip history list — fixed (data already existed via
-`watchTripsForDriver`, just wasn't rendered).
-
-Still pending:
-- **VIN**, **Battery**, **Tyres** — spec lists these fields; the
-  `Vehicles` table has no columns for them at all. Needs new columns
-  (schema bump) + fixture/repository updates, not just a UI add.
+Trip history list, VIN, Battery and Tyres are all shown now. Battery/
+Tyres are free-text condition notes (e.g. "72%", "Replace rear left"),
+not sensor-fed precise values - no telematics integration exists in
+this app.
 
 ## Screen 32 - Inventory Item — DONE
 
@@ -48,21 +45,21 @@ this site's balance (no second-location balance to credit, since
 there's no multi-site destination picker) - closer to "stock sent
 out" than a true transfer.
 
-## Screen 35 - Incident Report
+## Screen 35 - Incident Report — DONE
 
-Type, Severity, Injury, Description, Immediate action are captured.
-Missing: **Location** (only the current site is captured, not a
-specific space/location picker), **People involved**, **Asset**
-link, **Photos**, **Witnesses**. "System creates investigation
-workflow" also doesn't exist - an incident is just stored as a record,
-nothing downstream is generated.
+Type, Severity, Injury, Description, Immediate action, **Location**
+(space picker, not just site), **Asset** link, **People involved**,
+**Witnesses** (both free-text, no employee directory to pick from)
+and **Photo** are all captured now. "System creates investigation
+workflow" is treated as satisfied by `investigationStatus` defaulting
+to `'open'` on creation - full investigation case management (owner
+assignment, findings, closure) is a manager/desktop concern with no
+mobile UI anywhere in this app.
 
-## Screen 36 - Hazard / Near Miss
+## Screen 36 - Hazard / Near Miss — DONE
 
-Hazard type and Location(site-level) are captured. **Photo** and
-**Voice** (both listed as "Optional") aren't wired into this screen
-at all - no evidence-capture integration here, unlike the Work Order
-evidence flow.
+Hazard type, Location (space picker), **Photo** and **Voice** are now
+all captured, using the same evidence-capture flow as Create Request.
 
 ## Screen 11 - Scan — DONE
 

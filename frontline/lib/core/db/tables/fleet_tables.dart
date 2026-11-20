@@ -10,8 +10,14 @@ class Vehicles extends Table {
   TextColumn get type => text()();
   TextColumn get make => text().nullable()();
   TextColumn get model => text().nullable()();
+  TextColumn get vin => text().nullable()();
   RealColumn get odometer => real().nullable()();
   TextColumn get fuelType => text().nullable()();
+  // Battery/Tyres: free-text condition notes (e.g. "72%", "Good",
+  // "Replace rear left") - no telematics/sensor integration exists in
+  // this app to report a precise battery charge or tyre-pressure value.
+  TextColumn get batteryStatus => text().nullable()();
+  TextColumn get tyreStatus => text().nullable()();
   TextColumn get assignedDriverId => text().nullable()();
   TextColumn get status => text()();
   DateTimeColumn get insuranceExpiry => dateTime().nullable()();

@@ -53,9 +53,12 @@ class _VehicleContent extends ConsumerWidget {
                   children: [
                     Text(vehicle.registration, style: Theme.of(context).textTheme.titleLarge),
                     Text('${vehicle.make ?? ''} ${vehicle.model ?? ''} · ${vehicle.type.replaceAll('_', ' ')}'),
+                    if (vehicle.vin != null) Text('VIN: ${vehicle.vin}'),
                     const SizedBox(height: 8),
                     Text('Odometer: ${vehicle.odometer?.toStringAsFixed(0) ?? '-'} km'),
                     Text('Status: ${vehicle.status}'),
+                    if (vehicle.batteryStatus != null) Text('Battery: ${vehicle.batteryStatus}'),
+                    if (vehicle.tyreStatus != null) Text('Tyres: ${vehicle.tyreStatus}'),
                     if (vehicle.insuranceExpiry != null)
                       Text('Insurance expiry: ${fmt.format(vehicle.insuranceExpiry!)}'),
                     if (vehicle.pucExpiry != null) Text('PUC expiry: ${fmt.format(vehicle.pucExpiry!)}'),

@@ -121,7 +121,7 @@ class AppDatabase extends _$AppDatabase {
   // then fails with a Drift row-mapping error ("Null check operator
   // used on a null value"), not a clean "no such column" message.
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(

@@ -54,7 +54,7 @@ final class SafetyReportControllerProvider
 }
 
 String _$safetyReportControllerHash() =>
-    r'64af3512de104ac65d8a77131771aedd65dcb92d';
+    r'5e6ca9c3cdb30053a80fb2481adcb6922ce75862';
 
 /// Backs Screen 35 (Incident Report) and Screen 36 (Hazard/Near Miss).
 /// Both write locally first - a safety report must never be lost to a

@@ -16652,6 +16652,28 @@ class $IncidentsTable extends Incidents
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _peopleInvolvedMeta = const VerificationMeta(
+    'peopleInvolved',
+  );
+  @override
+  late final GeneratedColumn<String> peopleInvolved = GeneratedColumn<String>(
+    'people_involved',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _witnessesMeta = const VerificationMeta(
+    'witnesses',
+  );
+  @override
+  late final GeneratedColumn<String> witnesses = GeneratedColumn<String>(
+    'witnesses',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _investigationStatusMeta =
       const VerificationMeta('investigationStatus');
   @override
@@ -16689,6 +16711,8 @@ class $IncidentsTable extends Incidents
     assetId,
     injury,
     immediateAction,
+    peopleInvolved,
+    witnesses,
     investigationStatus,
     createdAt,
   ];
@@ -16798,6 +16822,21 @@ class $IncidentsTable extends Incidents
         ),
       );
     }
+    if (data.containsKey('people_involved')) {
+      context.handle(
+        _peopleInvolvedMeta,
+        peopleInvolved.isAcceptableOrUnknown(
+          data['people_involved']!,
+          _peopleInvolvedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('witnesses')) {
+      context.handle(
+        _witnessesMeta,
+        witnesses.isAcceptableOrUnknown(data['witnesses']!, _witnessesMeta),
+      );
+    }
     if (data.containsKey('investigation_status')) {
       context.handle(
         _investigationStatusMeta,
@@ -16872,6 +16911,14 @@ class $IncidentsTable extends Incidents
         DriftSqlType.string,
         data['${effectivePrefix}immediate_action'],
       ),
+      peopleInvolved: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}people_involved'],
+      ),
+      witnesses: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}witnesses'],
+      ),
       investigationStatus: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}investigation_status'],
@@ -16902,6 +16949,8 @@ class Incident extends DataClass implements Insertable<Incident> {
   final String? assetId;
   final bool injury;
   final String? immediateAction;
+  final String? peopleInvolved;
+  final String? witnesses;
   final String investigationStatus;
   final DateTime createdAt;
   const Incident({
@@ -16917,6 +16966,8 @@ class Incident extends DataClass implements Insertable<Incident> {
     this.assetId,
     required this.injury,
     this.immediateAction,
+    this.peopleInvolved,
+    this.witnesses,
     required this.investigationStatus,
     required this.createdAt,
   });
@@ -16940,6 +16991,12 @@ class Incident extends DataClass implements Insertable<Incident> {
     map['injury'] = Variable<bool>(injury);
     if (!nullToAbsent || immediateAction != null) {
       map['immediate_action'] = Variable<String>(immediateAction);
+    }
+    if (!nullToAbsent || peopleInvolved != null) {
+      map['people_involved'] = Variable<String>(peopleInvolved);
+    }
+    if (!nullToAbsent || witnesses != null) {
+      map['witnesses'] = Variable<String>(witnesses);
     }
     map['investigation_status'] = Variable<String>(investigationStatus);
     map['created_at'] = Variable<DateTime>(createdAt);
@@ -16966,6 +17023,12 @@ class Incident extends DataClass implements Insertable<Incident> {
       immediateAction: immediateAction == null && nullToAbsent
           ? const Value.absent()
           : Value(immediateAction),
+      peopleInvolved: peopleInvolved == null && nullToAbsent
+          ? const Value.absent()
+          : Value(peopleInvolved),
+      witnesses: witnesses == null && nullToAbsent
+          ? const Value.absent()
+          : Value(witnesses),
       investigationStatus: Value(investigationStatus),
       createdAt: Value(createdAt),
     );
@@ -16989,6 +17052,8 @@ class Incident extends DataClass implements Insertable<Incident> {
       assetId: serializer.fromJson<String?>(json['assetId']),
       injury: serializer.fromJson<bool>(json['injury']),
       immediateAction: serializer.fromJson<String?>(json['immediateAction']),
+      peopleInvolved: serializer.fromJson<String?>(json['peopleInvolved']),
+      witnesses: serializer.fromJson<String?>(json['witnesses']),
       investigationStatus: serializer.fromJson<String>(
         json['investigationStatus'],
       ),
@@ -17011,6 +17076,8 @@ class Incident extends DataClass implements Insertable<Incident> {
       'assetId': serializer.toJson<String?>(assetId),
       'injury': serializer.toJson<bool>(injury),
       'immediateAction': serializer.toJson<String?>(immediateAction),
+      'peopleInvolved': serializer.toJson<String?>(peopleInvolved),
+      'witnesses': serializer.toJson<String?>(witnesses),
       'investigationStatus': serializer.toJson<String>(investigationStatus),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
@@ -17029,6 +17096,8 @@ class Incident extends DataClass implements Insertable<Incident> {
     Value<String?> assetId = const Value.absent(),
     bool? injury,
     Value<String?> immediateAction = const Value.absent(),
+    Value<String?> peopleInvolved = const Value.absent(),
+    Value<String?> witnesses = const Value.absent(),
     String? investigationStatus,
     DateTime? createdAt,
   }) => Incident(
@@ -17046,6 +17115,10 @@ class Incident extends DataClass implements Insertable<Incident> {
     immediateAction: immediateAction.present
         ? immediateAction.value
         : this.immediateAction,
+    peopleInvolved: peopleInvolved.present
+        ? peopleInvolved.value
+        : this.peopleInvolved,
+    witnesses: witnesses.present ? witnesses.value : this.witnesses,
     investigationStatus: investigationStatus ?? this.investigationStatus,
     createdAt: createdAt ?? this.createdAt,
   );
@@ -17073,6 +17146,10 @@ class Incident extends DataClass implements Insertable<Incident> {
       immediateAction: data.immediateAction.present
           ? data.immediateAction.value
           : this.immediateAction,
+      peopleInvolved: data.peopleInvolved.present
+          ? data.peopleInvolved.value
+          : this.peopleInvolved,
+      witnesses: data.witnesses.present ? data.witnesses.value : this.witnesses,
       investigationStatus: data.investigationStatus.present
           ? data.investigationStatus.value
           : this.investigationStatus,
@@ -17095,6 +17172,8 @@ class Incident extends DataClass implements Insertable<Incident> {
           ..write('assetId: $assetId, ')
           ..write('injury: $injury, ')
           ..write('immediateAction: $immediateAction, ')
+          ..write('peopleInvolved: $peopleInvolved, ')
+          ..write('witnesses: $witnesses, ')
           ..write('investigationStatus: $investigationStatus, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
@@ -17115,6 +17194,8 @@ class Incident extends DataClass implements Insertable<Incident> {
     assetId,
     injury,
     immediateAction,
+    peopleInvolved,
+    witnesses,
     investigationStatus,
     createdAt,
   );
@@ -17134,6 +17215,8 @@ class Incident extends DataClass implements Insertable<Incident> {
           other.assetId == this.assetId &&
           other.injury == this.injury &&
           other.immediateAction == this.immediateAction &&
+          other.peopleInvolved == this.peopleInvolved &&
+          other.witnesses == this.witnesses &&
           other.investigationStatus == this.investigationStatus &&
           other.createdAt == this.createdAt);
 }
@@ -17151,6 +17234,8 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
   final Value<String?> assetId;
   final Value<bool> injury;
   final Value<String?> immediateAction;
+  final Value<String?> peopleInvolved;
+  final Value<String?> witnesses;
   final Value<String> investigationStatus;
   final Value<DateTime> createdAt;
   final Value<int> rowid;
@@ -17167,6 +17252,8 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
     this.assetId = const Value.absent(),
     this.injury = const Value.absent(),
     this.immediateAction = const Value.absent(),
+    this.peopleInvolved = const Value.absent(),
+    this.witnesses = const Value.absent(),
     this.investigationStatus = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -17184,6 +17271,8 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
     this.assetId = const Value.absent(),
     this.injury = const Value.absent(),
     this.immediateAction = const Value.absent(),
+    this.peopleInvolved = const Value.absent(),
+    this.witnesses = const Value.absent(),
     this.investigationStatus = const Value.absent(),
     required DateTime createdAt,
     this.rowid = const Value.absent(),
@@ -17209,6 +17298,8 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
     Expression<String>? assetId,
     Expression<bool>? injury,
     Expression<String>? immediateAction,
+    Expression<String>? peopleInvolved,
+    Expression<String>? witnesses,
     Expression<String>? investigationStatus,
     Expression<DateTime>? createdAt,
     Expression<int>? rowid,
@@ -17226,6 +17317,8 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
       if (assetId != null) 'asset_id': assetId,
       if (injury != null) 'injury': injury,
       if (immediateAction != null) 'immediate_action': immediateAction,
+      if (peopleInvolved != null) 'people_involved': peopleInvolved,
+      if (witnesses != null) 'witnesses': witnesses,
       if (investigationStatus != null)
         'investigation_status': investigationStatus,
       if (createdAt != null) 'created_at': createdAt,
@@ -17246,6 +17339,8 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
     Value<String?>? assetId,
     Value<bool>? injury,
     Value<String?>? immediateAction,
+    Value<String?>? peopleInvolved,
+    Value<String?>? witnesses,
     Value<String>? investigationStatus,
     Value<DateTime>? createdAt,
     Value<int>? rowid,
@@ -17263,6 +17358,8 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
       assetId: assetId ?? this.assetId,
       injury: injury ?? this.injury,
       immediateAction: immediateAction ?? this.immediateAction,
+      peopleInvolved: peopleInvolved ?? this.peopleInvolved,
+      witnesses: witnesses ?? this.witnesses,
       investigationStatus: investigationStatus ?? this.investigationStatus,
       createdAt: createdAt ?? this.createdAt,
       rowid: rowid ?? this.rowid,
@@ -17308,6 +17405,12 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
     if (immediateAction.present) {
       map['immediate_action'] = Variable<String>(immediateAction.value);
     }
+    if (peopleInvolved.present) {
+      map['people_involved'] = Variable<String>(peopleInvolved.value);
+    }
+    if (witnesses.present) {
+      map['witnesses'] = Variable<String>(witnesses.value);
+    }
     if (investigationStatus.present) {
       map['investigation_status'] = Variable<String>(investigationStatus.value);
     }
@@ -17335,6 +17438,8 @@ class IncidentsCompanion extends UpdateCompanion<Incident> {
           ..write('assetId: $assetId, ')
           ..write('injury: $injury, ')
           ..write('immediateAction: $immediateAction, ')
+          ..write('peopleInvolved: $peopleInvolved, ')
+          ..write('witnesses: $witnesses, ')
           ..write('investigationStatus: $investigationStatus, ')
           ..write('createdAt: $createdAt, ')
           ..write('rowid: $rowid')
@@ -18068,6 +18173,15 @@ class $VehiclesTable extends Vehicles with TableInfo<$VehiclesTable, Vehicle> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _vinMeta = const VerificationMeta('vin');
+  @override
+  late final GeneratedColumn<String> vin = GeneratedColumn<String>(
+    'vin',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _odometerMeta = const VerificationMeta(
     'odometer',
   );
@@ -18085,6 +18199,28 @@ class $VehiclesTable extends Vehicles with TableInfo<$VehiclesTable, Vehicle> {
   @override
   late final GeneratedColumn<String> fuelType = GeneratedColumn<String>(
     'fuel_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _batteryStatusMeta = const VerificationMeta(
+    'batteryStatus',
+  );
+  @override
+  late final GeneratedColumn<String> batteryStatus = GeneratedColumn<String>(
+    'battery_status',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tyreStatusMeta = const VerificationMeta(
+    'tyreStatus',
+  );
+  @override
+  late final GeneratedColumn<String> tyreStatus = GeneratedColumn<String>(
+    'tyre_status',
     aliasedName,
     true,
     type: DriftSqlType.string,
@@ -18152,8 +18288,11 @@ class $VehiclesTable extends Vehicles with TableInfo<$VehiclesTable, Vehicle> {
     type,
     make,
     model,
+    vin,
     odometer,
     fuelType,
+    batteryStatus,
+    tyreStatus,
     assignedDriverId,
     status,
     insuranceExpiry,
@@ -18208,6 +18347,12 @@ class $VehiclesTable extends Vehicles with TableInfo<$VehiclesTable, Vehicle> {
         model.isAcceptableOrUnknown(data['model']!, _modelMeta),
       );
     }
+    if (data.containsKey('vin')) {
+      context.handle(
+        _vinMeta,
+        vin.isAcceptableOrUnknown(data['vin']!, _vinMeta),
+      );
+    }
     if (data.containsKey('odometer')) {
       context.handle(
         _odometerMeta,
@@ -18218,6 +18363,21 @@ class $VehiclesTable extends Vehicles with TableInfo<$VehiclesTable, Vehicle> {
       context.handle(
         _fuelTypeMeta,
         fuelType.isAcceptableOrUnknown(data['fuel_type']!, _fuelTypeMeta),
+      );
+    }
+    if (data.containsKey('battery_status')) {
+      context.handle(
+        _batteryStatusMeta,
+        batteryStatus.isAcceptableOrUnknown(
+          data['battery_status']!,
+          _batteryStatusMeta,
+        ),
+      );
+    }
+    if (data.containsKey('tyre_status')) {
+      context.handle(
+        _tyreStatusMeta,
+        tyreStatus.isAcceptableOrUnknown(data['tyre_status']!, _tyreStatusMeta),
       );
     }
     if (data.containsKey('assigned_driver_id')) {
@@ -18290,6 +18450,10 @@ class $VehiclesTable extends Vehicles with TableInfo<$VehiclesTable, Vehicle> {
         DriftSqlType.string,
         data['${effectivePrefix}model'],
       ),
+      vin: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vin'],
+      ),
       odometer: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}odometer'],
@@ -18297,6 +18461,14 @@ class $VehiclesTable extends Vehicles with TableInfo<$VehiclesTable, Vehicle> {
       fuelType: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}fuel_type'],
+      ),
+      batteryStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}battery_status'],
+      ),
+      tyreStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tyre_status'],
       ),
       assignedDriverId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -18333,8 +18505,11 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
   final String type;
   final String? make;
   final String? model;
+  final String? vin;
   final double? odometer;
   final String? fuelType;
+  final String? batteryStatus;
+  final String? tyreStatus;
   final String? assignedDriverId;
   final String status;
   final DateTime? insuranceExpiry;
@@ -18346,8 +18521,11 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
     required this.type,
     this.make,
     this.model,
+    this.vin,
     this.odometer,
     this.fuelType,
+    this.batteryStatus,
+    this.tyreStatus,
     this.assignedDriverId,
     required this.status,
     this.insuranceExpiry,
@@ -18366,11 +18544,20 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
     if (!nullToAbsent || model != null) {
       map['model'] = Variable<String>(model);
     }
+    if (!nullToAbsent || vin != null) {
+      map['vin'] = Variable<String>(vin);
+    }
     if (!nullToAbsent || odometer != null) {
       map['odometer'] = Variable<double>(odometer);
     }
     if (!nullToAbsent || fuelType != null) {
       map['fuel_type'] = Variable<String>(fuelType);
+    }
+    if (!nullToAbsent || batteryStatus != null) {
+      map['battery_status'] = Variable<String>(batteryStatus);
+    }
+    if (!nullToAbsent || tyreStatus != null) {
+      map['tyre_status'] = Variable<String>(tyreStatus);
     }
     if (!nullToAbsent || assignedDriverId != null) {
       map['assigned_driver_id'] = Variable<String>(assignedDriverId);
@@ -18397,12 +18584,19 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
       model: model == null && nullToAbsent
           ? const Value.absent()
           : Value(model),
+      vin: vin == null && nullToAbsent ? const Value.absent() : Value(vin),
       odometer: odometer == null && nullToAbsent
           ? const Value.absent()
           : Value(odometer),
       fuelType: fuelType == null && nullToAbsent
           ? const Value.absent()
           : Value(fuelType),
+      batteryStatus: batteryStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(batteryStatus),
+      tyreStatus: tyreStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tyreStatus),
       assignedDriverId: assignedDriverId == null && nullToAbsent
           ? const Value.absent()
           : Value(assignedDriverId),
@@ -18430,8 +18624,11 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
       type: serializer.fromJson<String>(json['type']),
       make: serializer.fromJson<String?>(json['make']),
       model: serializer.fromJson<String?>(json['model']),
+      vin: serializer.fromJson<String?>(json['vin']),
       odometer: serializer.fromJson<double?>(json['odometer']),
       fuelType: serializer.fromJson<String?>(json['fuelType']),
+      batteryStatus: serializer.fromJson<String?>(json['batteryStatus']),
+      tyreStatus: serializer.fromJson<String?>(json['tyreStatus']),
       assignedDriverId: serializer.fromJson<String?>(json['assignedDriverId']),
       status: serializer.fromJson<String>(json['status']),
       insuranceExpiry: serializer.fromJson<DateTime?>(json['insuranceExpiry']),
@@ -18448,8 +18645,11 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
       'type': serializer.toJson<String>(type),
       'make': serializer.toJson<String?>(make),
       'model': serializer.toJson<String?>(model),
+      'vin': serializer.toJson<String?>(vin),
       'odometer': serializer.toJson<double?>(odometer),
       'fuelType': serializer.toJson<String?>(fuelType),
+      'batteryStatus': serializer.toJson<String?>(batteryStatus),
+      'tyreStatus': serializer.toJson<String?>(tyreStatus),
       'assignedDriverId': serializer.toJson<String?>(assignedDriverId),
       'status': serializer.toJson<String>(status),
       'insuranceExpiry': serializer.toJson<DateTime?>(insuranceExpiry),
@@ -18464,8 +18664,11 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
     String? type,
     Value<String?> make = const Value.absent(),
     Value<String?> model = const Value.absent(),
+    Value<String?> vin = const Value.absent(),
     Value<double?> odometer = const Value.absent(),
     Value<String?> fuelType = const Value.absent(),
+    Value<String?> batteryStatus = const Value.absent(),
+    Value<String?> tyreStatus = const Value.absent(),
     Value<String?> assignedDriverId = const Value.absent(),
     String? status,
     Value<DateTime?> insuranceExpiry = const Value.absent(),
@@ -18477,8 +18680,13 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
     type: type ?? this.type,
     make: make.present ? make.value : this.make,
     model: model.present ? model.value : this.model,
+    vin: vin.present ? vin.value : this.vin,
     odometer: odometer.present ? odometer.value : this.odometer,
     fuelType: fuelType.present ? fuelType.value : this.fuelType,
+    batteryStatus: batteryStatus.present
+        ? batteryStatus.value
+        : this.batteryStatus,
+    tyreStatus: tyreStatus.present ? tyreStatus.value : this.tyreStatus,
     assignedDriverId: assignedDriverId.present
         ? assignedDriverId.value
         : this.assignedDriverId,
@@ -18500,8 +18708,15 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
       type: data.type.present ? data.type.value : this.type,
       make: data.make.present ? data.make.value : this.make,
       model: data.model.present ? data.model.value : this.model,
+      vin: data.vin.present ? data.vin.value : this.vin,
       odometer: data.odometer.present ? data.odometer.value : this.odometer,
       fuelType: data.fuelType.present ? data.fuelType.value : this.fuelType,
+      batteryStatus: data.batteryStatus.present
+          ? data.batteryStatus.value
+          : this.batteryStatus,
+      tyreStatus: data.tyreStatus.present
+          ? data.tyreStatus.value
+          : this.tyreStatus,
       assignedDriverId: data.assignedDriverId.present
           ? data.assignedDriverId.value
           : this.assignedDriverId,
@@ -18524,8 +18739,11 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
           ..write('type: $type, ')
           ..write('make: $make, ')
           ..write('model: $model, ')
+          ..write('vin: $vin, ')
           ..write('odometer: $odometer, ')
           ..write('fuelType: $fuelType, ')
+          ..write('batteryStatus: $batteryStatus, ')
+          ..write('tyreStatus: $tyreStatus, ')
           ..write('assignedDriverId: $assignedDriverId, ')
           ..write('status: $status, ')
           ..write('insuranceExpiry: $insuranceExpiry, ')
@@ -18542,8 +18760,11 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
     type,
     make,
     model,
+    vin,
     odometer,
     fuelType,
+    batteryStatus,
+    tyreStatus,
     assignedDriverId,
     status,
     insuranceExpiry,
@@ -18559,8 +18780,11 @@ class Vehicle extends DataClass implements Insertable<Vehicle> {
           other.type == this.type &&
           other.make == this.make &&
           other.model == this.model &&
+          other.vin == this.vin &&
           other.odometer == this.odometer &&
           other.fuelType == this.fuelType &&
+          other.batteryStatus == this.batteryStatus &&
+          other.tyreStatus == this.tyreStatus &&
           other.assignedDriverId == this.assignedDriverId &&
           other.status == this.status &&
           other.insuranceExpiry == this.insuranceExpiry &&
@@ -18574,8 +18798,11 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
   final Value<String> type;
   final Value<String?> make;
   final Value<String?> model;
+  final Value<String?> vin;
   final Value<double?> odometer;
   final Value<String?> fuelType;
+  final Value<String?> batteryStatus;
+  final Value<String?> tyreStatus;
   final Value<String?> assignedDriverId;
   final Value<String> status;
   final Value<DateTime?> insuranceExpiry;
@@ -18588,8 +18815,11 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
     this.type = const Value.absent(),
     this.make = const Value.absent(),
     this.model = const Value.absent(),
+    this.vin = const Value.absent(),
     this.odometer = const Value.absent(),
     this.fuelType = const Value.absent(),
+    this.batteryStatus = const Value.absent(),
+    this.tyreStatus = const Value.absent(),
     this.assignedDriverId = const Value.absent(),
     this.status = const Value.absent(),
     this.insuranceExpiry = const Value.absent(),
@@ -18603,8 +18833,11 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
     required String type,
     this.make = const Value.absent(),
     this.model = const Value.absent(),
+    this.vin = const Value.absent(),
     this.odometer = const Value.absent(),
     this.fuelType = const Value.absent(),
+    this.batteryStatus = const Value.absent(),
+    this.tyreStatus = const Value.absent(),
     this.assignedDriverId = const Value.absent(),
     required String status,
     this.insuranceExpiry = const Value.absent(),
@@ -18621,8 +18854,11 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
     Expression<String>? type,
     Expression<String>? make,
     Expression<String>? model,
+    Expression<String>? vin,
     Expression<double>? odometer,
     Expression<String>? fuelType,
+    Expression<String>? batteryStatus,
+    Expression<String>? tyreStatus,
     Expression<String>? assignedDriverId,
     Expression<String>? status,
     Expression<DateTime>? insuranceExpiry,
@@ -18636,8 +18872,11 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
       if (type != null) 'type': type,
       if (make != null) 'make': make,
       if (model != null) 'model': model,
+      if (vin != null) 'vin': vin,
       if (odometer != null) 'odometer': odometer,
       if (fuelType != null) 'fuel_type': fuelType,
+      if (batteryStatus != null) 'battery_status': batteryStatus,
+      if (tyreStatus != null) 'tyre_status': tyreStatus,
       if (assignedDriverId != null) 'assigned_driver_id': assignedDriverId,
       if (status != null) 'status': status,
       if (insuranceExpiry != null) 'insurance_expiry': insuranceExpiry,
@@ -18653,8 +18892,11 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
     Value<String>? type,
     Value<String?>? make,
     Value<String?>? model,
+    Value<String?>? vin,
     Value<double?>? odometer,
     Value<String?>? fuelType,
+    Value<String?>? batteryStatus,
+    Value<String?>? tyreStatus,
     Value<String?>? assignedDriverId,
     Value<String>? status,
     Value<DateTime?>? insuranceExpiry,
@@ -18668,8 +18910,11 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
       type: type ?? this.type,
       make: make ?? this.make,
       model: model ?? this.model,
+      vin: vin ?? this.vin,
       odometer: odometer ?? this.odometer,
       fuelType: fuelType ?? this.fuelType,
+      batteryStatus: batteryStatus ?? this.batteryStatus,
+      tyreStatus: tyreStatus ?? this.tyreStatus,
       assignedDriverId: assignedDriverId ?? this.assignedDriverId,
       status: status ?? this.status,
       insuranceExpiry: insuranceExpiry ?? this.insuranceExpiry,
@@ -18697,11 +18942,20 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
     if (model.present) {
       map['model'] = Variable<String>(model.value);
     }
+    if (vin.present) {
+      map['vin'] = Variable<String>(vin.value);
+    }
     if (odometer.present) {
       map['odometer'] = Variable<double>(odometer.value);
     }
     if (fuelType.present) {
       map['fuel_type'] = Variable<String>(fuelType.value);
+    }
+    if (batteryStatus.present) {
+      map['battery_status'] = Variable<String>(batteryStatus.value);
+    }
+    if (tyreStatus.present) {
+      map['tyre_status'] = Variable<String>(tyreStatus.value);
     }
     if (assignedDriverId.present) {
       map['assigned_driver_id'] = Variable<String>(assignedDriverId.value);
@@ -18732,8 +18986,11 @@ class VehiclesCompanion extends UpdateCompanion<Vehicle> {
           ..write('type: $type, ')
           ..write('make: $make, ')
           ..write('model: $model, ')
+          ..write('vin: $vin, ')
           ..write('odometer: $odometer, ')
           ..write('fuelType: $fuelType, ')
+          ..write('batteryStatus: $batteryStatus, ')
+          ..write('tyreStatus: $tyreStatus, ')
           ..write('assignedDriverId: $assignedDriverId, ')
           ..write('status: $status, ')
           ..write('insuranceExpiry: $insuranceExpiry, ')
@@ -35848,6 +36105,8 @@ typedef $$IncidentsTableCreateCompanionBuilder =
       Value<String?> assetId,
       Value<bool> injury,
       Value<String?> immediateAction,
+      Value<String?> peopleInvolved,
+      Value<String?> witnesses,
       Value<String> investigationStatus,
       required DateTime createdAt,
       Value<int> rowid,
@@ -35866,6 +36125,8 @@ typedef $$IncidentsTableUpdateCompanionBuilder =
       Value<String?> assetId,
       Value<bool> injury,
       Value<String?> immediateAction,
+      Value<String?> peopleInvolved,
+      Value<String?> witnesses,
       Value<String> investigationStatus,
       Value<DateTime> createdAt,
       Value<int> rowid,
@@ -35968,6 +36229,16 @@ class $$IncidentsTableFilterComposer
 
   ColumnFilters<String> get immediateAction => $composableBuilder(
     column: $table.immediateAction,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get peopleInvolved => $composableBuilder(
+    column: $table.peopleInvolved,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get witnesses => $composableBuilder(
+    column: $table.witnesses,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -36087,6 +36358,16 @@ class $$IncidentsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get peopleInvolved => $composableBuilder(
+    column: $table.peopleInvolved,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get witnesses => $composableBuilder(
+    column: $table.witnesses,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get investigationStatus => $composableBuilder(
     column: $table.investigationStatus,
     builder: (column) => ColumnOrderings(column),
@@ -36193,6 +36474,14 @@ class $$IncidentsTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get peopleInvolved => $composableBuilder(
+    column: $table.peopleInvolved,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get witnesses =>
+      $composableBuilder(column: $table.witnesses, builder: (column) => column);
+
   GeneratedColumn<String> get investigationStatus => $composableBuilder(
     column: $table.investigationStatus,
     builder: (column) => column,
@@ -36288,6 +36577,8 @@ class $$IncidentsTableTableManager
                 Value<String?> assetId = const Value.absent(),
                 Value<bool> injury = const Value.absent(),
                 Value<String?> immediateAction = const Value.absent(),
+                Value<String?> peopleInvolved = const Value.absent(),
+                Value<String?> witnesses = const Value.absent(),
                 Value<String> investigationStatus = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -36304,6 +36595,8 @@ class $$IncidentsTableTableManager
                 assetId: assetId,
                 injury: injury,
                 immediateAction: immediateAction,
+                peopleInvolved: peopleInvolved,
+                witnesses: witnesses,
                 investigationStatus: investigationStatus,
                 createdAt: createdAt,
                 rowid: rowid,
@@ -36322,6 +36615,8 @@ class $$IncidentsTableTableManager
                 Value<String?> assetId = const Value.absent(),
                 Value<bool> injury = const Value.absent(),
                 Value<String?> immediateAction = const Value.absent(),
+                Value<String?> peopleInvolved = const Value.absent(),
+                Value<String?> witnesses = const Value.absent(),
                 Value<String> investigationStatus = const Value.absent(),
                 required DateTime createdAt,
                 Value<int> rowid = const Value.absent(),
@@ -36338,6 +36633,8 @@ class $$IncidentsTableTableManager
                 assetId: assetId,
                 injury: injury,
                 immediateAction: immediateAction,
+                peopleInvolved: peopleInvolved,
+                witnesses: witnesses,
                 investigationStatus: investigationStatus,
                 createdAt: createdAt,
                 rowid: rowid,
@@ -36956,8 +37253,11 @@ typedef $$VehiclesTableCreateCompanionBuilder =
       required String type,
       Value<String?> make,
       Value<String?> model,
+      Value<String?> vin,
       Value<double?> odometer,
       Value<String?> fuelType,
+      Value<String?> batteryStatus,
+      Value<String?> tyreStatus,
       Value<String?> assignedDriverId,
       required String status,
       Value<DateTime?> insuranceExpiry,
@@ -36972,8 +37272,11 @@ typedef $$VehiclesTableUpdateCompanionBuilder =
       Value<String> type,
       Value<String?> make,
       Value<String?> model,
+      Value<String?> vin,
       Value<double?> odometer,
       Value<String?> fuelType,
+      Value<String?> batteryStatus,
+      Value<String?> tyreStatus,
       Value<String?> assignedDriverId,
       Value<String> status,
       Value<DateTime?> insuranceExpiry,
@@ -37040,6 +37343,11 @@ class $$VehiclesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get vin => $composableBuilder(
+    column: $table.vin,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<double> get odometer => $composableBuilder(
     column: $table.odometer,
     builder: (column) => ColumnFilters(column),
@@ -37047,6 +37355,16 @@ class $$VehiclesTableFilterComposer
 
   ColumnFilters<String> get fuelType => $composableBuilder(
     column: $table.fuelType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get batteryStatus => $composableBuilder(
+    column: $table.batteryStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tyreStatus => $composableBuilder(
+    column: $table.tyreStatus,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -37135,6 +37453,11 @@ class $$VehiclesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get vin => $composableBuilder(
+    column: $table.vin,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<double> get odometer => $composableBuilder(
     column: $table.odometer,
     builder: (column) => ColumnOrderings(column),
@@ -37142,6 +37465,16 @@ class $$VehiclesTableOrderingComposer
 
   ColumnOrderings<String> get fuelType => $composableBuilder(
     column: $table.fuelType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get batteryStatus => $composableBuilder(
+    column: $table.batteryStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tyreStatus => $composableBuilder(
+    column: $table.tyreStatus,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -37197,11 +37530,24 @@ class $$VehiclesTableAnnotationComposer
   GeneratedColumn<String> get model =>
       $composableBuilder(column: $table.model, builder: (column) => column);
 
+  GeneratedColumn<String> get vin =>
+      $composableBuilder(column: $table.vin, builder: (column) => column);
+
   GeneratedColumn<double> get odometer =>
       $composableBuilder(column: $table.odometer, builder: (column) => column);
 
   GeneratedColumn<String> get fuelType =>
       $composableBuilder(column: $table.fuelType, builder: (column) => column);
+
+  GeneratedColumn<String> get batteryStatus => $composableBuilder(
+    column: $table.batteryStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get tyreStatus => $composableBuilder(
+    column: $table.tyreStatus,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get assignedDriverId => $composableBuilder(
     column: $table.assignedDriverId,
@@ -37283,8 +37629,11 @@ class $$VehiclesTableTableManager
                 Value<String> type = const Value.absent(),
                 Value<String?> make = const Value.absent(),
                 Value<String?> model = const Value.absent(),
+                Value<String?> vin = const Value.absent(),
                 Value<double?> odometer = const Value.absent(),
                 Value<String?> fuelType = const Value.absent(),
+                Value<String?> batteryStatus = const Value.absent(),
+                Value<String?> tyreStatus = const Value.absent(),
                 Value<String?> assignedDriverId = const Value.absent(),
                 Value<String> status = const Value.absent(),
                 Value<DateTime?> insuranceExpiry = const Value.absent(),
@@ -37297,8 +37646,11 @@ class $$VehiclesTableTableManager
                 type: type,
                 make: make,
                 model: model,
+                vin: vin,
                 odometer: odometer,
                 fuelType: fuelType,
+                batteryStatus: batteryStatus,
+                tyreStatus: tyreStatus,
                 assignedDriverId: assignedDriverId,
                 status: status,
                 insuranceExpiry: insuranceExpiry,
@@ -37313,8 +37665,11 @@ class $$VehiclesTableTableManager
                 required String type,
                 Value<String?> make = const Value.absent(),
                 Value<String?> model = const Value.absent(),
+                Value<String?> vin = const Value.absent(),
                 Value<double?> odometer = const Value.absent(),
                 Value<String?> fuelType = const Value.absent(),
+                Value<String?> batteryStatus = const Value.absent(),
+                Value<String?> tyreStatus = const Value.absent(),
                 Value<String?> assignedDriverId = const Value.absent(),
                 required String status,
                 Value<DateTime?> insuranceExpiry = const Value.absent(),
@@ -37327,8 +37682,11 @@ class $$VehiclesTableTableManager
                 type: type,
                 make: make,
                 model: model,
+                vin: vin,
                 odometer: odometer,
                 fuelType: fuelType,
+                batteryStatus: batteryStatus,
+                tyreStatus: tyreStatus,
                 assignedDriverId: assignedDriverId,
                 status: status,
                 insuranceExpiry: insuranceExpiry,
