@@ -34,8 +34,15 @@ class Incidents extends Table {
 
 /// Hazards / Near Misses (Section 42, Screen 36) - deliberately a
 /// separate, lighter entity from Incidents: a hazard hasn't caused harm
-/// yet, so it only needs a risk score and an owner/target date, not an
-/// investigation workflow.
+/// yet, so it only needs a risk score, not an investigation workflow.
+/// `ownerName`/`targetDate` exist to match the canonical model's
+/// corrective-action tracking (and feed Screen 34's "Corrective
+/// actions overdue"), but nothing in this app's mobile UI sets them
+/// yet - Screen 36's own capture form only collects Hazard
+/// type/Location/Photo/Voice (the spec's "Required"/"Optional" list),
+/// not an owner or due date; that would be a triage/assignment step
+/// with no mobile UI anywhere in this app, same as Work Order
+/// checklist/scheduling after a Request "Convert".
 class Hazards extends Table {
   TextColumn get id => text()();
   TextColumn get siteId => text().references(Sites, #id)();
@@ -47,6 +54,8 @@ class Hazards extends Table {
   IntColumn get riskScore => integer()(); // probability x consequence
   TextColumn get reportedBy => text()();
   TextColumn get status => text().withDefault(const Constant('open'))();
+  TextColumn get ownerName => text().nullable()();
+  DateTimeColumn get targetDate => dateTime().nullable()();
   DateTimeColumn get createdAt => dateTime()();
 
   @override

@@ -152,6 +152,9 @@ class SyncEngine {
         case 'soft_service_inspection':
           await _ref.read(inspectionRepositoryProvider).pushInspection(entry.entityId);
           break;
+        case 'soft_service_inspection_corrective_complete':
+          await _ref.read(inspectionRepositoryProvider).pushCorrectiveComplete(entry.entityId);
+          break;
         case 'cleaning_task_completion':
           await _ref.read(cleaningTaskRepositoryProvider).pushCompletion(entry.entityId);
           break;

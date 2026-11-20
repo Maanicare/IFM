@@ -17564,6 +17564,28 @@ class $HazardsTable extends Hazards with TableInfo<$HazardsTable, Hazard> {
     requiredDuringInsert: false,
     defaultValue: const Constant('open'),
   );
+  static const VerificationMeta _ownerNameMeta = const VerificationMeta(
+    'ownerName',
+  );
+  @override
+  late final GeneratedColumn<String> ownerName = GeneratedColumn<String>(
+    'owner_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _targetDateMeta = const VerificationMeta(
+    'targetDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> targetDate = GeneratedColumn<DateTime>(
+    'target_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -17587,6 +17609,8 @@ class $HazardsTable extends Hazards with TableInfo<$HazardsTable, Hazard> {
     riskScore,
     reportedBy,
     status,
+    ownerName,
+    targetDate,
     createdAt,
   ];
   @override
@@ -17683,6 +17707,18 @@ class $HazardsTable extends Hazards with TableInfo<$HazardsTable, Hazard> {
         status.isAcceptableOrUnknown(data['status']!, _statusMeta),
       );
     }
+    if (data.containsKey('owner_name')) {
+      context.handle(
+        _ownerNameMeta,
+        ownerName.isAcceptableOrUnknown(data['owner_name']!, _ownerNameMeta),
+      );
+    }
+    if (data.containsKey('target_date')) {
+      context.handle(
+        _targetDateMeta,
+        targetDate.isAcceptableOrUnknown(data['target_date']!, _targetDateMeta),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -17740,6 +17776,14 @@ class $HazardsTable extends Hazards with TableInfo<$HazardsTable, Hazard> {
         DriftSqlType.string,
         data['${effectivePrefix}status'],
       )!,
+      ownerName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}owner_name'],
+      ),
+      targetDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}target_date'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -17764,6 +17808,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
   final int riskScore;
   final String reportedBy;
   final String status;
+  final String? ownerName;
+  final DateTime? targetDate;
   final DateTime createdAt;
   const Hazard({
     required this.id,
@@ -17776,6 +17822,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
     required this.riskScore,
     required this.reportedBy,
     required this.status,
+    this.ownerName,
+    this.targetDate,
     required this.createdAt,
   });
   @override
@@ -17793,6 +17841,12 @@ class Hazard extends DataClass implements Insertable<Hazard> {
     map['risk_score'] = Variable<int>(riskScore);
     map['reported_by'] = Variable<String>(reportedBy);
     map['status'] = Variable<String>(status);
+    if (!nullToAbsent || ownerName != null) {
+      map['owner_name'] = Variable<String>(ownerName);
+    }
+    if (!nullToAbsent || targetDate != null) {
+      map['target_date'] = Variable<DateTime>(targetDate);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
@@ -17811,6 +17865,12 @@ class Hazard extends DataClass implements Insertable<Hazard> {
       riskScore: Value(riskScore),
       reportedBy: Value(reportedBy),
       status: Value(status),
+      ownerName: ownerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ownerName),
+      targetDate: targetDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetDate),
       createdAt: Value(createdAt),
     );
   }
@@ -17831,6 +17891,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
       riskScore: serializer.fromJson<int>(json['riskScore']),
       reportedBy: serializer.fromJson<String>(json['reportedBy']),
       status: serializer.fromJson<String>(json['status']),
+      ownerName: serializer.fromJson<String?>(json['ownerName']),
+      targetDate: serializer.fromJson<DateTime?>(json['targetDate']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
@@ -17848,6 +17910,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
       'riskScore': serializer.toJson<int>(riskScore),
       'reportedBy': serializer.toJson<String>(reportedBy),
       'status': serializer.toJson<String>(status),
+      'ownerName': serializer.toJson<String?>(ownerName),
+      'targetDate': serializer.toJson<DateTime?>(targetDate),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
@@ -17863,6 +17927,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
     int? riskScore,
     String? reportedBy,
     String? status,
+    Value<String?> ownerName = const Value.absent(),
+    Value<DateTime?> targetDate = const Value.absent(),
     DateTime? createdAt,
   }) => Hazard(
     id: id ?? this.id,
@@ -17875,6 +17941,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
     riskScore: riskScore ?? this.riskScore,
     reportedBy: reportedBy ?? this.reportedBy,
     status: status ?? this.status,
+    ownerName: ownerName.present ? ownerName.value : this.ownerName,
+    targetDate: targetDate.present ? targetDate.value : this.targetDate,
     createdAt: createdAt ?? this.createdAt,
   );
   Hazard copyWithCompanion(HazardsCompanion data) {
@@ -17897,6 +17965,10 @@ class Hazard extends DataClass implements Insertable<Hazard> {
           ? data.reportedBy.value
           : this.reportedBy,
       status: data.status.present ? data.status.value : this.status,
+      ownerName: data.ownerName.present ? data.ownerName.value : this.ownerName,
+      targetDate: data.targetDate.present
+          ? data.targetDate.value
+          : this.targetDate,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -17914,6 +17986,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
           ..write('riskScore: $riskScore, ')
           ..write('reportedBy: $reportedBy, ')
           ..write('status: $status, ')
+          ..write('ownerName: $ownerName, ')
+          ..write('targetDate: $targetDate, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -17931,6 +18005,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
     riskScore,
     reportedBy,
     status,
+    ownerName,
+    targetDate,
     createdAt,
   );
   @override
@@ -17947,6 +18023,8 @@ class Hazard extends DataClass implements Insertable<Hazard> {
           other.riskScore == this.riskScore &&
           other.reportedBy == this.reportedBy &&
           other.status == this.status &&
+          other.ownerName == this.ownerName &&
+          other.targetDate == this.targetDate &&
           other.createdAt == this.createdAt);
 }
 
@@ -17961,6 +18039,8 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
   final Value<int> riskScore;
   final Value<String> reportedBy;
   final Value<String> status;
+  final Value<String?> ownerName;
+  final Value<DateTime?> targetDate;
   final Value<DateTime> createdAt;
   final Value<int> rowid;
   const HazardsCompanion({
@@ -17974,6 +18054,8 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
     this.riskScore = const Value.absent(),
     this.reportedBy = const Value.absent(),
     this.status = const Value.absent(),
+    this.ownerName = const Value.absent(),
+    this.targetDate = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -17988,6 +18070,8 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
     required int riskScore,
     required String reportedBy,
     this.status = const Value.absent(),
+    this.ownerName = const Value.absent(),
+    this.targetDate = const Value.absent(),
     required DateTime createdAt,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
@@ -18010,6 +18094,8 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
     Expression<int>? riskScore,
     Expression<String>? reportedBy,
     Expression<String>? status,
+    Expression<String>? ownerName,
+    Expression<DateTime>? targetDate,
     Expression<DateTime>? createdAt,
     Expression<int>? rowid,
   }) {
@@ -18024,6 +18110,8 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
       if (riskScore != null) 'risk_score': riskScore,
       if (reportedBy != null) 'reported_by': reportedBy,
       if (status != null) 'status': status,
+      if (ownerName != null) 'owner_name': ownerName,
+      if (targetDate != null) 'target_date': targetDate,
       if (createdAt != null) 'created_at': createdAt,
       if (rowid != null) 'rowid': rowid,
     });
@@ -18040,6 +18128,8 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
     Value<int>? riskScore,
     Value<String>? reportedBy,
     Value<String>? status,
+    Value<String?>? ownerName,
+    Value<DateTime?>? targetDate,
     Value<DateTime>? createdAt,
     Value<int>? rowid,
   }) {
@@ -18054,6 +18144,8 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
       riskScore: riskScore ?? this.riskScore,
       reportedBy: reportedBy ?? this.reportedBy,
       status: status ?? this.status,
+      ownerName: ownerName ?? this.ownerName,
+      targetDate: targetDate ?? this.targetDate,
       createdAt: createdAt ?? this.createdAt,
       rowid: rowid ?? this.rowid,
     );
@@ -18092,6 +18184,12 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
     if (status.present) {
       map['status'] = Variable<String>(status.value);
     }
+    if (ownerName.present) {
+      map['owner_name'] = Variable<String>(ownerName.value);
+    }
+    if (targetDate.present) {
+      map['target_date'] = Variable<DateTime>(targetDate.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -18114,6 +18212,8 @@ class HazardsCompanion extends UpdateCompanion<Hazard> {
           ..write('riskScore: $riskScore, ')
           ..write('reportedBy: $reportedBy, ')
           ..write('status: $status, ')
+          ..write('ownerName: $ownerName, ')
+          ..write('targetDate: $targetDate, ')
           ..write('createdAt: $createdAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -22688,6 +22788,20 @@ class $SoftServiceInspectionsTable extends SoftServiceInspections
         type: DriftSqlType.dateTime,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _correctiveCompletedMeta =
+      const VerificationMeta('correctiveCompleted');
+  @override
+  late final GeneratedColumn<bool> correctiveCompleted = GeneratedColumn<bool>(
+    'corrective_completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("corrective_completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   static const VerificationMeta _inspectedByMeta = const VerificationMeta(
     'inspectedBy',
   );
@@ -22721,6 +22835,7 @@ class $SoftServiceInspectionsTable extends SoftServiceInspections
     correctiveTaskNote,
     correctiveOwnerName,
     correctiveDueDate,
+    correctiveCompleted,
     inspectedBy,
     inspectedAt,
   ];
@@ -22807,6 +22922,15 @@ class $SoftServiceInspectionsTable extends SoftServiceInspections
         ),
       );
     }
+    if (data.containsKey('corrective_completed')) {
+      context.handle(
+        _correctiveCompletedMeta,
+        correctiveCompleted.isAcceptableOrUnknown(
+          data['corrective_completed']!,
+          _correctiveCompletedMeta,
+        ),
+      );
+    }
     if (data.containsKey('inspected_by')) {
       context.handle(
         _inspectedByMeta,
@@ -22874,6 +22998,10 @@ class $SoftServiceInspectionsTable extends SoftServiceInspections
         DriftSqlType.dateTime,
         data['${effectivePrefix}corrective_due_date'],
       ),
+      correctiveCompleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}corrective_completed'],
+      )!,
       inspectedBy: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}inspected_by'],
@@ -22902,6 +23030,7 @@ class SoftServiceInspection extends DataClass
   final String? correctiveTaskNote;
   final String? correctiveOwnerName;
   final DateTime? correctiveDueDate;
+  final bool correctiveCompleted;
   final String inspectedBy;
   final DateTime inspectedAt;
   const SoftServiceInspection({
@@ -22914,6 +23043,7 @@ class SoftServiceInspection extends DataClass
     this.correctiveTaskNote,
     this.correctiveOwnerName,
     this.correctiveDueDate,
+    required this.correctiveCompleted,
     required this.inspectedBy,
     required this.inspectedAt,
   });
@@ -22939,6 +23069,7 @@ class SoftServiceInspection extends DataClass
     if (!nullToAbsent || correctiveDueDate != null) {
       map['corrective_due_date'] = Variable<DateTime>(correctiveDueDate);
     }
+    map['corrective_completed'] = Variable<bool>(correctiveCompleted);
     map['inspected_by'] = Variable<String>(inspectedBy);
     map['inspected_at'] = Variable<DateTime>(inspectedAt);
     return map;
@@ -22965,6 +23096,7 @@ class SoftServiceInspection extends DataClass
       correctiveDueDate: correctiveDueDate == null && nullToAbsent
           ? const Value.absent()
           : Value(correctiveDueDate),
+      correctiveCompleted: Value(correctiveCompleted),
       inspectedBy: Value(inspectedBy),
       inspectedAt: Value(inspectedAt),
     );
@@ -22993,6 +23125,9 @@ class SoftServiceInspection extends DataClass
       correctiveDueDate: serializer.fromJson<DateTime?>(
         json['correctiveDueDate'],
       ),
+      correctiveCompleted: serializer.fromJson<bool>(
+        json['correctiveCompleted'],
+      ),
       inspectedBy: serializer.fromJson<String>(json['inspectedBy']),
       inspectedAt: serializer.fromJson<DateTime>(json['inspectedAt']),
     );
@@ -23010,6 +23145,7 @@ class SoftServiceInspection extends DataClass
       'correctiveTaskNote': serializer.toJson<String?>(correctiveTaskNote),
       'correctiveOwnerName': serializer.toJson<String?>(correctiveOwnerName),
       'correctiveDueDate': serializer.toJson<DateTime?>(correctiveDueDate),
+      'correctiveCompleted': serializer.toJson<bool>(correctiveCompleted),
       'inspectedBy': serializer.toJson<String>(inspectedBy),
       'inspectedAt': serializer.toJson<DateTime>(inspectedAt),
     };
@@ -23025,6 +23161,7 @@ class SoftServiceInspection extends DataClass
     Value<String?> correctiveTaskNote = const Value.absent(),
     Value<String?> correctiveOwnerName = const Value.absent(),
     Value<DateTime?> correctiveDueDate = const Value.absent(),
+    bool? correctiveCompleted,
     String? inspectedBy,
     DateTime? inspectedAt,
   }) => SoftServiceInspection(
@@ -23045,6 +23182,7 @@ class SoftServiceInspection extends DataClass
     correctiveDueDate: correctiveDueDate.present
         ? correctiveDueDate.value
         : this.correctiveDueDate,
+    correctiveCompleted: correctiveCompleted ?? this.correctiveCompleted,
     inspectedBy: inspectedBy ?? this.inspectedBy,
     inspectedAt: inspectedAt ?? this.inspectedAt,
   );
@@ -23069,6 +23207,9 @@ class SoftServiceInspection extends DataClass
       correctiveDueDate: data.correctiveDueDate.present
           ? data.correctiveDueDate.value
           : this.correctiveDueDate,
+      correctiveCompleted: data.correctiveCompleted.present
+          ? data.correctiveCompleted.value
+          : this.correctiveCompleted,
       inspectedBy: data.inspectedBy.present
           ? data.inspectedBy.value
           : this.inspectedBy,
@@ -23090,6 +23231,7 @@ class SoftServiceInspection extends DataClass
           ..write('correctiveTaskNote: $correctiveTaskNote, ')
           ..write('correctiveOwnerName: $correctiveOwnerName, ')
           ..write('correctiveDueDate: $correctiveDueDate, ')
+          ..write('correctiveCompleted: $correctiveCompleted, ')
           ..write('inspectedBy: $inspectedBy, ')
           ..write('inspectedAt: $inspectedAt')
           ..write(')'))
@@ -23107,6 +23249,7 @@ class SoftServiceInspection extends DataClass
     correctiveTaskNote,
     correctiveOwnerName,
     correctiveDueDate,
+    correctiveCompleted,
     inspectedBy,
     inspectedAt,
   );
@@ -23123,6 +23266,7 @@ class SoftServiceInspection extends DataClass
           other.correctiveTaskNote == this.correctiveTaskNote &&
           other.correctiveOwnerName == this.correctiveOwnerName &&
           other.correctiveDueDate == this.correctiveDueDate &&
+          other.correctiveCompleted == this.correctiveCompleted &&
           other.inspectedBy == this.inspectedBy &&
           other.inspectedAt == this.inspectedAt);
 }
@@ -23138,6 +23282,7 @@ class SoftServiceInspectionsCompanion
   final Value<String?> correctiveTaskNote;
   final Value<String?> correctiveOwnerName;
   final Value<DateTime?> correctiveDueDate;
+  final Value<bool> correctiveCompleted;
   final Value<String> inspectedBy;
   final Value<DateTime> inspectedAt;
   final Value<int> rowid;
@@ -23151,6 +23296,7 @@ class SoftServiceInspectionsCompanion
     this.correctiveTaskNote = const Value.absent(),
     this.correctiveOwnerName = const Value.absent(),
     this.correctiveDueDate = const Value.absent(),
+    this.correctiveCompleted = const Value.absent(),
     this.inspectedBy = const Value.absent(),
     this.inspectedAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -23165,6 +23311,7 @@ class SoftServiceInspectionsCompanion
     this.correctiveTaskNote = const Value.absent(),
     this.correctiveOwnerName = const Value.absent(),
     this.correctiveDueDate = const Value.absent(),
+    this.correctiveCompleted = const Value.absent(),
     required String inspectedBy,
     required DateTime inspectedAt,
     this.rowid = const Value.absent(),
@@ -23184,6 +23331,7 @@ class SoftServiceInspectionsCompanion
     Expression<String>? correctiveTaskNote,
     Expression<String>? correctiveOwnerName,
     Expression<DateTime>? correctiveDueDate,
+    Expression<bool>? correctiveCompleted,
     Expression<String>? inspectedBy,
     Expression<DateTime>? inspectedAt,
     Expression<int>? rowid,
@@ -23201,6 +23349,8 @@ class SoftServiceInspectionsCompanion
       if (correctiveOwnerName != null)
         'corrective_owner_name': correctiveOwnerName,
       if (correctiveDueDate != null) 'corrective_due_date': correctiveDueDate,
+      if (correctiveCompleted != null)
+        'corrective_completed': correctiveCompleted,
       if (inspectedBy != null) 'inspected_by': inspectedBy,
       if (inspectedAt != null) 'inspected_at': inspectedAt,
       if (rowid != null) 'rowid': rowid,
@@ -23217,6 +23367,7 @@ class SoftServiceInspectionsCompanion
     Value<String?>? correctiveTaskNote,
     Value<String?>? correctiveOwnerName,
     Value<DateTime?>? correctiveDueDate,
+    Value<bool>? correctiveCompleted,
     Value<String>? inspectedBy,
     Value<DateTime>? inspectedAt,
     Value<int>? rowid,
@@ -23231,6 +23382,7 @@ class SoftServiceInspectionsCompanion
       correctiveTaskNote: correctiveTaskNote ?? this.correctiveTaskNote,
       correctiveOwnerName: correctiveOwnerName ?? this.correctiveOwnerName,
       correctiveDueDate: correctiveDueDate ?? this.correctiveDueDate,
+      correctiveCompleted: correctiveCompleted ?? this.correctiveCompleted,
       inspectedBy: inspectedBy ?? this.inspectedBy,
       inspectedAt: inspectedAt ?? this.inspectedAt,
       rowid: rowid ?? this.rowid,
@@ -23269,6 +23421,9 @@ class SoftServiceInspectionsCompanion
     if (correctiveDueDate.present) {
       map['corrective_due_date'] = Variable<DateTime>(correctiveDueDate.value);
     }
+    if (correctiveCompleted.present) {
+      map['corrective_completed'] = Variable<bool>(correctiveCompleted.value);
+    }
     if (inspectedBy.present) {
       map['inspected_by'] = Variable<String>(inspectedBy.value);
     }
@@ -23293,6 +23448,7 @@ class SoftServiceInspectionsCompanion
           ..write('correctiveTaskNote: $correctiveTaskNote, ')
           ..write('correctiveOwnerName: $correctiveOwnerName, ')
           ..write('correctiveDueDate: $correctiveDueDate, ')
+          ..write('correctiveCompleted: $correctiveCompleted, ')
           ..write('inspectedBy: $inspectedBy, ')
           ..write('inspectedAt: $inspectedAt, ')
           ..write('rowid: $rowid')
@@ -38532,6 +38688,8 @@ typedef $$HazardsTableCreateCompanionBuilder =
       required int riskScore,
       required String reportedBy,
       Value<String> status,
+      Value<String?> ownerName,
+      Value<DateTime?> targetDate,
       required DateTime createdAt,
       Value<int> rowid,
     });
@@ -38547,6 +38705,8 @@ typedef $$HazardsTableUpdateCompanionBuilder =
       Value<int> riskScore,
       Value<String> reportedBy,
       Value<String> status,
+      Value<String?> ownerName,
+      Value<DateTime?> targetDate,
       Value<DateTime> createdAt,
       Value<int> rowid,
     });
@@ -38638,6 +38798,16 @@ class $$HazardsTableFilterComposer
 
   ColumnFilters<String> get status => $composableBuilder(
     column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get ownerName => $composableBuilder(
+    column: $table.ownerName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get targetDate => $composableBuilder(
+    column: $table.targetDate,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -38742,6 +38912,16 @@ class $$HazardsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get ownerName => $composableBuilder(
+    column: $table.ownerName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get targetDate => $composableBuilder(
+    column: $table.targetDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -38835,6 +39015,14 @@ class $$HazardsTableAnnotationComposer
   GeneratedColumn<String> get status =>
       $composableBuilder(column: $table.status, builder: (column) => column);
 
+  GeneratedColumn<String> get ownerName =>
+      $composableBuilder(column: $table.ownerName, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get targetDate => $composableBuilder(
+    column: $table.targetDate,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -38923,6 +39111,8 @@ class $$HazardsTableTableManager
                 Value<int> riskScore = const Value.absent(),
                 Value<String> reportedBy = const Value.absent(),
                 Value<String> status = const Value.absent(),
+                Value<String?> ownerName = const Value.absent(),
+                Value<DateTime?> targetDate = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => HazardsCompanion(
@@ -38936,6 +39126,8 @@ class $$HazardsTableTableManager
                 riskScore: riskScore,
                 reportedBy: reportedBy,
                 status: status,
+                ownerName: ownerName,
+                targetDate: targetDate,
                 createdAt: createdAt,
                 rowid: rowid,
               ),
@@ -38951,6 +39143,8 @@ class $$HazardsTableTableManager
                 required int riskScore,
                 required String reportedBy,
                 Value<String> status = const Value.absent(),
+                Value<String?> ownerName = const Value.absent(),
+                Value<DateTime?> targetDate = const Value.absent(),
                 required DateTime createdAt,
                 Value<int> rowid = const Value.absent(),
               }) => HazardsCompanion.insert(
@@ -38964,6 +39158,8 @@ class $$HazardsTableTableManager
                 riskScore: riskScore,
                 reportedBy: reportedBy,
                 status: status,
+                ownerName: ownerName,
+                targetDate: targetDate,
                 createdAt: createdAt,
                 rowid: rowid,
               ),
@@ -42701,6 +42897,7 @@ typedef $$SoftServiceInspectionsTableCreateCompanionBuilder =
       Value<String?> correctiveTaskNote,
       Value<String?> correctiveOwnerName,
       Value<DateTime?> correctiveDueDate,
+      Value<bool> correctiveCompleted,
       required String inspectedBy,
       required DateTime inspectedAt,
       Value<int> rowid,
@@ -42716,6 +42913,7 @@ typedef $$SoftServiceInspectionsTableUpdateCompanionBuilder =
       Value<String?> correctiveTaskNote,
       Value<String?> correctiveOwnerName,
       Value<DateTime?> correctiveDueDate,
+      Value<bool> correctiveCompleted,
       Value<String> inspectedBy,
       Value<DateTime> inspectedAt,
       Value<int> rowid,
@@ -42812,6 +43010,11 @@ class $$SoftServiceInspectionsTableFilterComposer
 
   ColumnFilters<DateTime> get correctiveDueDate => $composableBuilder(
     column: $table.correctiveDueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get correctiveCompleted => $composableBuilder(
+    column: $table.correctiveCompleted,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -42916,6 +43119,11 @@ class $$SoftServiceInspectionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get correctiveCompleted => $composableBuilder(
+    column: $table.correctiveCompleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get inspectedBy => $composableBuilder(
     column: $table.inspectedBy,
     builder: (column) => ColumnOrderings(column),
@@ -43008,6 +43216,11 @@ class $$SoftServiceInspectionsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get correctiveDueDate => $composableBuilder(
     column: $table.correctiveDueDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get correctiveCompleted => $composableBuilder(
+    column: $table.correctiveCompleted,
     builder: (column) => column,
   );
 
@@ -43116,6 +43329,7 @@ class $$SoftServiceInspectionsTableTableManager
                 Value<String?> correctiveTaskNote = const Value.absent(),
                 Value<String?> correctiveOwnerName = const Value.absent(),
                 Value<DateTime?> correctiveDueDate = const Value.absent(),
+                Value<bool> correctiveCompleted = const Value.absent(),
                 Value<String> inspectedBy = const Value.absent(),
                 Value<DateTime> inspectedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -43129,6 +43343,7 @@ class $$SoftServiceInspectionsTableTableManager
                 correctiveTaskNote: correctiveTaskNote,
                 correctiveOwnerName: correctiveOwnerName,
                 correctiveDueDate: correctiveDueDate,
+                correctiveCompleted: correctiveCompleted,
                 inspectedBy: inspectedBy,
                 inspectedAt: inspectedAt,
                 rowid: rowid,
@@ -43144,6 +43359,7 @@ class $$SoftServiceInspectionsTableTableManager
                 Value<String?> correctiveTaskNote = const Value.absent(),
                 Value<String?> correctiveOwnerName = const Value.absent(),
                 Value<DateTime?> correctiveDueDate = const Value.absent(),
+                Value<bool> correctiveCompleted = const Value.absent(),
                 required String inspectedBy,
                 required DateTime inspectedAt,
                 Value<int> rowid = const Value.absent(),
@@ -43157,6 +43373,7 @@ class $$SoftServiceInspectionsTableTableManager
                 correctiveTaskNote: correctiveTaskNote,
                 correctiveOwnerName: correctiveOwnerName,
                 correctiveDueDate: correctiveDueDate,
+                correctiveCompleted: correctiveCompleted,
                 inspectedBy: inspectedBy,
                 inspectedAt: inspectedAt,
                 rowid: rowid,

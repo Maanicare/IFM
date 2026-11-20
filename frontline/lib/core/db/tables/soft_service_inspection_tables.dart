@@ -21,6 +21,12 @@ class SoftServiceInspections extends Table {
   TextColumn get correctiveTaskNote => text().nullable()();
   TextColumn get correctiveOwnerName => text().nullable()();
   DateTimeColumn get correctiveDueDate => dateTime().nullable()();
+  // Still no task-assignment/notification workflow (see the class doc
+  // above) - but Screen 34's "Corrective actions overdue" needs to
+  // know when one's actually done, not just past its due date, so this
+  // one completion flag exists without the rest of a task entity.
+  BoolColumn get correctiveCompleted =>
+      boolean().withDefault(const Constant(false))();
   TextColumn get inspectedBy => text()();
   DateTimeColumn get inspectedAt => dateTime()();
 

@@ -22,4 +22,13 @@ class SoftServiceInspectionDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> insert(SoftServiceInspectionsCompanion row) =>
       into(softServiceInspections).insert(row);
+
+  /// Screen 34: lets whoever owns a corrective task mark it done, so
+  /// "Corrective actions overdue" doesn't count it forever once it's
+  /// actually resolved.
+  Future<void> markCorrectiveComplete(String id) {
+    return (update(softServiceInspections)..where((t) => t.id.equals(id))).write(
+      const SoftServiceInspectionsCompanion(correctiveCompleted: Value(true)),
+    );
+  }
 }

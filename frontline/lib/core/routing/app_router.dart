@@ -23,6 +23,7 @@ import '../../features/requests/presentation/create_request_screen.dart';
 import '../../features/requests/presentation/request_detail_screen.dart';
 import '../../features/requests/presentation/requests_screen.dart';
 import '../../features/safety/presentation/report_safety_issue_screen.dart';
+import '../../features/safety/presentation/safety_home_screen.dart';
 import '../../features/scan/presentation/scan_screen.dart';
 import '../../features/search/presentation/search_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
@@ -93,6 +94,10 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/report-safety-issue',
         builder: (context, state) => const ReportSafetyIssueScreen(),
+      ),
+      GoRoute(
+        path: '/safety-home',
+        builder: (context, state) => const SafetyHomeScreen(),
       ),
       GoRoute(
         path: '/my-vehicle',

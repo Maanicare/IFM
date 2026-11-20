@@ -27,4 +27,9 @@ class HttpInspectionRepository implements InspectionRepository {
       'inspected_at': inspection.inspectedAt.toIso8601String(),
     });
   }
+
+  @override
+  Future<void> pushCorrectiveComplete(String inspectionId) async {
+    await _dio.patch<void>('/v1/soft-service-inspections/$inspectionId/corrective-complete');
+  }
 }

@@ -51,7 +51,7 @@ final class InspectionControllerProvider
 }
 
 String _$inspectionControllerHash() =>
-    r'72ba8d86631523e234310ebcdde4a5ded5e2fb44';
+    r'1e00dea4606474ac8873843b7ac4a1c6698c6653';
 
 /// Backs Screen 23 (Soft Service Inspection). Writes locally first, then
 /// pushes through the outbox - same pattern as Incident/Hazard

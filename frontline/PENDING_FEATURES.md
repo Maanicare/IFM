@@ -164,9 +164,25 @@ is a free-text name (no employee directory), and the corrective task
 has no assignment/notification workflow - it's a captured field, not
 a trackable task entity.
 
+## Screen 34 - Safety Home — DONE (with documented interpretation)
+
+Active incidents, Open hazards, Near misses, Corrective actions
+overdue, Inspection score, Days without lost-time incident are all
+computed client-side from the existing Incident/Hazard/Inspection
+streams. **"PTW active" always shows "N/A"** - Permit to Work
+(Screen 37) isn't built, so there's no Permits table to count from;
+shown honestly rather than faking a zero.
+
+"Corrective actions overdue" combines two sources: `Hazards.targetDate`
+(new column, matches the canonical model, but nothing in this app's
+UI sets it yet - no triage/assignment screen exists) and
+`SoftServiceInspections.correctiveDueDate` (settable from Screen 23,
+so this is the source that actually drives the count today). Added
+`correctiveCompleted` to Soft Service Inspections and a "Done" action
+here so the count doesn't grow forever.
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 34 — Safety Home
 - Screen 37 — Permit to Work
 - Screen 42 — Workplace Experience
 - Screen 43 — Reservation

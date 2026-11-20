@@ -69,13 +69,20 @@ class MoreScreen extends ConsumerWidget {
               onTap: () => context.push('/shift-roster'),
             ),
           ],
-          if (can(AppAction.reportIncident))
+          if (can(AppAction.reportIncident)) ...[
+            ListTile(
+              leading: const Icon(Icons.health_and_safety_outlined),
+              title: const Text('Safety'),
+              subtitle: const Text('Incidents, hazards, corrective actions'),
+              onTap: () => context.push('/safety-home'),
+            ),
             ListTile(
               leading: const Icon(Icons.report_outlined),
               title: const Text('Report safety issue'),
               subtitle: const Text('Incident, hazard or near miss'),
               onTap: () => context.push('/report-safety-issue'),
             ),
+          ],
           if (can(AppAction.manageCleaningTask)) ...[
             ListTile(
               leading: const Icon(Icons.cleaning_services_outlined),

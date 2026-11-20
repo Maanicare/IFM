@@ -66,4 +66,25 @@ class InspectionController extends _$InspectionController {
     });
     return id;
   }
+
+  /// Screen 34: marks a corrective task done.
+  Future<void> markCorrectiveComplete(String inspectionId, {required String siteId}) async {
+    final db = ref.read(appDatabaseProvider);
+    final guard = ref.read(policyGuardProvider);
+    final accessContext = ref.read(currentAccessContextProvider);
+    if (accessContext == null) return;
+    guard.ensure(accessContext, AppAction.manageCleaningTask, siteId: siteId);
+
+    await db.transaction(() async {
+      await db.softServiceInspectionDao.markCorrectiveComplete(inspectionId);
+      await db.outboxDao.enqueue(
+        id: IdGenerator.newId(),
+        entityType: 'soft_service_inspection_corrective_complete',
+        entityId: inspectionId,
+        operation: 'update',
+        payloadJson: jsonEncode({'inspectionId': inspectionId}),
+        createdBy: accessContext.userId,
+      );
+    });
+  }
 }

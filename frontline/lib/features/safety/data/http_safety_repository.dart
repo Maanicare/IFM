@@ -49,6 +49,8 @@ class HttpSafetyRepository implements SafetyRepository {
       'risk_consequence': hazard.riskConsequence,
       'risk_score': hazard.riskScore,
       'reported_by': hazard.reportedBy,
+      'owner_name': hazard.ownerName,
+      'target_date': hazard.targetDate?.toIso8601String(),
     });
   }
 }

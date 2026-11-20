@@ -3,4 +3,7 @@
 /// corrective actions happens on the manager/desktop surface.
 abstract interface class InspectionRepository {
   Future<void> pushInspection(String inspectionId);
+
+  /// Screen 34: pushes a corrective-task completion.
+  Future<void> pushCorrectiveComplete(String inspectionId);
 }
