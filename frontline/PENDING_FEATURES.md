@@ -201,9 +201,23 @@ link to the issued permit otherwise).
 - This app only creates/closes permits locally and pushes them - it
   never syncs a permit list down from the server.
 
+## Screen 42 - Workplace Experience — DONE (as a navigation hub)
+
+A hub screen with all 8 "Employee Side" tiles. Report issue/Request
+service both go to the existing Create Request flow (this app's data
+model doesn't distinguish the two). The other four are honest
+"not available yet" taps, not fabricated flows:
+- **Book desk / Book room** — need Screen 43 (Reservation), not built.
+- **Visitor** — needs Screen 44 (Visitor Management), not built.
+- **Events** — no owning screen or data model exists anywhere in this
+  app's scope.
+- **Amenities** — no data model exists (the canonical Space model has
+  an `amenities` field, but nothing populates or surfaces it here).
+- **Wayfinding** — needs floor-plan/indoor-map data, a Site Digital
+  Map (Screen 18) concern that's Web-only.
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 42 — Workplace Experience
 - Screen 43 — Reservation
 - Screen 44 — Visitor Management
 - Screen 46 — Comfort Feedback

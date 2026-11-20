@@ -32,6 +32,7 @@ import '../../features/search/presentation/search_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/work_orders/presentation/my_work_screen.dart';
 import '../../features/work_orders/presentation/work_order_detail_screen.dart';
+import '../../features/workplace/presentation/workplace_experience_screen.dart';
 import '../../shared/widgets/app_shell.dart';
 
 part 'app_router.g.dart';
@@ -101,6 +102,10 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/safety-home',
         builder: (context, state) => const SafetyHomeScreen(),
+      ),
+      GoRoute(
+        path: '/workplace',
+        builder: (context, state) => const WorkplaceExperienceScreen(),
       ),
       GoRoute(
         path: '/permits',
