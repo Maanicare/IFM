@@ -28,6 +28,11 @@ class MockInventoryRepository implements InventoryRepository {
           unit: i['unit'] as String,
           unitCost: Value((i['unitCost'] as num?)?.toDouble()),
           reorderLevel: Value((i['reorderLevel'] as num?)?.toDouble()),
+          minLevel: Value((i['minLevel'] as num?)?.toDouble()),
+          warehouseName: Value(i['warehouseName'] as String?),
+          supplierName: Value(i['supplierName'] as String?),
+          expiryDate: Value(FixtureLoader.resolveOffset(i, 'expiry')),
+          serialOrBatch: Value(i['serialOrBatch'] as String?),
         ));
       }
       for (final b in balances.cast<Map<String, dynamic>>()) {
@@ -36,6 +41,7 @@ class MockInventoryRepository implements InventoryRepository {
           itemId: b['itemId'] as String,
           siteId: b['siteId'] as String,
           quantity: Value((b['quantity'] as num).toDouble()),
+          reservedQuantity: Value((b['reservedQuantity'] as num?)?.toDouble() ?? 0),
         ));
       }
     });
@@ -52,6 +58,11 @@ class MockInventoryRepository implements InventoryRepository {
   }) async {
     // Mock mode has no backend - the local write (performed by the caller
     // before this method runs) is the entire effect.
+    await Future<void>.delayed(const Duration(milliseconds: 150));
+  }
+
+  @override
+  Future<void> pushTransaction(String transactionId) async {
     await Future<void>.delayed(const Duration(milliseconds: 150));
   }
 }

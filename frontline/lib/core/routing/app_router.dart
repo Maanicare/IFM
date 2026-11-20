@@ -7,6 +7,7 @@ import '../../features/cleaning/presentation/cleaning_task_detail_screen.dart';
 import '../../features/cleaning/presentation/cleaning_tasks_screen.dart';
 import '../../features/fleet/presentation/my_vehicle_screen.dart';
 import '../../features/identity/presentation/auth_controller.dart';
+import '../../features/inventory/presentation/inventory_item_screen.dart';
 import '../../features/identity/presentation/login_screen.dart';
 import '../../features/location/presentation/site_selector_screen.dart';
 import '../../features/more/presentation/more_screen.dart';
@@ -92,6 +93,12 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/my-vehicle',
         builder: (context, state) => const MyVehicleScreen(),
+      ),
+      GoRoute(
+        path: '/inventory/:id',
+        builder: (context, state) => InventoryItemScreen(
+          itemId: state.pathParameters['id']!,
+        ),
       ),
       GoRoute(
         path: '/cleaning-tasks',

@@ -309,6 +309,17 @@ class _InventoryResultSheet extends StatelessWidget {
               'To record this part against a job, open the work order and use "Add part".',
               style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
             ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  context.push('/inventory/${entry.item.id}');
+                },
+                child: const Text('View item details'),
+              ),
+            ),
           ],
         ),
       ),

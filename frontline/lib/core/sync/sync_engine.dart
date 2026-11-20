@@ -103,6 +103,9 @@ class SyncEngine {
         case 'inventory_transaction':
           await _pushInventoryTransaction(entry);
           break;
+        case 'inventory_stock_transaction':
+          await _ref.read(inventoryRepositoryProvider).pushTransaction(entry.entityId);
+          break;
         case 'shift_handover':
           await _pushShiftHandover(entry);
           break;

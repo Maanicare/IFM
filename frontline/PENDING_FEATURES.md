@@ -25,26 +25,28 @@ Still pending:
   `Vehicles` table has no columns for them at all. Needs new columns
   (schema bump) + fixture/repository updates, not just a UI add.
 
-## Screen 32 - Inventory Item
+## Screen 32 - Inventory Item — DONE
 
-No dedicated "Inventory Item" profile screen exists at all - only a
-quick-info sheet from Scan and the inline "Add part" picker on a Work
-Order. The `InventoryItems`/`InventoryBalances` tables only cover
-SKU, Name, Category, Unit, Cost, Reorder level, and per-site Quantity.
-Missing entirely: **Warehouse**, **Reserved** quantity (vs. on-hand),
-**Min level** (distinct from Reorder level), **Supplier**,
-**Expiry**, **Serial/batch**. Needs new columns plus an actual
-profile screen, not a quick fix.
+New dedicated profile screen (`/inventory/:id`), reached from Scan's
+inventory result sheet and from Home's "Required parts" row. Shows
+SKU/Name/Category/Unit/Warehouse/Site(current)/Quantity/Reserved/
+Available/Min level/Reorder level/Supplier/Cost/Expiry/Serial-batch,
+plus transaction history. "Warehouse" is a plain name field, not a
+full multi-location balance model - this app still tracks one balance
+per item per site, not per warehouse (documented in
+`inventory_tables.dart`). "Reserved" is tracked but nothing in this
+app currently writes to it (no reservation workflow exists here).
 
-## Screen 33 - Stock Transaction
+## Screen 33 - Stock Transaction — DONE
 
-Only the "Issue" transaction type is implemented (via Work Order
-"Add part"), hardcoded in `InventoryDao.recordIssue`. The spec lists
-Receive/Issue/Transfer/Return/Repair/Scrap/Adjustment, and a required
-"reason" field that doesn't exist in `InventoryTransactions` at all
-(only `transactionType`, `quantity`, `userId`, `timestamp`). Needs a
-`reason` column plus six more transaction-type flows - a bigger
-feature than exists today, not a toggle to flip on.
+Receive/Transfer/Return/Repair/Scrap/Adjustment are now recordable
+from the new Inventory Item screen, each requiring a reason
+(`InventoryTransactions.reason`, new column). `Issue` is unchanged -
+still the Work Order "Add part" flow, with its reason implicit (the
+linked work order) rather than re-typed. `Transfer` only decrements
+this site's balance (no second-location balance to credit, since
+there's no multi-site destination picker) - closer to "stock sent
+out" than a true transfer.
 
 ## Screen 35 - Incident Report
 

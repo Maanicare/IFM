@@ -27,11 +27,19 @@ class HttpInventoryRepository implements InventoryRepository {
           unit: item['unit'] as String,
           unitCost: Value((item['unitCost'] as num?)?.toDouble()),
           reorderLevel: Value((item['reorderLevel'] as num?)?.toDouble()),
+          minLevel: Value((item['minLevel'] as num?)?.toDouble()),
+          warehouseName: Value(item['warehouseName'] as String?),
+          supplierName: Value(item['supplierName'] as String?),
+          expiryDate: Value(
+            item['expiryDate'] != null ? DateTime.parse(item['expiryDate'] as String) : null,
+          ),
+          serialOrBatch: Value(item['serialOrBatch'] as String?),
         ));
         await _db.inventoryDao.upsertBalanceFromServer(InventoryBalancesCompanion.insert(
           itemId: item['id'] as String,
           siteId: siteId,
           quantity: Value((b['quantity'] as num).toDouble()),
+          reservedQuantity: Value((b['reservedQuantity'] as num?)?.toDouble() ?? 0),
         ));
       }
     });
@@ -54,6 +62,23 @@ class HttpInventoryRepository implements InventoryRepository {
       'quantity': quantity,
       'user_id': userId,
       'timestamp': timestamp.toIso8601String(),
+    });
+  }
+
+  @override
+  Future<void> pushTransaction(String transactionId) async {
+    final txn = await (_db.select(_db.inventoryTransactions)
+          ..where((t) => t.id.equals(transactionId)))
+        .getSingleOrNull();
+    if (txn == null) return;
+    await _dio.post<void>('/v1/inventory/transactions', data: {
+      'id': txn.id,
+      'item_id': txn.itemId,
+      'transaction_type': txn.transactionType,
+      'quantity': txn.quantity,
+      'reason': txn.reason,
+      'user_id': txn.userId,
+      'timestamp': txn.timestamp.toIso8601String(),
     });
   }
 }

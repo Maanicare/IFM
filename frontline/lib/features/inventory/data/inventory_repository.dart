@@ -13,4 +13,8 @@ abstract interface class InventoryRepository {
     required String userId,
     required DateTime timestamp,
   });
+
+  /// Screen 33 (Stock Transaction): pushes a Receive/Transfer/Return/
+  /// Repair/Scrap/Adjustment entry already written locally.
+  Future<void> pushTransaction(String transactionId);
 }

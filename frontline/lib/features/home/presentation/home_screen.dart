@@ -492,16 +492,19 @@ class _RequiredPartsRow extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             for (final entry in lowStock)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 3),
-                child: Row(
-                  children: [
-                    Expanded(child: Text('${entry.item.name} (${entry.item.sku})')),
-                    Text(
-                      '${entry.quantityAvailable.toStringAsFixed(0)} ${entry.item.unit} left',
-                      style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w600),
-                    ),
-                  ],
+              InkWell(
+                onTap: () => context.push('/inventory/${entry.item.id}'),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text('${entry.item.name} (${entry.item.sku})')),
+                      Text(
+                        '${entry.quantityAvailable.toStringAsFixed(0)} ${entry.item.unit} left',
+                        style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
                 ),
               ),
           ],

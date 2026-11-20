@@ -12994,6 +12994,61 @@ class $InventoryItemsTable extends InventoryItems
     type: DriftSqlType.double,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _minLevelMeta = const VerificationMeta(
+    'minLevel',
+  );
+  @override
+  late final GeneratedColumn<double> minLevel = GeneratedColumn<double>(
+    'min_level',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _warehouseNameMeta = const VerificationMeta(
+    'warehouseName',
+  );
+  @override
+  late final GeneratedColumn<String> warehouseName = GeneratedColumn<String>(
+    'warehouse_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _supplierNameMeta = const VerificationMeta(
+    'supplierName',
+  );
+  @override
+  late final GeneratedColumn<String> supplierName = GeneratedColumn<String>(
+    'supplier_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _expiryDateMeta = const VerificationMeta(
+    'expiryDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> expiryDate = GeneratedColumn<DateTime>(
+    'expiry_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _serialOrBatchMeta = const VerificationMeta(
+    'serialOrBatch',
+  );
+  @override
+  late final GeneratedColumn<String> serialOrBatch = GeneratedColumn<String>(
+    'serial_or_batch',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -13003,6 +13058,11 @@ class $InventoryItemsTable extends InventoryItems
     unit,
     unitCost,
     reorderLevel,
+    minLevel,
+    warehouseName,
+    supplierName,
+    expiryDate,
+    serialOrBatch,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -13066,6 +13126,45 @@ class $InventoryItemsTable extends InventoryItems
         ),
       );
     }
+    if (data.containsKey('min_level')) {
+      context.handle(
+        _minLevelMeta,
+        minLevel.isAcceptableOrUnknown(data['min_level']!, _minLevelMeta),
+      );
+    }
+    if (data.containsKey('warehouse_name')) {
+      context.handle(
+        _warehouseNameMeta,
+        warehouseName.isAcceptableOrUnknown(
+          data['warehouse_name']!,
+          _warehouseNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('supplier_name')) {
+      context.handle(
+        _supplierNameMeta,
+        supplierName.isAcceptableOrUnknown(
+          data['supplier_name']!,
+          _supplierNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('expiry_date')) {
+      context.handle(
+        _expiryDateMeta,
+        expiryDate.isAcceptableOrUnknown(data['expiry_date']!, _expiryDateMeta),
+      );
+    }
+    if (data.containsKey('serial_or_batch')) {
+      context.handle(
+        _serialOrBatchMeta,
+        serialOrBatch.isAcceptableOrUnknown(
+          data['serial_or_batch']!,
+          _serialOrBatchMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -13103,6 +13202,26 @@ class $InventoryItemsTable extends InventoryItems
         DriftSqlType.double,
         data['${effectivePrefix}reorder_level'],
       ),
+      minLevel: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}min_level'],
+      ),
+      warehouseName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}warehouse_name'],
+      ),
+      supplierName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}supplier_name'],
+      ),
+      expiryDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}expiry_date'],
+      ),
+      serialOrBatch: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}serial_or_batch'],
+      ),
     );
   }
 
@@ -13120,6 +13239,11 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
   final String unit;
   final double? unitCost;
   final double? reorderLevel;
+  final double? minLevel;
+  final String? warehouseName;
+  final String? supplierName;
+  final DateTime? expiryDate;
+  final String? serialOrBatch;
   const InventoryItem({
     required this.id,
     required this.sku,
@@ -13128,6 +13252,11 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
     required this.unit,
     this.unitCost,
     this.reorderLevel,
+    this.minLevel,
+    this.warehouseName,
+    this.supplierName,
+    this.expiryDate,
+    this.serialOrBatch,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -13144,6 +13273,21 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
     }
     if (!nullToAbsent || reorderLevel != null) {
       map['reorder_level'] = Variable<double>(reorderLevel);
+    }
+    if (!nullToAbsent || minLevel != null) {
+      map['min_level'] = Variable<double>(minLevel);
+    }
+    if (!nullToAbsent || warehouseName != null) {
+      map['warehouse_name'] = Variable<String>(warehouseName);
+    }
+    if (!nullToAbsent || supplierName != null) {
+      map['supplier_name'] = Variable<String>(supplierName);
+    }
+    if (!nullToAbsent || expiryDate != null) {
+      map['expiry_date'] = Variable<DateTime>(expiryDate);
+    }
+    if (!nullToAbsent || serialOrBatch != null) {
+      map['serial_or_batch'] = Variable<String>(serialOrBatch);
     }
     return map;
   }
@@ -13163,6 +13307,21 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
       reorderLevel: reorderLevel == null && nullToAbsent
           ? const Value.absent()
           : Value(reorderLevel),
+      minLevel: minLevel == null && nullToAbsent
+          ? const Value.absent()
+          : Value(minLevel),
+      warehouseName: warehouseName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(warehouseName),
+      supplierName: supplierName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(supplierName),
+      expiryDate: expiryDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiryDate),
+      serialOrBatch: serialOrBatch == null && nullToAbsent
+          ? const Value.absent()
+          : Value(serialOrBatch),
     );
   }
 
@@ -13179,6 +13338,11 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
       unit: serializer.fromJson<String>(json['unit']),
       unitCost: serializer.fromJson<double?>(json['unitCost']),
       reorderLevel: serializer.fromJson<double?>(json['reorderLevel']),
+      minLevel: serializer.fromJson<double?>(json['minLevel']),
+      warehouseName: serializer.fromJson<String?>(json['warehouseName']),
+      supplierName: serializer.fromJson<String?>(json['supplierName']),
+      expiryDate: serializer.fromJson<DateTime?>(json['expiryDate']),
+      serialOrBatch: serializer.fromJson<String?>(json['serialOrBatch']),
     );
   }
   @override
@@ -13192,6 +13356,11 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
       'unit': serializer.toJson<String>(unit),
       'unitCost': serializer.toJson<double?>(unitCost),
       'reorderLevel': serializer.toJson<double?>(reorderLevel),
+      'minLevel': serializer.toJson<double?>(minLevel),
+      'warehouseName': serializer.toJson<String?>(warehouseName),
+      'supplierName': serializer.toJson<String?>(supplierName),
+      'expiryDate': serializer.toJson<DateTime?>(expiryDate),
+      'serialOrBatch': serializer.toJson<String?>(serialOrBatch),
     };
   }
 
@@ -13203,6 +13372,11 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
     String? unit,
     Value<double?> unitCost = const Value.absent(),
     Value<double?> reorderLevel = const Value.absent(),
+    Value<double?> minLevel = const Value.absent(),
+    Value<String?> warehouseName = const Value.absent(),
+    Value<String?> supplierName = const Value.absent(),
+    Value<DateTime?> expiryDate = const Value.absent(),
+    Value<String?> serialOrBatch = const Value.absent(),
   }) => InventoryItem(
     id: id ?? this.id,
     sku: sku ?? this.sku,
@@ -13211,6 +13385,15 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
     unit: unit ?? this.unit,
     unitCost: unitCost.present ? unitCost.value : this.unitCost,
     reorderLevel: reorderLevel.present ? reorderLevel.value : this.reorderLevel,
+    minLevel: minLevel.present ? minLevel.value : this.minLevel,
+    warehouseName: warehouseName.present
+        ? warehouseName.value
+        : this.warehouseName,
+    supplierName: supplierName.present ? supplierName.value : this.supplierName,
+    expiryDate: expiryDate.present ? expiryDate.value : this.expiryDate,
+    serialOrBatch: serialOrBatch.present
+        ? serialOrBatch.value
+        : this.serialOrBatch,
   );
   InventoryItem copyWithCompanion(InventoryItemsCompanion data) {
     return InventoryItem(
@@ -13223,6 +13406,19 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
       reorderLevel: data.reorderLevel.present
           ? data.reorderLevel.value
           : this.reorderLevel,
+      minLevel: data.minLevel.present ? data.minLevel.value : this.minLevel,
+      warehouseName: data.warehouseName.present
+          ? data.warehouseName.value
+          : this.warehouseName,
+      supplierName: data.supplierName.present
+          ? data.supplierName.value
+          : this.supplierName,
+      expiryDate: data.expiryDate.present
+          ? data.expiryDate.value
+          : this.expiryDate,
+      serialOrBatch: data.serialOrBatch.present
+          ? data.serialOrBatch.value
+          : this.serialOrBatch,
     );
   }
 
@@ -13235,14 +13431,31 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
           ..write('category: $category, ')
           ..write('unit: $unit, ')
           ..write('unitCost: $unitCost, ')
-          ..write('reorderLevel: $reorderLevel')
+          ..write('reorderLevel: $reorderLevel, ')
+          ..write('minLevel: $minLevel, ')
+          ..write('warehouseName: $warehouseName, ')
+          ..write('supplierName: $supplierName, ')
+          ..write('expiryDate: $expiryDate, ')
+          ..write('serialOrBatch: $serialOrBatch')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, sku, name, category, unit, unitCost, reorderLevel);
+  int get hashCode => Object.hash(
+    id,
+    sku,
+    name,
+    category,
+    unit,
+    unitCost,
+    reorderLevel,
+    minLevel,
+    warehouseName,
+    supplierName,
+    expiryDate,
+    serialOrBatch,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -13253,7 +13466,12 @@ class InventoryItem extends DataClass implements Insertable<InventoryItem> {
           other.category == this.category &&
           other.unit == this.unit &&
           other.unitCost == this.unitCost &&
-          other.reorderLevel == this.reorderLevel);
+          other.reorderLevel == this.reorderLevel &&
+          other.minLevel == this.minLevel &&
+          other.warehouseName == this.warehouseName &&
+          other.supplierName == this.supplierName &&
+          other.expiryDate == this.expiryDate &&
+          other.serialOrBatch == this.serialOrBatch);
 }
 
 class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
@@ -13264,6 +13482,11 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
   final Value<String> unit;
   final Value<double?> unitCost;
   final Value<double?> reorderLevel;
+  final Value<double?> minLevel;
+  final Value<String?> warehouseName;
+  final Value<String?> supplierName;
+  final Value<DateTime?> expiryDate;
+  final Value<String?> serialOrBatch;
   final Value<int> rowid;
   const InventoryItemsCompanion({
     this.id = const Value.absent(),
@@ -13273,6 +13496,11 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
     this.unit = const Value.absent(),
     this.unitCost = const Value.absent(),
     this.reorderLevel = const Value.absent(),
+    this.minLevel = const Value.absent(),
+    this.warehouseName = const Value.absent(),
+    this.supplierName = const Value.absent(),
+    this.expiryDate = const Value.absent(),
+    this.serialOrBatch = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   InventoryItemsCompanion.insert({
@@ -13283,6 +13511,11 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
     required String unit,
     this.unitCost = const Value.absent(),
     this.reorderLevel = const Value.absent(),
+    this.minLevel = const Value.absent(),
+    this.warehouseName = const Value.absent(),
+    this.supplierName = const Value.absent(),
+    this.expiryDate = const Value.absent(),
+    this.serialOrBatch = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        sku = Value(sku),
@@ -13296,6 +13529,11 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
     Expression<String>? unit,
     Expression<double>? unitCost,
     Expression<double>? reorderLevel,
+    Expression<double>? minLevel,
+    Expression<String>? warehouseName,
+    Expression<String>? supplierName,
+    Expression<DateTime>? expiryDate,
+    Expression<String>? serialOrBatch,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -13306,6 +13544,11 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
       if (unit != null) 'unit': unit,
       if (unitCost != null) 'unit_cost': unitCost,
       if (reorderLevel != null) 'reorder_level': reorderLevel,
+      if (minLevel != null) 'min_level': minLevel,
+      if (warehouseName != null) 'warehouse_name': warehouseName,
+      if (supplierName != null) 'supplier_name': supplierName,
+      if (expiryDate != null) 'expiry_date': expiryDate,
+      if (serialOrBatch != null) 'serial_or_batch': serialOrBatch,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -13318,6 +13561,11 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
     Value<String>? unit,
     Value<double?>? unitCost,
     Value<double?>? reorderLevel,
+    Value<double?>? minLevel,
+    Value<String?>? warehouseName,
+    Value<String?>? supplierName,
+    Value<DateTime?>? expiryDate,
+    Value<String?>? serialOrBatch,
     Value<int>? rowid,
   }) {
     return InventoryItemsCompanion(
@@ -13328,6 +13576,11 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
       unit: unit ?? this.unit,
       unitCost: unitCost ?? this.unitCost,
       reorderLevel: reorderLevel ?? this.reorderLevel,
+      minLevel: minLevel ?? this.minLevel,
+      warehouseName: warehouseName ?? this.warehouseName,
+      supplierName: supplierName ?? this.supplierName,
+      expiryDate: expiryDate ?? this.expiryDate,
+      serialOrBatch: serialOrBatch ?? this.serialOrBatch,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -13356,6 +13609,21 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
     if (reorderLevel.present) {
       map['reorder_level'] = Variable<double>(reorderLevel.value);
     }
+    if (minLevel.present) {
+      map['min_level'] = Variable<double>(minLevel.value);
+    }
+    if (warehouseName.present) {
+      map['warehouse_name'] = Variable<String>(warehouseName.value);
+    }
+    if (supplierName.present) {
+      map['supplier_name'] = Variable<String>(supplierName.value);
+    }
+    if (expiryDate.present) {
+      map['expiry_date'] = Variable<DateTime>(expiryDate.value);
+    }
+    if (serialOrBatch.present) {
+      map['serial_or_batch'] = Variable<String>(serialOrBatch.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -13372,6 +13640,11 @@ class InventoryItemsCompanion extends UpdateCompanion<InventoryItem> {
           ..write('unit: $unit, ')
           ..write('unitCost: $unitCost, ')
           ..write('reorderLevel: $reorderLevel, ')
+          ..write('minLevel: $minLevel, ')
+          ..write('warehouseName: $warehouseName, ')
+          ..write('supplierName: $supplierName, ')
+          ..write('expiryDate: $expiryDate, ')
+          ..write('serialOrBatch: $serialOrBatch, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -13420,8 +13693,25 @@ class $InventoryBalancesTable extends InventoryBalances
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _reservedQuantityMeta = const VerificationMeta(
+    'reservedQuantity',
+  );
   @override
-  List<GeneratedColumn> get $columns => [itemId, siteId, quantity];
+  late final GeneratedColumn<double> reservedQuantity = GeneratedColumn<double>(
+    'reserved_quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    itemId,
+    siteId,
+    quantity,
+    reservedQuantity,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -13456,6 +13746,15 @@ class $InventoryBalancesTable extends InventoryBalances
         quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
       );
     }
+    if (data.containsKey('reserved_quantity')) {
+      context.handle(
+        _reservedQuantityMeta,
+        reservedQuantity.isAcceptableOrUnknown(
+          data['reserved_quantity']!,
+          _reservedQuantityMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -13477,6 +13776,10 @@ class $InventoryBalancesTable extends InventoryBalances
         DriftSqlType.double,
         data['${effectivePrefix}quantity'],
       )!,
+      reservedQuantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}reserved_quantity'],
+      )!,
     );
   }
 
@@ -13491,10 +13794,12 @@ class InventoryBalance extends DataClass
   final String itemId;
   final String siteId;
   final double quantity;
+  final double reservedQuantity;
   const InventoryBalance({
     required this.itemId,
     required this.siteId,
     required this.quantity,
+    required this.reservedQuantity,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -13502,6 +13807,7 @@ class InventoryBalance extends DataClass
     map['item_id'] = Variable<String>(itemId);
     map['site_id'] = Variable<String>(siteId);
     map['quantity'] = Variable<double>(quantity);
+    map['reserved_quantity'] = Variable<double>(reservedQuantity);
     return map;
   }
 
@@ -13510,6 +13816,7 @@ class InventoryBalance extends DataClass
       itemId: Value(itemId),
       siteId: Value(siteId),
       quantity: Value(quantity),
+      reservedQuantity: Value(reservedQuantity),
     );
   }
 
@@ -13522,6 +13829,7 @@ class InventoryBalance extends DataClass
       itemId: serializer.fromJson<String>(json['itemId']),
       siteId: serializer.fromJson<String>(json['siteId']),
       quantity: serializer.fromJson<double>(json['quantity']),
+      reservedQuantity: serializer.fromJson<double>(json['reservedQuantity']),
     );
   }
   @override
@@ -13531,6 +13839,7 @@ class InventoryBalance extends DataClass
       'itemId': serializer.toJson<String>(itemId),
       'siteId': serializer.toJson<String>(siteId),
       'quantity': serializer.toJson<double>(quantity),
+      'reservedQuantity': serializer.toJson<double>(reservedQuantity),
     };
   }
 
@@ -13538,16 +13847,21 @@ class InventoryBalance extends DataClass
     String? itemId,
     String? siteId,
     double? quantity,
+    double? reservedQuantity,
   }) => InventoryBalance(
     itemId: itemId ?? this.itemId,
     siteId: siteId ?? this.siteId,
     quantity: quantity ?? this.quantity,
+    reservedQuantity: reservedQuantity ?? this.reservedQuantity,
   );
   InventoryBalance copyWithCompanion(InventoryBalancesCompanion data) {
     return InventoryBalance(
       itemId: data.itemId.present ? data.itemId.value : this.itemId,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
       quantity: data.quantity.present ? data.quantity.value : this.quantity,
+      reservedQuantity: data.reservedQuantity.present
+          ? data.reservedQuantity.value
+          : this.reservedQuantity,
     );
   }
 
@@ -13556,37 +13870,42 @@ class InventoryBalance extends DataClass
     return (StringBuffer('InventoryBalance(')
           ..write('itemId: $itemId, ')
           ..write('siteId: $siteId, ')
-          ..write('quantity: $quantity')
+          ..write('quantity: $quantity, ')
+          ..write('reservedQuantity: $reservedQuantity')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(itemId, siteId, quantity);
+  int get hashCode => Object.hash(itemId, siteId, quantity, reservedQuantity);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is InventoryBalance &&
           other.itemId == this.itemId &&
           other.siteId == this.siteId &&
-          other.quantity == this.quantity);
+          other.quantity == this.quantity &&
+          other.reservedQuantity == this.reservedQuantity);
 }
 
 class InventoryBalancesCompanion extends UpdateCompanion<InventoryBalance> {
   final Value<String> itemId;
   final Value<String> siteId;
   final Value<double> quantity;
+  final Value<double> reservedQuantity;
   final Value<int> rowid;
   const InventoryBalancesCompanion({
     this.itemId = const Value.absent(),
     this.siteId = const Value.absent(),
     this.quantity = const Value.absent(),
+    this.reservedQuantity = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   InventoryBalancesCompanion.insert({
     required String itemId,
     required String siteId,
     this.quantity = const Value.absent(),
+    this.reservedQuantity = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : itemId = Value(itemId),
        siteId = Value(siteId);
@@ -13594,12 +13913,14 @@ class InventoryBalancesCompanion extends UpdateCompanion<InventoryBalance> {
     Expression<String>? itemId,
     Expression<String>? siteId,
     Expression<double>? quantity,
+    Expression<double>? reservedQuantity,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (itemId != null) 'item_id': itemId,
       if (siteId != null) 'site_id': siteId,
       if (quantity != null) 'quantity': quantity,
+      if (reservedQuantity != null) 'reserved_quantity': reservedQuantity,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -13608,12 +13929,14 @@ class InventoryBalancesCompanion extends UpdateCompanion<InventoryBalance> {
     Value<String>? itemId,
     Value<String>? siteId,
     Value<double>? quantity,
+    Value<double>? reservedQuantity,
     Value<int>? rowid,
   }) {
     return InventoryBalancesCompanion(
       itemId: itemId ?? this.itemId,
       siteId: siteId ?? this.siteId,
       quantity: quantity ?? this.quantity,
+      reservedQuantity: reservedQuantity ?? this.reservedQuantity,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -13630,6 +13953,9 @@ class InventoryBalancesCompanion extends UpdateCompanion<InventoryBalance> {
     if (quantity.present) {
       map['quantity'] = Variable<double>(quantity.value);
     }
+    if (reservedQuantity.present) {
+      map['reserved_quantity'] = Variable<double>(reservedQuantity.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -13642,6 +13968,7 @@ class InventoryBalancesCompanion extends UpdateCompanion<InventoryBalance> {
           ..write('itemId: $itemId, ')
           ..write('siteId: $siteId, ')
           ..write('quantity: $quantity, ')
+          ..write('reservedQuantity: $reservedQuantity, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -13712,6 +14039,15 @@ class $InventoryTransactionsTable extends InventoryTransactions
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _reasonMeta = const VerificationMeta('reason');
+  @override
+  late final GeneratedColumn<String> reason = GeneratedColumn<String>(
+    'reason',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
   @override
   late final GeneratedColumn<String> userId = GeneratedColumn<String>(
@@ -13739,6 +14075,7 @@ class $InventoryTransactionsTable extends InventoryTransactions
     workOrderId,
     transactionType,
     quantity,
+    reason,
     userId,
     timestamp,
   ];
@@ -13793,6 +14130,12 @@ class $InventoryTransactionsTable extends InventoryTransactions
     } else if (isInserting) {
       context.missing(_quantityMeta);
     }
+    if (data.containsKey('reason')) {
+      context.handle(
+        _reasonMeta,
+        reason.isAcceptableOrUnknown(data['reason']!, _reasonMeta),
+      );
+    }
     if (data.containsKey('user_id')) {
       context.handle(
         _userIdMeta,
@@ -13838,6 +14181,10 @@ class $InventoryTransactionsTable extends InventoryTransactions
         DriftSqlType.double,
         data['${effectivePrefix}quantity'],
       )!,
+      reason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reason'],
+      ),
       userId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}user_id'],
@@ -13862,6 +14209,7 @@ class InventoryTransaction extends DataClass
   final String? workOrderId;
   final String transactionType;
   final double quantity;
+  final String? reason;
   final String userId;
   final DateTime timestamp;
   const InventoryTransaction({
@@ -13870,6 +14218,7 @@ class InventoryTransaction extends DataClass
     this.workOrderId,
     required this.transactionType,
     required this.quantity,
+    this.reason,
     required this.userId,
     required this.timestamp,
   });
@@ -13883,6 +14232,9 @@ class InventoryTransaction extends DataClass
     }
     map['transaction_type'] = Variable<String>(transactionType);
     map['quantity'] = Variable<double>(quantity);
+    if (!nullToAbsent || reason != null) {
+      map['reason'] = Variable<String>(reason);
+    }
     map['user_id'] = Variable<String>(userId);
     map['timestamp'] = Variable<DateTime>(timestamp);
     return map;
@@ -13897,6 +14249,9 @@ class InventoryTransaction extends DataClass
           : Value(workOrderId),
       transactionType: Value(transactionType),
       quantity: Value(quantity),
+      reason: reason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reason),
       userId: Value(userId),
       timestamp: Value(timestamp),
     );
@@ -13913,6 +14268,7 @@ class InventoryTransaction extends DataClass
       workOrderId: serializer.fromJson<String?>(json['workOrderId']),
       transactionType: serializer.fromJson<String>(json['transactionType']),
       quantity: serializer.fromJson<double>(json['quantity']),
+      reason: serializer.fromJson<String?>(json['reason']),
       userId: serializer.fromJson<String>(json['userId']),
       timestamp: serializer.fromJson<DateTime>(json['timestamp']),
     );
@@ -13926,6 +14282,7 @@ class InventoryTransaction extends DataClass
       'workOrderId': serializer.toJson<String?>(workOrderId),
       'transactionType': serializer.toJson<String>(transactionType),
       'quantity': serializer.toJson<double>(quantity),
+      'reason': serializer.toJson<String?>(reason),
       'userId': serializer.toJson<String>(userId),
       'timestamp': serializer.toJson<DateTime>(timestamp),
     };
@@ -13937,6 +14294,7 @@ class InventoryTransaction extends DataClass
     Value<String?> workOrderId = const Value.absent(),
     String? transactionType,
     double? quantity,
+    Value<String?> reason = const Value.absent(),
     String? userId,
     DateTime? timestamp,
   }) => InventoryTransaction(
@@ -13945,6 +14303,7 @@ class InventoryTransaction extends DataClass
     workOrderId: workOrderId.present ? workOrderId.value : this.workOrderId,
     transactionType: transactionType ?? this.transactionType,
     quantity: quantity ?? this.quantity,
+    reason: reason.present ? reason.value : this.reason,
     userId: userId ?? this.userId,
     timestamp: timestamp ?? this.timestamp,
   );
@@ -13959,6 +14318,7 @@ class InventoryTransaction extends DataClass
           ? data.transactionType.value
           : this.transactionType,
       quantity: data.quantity.present ? data.quantity.value : this.quantity,
+      reason: data.reason.present ? data.reason.value : this.reason,
       userId: data.userId.present ? data.userId.value : this.userId,
       timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
     );
@@ -13972,6 +14332,7 @@ class InventoryTransaction extends DataClass
           ..write('workOrderId: $workOrderId, ')
           ..write('transactionType: $transactionType, ')
           ..write('quantity: $quantity, ')
+          ..write('reason: $reason, ')
           ..write('userId: $userId, ')
           ..write('timestamp: $timestamp')
           ..write(')'))
@@ -13985,6 +14346,7 @@ class InventoryTransaction extends DataClass
     workOrderId,
     transactionType,
     quantity,
+    reason,
     userId,
     timestamp,
   );
@@ -13997,6 +14359,7 @@ class InventoryTransaction extends DataClass
           other.workOrderId == this.workOrderId &&
           other.transactionType == this.transactionType &&
           other.quantity == this.quantity &&
+          other.reason == this.reason &&
           other.userId == this.userId &&
           other.timestamp == this.timestamp);
 }
@@ -14008,6 +14371,7 @@ class InventoryTransactionsCompanion
   final Value<String?> workOrderId;
   final Value<String> transactionType;
   final Value<double> quantity;
+  final Value<String?> reason;
   final Value<String> userId;
   final Value<DateTime> timestamp;
   final Value<int> rowid;
@@ -14017,6 +14381,7 @@ class InventoryTransactionsCompanion
     this.workOrderId = const Value.absent(),
     this.transactionType = const Value.absent(),
     this.quantity = const Value.absent(),
+    this.reason = const Value.absent(),
     this.userId = const Value.absent(),
     this.timestamp = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -14027,6 +14392,7 @@ class InventoryTransactionsCompanion
     this.workOrderId = const Value.absent(),
     this.transactionType = const Value.absent(),
     required double quantity,
+    this.reason = const Value.absent(),
     required String userId,
     required DateTime timestamp,
     this.rowid = const Value.absent(),
@@ -14041,6 +14407,7 @@ class InventoryTransactionsCompanion
     Expression<String>? workOrderId,
     Expression<String>? transactionType,
     Expression<double>? quantity,
+    Expression<String>? reason,
     Expression<String>? userId,
     Expression<DateTime>? timestamp,
     Expression<int>? rowid,
@@ -14051,6 +14418,7 @@ class InventoryTransactionsCompanion
       if (workOrderId != null) 'work_order_id': workOrderId,
       if (transactionType != null) 'transaction_type': transactionType,
       if (quantity != null) 'quantity': quantity,
+      if (reason != null) 'reason': reason,
       if (userId != null) 'user_id': userId,
       if (timestamp != null) 'timestamp': timestamp,
       if (rowid != null) 'rowid': rowid,
@@ -14063,6 +14431,7 @@ class InventoryTransactionsCompanion
     Value<String?>? workOrderId,
     Value<String>? transactionType,
     Value<double>? quantity,
+    Value<String?>? reason,
     Value<String>? userId,
     Value<DateTime>? timestamp,
     Value<int>? rowid,
@@ -14073,6 +14442,7 @@ class InventoryTransactionsCompanion
       workOrderId: workOrderId ?? this.workOrderId,
       transactionType: transactionType ?? this.transactionType,
       quantity: quantity ?? this.quantity,
+      reason: reason ?? this.reason,
       userId: userId ?? this.userId,
       timestamp: timestamp ?? this.timestamp,
       rowid: rowid ?? this.rowid,
@@ -14097,6 +14467,9 @@ class InventoryTransactionsCompanion
     if (quantity.present) {
       map['quantity'] = Variable<double>(quantity.value);
     }
+    if (reason.present) {
+      map['reason'] = Variable<String>(reason.value);
+    }
     if (userId.present) {
       map['user_id'] = Variable<String>(userId.value);
     }
@@ -14117,6 +14490,7 @@ class InventoryTransactionsCompanion
           ..write('workOrderId: $workOrderId, ')
           ..write('transactionType: $transactionType, ')
           ..write('quantity: $quantity, ')
+          ..write('reason: $reason, ')
           ..write('userId: $userId, ')
           ..write('timestamp: $timestamp, ')
           ..write('rowid: $rowid')
@@ -32657,6 +33031,11 @@ typedef $$InventoryItemsTableCreateCompanionBuilder =
       required String unit,
       Value<double?> unitCost,
       Value<double?> reorderLevel,
+      Value<double?> minLevel,
+      Value<String?> warehouseName,
+      Value<String?> supplierName,
+      Value<DateTime?> expiryDate,
+      Value<String?> serialOrBatch,
       Value<int> rowid,
     });
 typedef $$InventoryItemsTableUpdateCompanionBuilder =
@@ -32668,6 +33047,11 @@ typedef $$InventoryItemsTableUpdateCompanionBuilder =
       Value<String> unit,
       Value<double?> unitCost,
       Value<double?> reorderLevel,
+      Value<double?> minLevel,
+      Value<String?> warehouseName,
+      Value<String?> supplierName,
+      Value<DateTime?> expiryDate,
+      Value<String?> serialOrBatch,
       Value<int> rowid,
     });
 
@@ -32776,6 +33160,31 @@ class $$InventoryItemsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<double> get minLevel => $composableBuilder(
+    column: $table.minLevel,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get warehouseName => $composableBuilder(
+    column: $table.warehouseName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get supplierName => $composableBuilder(
+    column: $table.supplierName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get expiryDate => $composableBuilder(
+    column: $table.expiryDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get serialOrBatch => $composableBuilder(
+    column: $table.serialOrBatch,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> inventoryBalancesRefs(
     Expression<bool> Function($$InventoryBalancesTableFilterComposer f) f,
   ) {
@@ -32871,6 +33280,31 @@ class $$InventoryItemsTableOrderingComposer
     column: $table.reorderLevel,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<double> get minLevel => $composableBuilder(
+    column: $table.minLevel,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get warehouseName => $composableBuilder(
+    column: $table.warehouseName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get supplierName => $composableBuilder(
+    column: $table.supplierName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get expiryDate => $composableBuilder(
+    column: $table.expiryDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get serialOrBatch => $composableBuilder(
+    column: $table.serialOrBatch,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$InventoryItemsTableAnnotationComposer
@@ -32902,6 +33336,29 @@ class $$InventoryItemsTableAnnotationComposer
 
   GeneratedColumn<double> get reorderLevel => $composableBuilder(
     column: $table.reorderLevel,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get minLevel =>
+      $composableBuilder(column: $table.minLevel, builder: (column) => column);
+
+  GeneratedColumn<String> get warehouseName => $composableBuilder(
+    column: $table.warehouseName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get supplierName => $composableBuilder(
+    column: $table.supplierName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get expiryDate => $composableBuilder(
+    column: $table.expiryDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get serialOrBatch => $composableBuilder(
+    column: $table.serialOrBatch,
     builder: (column) => column,
   );
 
@@ -32998,6 +33455,11 @@ class $$InventoryItemsTableTableManager
                 Value<String> unit = const Value.absent(),
                 Value<double?> unitCost = const Value.absent(),
                 Value<double?> reorderLevel = const Value.absent(),
+                Value<double?> minLevel = const Value.absent(),
+                Value<String?> warehouseName = const Value.absent(),
+                Value<String?> supplierName = const Value.absent(),
+                Value<DateTime?> expiryDate = const Value.absent(),
+                Value<String?> serialOrBatch = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => InventoryItemsCompanion(
                 id: id,
@@ -33007,6 +33469,11 @@ class $$InventoryItemsTableTableManager
                 unit: unit,
                 unitCost: unitCost,
                 reorderLevel: reorderLevel,
+                minLevel: minLevel,
+                warehouseName: warehouseName,
+                supplierName: supplierName,
+                expiryDate: expiryDate,
+                serialOrBatch: serialOrBatch,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -33018,6 +33485,11 @@ class $$InventoryItemsTableTableManager
                 required String unit,
                 Value<double?> unitCost = const Value.absent(),
                 Value<double?> reorderLevel = const Value.absent(),
+                Value<double?> minLevel = const Value.absent(),
+                Value<String?> warehouseName = const Value.absent(),
+                Value<String?> supplierName = const Value.absent(),
+                Value<DateTime?> expiryDate = const Value.absent(),
+                Value<String?> serialOrBatch = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => InventoryItemsCompanion.insert(
                 id: id,
@@ -33027,6 +33499,11 @@ class $$InventoryItemsTableTableManager
                 unit: unit,
                 unitCost: unitCost,
                 reorderLevel: reorderLevel,
+                minLevel: minLevel,
+                warehouseName: warehouseName,
+                supplierName: supplierName,
+                expiryDate: expiryDate,
+                serialOrBatch: serialOrBatch,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -33123,6 +33600,7 @@ typedef $$InventoryBalancesTableCreateCompanionBuilder =
       required String itemId,
       required String siteId,
       Value<double> quantity,
+      Value<double> reservedQuantity,
       Value<int> rowid,
     });
 typedef $$InventoryBalancesTableUpdateCompanionBuilder =
@@ -33130,6 +33608,7 @@ typedef $$InventoryBalancesTableUpdateCompanionBuilder =
       Value<String> itemId,
       Value<String> siteId,
       Value<double> quantity,
+      Value<double> reservedQuantity,
       Value<int> rowid,
     });
 
@@ -33198,6 +33677,11 @@ class $$InventoryBalancesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<double> get reservedQuantity => $composableBuilder(
+    column: $table.reservedQuantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$InventoryItemsTableFilterComposer get itemId {
     final $$InventoryItemsTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -33259,6 +33743,11 @@ class $$InventoryBalancesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<double> get reservedQuantity => $composableBuilder(
+    column: $table.reservedQuantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$InventoryItemsTableOrderingComposer get itemId {
     final $$InventoryItemsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -33317,6 +33806,11 @@ class $$InventoryBalancesTableAnnotationComposer
   });
   GeneratedColumn<double> get quantity =>
       $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  GeneratedColumn<double> get reservedQuantity => $composableBuilder(
+    column: $table.reservedQuantity,
+    builder: (column) => column,
+  );
 
   $$InventoryItemsTableAnnotationComposer get itemId {
     final $$InventoryItemsTableAnnotationComposer composer = $composerBuilder(
@@ -33401,11 +33895,13 @@ class $$InventoryBalancesTableTableManager
                 Value<String> itemId = const Value.absent(),
                 Value<String> siteId = const Value.absent(),
                 Value<double> quantity = const Value.absent(),
+                Value<double> reservedQuantity = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => InventoryBalancesCompanion(
                 itemId: itemId,
                 siteId: siteId,
                 quantity: quantity,
+                reservedQuantity: reservedQuantity,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -33413,11 +33909,13 @@ class $$InventoryBalancesTableTableManager
                 required String itemId,
                 required String siteId,
                 Value<double> quantity = const Value.absent(),
+                Value<double> reservedQuantity = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => InventoryBalancesCompanion.insert(
                 itemId: itemId,
                 siteId: siteId,
                 quantity: quantity,
+                reservedQuantity: reservedQuantity,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -33511,6 +34009,7 @@ typedef $$InventoryTransactionsTableCreateCompanionBuilder =
       Value<String?> workOrderId,
       Value<String> transactionType,
       required double quantity,
+      Value<String?> reason,
       required String userId,
       required DateTime timestamp,
       Value<int> rowid,
@@ -33522,6 +34021,7 @@ typedef $$InventoryTransactionsTableUpdateCompanionBuilder =
       Value<String?> workOrderId,
       Value<String> transactionType,
       Value<double> quantity,
+      Value<String?> reason,
       Value<String> userId,
       Value<DateTime> timestamp,
       Value<int> rowid,
@@ -33609,6 +34109,11 @@ class $$InventoryTransactionsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<String> get userId => $composableBuilder(
     column: $table.userId,
     builder: (column) => ColumnFilters(column),
@@ -33690,6 +34195,11 @@ class $$InventoryTransactionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get userId => $composableBuilder(
     column: $table.userId,
     builder: (column) => ColumnOrderings(column),
@@ -33766,6 +34276,9 @@ class $$InventoryTransactionsTableAnnotationComposer
 
   GeneratedColumn<double> get quantity =>
       $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  GeneratedColumn<String> get reason =>
+      $composableBuilder(column: $table.reason, builder: (column) => column);
 
   GeneratedColumn<String> get userId =>
       $composableBuilder(column: $table.userId, builder: (column) => column);
@@ -33864,6 +34377,7 @@ class $$InventoryTransactionsTableTableManager
                 Value<String?> workOrderId = const Value.absent(),
                 Value<String> transactionType = const Value.absent(),
                 Value<double> quantity = const Value.absent(),
+                Value<String?> reason = const Value.absent(),
                 Value<String> userId = const Value.absent(),
                 Value<DateTime> timestamp = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -33873,6 +34387,7 @@ class $$InventoryTransactionsTableTableManager
                 workOrderId: workOrderId,
                 transactionType: transactionType,
                 quantity: quantity,
+                reason: reason,
                 userId: userId,
                 timestamp: timestamp,
                 rowid: rowid,
@@ -33884,6 +34399,7 @@ class $$InventoryTransactionsTableTableManager
                 Value<String?> workOrderId = const Value.absent(),
                 Value<String> transactionType = const Value.absent(),
                 required double quantity,
+                Value<String?> reason = const Value.absent(),
                 required String userId,
                 required DateTime timestamp,
                 Value<int> rowid = const Value.absent(),
@@ -33893,6 +34409,7 @@ class $$InventoryTransactionsTableTableManager
                 workOrderId: workOrderId,
                 transactionType: transactionType,
                 quantity: quantity,
+                reason: reason,
                 userId: userId,
                 timestamp: timestamp,
                 rowid: rowid,

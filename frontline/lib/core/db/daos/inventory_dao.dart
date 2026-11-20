@@ -34,6 +34,24 @@ class InventoryDao extends DatabaseAccessor<AppDatabase>
   Future<InventoryItem?> byQrOrSku(String code) =>
       (select(inventoryItems)..where((t) => t.sku.equals(code))).getSingleOrNull();
 
+  Future<InventoryItem?> byId(String id) =>
+      (select(inventoryItems)..where((t) => t.id.equals(id))).getSingleOrNull();
+
+  Stream<InventoryItem?> watchById(String id) =>
+      (select(inventoryItems)..where((t) => t.id.equals(id))).watchSingleOrNull();
+
+  /// Transaction history for an item (Screen 32). Not site-scoped - a
+  /// transaction row has no denormalised `siteId` of its own, so this
+  /// returns the full history regardless of site. Fine for a
+  /// single-site technician device; a multi-site one would see more
+  /// than its own site's activity here.
+  Stream<List<InventoryTransaction>> watchTransactionsFor(String itemId) {
+    return (select(inventoryTransactions)
+          ..where((t) => t.itemId.equals(itemId))
+          ..orderBy([(t) => OrderingTerm.desc(t.timestamp)]))
+        .watch();
+  }
+
   Future<InventoryItemWithBalance?> withBalanceAtSite(String itemId, String siteId) async {
     final item = await (select(inventoryItems)..where((t) => t.id.equals(itemId))).getSingleOrNull();
     if (item == null) return null;
@@ -142,6 +160,47 @@ class InventoryDao extends DatabaseAccessor<AppDatabase>
           itemId: entry.itemId,
           siteId: Value(siteId),
           quantity: Value(currentQty - entry.quantity.value),
+        ),
+      );
+    });
+  }
+
+  /// Screen 33 (Stock Transaction): Receive/Transfer/Return/Repair/
+  /// Scrap/Adjustment, each applying a signed quantity delta to the
+  /// site balance - positive for stock coming in (Receive, Return),
+  /// negative for stock going out (Transfer, Repair, Scrap), either
+  /// sign for Adjustment (a count correction). `Issue` keeps using
+  /// [recordIssue] above, which this is deliberately kept separate
+  /// from so the existing Work Order "Add part" flow (and its implicit,
+  /// not-user-typed reason) is untouched.
+  Future<void> recordTransaction({
+    required String id,
+    required String itemId,
+    required String siteId,
+    required String transactionType,
+    required double signedQuantity,
+    required String reason,
+    required String userId,
+  }) async {
+    await transaction(() async {
+      await into(inventoryTransactions).insert(InventoryTransactionsCompanion.insert(
+        id: id,
+        itemId: itemId,
+        transactionType: Value(transactionType),
+        quantity: signedQuantity,
+        reason: Value(reason),
+        userId: userId,
+        timestamp: DateTime.now(),
+      ));
+      final existing = await (select(inventoryBalances)
+            ..where((t) => t.itemId.equals(itemId) & t.siteId.equals(siteId)))
+          .getSingleOrNull();
+      final currentQty = existing?.quantity ?? 0;
+      await into(inventoryBalances).insertOnConflictUpdate(
+        InventoryBalancesCompanion(
+          itemId: Value(itemId),
+          siteId: Value(siteId),
+          quantity: Value(currentQty + signedQuantity),
         ),
       );
     });
