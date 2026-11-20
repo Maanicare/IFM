@@ -12,6 +12,7 @@ import '../../features/fleet/data/fleet_repository_provider.dart';
 import '../../features/inspections/data/inspection_repository_provider.dart';
 import '../../features/permits/data/permit_repository_provider.dart';
 import '../../features/reservations/data/reservation_repository_provider.dart';
+import '../../features/visitors/data/visitor_repository_provider.dart';
 import '../../features/inventory/data/inventory_repository_provider.dart';
 import '../../features/requests/data/request_repository_provider.dart';
 import '../../features/safety/data/safety_repository_provider.dart';
@@ -171,6 +172,12 @@ class SyncEngine {
           break;
         case 'reservation_check_in':
           await _ref.read(reservationRepositoryProvider).pushCheckIn(entry.entityId);
+          break;
+        case 'visit':
+          await _ref.read(visitorRepositoryProvider).pushVisit(entry.entityId);
+          break;
+        case 'visit_check_out':
+          await _ref.read(visitorRepositoryProvider).pushCheckOut(entry.entityId);
           break;
         case 'cleaning_task_completion':
           await _ref.read(cleaningTaskRepositoryProvider).pushCompletion(entry.entityId);

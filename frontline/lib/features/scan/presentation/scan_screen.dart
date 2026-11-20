@@ -105,6 +105,12 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
       return;
     }
 
+    final visit = await db.visitorDao.byPassId(code);
+    if (visit != null) {
+      if (mounted) context.push('/visitors/${visit.id}');
+      return;
+    }
+
     final washroom = await db.washroomDao.byQrCode(code);
     if (washroom != null) {
       if (mounted) context.push('/washrooms/${washroom.id}');

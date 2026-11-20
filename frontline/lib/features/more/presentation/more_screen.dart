@@ -83,6 +83,13 @@ class MoreScreen extends ConsumerWidget {
               onTap: () => context.push('/shift-roster'),
             ),
           ],
+          if (can(AppAction.manageVisitor))
+            ListTile(
+              leading: const Icon(Icons.badge_outlined),
+              title: const Text('Visitors'),
+              subtitle: const Text('Check in / check out, QR pass'),
+              onTap: () => context.push('/visitors'),
+            ),
           if (can(AppAction.managePermit))
             ListTile(
               leading: const Icon(Icons.badge_outlined),

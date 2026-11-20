@@ -25,6 +25,7 @@ enum AppAction {
   manageFleetTrip,
   manageCleaningTask,
   managePermit,
+  manageVisitor,
 }
 
 /// The flat Frontline bottom-nav tabs (Section 14). A role's app shell

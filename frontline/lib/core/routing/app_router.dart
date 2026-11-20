@@ -30,6 +30,9 @@ import '../../features/requests/presentation/requests_screen.dart';
 import '../../features/safety/presentation/report_safety_issue_screen.dart';
 import '../../features/safety/presentation/safety_home_screen.dart';
 import '../../features/scan/presentation/scan_screen.dart';
+import '../../features/visitors/presentation/check_in_visitor_screen.dart';
+import '../../features/visitors/presentation/visitor_detail_screen.dart';
+import '../../features/visitors/presentation/visitors_screen.dart';
 import '../../features/search/presentation/search_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/work_orders/presentation/my_work_screen.dart';
@@ -104,6 +107,20 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/safety-home',
         builder: (context, state) => const SafetyHomeScreen(),
+      ),
+      GoRoute(
+        path: '/visitors',
+        builder: (context, state) => const VisitorsScreen(),
+      ),
+      GoRoute(
+        path: '/visitors/new',
+        builder: (context, state) => const CheckInVisitorScreen(),
+      ),
+      GoRoute(
+        path: '/visitors/:id',
+        builder: (context, state) => VisitorDetailScreen(
+          visitId: state.pathParameters['id']!,
+        ),
       ),
       GoRoute(
         path: '/reservations',

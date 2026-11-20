@@ -133,6 +133,7 @@ class PolicyGuard {
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
       AppAction.reportIncident,
+      AppAction.manageVisitor,
     },
     // Section 6: "Driver | Vehicle-specific workflow".
     UserRole.driver: {
@@ -145,6 +146,7 @@ class PolicyGuard {
       AppAction.createServiceRequest,
       AppAction.cancelServiceRequest,
       AppAction.reassignWorkOrder,
+      AppAction.manageVisitor,
     },
     UserRole.clientFacilityAdministrator: {
       AppAction.viewWorkOrder,

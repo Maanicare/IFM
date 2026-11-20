@@ -25509,6 +25509,1125 @@ class ReservationsCompanion extends UpdateCompanion<Reservation> {
   }
 }
 
+class $VisitsTable extends Visits with TableInfo<$VisitsTable, Visit> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $VisitsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<String> siteId = GeneratedColumn<String>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _visitorNameMeta = const VerificationMeta(
+    'visitorName',
+  );
+  @override
+  late final GeneratedColumn<String> visitorName = GeneratedColumn<String>(
+    'visitor_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _visitorMobileMeta = const VerificationMeta(
+    'visitorMobile',
+  );
+  @override
+  late final GeneratedColumn<String> visitorMobile = GeneratedColumn<String>(
+    'visitor_mobile',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _visitorEmailMeta = const VerificationMeta(
+    'visitorEmail',
+  );
+  @override
+  late final GeneratedColumn<String> visitorEmail = GeneratedColumn<String>(
+    'visitor_email',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _companyMeta = const VerificationMeta(
+    'company',
+  );
+  @override
+  late final GeneratedColumn<String> company = GeneratedColumn<String>(
+    'company',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hostNameMeta = const VerificationMeta(
+    'hostName',
+  );
+  @override
+  late final GeneratedColumn<String> hostName = GeneratedColumn<String>(
+    'host_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _purposeMeta = const VerificationMeta(
+    'purpose',
+  );
+  @override
+  late final GeneratedColumn<String> purpose = GeneratedColumn<String>(
+    'purpose',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _vehicleNumberMeta = const VerificationMeta(
+    'vehicleNumber',
+  );
+  @override
+  late final GeneratedColumn<String> vehicleNumber = GeneratedColumn<String>(
+    'vehicle_number',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _idVerifiedMeta = const VerificationMeta(
+    'idVerified',
+  );
+  @override
+  late final GeneratedColumn<bool> idVerified = GeneratedColumn<bool>(
+    'id_verified',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("id_verified" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _idTypeNoteMeta = const VerificationMeta(
+    'idTypeNote',
+  );
+  @override
+  late final GeneratedColumn<String> idTypeNote = GeneratedColumn<String>(
+    'id_type_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _accessRequirementsNoteMeta =
+      const VerificationMeta('accessRequirementsNote');
+  @override
+  late final GeneratedColumn<String> accessRequirementsNote =
+      GeneratedColumn<String>(
+        'access_requirements_note',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _scheduledArrivalMeta = const VerificationMeta(
+    'scheduledArrival',
+  );
+  @override
+  late final GeneratedColumn<DateTime> scheduledArrival =
+      GeneratedColumn<DateTime>(
+        'scheduled_arrival',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _actualArrivalMeta = const VerificationMeta(
+    'actualArrival',
+  );
+  @override
+  late final GeneratedColumn<DateTime> actualArrival =
+      GeneratedColumn<DateTime>(
+        'actual_arrival',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _actualDepartureMeta = const VerificationMeta(
+    'actualDeparture',
+  );
+  @override
+  late final GeneratedColumn<DateTime> actualDeparture =
+      GeneratedColumn<DateTime>(
+        'actual_departure',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('expected'),
+  );
+  static const VerificationMeta _passIdMeta = const VerificationMeta('passId');
+  @override
+  late final GeneratedColumn<String> passId = GeneratedColumn<String>(
+    'pass_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdByMeta = const VerificationMeta(
+    'createdBy',
+  );
+  @override
+  late final GeneratedColumn<String> createdBy = GeneratedColumn<String>(
+    'created_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    siteId,
+    visitorName,
+    visitorMobile,
+    visitorEmail,
+    company,
+    hostName,
+    purpose,
+    vehicleNumber,
+    idVerified,
+    idTypeNote,
+    accessRequirementsNote,
+    scheduledArrival,
+    actualArrival,
+    actualDeparture,
+    status,
+    passId,
+    createdBy,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'visits';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Visit> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('visitor_name')) {
+      context.handle(
+        _visitorNameMeta,
+        visitorName.isAcceptableOrUnknown(
+          data['visitor_name']!,
+          _visitorNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_visitorNameMeta);
+    }
+    if (data.containsKey('visitor_mobile')) {
+      context.handle(
+        _visitorMobileMeta,
+        visitorMobile.isAcceptableOrUnknown(
+          data['visitor_mobile']!,
+          _visitorMobileMeta,
+        ),
+      );
+    }
+    if (data.containsKey('visitor_email')) {
+      context.handle(
+        _visitorEmailMeta,
+        visitorEmail.isAcceptableOrUnknown(
+          data['visitor_email']!,
+          _visitorEmailMeta,
+        ),
+      );
+    }
+    if (data.containsKey('company')) {
+      context.handle(
+        _companyMeta,
+        company.isAcceptableOrUnknown(data['company']!, _companyMeta),
+      );
+    }
+    if (data.containsKey('host_name')) {
+      context.handle(
+        _hostNameMeta,
+        hostName.isAcceptableOrUnknown(data['host_name']!, _hostNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_hostNameMeta);
+    }
+    if (data.containsKey('purpose')) {
+      context.handle(
+        _purposeMeta,
+        purpose.isAcceptableOrUnknown(data['purpose']!, _purposeMeta),
+      );
+    }
+    if (data.containsKey('vehicle_number')) {
+      context.handle(
+        _vehicleNumberMeta,
+        vehicleNumber.isAcceptableOrUnknown(
+          data['vehicle_number']!,
+          _vehicleNumberMeta,
+        ),
+      );
+    }
+    if (data.containsKey('id_verified')) {
+      context.handle(
+        _idVerifiedMeta,
+        idVerified.isAcceptableOrUnknown(data['id_verified']!, _idVerifiedMeta),
+      );
+    }
+    if (data.containsKey('id_type_note')) {
+      context.handle(
+        _idTypeNoteMeta,
+        idTypeNote.isAcceptableOrUnknown(
+          data['id_type_note']!,
+          _idTypeNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('access_requirements_note')) {
+      context.handle(
+        _accessRequirementsNoteMeta,
+        accessRequirementsNote.isAcceptableOrUnknown(
+          data['access_requirements_note']!,
+          _accessRequirementsNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('scheduled_arrival')) {
+      context.handle(
+        _scheduledArrivalMeta,
+        scheduledArrival.isAcceptableOrUnknown(
+          data['scheduled_arrival']!,
+          _scheduledArrivalMeta,
+        ),
+      );
+    }
+    if (data.containsKey('actual_arrival')) {
+      context.handle(
+        _actualArrivalMeta,
+        actualArrival.isAcceptableOrUnknown(
+          data['actual_arrival']!,
+          _actualArrivalMeta,
+        ),
+      );
+    }
+    if (data.containsKey('actual_departure')) {
+      context.handle(
+        _actualDepartureMeta,
+        actualDeparture.isAcceptableOrUnknown(
+          data['actual_departure']!,
+          _actualDepartureMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('pass_id')) {
+      context.handle(
+        _passIdMeta,
+        passId.isAcceptableOrUnknown(data['pass_id']!, _passIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_passIdMeta);
+    }
+    if (data.containsKey('created_by')) {
+      context.handle(
+        _createdByMeta,
+        createdBy.isAcceptableOrUnknown(data['created_by']!, _createdByMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdByMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Visit map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Visit(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_id'],
+      )!,
+      visitorName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}visitor_name'],
+      )!,
+      visitorMobile: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}visitor_mobile'],
+      ),
+      visitorEmail: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}visitor_email'],
+      ),
+      company: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}company'],
+      ),
+      hostName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}host_name'],
+      )!,
+      purpose: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}purpose'],
+      ),
+      vehicleNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vehicle_number'],
+      ),
+      idVerified: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}id_verified'],
+      )!,
+      idTypeNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id_type_note'],
+      ),
+      accessRequirementsNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}access_requirements_note'],
+      ),
+      scheduledArrival: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}scheduled_arrival'],
+      ),
+      actualArrival: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}actual_arrival'],
+      ),
+      actualDeparture: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}actual_departure'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      passId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pass_id'],
+      )!,
+      createdBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_by'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $VisitsTable createAlias(String alias) {
+    return $VisitsTable(attachedDatabase, alias);
+  }
+}
+
+class Visit extends DataClass implements Insertable<Visit> {
+  final String id;
+  final String siteId;
+  final String visitorName;
+  final String? visitorMobile;
+  final String? visitorEmail;
+  final String? company;
+  final String hostName;
+  final String? purpose;
+  final String? vehicleNumber;
+  final bool idVerified;
+  final String? idTypeNote;
+  final String? accessRequirementsNote;
+  final DateTime? scheduledArrival;
+  final DateTime? actualArrival;
+  final DateTime? actualDeparture;
+  final String status;
+  final String passId;
+  final String createdBy;
+  final DateTime createdAt;
+  const Visit({
+    required this.id,
+    required this.siteId,
+    required this.visitorName,
+    this.visitorMobile,
+    this.visitorEmail,
+    this.company,
+    required this.hostName,
+    this.purpose,
+    this.vehicleNumber,
+    required this.idVerified,
+    this.idTypeNote,
+    this.accessRequirementsNote,
+    this.scheduledArrival,
+    this.actualArrival,
+    this.actualDeparture,
+    required this.status,
+    required this.passId,
+    required this.createdBy,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['site_id'] = Variable<String>(siteId);
+    map['visitor_name'] = Variable<String>(visitorName);
+    if (!nullToAbsent || visitorMobile != null) {
+      map['visitor_mobile'] = Variable<String>(visitorMobile);
+    }
+    if (!nullToAbsent || visitorEmail != null) {
+      map['visitor_email'] = Variable<String>(visitorEmail);
+    }
+    if (!nullToAbsent || company != null) {
+      map['company'] = Variable<String>(company);
+    }
+    map['host_name'] = Variable<String>(hostName);
+    if (!nullToAbsent || purpose != null) {
+      map['purpose'] = Variable<String>(purpose);
+    }
+    if (!nullToAbsent || vehicleNumber != null) {
+      map['vehicle_number'] = Variable<String>(vehicleNumber);
+    }
+    map['id_verified'] = Variable<bool>(idVerified);
+    if (!nullToAbsent || idTypeNote != null) {
+      map['id_type_note'] = Variable<String>(idTypeNote);
+    }
+    if (!nullToAbsent || accessRequirementsNote != null) {
+      map['access_requirements_note'] = Variable<String>(
+        accessRequirementsNote,
+      );
+    }
+    if (!nullToAbsent || scheduledArrival != null) {
+      map['scheduled_arrival'] = Variable<DateTime>(scheduledArrival);
+    }
+    if (!nullToAbsent || actualArrival != null) {
+      map['actual_arrival'] = Variable<DateTime>(actualArrival);
+    }
+    if (!nullToAbsent || actualDeparture != null) {
+      map['actual_departure'] = Variable<DateTime>(actualDeparture);
+    }
+    map['status'] = Variable<String>(status);
+    map['pass_id'] = Variable<String>(passId);
+    map['created_by'] = Variable<String>(createdBy);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  VisitsCompanion toCompanion(bool nullToAbsent) {
+    return VisitsCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      visitorName: Value(visitorName),
+      visitorMobile: visitorMobile == null && nullToAbsent
+          ? const Value.absent()
+          : Value(visitorMobile),
+      visitorEmail: visitorEmail == null && nullToAbsent
+          ? const Value.absent()
+          : Value(visitorEmail),
+      company: company == null && nullToAbsent
+          ? const Value.absent()
+          : Value(company),
+      hostName: Value(hostName),
+      purpose: purpose == null && nullToAbsent
+          ? const Value.absent()
+          : Value(purpose),
+      vehicleNumber: vehicleNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vehicleNumber),
+      idVerified: Value(idVerified),
+      idTypeNote: idTypeNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(idTypeNote),
+      accessRequirementsNote: accessRequirementsNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(accessRequirementsNote),
+      scheduledArrival: scheduledArrival == null && nullToAbsent
+          ? const Value.absent()
+          : Value(scheduledArrival),
+      actualArrival: actualArrival == null && nullToAbsent
+          ? const Value.absent()
+          : Value(actualArrival),
+      actualDeparture: actualDeparture == null && nullToAbsent
+          ? const Value.absent()
+          : Value(actualDeparture),
+      status: Value(status),
+      passId: Value(passId),
+      createdBy: Value(createdBy),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Visit.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Visit(
+      id: serializer.fromJson<String>(json['id']),
+      siteId: serializer.fromJson<String>(json['siteId']),
+      visitorName: serializer.fromJson<String>(json['visitorName']),
+      visitorMobile: serializer.fromJson<String?>(json['visitorMobile']),
+      visitorEmail: serializer.fromJson<String?>(json['visitorEmail']),
+      company: serializer.fromJson<String?>(json['company']),
+      hostName: serializer.fromJson<String>(json['hostName']),
+      purpose: serializer.fromJson<String?>(json['purpose']),
+      vehicleNumber: serializer.fromJson<String?>(json['vehicleNumber']),
+      idVerified: serializer.fromJson<bool>(json['idVerified']),
+      idTypeNote: serializer.fromJson<String?>(json['idTypeNote']),
+      accessRequirementsNote: serializer.fromJson<String?>(
+        json['accessRequirementsNote'],
+      ),
+      scheduledArrival: serializer.fromJson<DateTime?>(
+        json['scheduledArrival'],
+      ),
+      actualArrival: serializer.fromJson<DateTime?>(json['actualArrival']),
+      actualDeparture: serializer.fromJson<DateTime?>(json['actualDeparture']),
+      status: serializer.fromJson<String>(json['status']),
+      passId: serializer.fromJson<String>(json['passId']),
+      createdBy: serializer.fromJson<String>(json['createdBy']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'siteId': serializer.toJson<String>(siteId),
+      'visitorName': serializer.toJson<String>(visitorName),
+      'visitorMobile': serializer.toJson<String?>(visitorMobile),
+      'visitorEmail': serializer.toJson<String?>(visitorEmail),
+      'company': serializer.toJson<String?>(company),
+      'hostName': serializer.toJson<String>(hostName),
+      'purpose': serializer.toJson<String?>(purpose),
+      'vehicleNumber': serializer.toJson<String?>(vehicleNumber),
+      'idVerified': serializer.toJson<bool>(idVerified),
+      'idTypeNote': serializer.toJson<String?>(idTypeNote),
+      'accessRequirementsNote': serializer.toJson<String?>(
+        accessRequirementsNote,
+      ),
+      'scheduledArrival': serializer.toJson<DateTime?>(scheduledArrival),
+      'actualArrival': serializer.toJson<DateTime?>(actualArrival),
+      'actualDeparture': serializer.toJson<DateTime?>(actualDeparture),
+      'status': serializer.toJson<String>(status),
+      'passId': serializer.toJson<String>(passId),
+      'createdBy': serializer.toJson<String>(createdBy),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Visit copyWith({
+    String? id,
+    String? siteId,
+    String? visitorName,
+    Value<String?> visitorMobile = const Value.absent(),
+    Value<String?> visitorEmail = const Value.absent(),
+    Value<String?> company = const Value.absent(),
+    String? hostName,
+    Value<String?> purpose = const Value.absent(),
+    Value<String?> vehicleNumber = const Value.absent(),
+    bool? idVerified,
+    Value<String?> idTypeNote = const Value.absent(),
+    Value<String?> accessRequirementsNote = const Value.absent(),
+    Value<DateTime?> scheduledArrival = const Value.absent(),
+    Value<DateTime?> actualArrival = const Value.absent(),
+    Value<DateTime?> actualDeparture = const Value.absent(),
+    String? status,
+    String? passId,
+    String? createdBy,
+    DateTime? createdAt,
+  }) => Visit(
+    id: id ?? this.id,
+    siteId: siteId ?? this.siteId,
+    visitorName: visitorName ?? this.visitorName,
+    visitorMobile: visitorMobile.present
+        ? visitorMobile.value
+        : this.visitorMobile,
+    visitorEmail: visitorEmail.present ? visitorEmail.value : this.visitorEmail,
+    company: company.present ? company.value : this.company,
+    hostName: hostName ?? this.hostName,
+    purpose: purpose.present ? purpose.value : this.purpose,
+    vehicleNumber: vehicleNumber.present
+        ? vehicleNumber.value
+        : this.vehicleNumber,
+    idVerified: idVerified ?? this.idVerified,
+    idTypeNote: idTypeNote.present ? idTypeNote.value : this.idTypeNote,
+    accessRequirementsNote: accessRequirementsNote.present
+        ? accessRequirementsNote.value
+        : this.accessRequirementsNote,
+    scheduledArrival: scheduledArrival.present
+        ? scheduledArrival.value
+        : this.scheduledArrival,
+    actualArrival: actualArrival.present
+        ? actualArrival.value
+        : this.actualArrival,
+    actualDeparture: actualDeparture.present
+        ? actualDeparture.value
+        : this.actualDeparture,
+    status: status ?? this.status,
+    passId: passId ?? this.passId,
+    createdBy: createdBy ?? this.createdBy,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Visit copyWithCompanion(VisitsCompanion data) {
+    return Visit(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      visitorName: data.visitorName.present
+          ? data.visitorName.value
+          : this.visitorName,
+      visitorMobile: data.visitorMobile.present
+          ? data.visitorMobile.value
+          : this.visitorMobile,
+      visitorEmail: data.visitorEmail.present
+          ? data.visitorEmail.value
+          : this.visitorEmail,
+      company: data.company.present ? data.company.value : this.company,
+      hostName: data.hostName.present ? data.hostName.value : this.hostName,
+      purpose: data.purpose.present ? data.purpose.value : this.purpose,
+      vehicleNumber: data.vehicleNumber.present
+          ? data.vehicleNumber.value
+          : this.vehicleNumber,
+      idVerified: data.idVerified.present
+          ? data.idVerified.value
+          : this.idVerified,
+      idTypeNote: data.idTypeNote.present
+          ? data.idTypeNote.value
+          : this.idTypeNote,
+      accessRequirementsNote: data.accessRequirementsNote.present
+          ? data.accessRequirementsNote.value
+          : this.accessRequirementsNote,
+      scheduledArrival: data.scheduledArrival.present
+          ? data.scheduledArrival.value
+          : this.scheduledArrival,
+      actualArrival: data.actualArrival.present
+          ? data.actualArrival.value
+          : this.actualArrival,
+      actualDeparture: data.actualDeparture.present
+          ? data.actualDeparture.value
+          : this.actualDeparture,
+      status: data.status.present ? data.status.value : this.status,
+      passId: data.passId.present ? data.passId.value : this.passId,
+      createdBy: data.createdBy.present ? data.createdBy.value : this.createdBy,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Visit(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('visitorName: $visitorName, ')
+          ..write('visitorMobile: $visitorMobile, ')
+          ..write('visitorEmail: $visitorEmail, ')
+          ..write('company: $company, ')
+          ..write('hostName: $hostName, ')
+          ..write('purpose: $purpose, ')
+          ..write('vehicleNumber: $vehicleNumber, ')
+          ..write('idVerified: $idVerified, ')
+          ..write('idTypeNote: $idTypeNote, ')
+          ..write('accessRequirementsNote: $accessRequirementsNote, ')
+          ..write('scheduledArrival: $scheduledArrival, ')
+          ..write('actualArrival: $actualArrival, ')
+          ..write('actualDeparture: $actualDeparture, ')
+          ..write('status: $status, ')
+          ..write('passId: $passId, ')
+          ..write('createdBy: $createdBy, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    siteId,
+    visitorName,
+    visitorMobile,
+    visitorEmail,
+    company,
+    hostName,
+    purpose,
+    vehicleNumber,
+    idVerified,
+    idTypeNote,
+    accessRequirementsNote,
+    scheduledArrival,
+    actualArrival,
+    actualDeparture,
+    status,
+    passId,
+    createdBy,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Visit &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.visitorName == this.visitorName &&
+          other.visitorMobile == this.visitorMobile &&
+          other.visitorEmail == this.visitorEmail &&
+          other.company == this.company &&
+          other.hostName == this.hostName &&
+          other.purpose == this.purpose &&
+          other.vehicleNumber == this.vehicleNumber &&
+          other.idVerified == this.idVerified &&
+          other.idTypeNote == this.idTypeNote &&
+          other.accessRequirementsNote == this.accessRequirementsNote &&
+          other.scheduledArrival == this.scheduledArrival &&
+          other.actualArrival == this.actualArrival &&
+          other.actualDeparture == this.actualDeparture &&
+          other.status == this.status &&
+          other.passId == this.passId &&
+          other.createdBy == this.createdBy &&
+          other.createdAt == this.createdAt);
+}
+
+class VisitsCompanion extends UpdateCompanion<Visit> {
+  final Value<String> id;
+  final Value<String> siteId;
+  final Value<String> visitorName;
+  final Value<String?> visitorMobile;
+  final Value<String?> visitorEmail;
+  final Value<String?> company;
+  final Value<String> hostName;
+  final Value<String?> purpose;
+  final Value<String?> vehicleNumber;
+  final Value<bool> idVerified;
+  final Value<String?> idTypeNote;
+  final Value<String?> accessRequirementsNote;
+  final Value<DateTime?> scheduledArrival;
+  final Value<DateTime?> actualArrival;
+  final Value<DateTime?> actualDeparture;
+  final Value<String> status;
+  final Value<String> passId;
+  final Value<String> createdBy;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const VisitsCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.visitorName = const Value.absent(),
+    this.visitorMobile = const Value.absent(),
+    this.visitorEmail = const Value.absent(),
+    this.company = const Value.absent(),
+    this.hostName = const Value.absent(),
+    this.purpose = const Value.absent(),
+    this.vehicleNumber = const Value.absent(),
+    this.idVerified = const Value.absent(),
+    this.idTypeNote = const Value.absent(),
+    this.accessRequirementsNote = const Value.absent(),
+    this.scheduledArrival = const Value.absent(),
+    this.actualArrival = const Value.absent(),
+    this.actualDeparture = const Value.absent(),
+    this.status = const Value.absent(),
+    this.passId = const Value.absent(),
+    this.createdBy = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  VisitsCompanion.insert({
+    required String id,
+    required String siteId,
+    required String visitorName,
+    this.visitorMobile = const Value.absent(),
+    this.visitorEmail = const Value.absent(),
+    this.company = const Value.absent(),
+    required String hostName,
+    this.purpose = const Value.absent(),
+    this.vehicleNumber = const Value.absent(),
+    this.idVerified = const Value.absent(),
+    this.idTypeNote = const Value.absent(),
+    this.accessRequirementsNote = const Value.absent(),
+    this.scheduledArrival = const Value.absent(),
+    this.actualArrival = const Value.absent(),
+    this.actualDeparture = const Value.absent(),
+    this.status = const Value.absent(),
+    required String passId,
+    required String createdBy,
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       siteId = Value(siteId),
+       visitorName = Value(visitorName),
+       hostName = Value(hostName),
+       passId = Value(passId),
+       createdBy = Value(createdBy),
+       createdAt = Value(createdAt);
+  static Insertable<Visit> custom({
+    Expression<String>? id,
+    Expression<String>? siteId,
+    Expression<String>? visitorName,
+    Expression<String>? visitorMobile,
+    Expression<String>? visitorEmail,
+    Expression<String>? company,
+    Expression<String>? hostName,
+    Expression<String>? purpose,
+    Expression<String>? vehicleNumber,
+    Expression<bool>? idVerified,
+    Expression<String>? idTypeNote,
+    Expression<String>? accessRequirementsNote,
+    Expression<DateTime>? scheduledArrival,
+    Expression<DateTime>? actualArrival,
+    Expression<DateTime>? actualDeparture,
+    Expression<String>? status,
+    Expression<String>? passId,
+    Expression<String>? createdBy,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (visitorName != null) 'visitor_name': visitorName,
+      if (visitorMobile != null) 'visitor_mobile': visitorMobile,
+      if (visitorEmail != null) 'visitor_email': visitorEmail,
+      if (company != null) 'company': company,
+      if (hostName != null) 'host_name': hostName,
+      if (purpose != null) 'purpose': purpose,
+      if (vehicleNumber != null) 'vehicle_number': vehicleNumber,
+      if (idVerified != null) 'id_verified': idVerified,
+      if (idTypeNote != null) 'id_type_note': idTypeNote,
+      if (accessRequirementsNote != null)
+        'access_requirements_note': accessRequirementsNote,
+      if (scheduledArrival != null) 'scheduled_arrival': scheduledArrival,
+      if (actualArrival != null) 'actual_arrival': actualArrival,
+      if (actualDeparture != null) 'actual_departure': actualDeparture,
+      if (status != null) 'status': status,
+      if (passId != null) 'pass_id': passId,
+      if (createdBy != null) 'created_by': createdBy,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  VisitsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? siteId,
+    Value<String>? visitorName,
+    Value<String?>? visitorMobile,
+    Value<String?>? visitorEmail,
+    Value<String?>? company,
+    Value<String>? hostName,
+    Value<String?>? purpose,
+    Value<String?>? vehicleNumber,
+    Value<bool>? idVerified,
+    Value<String?>? idTypeNote,
+    Value<String?>? accessRequirementsNote,
+    Value<DateTime?>? scheduledArrival,
+    Value<DateTime?>? actualArrival,
+    Value<DateTime?>? actualDeparture,
+    Value<String>? status,
+    Value<String>? passId,
+    Value<String>? createdBy,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return VisitsCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      visitorName: visitorName ?? this.visitorName,
+      visitorMobile: visitorMobile ?? this.visitorMobile,
+      visitorEmail: visitorEmail ?? this.visitorEmail,
+      company: company ?? this.company,
+      hostName: hostName ?? this.hostName,
+      purpose: purpose ?? this.purpose,
+      vehicleNumber: vehicleNumber ?? this.vehicleNumber,
+      idVerified: idVerified ?? this.idVerified,
+      idTypeNote: idTypeNote ?? this.idTypeNote,
+      accessRequirementsNote:
+          accessRequirementsNote ?? this.accessRequirementsNote,
+      scheduledArrival: scheduledArrival ?? this.scheduledArrival,
+      actualArrival: actualArrival ?? this.actualArrival,
+      actualDeparture: actualDeparture ?? this.actualDeparture,
+      status: status ?? this.status,
+      passId: passId ?? this.passId,
+      createdBy: createdBy ?? this.createdBy,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<String>(siteId.value);
+    }
+    if (visitorName.present) {
+      map['visitor_name'] = Variable<String>(visitorName.value);
+    }
+    if (visitorMobile.present) {
+      map['visitor_mobile'] = Variable<String>(visitorMobile.value);
+    }
+    if (visitorEmail.present) {
+      map['visitor_email'] = Variable<String>(visitorEmail.value);
+    }
+    if (company.present) {
+      map['company'] = Variable<String>(company.value);
+    }
+    if (hostName.present) {
+      map['host_name'] = Variable<String>(hostName.value);
+    }
+    if (purpose.present) {
+      map['purpose'] = Variable<String>(purpose.value);
+    }
+    if (vehicleNumber.present) {
+      map['vehicle_number'] = Variable<String>(vehicleNumber.value);
+    }
+    if (idVerified.present) {
+      map['id_verified'] = Variable<bool>(idVerified.value);
+    }
+    if (idTypeNote.present) {
+      map['id_type_note'] = Variable<String>(idTypeNote.value);
+    }
+    if (accessRequirementsNote.present) {
+      map['access_requirements_note'] = Variable<String>(
+        accessRequirementsNote.value,
+      );
+    }
+    if (scheduledArrival.present) {
+      map['scheduled_arrival'] = Variable<DateTime>(scheduledArrival.value);
+    }
+    if (actualArrival.present) {
+      map['actual_arrival'] = Variable<DateTime>(actualArrival.value);
+    }
+    if (actualDeparture.present) {
+      map['actual_departure'] = Variable<DateTime>(actualDeparture.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (passId.present) {
+      map['pass_id'] = Variable<String>(passId.value);
+    }
+    if (createdBy.present) {
+      map['created_by'] = Variable<String>(createdBy.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VisitsCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('visitorName: $visitorName, ')
+          ..write('visitorMobile: $visitorMobile, ')
+          ..write('visitorEmail: $visitorEmail, ')
+          ..write('company: $company, ')
+          ..write('hostName: $hostName, ')
+          ..write('purpose: $purpose, ')
+          ..write('vehicleNumber: $vehicleNumber, ')
+          ..write('idVerified: $idVerified, ')
+          ..write('idTypeNote: $idTypeNote, ')
+          ..write('accessRequirementsNote: $accessRequirementsNote, ')
+          ..write('scheduledArrival: $scheduledArrival, ')
+          ..write('actualArrival: $actualArrival, ')
+          ..write('actualDeparture: $actualDeparture, ')
+          ..write('status: $status, ')
+          ..write('passId: $passId, ')
+          ..write('createdBy: $createdBy, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -25565,6 +26684,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $SoftServiceInspectionsTable(this);
   late final $PermitsTable permits = $PermitsTable(this);
   late final $ReservationsTable reservations = $ReservationsTable(this);
+  late final $VisitsTable visits = $VisitsTable(this);
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -25596,6 +26716,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final ReservationDao reservationDao = ReservationDao(
     this as AppDatabase,
   );
+  late final VisitorDao visitorDao = VisitorDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -25638,6 +26759,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     softServiceInspections,
     permits,
     reservations,
+    visits,
   ];
 }
 
@@ -25928,6 +27050,25 @@ final class $$SitesTableReferences
     ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_permitsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$VisitsTable, List<Visit>> _visitsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.visits,
+    aliasName: $_aliasNameGenerator(db.sites.id, db.visits.siteId),
+  );
+
+  $$VisitsTableProcessedTableManager get visitsRefs {
+    final manager = $$VisitsTableTableManager(
+      $_db,
+      $_db.visits,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_visitsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -26304,6 +27445,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$PermitsTableFilterComposer(
             $db: $db,
             $table: $db.permits,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> visitsRefs(
+    Expression<bool> Function($$VisitsTableFilterComposer f) f,
+  ) {
+    final $$VisitsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.visits,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VisitsTableFilterComposer(
+            $db: $db,
+            $table: $db.visits,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -26736,6 +27902,31 @@ class $$SitesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> visitsRefs<T extends Object>(
+    Expression<T> Function($$VisitsTableAnnotationComposer a) f,
+  ) {
+    final $$VisitsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.visits,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VisitsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.visits,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -26765,6 +27956,7 @@ class $$SitesTableTableManager
             bool washroomsRefs,
             bool softServiceInspectionsRefs,
             bool permitsRefs,
+            bool visitsRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -26847,6 +28039,7 @@ class $$SitesTableTableManager
                 washroomsRefs = false,
                 softServiceInspectionsRefs = false,
                 permitsRefs = false,
+                visitsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -26864,6 +28057,7 @@ class $$SitesTableTableManager
                     if (washroomsRefs) db.washrooms,
                     if (softServiceInspectionsRefs) db.softServiceInspections,
                     if (permitsRefs) db.permits,
+                    if (visitsRefs) db.visits,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -27101,6 +28295,19 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (visitsRefs)
+                        await $_getPrefetchedData<Site, $SitesTable, Visit>(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._visitsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(db, table, p0).visitsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -27135,6 +28342,7 @@ typedef $$SitesTableProcessedTableManager =
         bool washroomsRefs,
         bool softServiceInspectionsRefs,
         bool permitsRefs,
+        bool visitsRefs,
       })
     >;
 typedef $$BuildingsTableCreateCompanionBuilder =
@@ -47028,6 +48236,607 @@ typedef $$ReservationsTableProcessedTableManager =
       Reservation,
       PrefetchHooks Function({bool spaceId})
     >;
+typedef $$VisitsTableCreateCompanionBuilder =
+    VisitsCompanion Function({
+      required String id,
+      required String siteId,
+      required String visitorName,
+      Value<String?> visitorMobile,
+      Value<String?> visitorEmail,
+      Value<String?> company,
+      required String hostName,
+      Value<String?> purpose,
+      Value<String?> vehicleNumber,
+      Value<bool> idVerified,
+      Value<String?> idTypeNote,
+      Value<String?> accessRequirementsNote,
+      Value<DateTime?> scheduledArrival,
+      Value<DateTime?> actualArrival,
+      Value<DateTime?> actualDeparture,
+      Value<String> status,
+      required String passId,
+      required String createdBy,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$VisitsTableUpdateCompanionBuilder =
+    VisitsCompanion Function({
+      Value<String> id,
+      Value<String> siteId,
+      Value<String> visitorName,
+      Value<String?> visitorMobile,
+      Value<String?> visitorEmail,
+      Value<String?> company,
+      Value<String> hostName,
+      Value<String?> purpose,
+      Value<String?> vehicleNumber,
+      Value<bool> idVerified,
+      Value<String?> idTypeNote,
+      Value<String?> accessRequirementsNote,
+      Value<DateTime?> scheduledArrival,
+      Value<DateTime?> actualArrival,
+      Value<DateTime?> actualDeparture,
+      Value<String> status,
+      Value<String> passId,
+      Value<String> createdBy,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+final class $$VisitsTableReferences
+    extends BaseReferences<_$AppDatabase, $VisitsTable, Visit> {
+  $$VisitsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias($_aliasNameGenerator(db.visits.siteId, db.sites.id));
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<String>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$VisitsTableFilterComposer
+    extends Composer<_$AppDatabase, $VisitsTable> {
+  $$VisitsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get visitorName => $composableBuilder(
+    column: $table.visitorName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get visitorMobile => $composableBuilder(
+    column: $table.visitorMobile,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get visitorEmail => $composableBuilder(
+    column: $table.visitorEmail,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get company => $composableBuilder(
+    column: $table.company,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get hostName => $composableBuilder(
+    column: $table.hostName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get purpose => $composableBuilder(
+    column: $table.purpose,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get vehicleNumber => $composableBuilder(
+    column: $table.vehicleNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get idVerified => $composableBuilder(
+    column: $table.idVerified,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get idTypeNote => $composableBuilder(
+    column: $table.idTypeNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get accessRequirementsNote => $composableBuilder(
+    column: $table.accessRequirementsNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get scheduledArrival => $composableBuilder(
+    column: $table.scheduledArrival,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get actualArrival => $composableBuilder(
+    column: $table.actualArrival,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get actualDeparture => $composableBuilder(
+    column: $table.actualDeparture,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get passId => $composableBuilder(
+    column: $table.passId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdBy => $composableBuilder(
+    column: $table.createdBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$VisitsTableOrderingComposer
+    extends Composer<_$AppDatabase, $VisitsTable> {
+  $$VisitsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get visitorName => $composableBuilder(
+    column: $table.visitorName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get visitorMobile => $composableBuilder(
+    column: $table.visitorMobile,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get visitorEmail => $composableBuilder(
+    column: $table.visitorEmail,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get company => $composableBuilder(
+    column: $table.company,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get hostName => $composableBuilder(
+    column: $table.hostName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get purpose => $composableBuilder(
+    column: $table.purpose,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get vehicleNumber => $composableBuilder(
+    column: $table.vehicleNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get idVerified => $composableBuilder(
+    column: $table.idVerified,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get idTypeNote => $composableBuilder(
+    column: $table.idTypeNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get accessRequirementsNote => $composableBuilder(
+    column: $table.accessRequirementsNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get scheduledArrival => $composableBuilder(
+    column: $table.scheduledArrival,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get actualArrival => $composableBuilder(
+    column: $table.actualArrival,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get actualDeparture => $composableBuilder(
+    column: $table.actualDeparture,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get passId => $composableBuilder(
+    column: $table.passId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdBy => $composableBuilder(
+    column: $table.createdBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$VisitsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $VisitsTable> {
+  $$VisitsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get visitorName => $composableBuilder(
+    column: $table.visitorName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get visitorMobile => $composableBuilder(
+    column: $table.visitorMobile,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get visitorEmail => $composableBuilder(
+    column: $table.visitorEmail,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get company =>
+      $composableBuilder(column: $table.company, builder: (column) => column);
+
+  GeneratedColumn<String> get hostName =>
+      $composableBuilder(column: $table.hostName, builder: (column) => column);
+
+  GeneratedColumn<String> get purpose =>
+      $composableBuilder(column: $table.purpose, builder: (column) => column);
+
+  GeneratedColumn<String> get vehicleNumber => $composableBuilder(
+    column: $table.vehicleNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get idVerified => $composableBuilder(
+    column: $table.idVerified,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get idTypeNote => $composableBuilder(
+    column: $table.idTypeNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get accessRequirementsNote => $composableBuilder(
+    column: $table.accessRequirementsNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get scheduledArrival => $composableBuilder(
+    column: $table.scheduledArrival,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get actualArrival => $composableBuilder(
+    column: $table.actualArrival,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get actualDeparture => $composableBuilder(
+    column: $table.actualDeparture,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get passId =>
+      $composableBuilder(column: $table.passId, builder: (column) => column);
+
+  GeneratedColumn<String> get createdBy =>
+      $composableBuilder(column: $table.createdBy, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$VisitsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $VisitsTable,
+          Visit,
+          $$VisitsTableFilterComposer,
+          $$VisitsTableOrderingComposer,
+          $$VisitsTableAnnotationComposer,
+          $$VisitsTableCreateCompanionBuilder,
+          $$VisitsTableUpdateCompanionBuilder,
+          (Visit, $$VisitsTableReferences),
+          Visit,
+          PrefetchHooks Function({bool siteId})
+        > {
+  $$VisitsTableTableManager(_$AppDatabase db, $VisitsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$VisitsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$VisitsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$VisitsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> siteId = const Value.absent(),
+                Value<String> visitorName = const Value.absent(),
+                Value<String?> visitorMobile = const Value.absent(),
+                Value<String?> visitorEmail = const Value.absent(),
+                Value<String?> company = const Value.absent(),
+                Value<String> hostName = const Value.absent(),
+                Value<String?> purpose = const Value.absent(),
+                Value<String?> vehicleNumber = const Value.absent(),
+                Value<bool> idVerified = const Value.absent(),
+                Value<String?> idTypeNote = const Value.absent(),
+                Value<String?> accessRequirementsNote = const Value.absent(),
+                Value<DateTime?> scheduledArrival = const Value.absent(),
+                Value<DateTime?> actualArrival = const Value.absent(),
+                Value<DateTime?> actualDeparture = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String> passId = const Value.absent(),
+                Value<String> createdBy = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => VisitsCompanion(
+                id: id,
+                siteId: siteId,
+                visitorName: visitorName,
+                visitorMobile: visitorMobile,
+                visitorEmail: visitorEmail,
+                company: company,
+                hostName: hostName,
+                purpose: purpose,
+                vehicleNumber: vehicleNumber,
+                idVerified: idVerified,
+                idTypeNote: idTypeNote,
+                accessRequirementsNote: accessRequirementsNote,
+                scheduledArrival: scheduledArrival,
+                actualArrival: actualArrival,
+                actualDeparture: actualDeparture,
+                status: status,
+                passId: passId,
+                createdBy: createdBy,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String siteId,
+                required String visitorName,
+                Value<String?> visitorMobile = const Value.absent(),
+                Value<String?> visitorEmail = const Value.absent(),
+                Value<String?> company = const Value.absent(),
+                required String hostName,
+                Value<String?> purpose = const Value.absent(),
+                Value<String?> vehicleNumber = const Value.absent(),
+                Value<bool> idVerified = const Value.absent(),
+                Value<String?> idTypeNote = const Value.absent(),
+                Value<String?> accessRequirementsNote = const Value.absent(),
+                Value<DateTime?> scheduledArrival = const Value.absent(),
+                Value<DateTime?> actualArrival = const Value.absent(),
+                Value<DateTime?> actualDeparture = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                required String passId,
+                required String createdBy,
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => VisitsCompanion.insert(
+                id: id,
+                siteId: siteId,
+                visitorName: visitorName,
+                visitorMobile: visitorMobile,
+                visitorEmail: visitorEmail,
+                company: company,
+                hostName: hostName,
+                purpose: purpose,
+                vehicleNumber: vehicleNumber,
+                idVerified: idVerified,
+                idTypeNote: idTypeNote,
+                accessRequirementsNote: accessRequirementsNote,
+                scheduledArrival: scheduledArrival,
+                actualArrival: actualArrival,
+                actualDeparture: actualDeparture,
+                status: status,
+                passId: passId,
+                createdBy: createdBy,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$VisitsTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$VisitsTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn: $$VisitsTableReferences
+                                    ._siteIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$VisitsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $VisitsTable,
+      Visit,
+      $$VisitsTableFilterComposer,
+      $$VisitsTableOrderingComposer,
+      $$VisitsTableAnnotationComposer,
+      $$VisitsTableCreateCompanionBuilder,
+      $$VisitsTableUpdateCompanionBuilder,
+      (Visit, $$VisitsTableReferences),
+      Visit,
+      PrefetchHooks Function({bool siteId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -47120,6 +48929,8 @@ class $AppDatabaseManager {
       $$PermitsTableTableManager(_db, _db.permits);
   $$ReservationsTableTableManager get reservations =>
       $$ReservationsTableTableManager(_db, _db.reservations);
+  $$VisitsTableTableManager get visits =>
+      $$VisitsTableTableManager(_db, _db.visits);
 }
 
 // **************************************************************************

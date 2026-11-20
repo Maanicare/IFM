@@ -9,9 +9,8 @@ import 'package:go_router/go_router.dart';
 /// room" both go to the same Screen 43 (Reservation) list - this
 /// app's `Spaces` model doesn't distinguish a bookable desk from a
 /// bookable room as different entities, just reservable Spaces.
-/// "Visitor" (Screen 44 - Visitor Management) isn't built yet -
-/// tapping it says so rather than faking a check-in flow ahead of
-/// that screen actually existing. "Events" and "Amenities" have no owning screen or data
+/// "Visitor" goes to Screen 44 (Visitor Management). "Events" and
+/// "Amenities" have no owning screen or data
 /// model anywhere in this app; "Wayfinding" needs floor-plan/indoor-map
 /// data that's a Web/Site Digital Map (Screen 18) concern. All four
 /// are tracked in PENDING_FEATURES.md.
@@ -52,7 +51,7 @@ class WorkplaceExperienceScreen extends StatelessWidget {
           _Tile(
             icon: Icons.badge_outlined,
             label: 'Visitor',
-            onTap: () => _comingSoon(context, 'Visitor management (Screen 44)'),
+            onTap: () => context.push('/visitors'),
           ),
           _Tile(
             icon: Icons.event_outlined,

@@ -205,12 +205,10 @@ link to the issued permit otherwise).
 
 A hub screen with all 8 "Employee Side" tiles. Report issue/Request
 service both go to the existing Create Request flow (this app's data
-model doesn't distinguish the two). Book desk/Book room now go to
-Screen 43 (Reservation). The rest are honest "not available yet"
-taps, not fabricated flows:
-- **Visitor** — needs Screen 44 (Visitor Management), not built.
-- **Events** — no owning screen or data model exists anywhere in this
-  app's scope.
+model doesn't distinguish the two). Book desk/Book room go to Screen
+43 (Reservation); Visitor goes to Screen 44 (Visitor Management).
+**Events** and **Amenities** still have no owning screen or data
+model anywhere in this app's scope.
 - **Amenities** — no data model exists (the canonical Space model has
   an `amenities` field, but nothing populates or surfaces it here).
 - **Wayfinding** — needs floor-plan/indoor-map data, a Site Digital
@@ -235,9 +233,26 @@ Added `capacity`/`reservable`/`equipmentNote`/`amenitiesNote` to
   reflects only what this device knows about, not a live cross-device
   calendar.
 
+## Screen 44 - Visitor Management — DONE (with documented interpretations)
+
+Capture (Visitor, Host, Company, Purpose, Arrival, ID rules, Vehicle,
+Access requirements) and Output (Generate QR pass) are all covered.
+New `manageVisitor` action granted to Security Supervisor and
+Helpdesk Executive. Scan resolves a visitor pass QR to the visit.
+
+- **Host** is a free-text name, not a link to an employee record (no
+  employee directory, same reasoning used throughout this app).
+- **ID rules** is a verified flag plus a free-text note of what was
+  checked, not a configurable rules engine.
+- **QR pass** encodes the visit's own id; scanning it looks the visit
+  back up on-device - there's no turnstile/access-control system
+  integration here.
+- This app only creates/checks out its own visits and never syncs a
+  pre-registered expected-visitor list down - visitor
+  pre-registration/host-notification is a manager/desktop concern.
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 44 — Visitor Management
 - Screen 46 — Comfort Feedback
 - Screen 53 — AI Assistant (explicitly deferred - "AI later")
 
