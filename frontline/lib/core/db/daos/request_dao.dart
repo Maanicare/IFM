@@ -25,6 +25,19 @@ class RequestDao extends DatabaseAccessor<AppDatabase>
       (select(serviceRequests)..where((t) => t.id.equals(id)))
           .watchSingleOrNull();
 
+  /// Screen 22 (Washroom Experience): "Complaints" - open requests
+  /// raised against this space, which is exactly what the screen's "QR
+  /// Options" (Cleaning/Tissue/Soap/Odour/Plumbing/Other) create (see
+  /// the doc comment on `Washrooms`).
+  Stream<List<ServiceRequest>> watchOpenAtSpace(String spaceId) {
+    return (select(serviceRequests)
+          ..where((t) =>
+              t.spaceId.equals(spaceId) &
+              t.status.isNotIn(const ['closed', 'cancelled', 'rejected', 'duplicate']))
+          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
+        .watch();
+  }
+
   /// Screen 07 action: "Assign" - to a team/trade, not an individual
   /// (this app has no synced user directory).
   Future<void> assignTeam(String id, String team) {

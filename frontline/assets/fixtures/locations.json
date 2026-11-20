@@ -46,6 +46,14 @@
       "name": "Plant Room, Floor 3",
       "spaceType": "plant_room",
       "criticality": "critical"
+    },
+    {
+      "id": "spc-03",
+      "floorId": "flr-01",
+      "spaceCode": "F8-WR-M",
+      "name": "Men's Washroom, Floor 8",
+      "spaceType": "washroom",
+      "criticality": "normal"
     }
   ]
 }

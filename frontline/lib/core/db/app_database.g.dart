@@ -21900,6 +21900,688 @@ class RequestCommentsCompanion extends UpdateCompanion<RequestComment> {
   }
 }
 
+class $WashroomsTable extends Washrooms
+    with TableInfo<$WashroomsTable, Washroom> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WashroomsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<String> siteId = GeneratedColumn<String>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _spaceIdMeta = const VerificationMeta(
+    'spaceId',
+  );
+  @override
+  late final GeneratedColumn<String> spaceId = GeneratedColumn<String>(
+    'space_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES spaces (id)',
+    ),
+  );
+  static const VerificationMeta _qrCodeMeta = const VerificationMeta('qrCode');
+  @override
+  late final GeneratedColumn<String> qrCode = GeneratedColumn<String>(
+    'qr_code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cleaningStatusMeta = const VerificationMeta(
+    'cleaningStatus',
+  );
+  @override
+  late final GeneratedColumn<String> cleaningStatus = GeneratedColumn<String>(
+    'cleaning_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('clean'),
+  );
+  static const VerificationMeta _lastAttendedAtMeta = const VerificationMeta(
+    'lastAttendedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastAttendedAt =
+      GeneratedColumn<DateTime>(
+        'last_attended_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _nextDueAtMeta = const VerificationMeta(
+    'nextDueAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> nextDueAt = GeneratedColumn<DateTime>(
+    'next_due_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tissueStatusMeta = const VerificationMeta(
+    'tissueStatus',
+  );
+  @override
+  late final GeneratedColumn<String> tissueStatus = GeneratedColumn<String>(
+    'tissue_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('ok'),
+  );
+  static const VerificationMeta _soapStatusMeta = const VerificationMeta(
+    'soapStatus',
+  );
+  @override
+  late final GeneratedColumn<String> soapStatus = GeneratedColumn<String>(
+    'soap_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('ok'),
+  );
+  static const VerificationMeta _sensorAlertNoteMeta = const VerificationMeta(
+    'sensorAlertNote',
+  );
+  @override
+  late final GeneratedColumn<String> sensorAlertNote = GeneratedColumn<String>(
+    'sensor_alert_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    siteId,
+    spaceId,
+    qrCode,
+    cleaningStatus,
+    lastAttendedAt,
+    nextDueAt,
+    tissueStatus,
+    soapStatus,
+    sensorAlertNote,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'washrooms';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Washroom> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('space_id')) {
+      context.handle(
+        _spaceIdMeta,
+        spaceId.isAcceptableOrUnknown(data['space_id']!, _spaceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_spaceIdMeta);
+    }
+    if (data.containsKey('qr_code')) {
+      context.handle(
+        _qrCodeMeta,
+        qrCode.isAcceptableOrUnknown(data['qr_code']!, _qrCodeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_qrCodeMeta);
+    }
+    if (data.containsKey('cleaning_status')) {
+      context.handle(
+        _cleaningStatusMeta,
+        cleaningStatus.isAcceptableOrUnknown(
+          data['cleaning_status']!,
+          _cleaningStatusMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_attended_at')) {
+      context.handle(
+        _lastAttendedAtMeta,
+        lastAttendedAt.isAcceptableOrUnknown(
+          data['last_attended_at']!,
+          _lastAttendedAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('next_due_at')) {
+      context.handle(
+        _nextDueAtMeta,
+        nextDueAt.isAcceptableOrUnknown(data['next_due_at']!, _nextDueAtMeta),
+      );
+    }
+    if (data.containsKey('tissue_status')) {
+      context.handle(
+        _tissueStatusMeta,
+        tissueStatus.isAcceptableOrUnknown(
+          data['tissue_status']!,
+          _tissueStatusMeta,
+        ),
+      );
+    }
+    if (data.containsKey('soap_status')) {
+      context.handle(
+        _soapStatusMeta,
+        soapStatus.isAcceptableOrUnknown(data['soap_status']!, _soapStatusMeta),
+      );
+    }
+    if (data.containsKey('sensor_alert_note')) {
+      context.handle(
+        _sensorAlertNoteMeta,
+        sensorAlertNote.isAcceptableOrUnknown(
+          data['sensor_alert_note']!,
+          _sensorAlertNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Washroom map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Washroom(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_id'],
+      )!,
+      spaceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}space_id'],
+      )!,
+      qrCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}qr_code'],
+      )!,
+      cleaningStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cleaning_status'],
+      )!,
+      lastAttendedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_attended_at'],
+      ),
+      nextDueAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}next_due_at'],
+      ),
+      tissueStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tissue_status'],
+      )!,
+      soapStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}soap_status'],
+      )!,
+      sensorAlertNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sensor_alert_note'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $WashroomsTable createAlias(String alias) {
+    return $WashroomsTable(attachedDatabase, alias);
+  }
+}
+
+class Washroom extends DataClass implements Insertable<Washroom> {
+  final String id;
+  final String siteId;
+  final String spaceId;
+  final String qrCode;
+  final String cleaningStatus;
+  final DateTime? lastAttendedAt;
+  final DateTime? nextDueAt;
+  final String tissueStatus;
+  final String soapStatus;
+  final String? sensorAlertNote;
+  final DateTime updatedAt;
+  const Washroom({
+    required this.id,
+    required this.siteId,
+    required this.spaceId,
+    required this.qrCode,
+    required this.cleaningStatus,
+    this.lastAttendedAt,
+    this.nextDueAt,
+    required this.tissueStatus,
+    required this.soapStatus,
+    this.sensorAlertNote,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['site_id'] = Variable<String>(siteId);
+    map['space_id'] = Variable<String>(spaceId);
+    map['qr_code'] = Variable<String>(qrCode);
+    map['cleaning_status'] = Variable<String>(cleaningStatus);
+    if (!nullToAbsent || lastAttendedAt != null) {
+      map['last_attended_at'] = Variable<DateTime>(lastAttendedAt);
+    }
+    if (!nullToAbsent || nextDueAt != null) {
+      map['next_due_at'] = Variable<DateTime>(nextDueAt);
+    }
+    map['tissue_status'] = Variable<String>(tissueStatus);
+    map['soap_status'] = Variable<String>(soapStatus);
+    if (!nullToAbsent || sensorAlertNote != null) {
+      map['sensor_alert_note'] = Variable<String>(sensorAlertNote);
+    }
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  WashroomsCompanion toCompanion(bool nullToAbsent) {
+    return WashroomsCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      spaceId: Value(spaceId),
+      qrCode: Value(qrCode),
+      cleaningStatus: Value(cleaningStatus),
+      lastAttendedAt: lastAttendedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastAttendedAt),
+      nextDueAt: nextDueAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nextDueAt),
+      tissueStatus: Value(tissueStatus),
+      soapStatus: Value(soapStatus),
+      sensorAlertNote: sensorAlertNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sensorAlertNote),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory Washroom.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Washroom(
+      id: serializer.fromJson<String>(json['id']),
+      siteId: serializer.fromJson<String>(json['siteId']),
+      spaceId: serializer.fromJson<String>(json['spaceId']),
+      qrCode: serializer.fromJson<String>(json['qrCode']),
+      cleaningStatus: serializer.fromJson<String>(json['cleaningStatus']),
+      lastAttendedAt: serializer.fromJson<DateTime?>(json['lastAttendedAt']),
+      nextDueAt: serializer.fromJson<DateTime?>(json['nextDueAt']),
+      tissueStatus: serializer.fromJson<String>(json['tissueStatus']),
+      soapStatus: serializer.fromJson<String>(json['soapStatus']),
+      sensorAlertNote: serializer.fromJson<String?>(json['sensorAlertNote']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'siteId': serializer.toJson<String>(siteId),
+      'spaceId': serializer.toJson<String>(spaceId),
+      'qrCode': serializer.toJson<String>(qrCode),
+      'cleaningStatus': serializer.toJson<String>(cleaningStatus),
+      'lastAttendedAt': serializer.toJson<DateTime?>(lastAttendedAt),
+      'nextDueAt': serializer.toJson<DateTime?>(nextDueAt),
+      'tissueStatus': serializer.toJson<String>(tissueStatus),
+      'soapStatus': serializer.toJson<String>(soapStatus),
+      'sensorAlertNote': serializer.toJson<String?>(sensorAlertNote),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  Washroom copyWith({
+    String? id,
+    String? siteId,
+    String? spaceId,
+    String? qrCode,
+    String? cleaningStatus,
+    Value<DateTime?> lastAttendedAt = const Value.absent(),
+    Value<DateTime?> nextDueAt = const Value.absent(),
+    String? tissueStatus,
+    String? soapStatus,
+    Value<String?> sensorAlertNote = const Value.absent(),
+    DateTime? updatedAt,
+  }) => Washroom(
+    id: id ?? this.id,
+    siteId: siteId ?? this.siteId,
+    spaceId: spaceId ?? this.spaceId,
+    qrCode: qrCode ?? this.qrCode,
+    cleaningStatus: cleaningStatus ?? this.cleaningStatus,
+    lastAttendedAt: lastAttendedAt.present
+        ? lastAttendedAt.value
+        : this.lastAttendedAt,
+    nextDueAt: nextDueAt.present ? nextDueAt.value : this.nextDueAt,
+    tissueStatus: tissueStatus ?? this.tissueStatus,
+    soapStatus: soapStatus ?? this.soapStatus,
+    sensorAlertNote: sensorAlertNote.present
+        ? sensorAlertNote.value
+        : this.sensorAlertNote,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  Washroom copyWithCompanion(WashroomsCompanion data) {
+    return Washroom(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      spaceId: data.spaceId.present ? data.spaceId.value : this.spaceId,
+      qrCode: data.qrCode.present ? data.qrCode.value : this.qrCode,
+      cleaningStatus: data.cleaningStatus.present
+          ? data.cleaningStatus.value
+          : this.cleaningStatus,
+      lastAttendedAt: data.lastAttendedAt.present
+          ? data.lastAttendedAt.value
+          : this.lastAttendedAt,
+      nextDueAt: data.nextDueAt.present ? data.nextDueAt.value : this.nextDueAt,
+      tissueStatus: data.tissueStatus.present
+          ? data.tissueStatus.value
+          : this.tissueStatus,
+      soapStatus: data.soapStatus.present
+          ? data.soapStatus.value
+          : this.soapStatus,
+      sensorAlertNote: data.sensorAlertNote.present
+          ? data.sensorAlertNote.value
+          : this.sensorAlertNote,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Washroom(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('qrCode: $qrCode, ')
+          ..write('cleaningStatus: $cleaningStatus, ')
+          ..write('lastAttendedAt: $lastAttendedAt, ')
+          ..write('nextDueAt: $nextDueAt, ')
+          ..write('tissueStatus: $tissueStatus, ')
+          ..write('soapStatus: $soapStatus, ')
+          ..write('sensorAlertNote: $sensorAlertNote, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    siteId,
+    spaceId,
+    qrCode,
+    cleaningStatus,
+    lastAttendedAt,
+    nextDueAt,
+    tissueStatus,
+    soapStatus,
+    sensorAlertNote,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Washroom &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.spaceId == this.spaceId &&
+          other.qrCode == this.qrCode &&
+          other.cleaningStatus == this.cleaningStatus &&
+          other.lastAttendedAt == this.lastAttendedAt &&
+          other.nextDueAt == this.nextDueAt &&
+          other.tissueStatus == this.tissueStatus &&
+          other.soapStatus == this.soapStatus &&
+          other.sensorAlertNote == this.sensorAlertNote &&
+          other.updatedAt == this.updatedAt);
+}
+
+class WashroomsCompanion extends UpdateCompanion<Washroom> {
+  final Value<String> id;
+  final Value<String> siteId;
+  final Value<String> spaceId;
+  final Value<String> qrCode;
+  final Value<String> cleaningStatus;
+  final Value<DateTime?> lastAttendedAt;
+  final Value<DateTime?> nextDueAt;
+  final Value<String> tissueStatus;
+  final Value<String> soapStatus;
+  final Value<String?> sensorAlertNote;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const WashroomsCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.spaceId = const Value.absent(),
+    this.qrCode = const Value.absent(),
+    this.cleaningStatus = const Value.absent(),
+    this.lastAttendedAt = const Value.absent(),
+    this.nextDueAt = const Value.absent(),
+    this.tissueStatus = const Value.absent(),
+    this.soapStatus = const Value.absent(),
+    this.sensorAlertNote = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  WashroomsCompanion.insert({
+    required String id,
+    required String siteId,
+    required String spaceId,
+    required String qrCode,
+    this.cleaningStatus = const Value.absent(),
+    this.lastAttendedAt = const Value.absent(),
+    this.nextDueAt = const Value.absent(),
+    this.tissueStatus = const Value.absent(),
+    this.soapStatus = const Value.absent(),
+    this.sensorAlertNote = const Value.absent(),
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       siteId = Value(siteId),
+       spaceId = Value(spaceId),
+       qrCode = Value(qrCode),
+       updatedAt = Value(updatedAt);
+  static Insertable<Washroom> custom({
+    Expression<String>? id,
+    Expression<String>? siteId,
+    Expression<String>? spaceId,
+    Expression<String>? qrCode,
+    Expression<String>? cleaningStatus,
+    Expression<DateTime>? lastAttendedAt,
+    Expression<DateTime>? nextDueAt,
+    Expression<String>? tissueStatus,
+    Expression<String>? soapStatus,
+    Expression<String>? sensorAlertNote,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (spaceId != null) 'space_id': spaceId,
+      if (qrCode != null) 'qr_code': qrCode,
+      if (cleaningStatus != null) 'cleaning_status': cleaningStatus,
+      if (lastAttendedAt != null) 'last_attended_at': lastAttendedAt,
+      if (nextDueAt != null) 'next_due_at': nextDueAt,
+      if (tissueStatus != null) 'tissue_status': tissueStatus,
+      if (soapStatus != null) 'soap_status': soapStatus,
+      if (sensorAlertNote != null) 'sensor_alert_note': sensorAlertNote,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  WashroomsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? siteId,
+    Value<String>? spaceId,
+    Value<String>? qrCode,
+    Value<String>? cleaningStatus,
+    Value<DateTime?>? lastAttendedAt,
+    Value<DateTime?>? nextDueAt,
+    Value<String>? tissueStatus,
+    Value<String>? soapStatus,
+    Value<String?>? sensorAlertNote,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return WashroomsCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      spaceId: spaceId ?? this.spaceId,
+      qrCode: qrCode ?? this.qrCode,
+      cleaningStatus: cleaningStatus ?? this.cleaningStatus,
+      lastAttendedAt: lastAttendedAt ?? this.lastAttendedAt,
+      nextDueAt: nextDueAt ?? this.nextDueAt,
+      tissueStatus: tissueStatus ?? this.tissueStatus,
+      soapStatus: soapStatus ?? this.soapStatus,
+      sensorAlertNote: sensorAlertNote ?? this.sensorAlertNote,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<String>(siteId.value);
+    }
+    if (spaceId.present) {
+      map['space_id'] = Variable<String>(spaceId.value);
+    }
+    if (qrCode.present) {
+      map['qr_code'] = Variable<String>(qrCode.value);
+    }
+    if (cleaningStatus.present) {
+      map['cleaning_status'] = Variable<String>(cleaningStatus.value);
+    }
+    if (lastAttendedAt.present) {
+      map['last_attended_at'] = Variable<DateTime>(lastAttendedAt.value);
+    }
+    if (nextDueAt.present) {
+      map['next_due_at'] = Variable<DateTime>(nextDueAt.value);
+    }
+    if (tissueStatus.present) {
+      map['tissue_status'] = Variable<String>(tissueStatus.value);
+    }
+    if (soapStatus.present) {
+      map['soap_status'] = Variable<String>(soapStatus.value);
+    }
+    if (sensorAlertNote.present) {
+      map['sensor_alert_note'] = Variable<String>(sensorAlertNote.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WashroomsCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('qrCode: $qrCode, ')
+          ..write('cleaningStatus: $cleaningStatus, ')
+          ..write('lastAttendedAt: $lastAttendedAt, ')
+          ..write('nextDueAt: $nextDueAt, ')
+          ..write('tissueStatus: $tissueStatus, ')
+          ..write('soapStatus: $soapStatus, ')
+          ..write('sensorAlertNote: $sensorAlertNote, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -21951,6 +22633,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $RequestCommentsTable requestComments = $RequestCommentsTable(
     this,
   );
+  late final $WashroomsTable washrooms = $WashroomsTable(this);
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -21975,6 +22658,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final CleaningTaskDao cleaningTaskDao = CleaningTaskDao(
     this as AppDatabase,
   );
+  late final WashroomDao washroomDao = WashroomDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -22013,6 +22697,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     cleaningTaskInspectionPoints,
     cleaningTaskInspectionResponses,
     requestComments,
+    washrooms,
   ];
 }
 
@@ -22238,6 +22923,24 @@ final class $$SitesTableReferences
     ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_cleaningTasksRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$WashroomsTable, List<Washroom>>
+  _washroomsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.washrooms,
+    aliasName: $_aliasNameGenerator(db.sites.id, db.washrooms.siteId),
+  );
+
+  $$WashroomsTableProcessedTableManager get washroomsRefs {
+    final manager = $$WashroomsTableTableManager(
+      $_db,
+      $_db.washrooms,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_washroomsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -22538,6 +23241,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$CleaningTasksTableFilterComposer(
             $db: $db,
             $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> washroomsRefs(
+    Expression<bool> Function($$WashroomsTableFilterComposer f) f,
+  ) {
+    final $$WashroomsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.washrooms,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WashroomsTableFilterComposer(
+            $db: $db,
+            $table: $db.washrooms,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -22894,6 +23622,31 @@ class $$SitesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> washroomsRefs<T extends Object>(
+    Expression<T> Function($$WashroomsTableAnnotationComposer a) f,
+  ) {
+    final $$WashroomsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.washrooms,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WashroomsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.washrooms,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -22920,6 +23673,7 @@ class $$SitesTableTableManager
             bool incidentsRefs,
             bool hazardsRefs,
             bool cleaningTasksRefs,
+            bool washroomsRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -22999,6 +23753,7 @@ class $$SitesTableTableManager
                 incidentsRefs = false,
                 hazardsRefs = false,
                 cleaningTasksRefs = false,
+                washroomsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -23013,6 +23768,7 @@ class $$SitesTableTableManager
                     if (incidentsRefs) db.incidents,
                     if (hazardsRefs) db.hazards,
                     if (cleaningTasksRefs) db.cleaningTasks,
+                    if (washroomsRefs) db.washrooms,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -23199,6 +23955,23 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (washroomsRefs)
+                        await $_getPrefetchedData<Site, $SitesTable, Washroom>(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._washroomsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).washroomsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -23230,6 +24003,7 @@ typedef $$SitesTableProcessedTableManager =
         bool incidentsRefs,
         bool hazardsRefs,
         bool cleaningTasksRefs,
+        bool washroomsRefs,
       })
     >;
 typedef $$BuildingsTableCreateCompanionBuilder =
@@ -24146,6 +24920,24 @@ final class $$SpacesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$WashroomsTable, List<Washroom>>
+  _washroomsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.washrooms,
+    aliasName: $_aliasNameGenerator(db.spaces.id, db.washrooms.spaceId),
+  );
+
+  $$WashroomsTableProcessedTableManager get washroomsRefs {
+    final manager = $$WashroomsTableTableManager(
+      $_db,
+      $_db.washrooms,
+    ).filter((f) => f.spaceId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_washroomsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SpacesTableFilterComposer
@@ -24346,6 +25138,31 @@ class $$SpacesTableFilterComposer
           }) => $$CleaningTasksTableFilterComposer(
             $db: $db,
             $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> washroomsRefs(
+    Expression<bool> Function($$WashroomsTableFilterComposer f) f,
+  ) {
+    final $$WashroomsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.washrooms,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WashroomsTableFilterComposer(
+            $db: $db,
+            $table: $db.washrooms,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -24612,6 +25429,31 @@ class $$SpacesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> washroomsRefs<T extends Object>(
+    Expression<T> Function($$WashroomsTableAnnotationComposer a) f,
+  ) {
+    final $$WashroomsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.washrooms,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WashroomsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.washrooms,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SpacesTableTableManager
@@ -24635,6 +25477,7 @@ class $$SpacesTableTableManager
             bool incidentsRefs,
             bool hazardsRefs,
             bool cleaningTasksRefs,
+            bool washroomsRefs,
           })
         > {
   $$SpacesTableTableManager(_$AppDatabase db, $SpacesTable table)
@@ -24699,6 +25542,7 @@ class $$SpacesTableTableManager
                 incidentsRefs = false,
                 hazardsRefs = false,
                 cleaningTasksRefs = false,
+                washroomsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -24709,6 +25553,7 @@ class $$SpacesTableTableManager
                     if (incidentsRefs) db.incidents,
                     if (hazardsRefs) db.hazards,
                     if (cleaningTasksRefs) db.cleaningTasks,
+                    if (washroomsRefs) db.washrooms,
                   ],
                   addJoins:
                       <
@@ -24858,6 +25703,27 @@ class $$SpacesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (washroomsRefs)
+                        await $_getPrefetchedData<
+                          Space,
+                          $SpacesTable,
+                          Washroom
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SpacesTableReferences
+                              ._washroomsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SpacesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).washroomsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.spaceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -24886,6 +25752,7 @@ typedef $$SpacesTableProcessedTableManager =
         bool incidentsRefs,
         bool hazardsRefs,
         bool cleaningTasksRefs,
+        bool washroomsRefs,
       })
     >;
 typedef $$AssetsTableCreateCompanionBuilder =
@@ -40360,6 +41227,535 @@ typedef $$RequestCommentsTableProcessedTableManager =
       RequestComment,
       PrefetchHooks Function({bool requestId})
     >;
+typedef $$WashroomsTableCreateCompanionBuilder =
+    WashroomsCompanion Function({
+      required String id,
+      required String siteId,
+      required String spaceId,
+      required String qrCode,
+      Value<String> cleaningStatus,
+      Value<DateTime?> lastAttendedAt,
+      Value<DateTime?> nextDueAt,
+      Value<String> tissueStatus,
+      Value<String> soapStatus,
+      Value<String?> sensorAlertNote,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$WashroomsTableUpdateCompanionBuilder =
+    WashroomsCompanion Function({
+      Value<String> id,
+      Value<String> siteId,
+      Value<String> spaceId,
+      Value<String> qrCode,
+      Value<String> cleaningStatus,
+      Value<DateTime?> lastAttendedAt,
+      Value<DateTime?> nextDueAt,
+      Value<String> tissueStatus,
+      Value<String> soapStatus,
+      Value<String?> sensorAlertNote,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+final class $$WashroomsTableReferences
+    extends BaseReferences<_$AppDatabase, $WashroomsTable, Washroom> {
+  $$WashroomsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) => db.sites.createAlias(
+    $_aliasNameGenerator(db.washrooms.siteId, db.sites.id),
+  );
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<String>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SpacesTable _spaceIdTable(_$AppDatabase db) => db.spaces.createAlias(
+    $_aliasNameGenerator(db.washrooms.spaceId, db.spaces.id),
+  );
+
+  $$SpacesTableProcessedTableManager get spaceId {
+    final $_column = $_itemColumn<String>('space_id')!;
+
+    final manager = $$SpacesTableTableManager(
+      $_db,
+      $_db.spaces,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_spaceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$WashroomsTableFilterComposer
+    extends Composer<_$AppDatabase, $WashroomsTable> {
+  $$WashroomsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get qrCode => $composableBuilder(
+    column: $table.qrCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get cleaningStatus => $composableBuilder(
+    column: $table.cleaningStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastAttendedAt => $composableBuilder(
+    column: $table.lastAttendedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get nextDueAt => $composableBuilder(
+    column: $table.nextDueAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tissueStatus => $composableBuilder(
+    column: $table.tissueStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get soapStatus => $composableBuilder(
+    column: $table.soapStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sensorAlertNote => $composableBuilder(
+    column: $table.sensorAlertNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableFilterComposer get spaceId {
+    final $$SpacesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableFilterComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$WashroomsTableOrderingComposer
+    extends Composer<_$AppDatabase, $WashroomsTable> {
+  $$WashroomsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get qrCode => $composableBuilder(
+    column: $table.qrCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get cleaningStatus => $composableBuilder(
+    column: $table.cleaningStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastAttendedAt => $composableBuilder(
+    column: $table.lastAttendedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get nextDueAt => $composableBuilder(
+    column: $table.nextDueAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tissueStatus => $composableBuilder(
+    column: $table.tissueStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get soapStatus => $composableBuilder(
+    column: $table.soapStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sensorAlertNote => $composableBuilder(
+    column: $table.sensorAlertNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableOrderingComposer get spaceId {
+    final $$SpacesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableOrderingComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$WashroomsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $WashroomsTable> {
+  $$WashroomsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get qrCode =>
+      $composableBuilder(column: $table.qrCode, builder: (column) => column);
+
+  GeneratedColumn<String> get cleaningStatus => $composableBuilder(
+    column: $table.cleaningStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get lastAttendedAt => $composableBuilder(
+    column: $table.lastAttendedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get nextDueAt =>
+      $composableBuilder(column: $table.nextDueAt, builder: (column) => column);
+
+  GeneratedColumn<String> get tissueStatus => $composableBuilder(
+    column: $table.tissueStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get soapStatus => $composableBuilder(
+    column: $table.soapStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sensorAlertNote => $composableBuilder(
+    column: $table.sensorAlertNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableAnnotationComposer get spaceId {
+    final $$SpacesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$WashroomsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $WashroomsTable,
+          Washroom,
+          $$WashroomsTableFilterComposer,
+          $$WashroomsTableOrderingComposer,
+          $$WashroomsTableAnnotationComposer,
+          $$WashroomsTableCreateCompanionBuilder,
+          $$WashroomsTableUpdateCompanionBuilder,
+          (Washroom, $$WashroomsTableReferences),
+          Washroom,
+          PrefetchHooks Function({bool siteId, bool spaceId})
+        > {
+  $$WashroomsTableTableManager(_$AppDatabase db, $WashroomsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WashroomsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WashroomsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$WashroomsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> siteId = const Value.absent(),
+                Value<String> spaceId = const Value.absent(),
+                Value<String> qrCode = const Value.absent(),
+                Value<String> cleaningStatus = const Value.absent(),
+                Value<DateTime?> lastAttendedAt = const Value.absent(),
+                Value<DateTime?> nextDueAt = const Value.absent(),
+                Value<String> tissueStatus = const Value.absent(),
+                Value<String> soapStatus = const Value.absent(),
+                Value<String?> sensorAlertNote = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => WashroomsCompanion(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                qrCode: qrCode,
+                cleaningStatus: cleaningStatus,
+                lastAttendedAt: lastAttendedAt,
+                nextDueAt: nextDueAt,
+                tissueStatus: tissueStatus,
+                soapStatus: soapStatus,
+                sensorAlertNote: sensorAlertNote,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String siteId,
+                required String spaceId,
+                required String qrCode,
+                Value<String> cleaningStatus = const Value.absent(),
+                Value<DateTime?> lastAttendedAt = const Value.absent(),
+                Value<DateTime?> nextDueAt = const Value.absent(),
+                Value<String> tissueStatus = const Value.absent(),
+                Value<String> soapStatus = const Value.absent(),
+                Value<String?> sensorAlertNote = const Value.absent(),
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => WashroomsCompanion.insert(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                qrCode: qrCode,
+                cleaningStatus: cleaningStatus,
+                lastAttendedAt: lastAttendedAt,
+                nextDueAt: nextDueAt,
+                tissueStatus: tissueStatus,
+                soapStatus: soapStatus,
+                sensorAlertNote: sensorAlertNote,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$WashroomsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, spaceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$WashroomsTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn: $$WashroomsTableReferences
+                                    ._siteIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (spaceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.spaceId,
+                                referencedTable: $$WashroomsTableReferences
+                                    ._spaceIdTable(db),
+                                referencedColumn: $$WashroomsTableReferences
+                                    ._spaceIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$WashroomsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $WashroomsTable,
+      Washroom,
+      $$WashroomsTableFilterComposer,
+      $$WashroomsTableOrderingComposer,
+      $$WashroomsTableAnnotationComposer,
+      $$WashroomsTableCreateCompanionBuilder,
+      $$WashroomsTableUpdateCompanionBuilder,
+      (Washroom, $$WashroomsTableReferences),
+      Washroom,
+      PrefetchHooks Function({bool siteId, bool spaceId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -40441,6 +41837,8 @@ class $AppDatabaseManager {
       );
   $$RequestCommentsTableTableManager get requestComments =>
       $$RequestCommentsTableTableManager(_db, _db.requestComments);
+  $$WashroomsTableTableManager get washrooms =>
+      $$WashroomsTableTableManager(_db, _db.washrooms);
 }
 
 // **************************************************************************

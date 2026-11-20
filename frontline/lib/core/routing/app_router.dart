@@ -8,6 +8,8 @@ import '../../features/cleaning/presentation/cleaning_tasks_screen.dart';
 import '../../features/fleet/presentation/my_vehicle_screen.dart';
 import '../../features/identity/presentation/auth_controller.dart';
 import '../../features/inventory/presentation/inventory_item_screen.dart';
+import '../../features/washrooms/presentation/washroom_detail_screen.dart';
+import '../../features/washrooms/presentation/washrooms_screen.dart';
 import '../../features/identity/presentation/login_screen.dart';
 import '../../features/location/presentation/site_selector_screen.dart';
 import '../../features/more/presentation/more_screen.dart';
@@ -98,6 +100,16 @@ GoRouter appRouter(Ref ref) {
         path: '/inventory/:id',
         builder: (context, state) => InventoryItemScreen(
           itemId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/washrooms',
+        builder: (context, state) => const WashroomsScreen(),
+      ),
+      GoRoute(
+        path: '/washrooms/:id',
+        builder: (context, state) => WashroomDetailScreen(
+          washroomId: state.pathParameters['id']!,
         ),
       ),
       GoRoute(

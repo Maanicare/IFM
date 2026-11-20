@@ -1,0 +1,13 @@
+[
+  {
+    "id": "wr-1001",
+    "siteId": "site-brt-01",
+    "spaceId": "spc-03",
+    "qrCode": "WR-F8-M-01",
+    "cleaningStatus": "needs_attention",
+    "lastAttendedOffsetMinutes": -180,
+    "nextDueOffsetMinutes": 30,
+    "tissueStatus": "low",
+    "soapStatus": "ok"
+  }
+]

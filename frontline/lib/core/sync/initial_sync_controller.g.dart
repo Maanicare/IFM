@@ -57,7 +57,7 @@ final class InitialSyncControllerProvider
 }
 
 String _$initialSyncControllerHash() =>
-    r'19fef59c9569ff18b450a16a206e6c1d3572181b';
+    r'8102b21a4fa632a8f019cafa64239eec664e7ff3';
 
 /// Pulls down everything the frontline app needs to work offline the
 /// instant a session is established: location hierarchy, assets,

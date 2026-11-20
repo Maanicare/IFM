@@ -141,9 +141,19 @@ Access gated by a new `manageCleaningTask` action, granted to
 Housekeeping Employee and Housekeeping Supervisor (another
 interpretation — the spec doesn't name roles per screen).
 
+## Screen 22 - Washroom Experience — DONE (with documented interpretation)
+
+Cleaning status, Last attended, Next due, Consumables (Tissue/Soap),
+Sensor alerts (free-text note, no IoT integration exists) are all
+shown. **"Complaints" and the "QR Options" (Cleaning/Tissue/Soap/
+Odour/Plumbing/Other) are not a separate reporting model** - the QR
+options create a normal Create Request entry against the washroom's
+space, and "Complaints" is just the open requests at that space. This
+reuses the existing Request pipeline (tracking, SLA) instead of
+building a second, parallel one.
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 22 — Washroom Experience
 - Screen 23 — Soft Service Inspection
 - Screen 34 — Safety Home
 - Screen 37 — Permit to Work

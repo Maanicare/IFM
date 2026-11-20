@@ -16,7 +16,10 @@ import '../../location/presentation/current_site_provider.dart';
 /// "Equipment" and "Room" are not separate data models in this schema -
 /// they're covered by Asset and Space respectively. NFC reads the tag's
 /// raw UID (see `NfcService`'s doc comment for why) through the same
-/// lookup/result-sheet path as a scanned code.
+/// lookup/result-sheet path as a scanned code. Washroom (Screen 22's own
+/// "QR Options") is also resolved here, checked against its own distinct
+/// `qrCode` (not a Space's `spaceCode`) so a washroom QR opens its
+/// richer status/report screen instead of the plain Space sheet.
 class ScanScreen extends ConsumerStatefulWidget {
   const ScanScreen({super.key});
 
@@ -99,6 +102,12 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           builder: (context) => _InventoryResultSheet(entry: withBalance!),
         );
       }
+      return;
+    }
+
+    final washroom = await db.washroomDao.byQrCode(code);
+    if (washroom != null) {
+      if (mounted) context.push('/washrooms/${washroom.id}');
       return;
     }
 

@@ -11,6 +11,7 @@ import '../../features/location/data/location_repository_provider.dart';
 import '../../features/requests/data/request_repository_provider.dart';
 import '../../features/shift_handover/data/shift_handover_repository_provider.dart';
 import '../../features/shift_roster/data/shift_roster_repository_provider.dart';
+import '../../features/washrooms/data/washroom_repository_provider.dart';
 import '../../features/work_orders/data/work_order_repository_provider.dart';
 import '../config/app_config.dart';
 import '../db/app_database.dart';
@@ -63,6 +64,7 @@ class InitialSyncController extends _$InitialSyncController {
           ref
               .read(cleaningTaskRepositoryProvider)
               .syncAssignedTasks(userId: userId, siteId: siteId),
+          ref.read(washroomRepositoryProvider).syncForSite(siteId),
         ]);
       }
       if (AppConfig.useMock) {
