@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/assets/data/asset_repository_provider.dart';
 import '../../features/checklists/data/checklist_repository_provider.dart';
+import '../../features/cleaning/data/cleaning_task_repository_provider.dart';
 import '../../features/fleet/data/fleet_repository_provider.dart';
 import '../../features/identity/presentation/auth_controller.dart';
 import '../../features/inventory/data/inventory_repository_provider.dart';
@@ -59,6 +60,9 @@ class InitialSyncController extends _$InitialSyncController {
           ref.read(inventoryRepositoryProvider).syncCatalogueForSite(siteId),
           ref.read(shiftHandoverRepositoryProvider).syncLatestForSite(siteId),
           ref.read(shiftRosterRepositoryProvider).syncForSite(siteId),
+          ref
+              .read(cleaningTaskRepositoryProvider)
+              .syncAssignedTasks(userId: userId, siteId: siteId),
         ]);
       }
       if (AppConfig.useMock) {

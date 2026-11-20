@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/assets/presentation/asset_profile_screen.dart';
+import '../../features/cleaning/presentation/cleaning_task_detail_screen.dart';
+import '../../features/cleaning/presentation/cleaning_tasks_screen.dart';
 import '../../features/fleet/presentation/my_vehicle_screen.dart';
 import '../../features/identity/presentation/auth_controller.dart';
 import '../../features/identity/presentation/login_screen.dart';
@@ -90,6 +92,16 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/my-vehicle',
         builder: (context, state) => const MyVehicleScreen(),
+      ),
+      GoRoute(
+        path: '/cleaning-tasks',
+        builder: (context, state) => const CleaningTasksScreen(),
+      ),
+      GoRoute(
+        path: '/cleaning-tasks/:id',
+        builder: (context, state) => CleaningTaskDetailScreen(
+          cleaningTaskId: state.pathParameters['id']!,
+        ),
       ),
       GoRoute(
         path: '/search',

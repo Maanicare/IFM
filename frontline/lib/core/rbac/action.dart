@@ -23,6 +23,7 @@ enum AppAction {
   viewOtherClientsData,
   reportIncident,
   manageFleetTrip,
+  manageCleaningTask,
 }
 
 /// The flat Frontline bottom-nav tabs (Section 14). A role's app shell

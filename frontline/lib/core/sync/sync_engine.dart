@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/assets/data/asset_repository_provider.dart';
 import '../../features/attachments/data/attachment_upload_repository_provider.dart';
 import '../../features/checklists/data/checklist_repository_provider.dart';
+import '../../features/cleaning/data/cleaning_task_repository_provider.dart';
 import '../../features/fleet/data/fleet_repository_provider.dart';
 import '../../features/inventory/data/inventory_repository_provider.dart';
 import '../../features/requests/data/request_repository_provider.dart';
@@ -131,6 +132,9 @@ class SyncEngine {
           break;
         case 'fleet_trip':
           await _pushFleetTrip(entry);
+          break;
+        case 'cleaning_task_completion':
+          await _ref.read(cleaningTaskRepositoryProvider).pushCompletion(entry.entityId);
           break;
         default:
           AppLogger.instance.warning(

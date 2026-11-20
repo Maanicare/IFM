@@ -68,6 +68,7 @@ class PolicyGuard {
       AppAction.submitChecklistResponse,
       AppAction.createServiceRequest,
       AppAction.reportIncident,
+      AppAction.manageCleaningTask,
     },
     UserRole.housekeepingSupervisor: {
       AppAction.viewWorkOrder,
@@ -81,6 +82,7 @@ class PolicyGuard {
       AppAction.createServiceRequest,
       AppAction.cancelServiceRequest,
       AppAction.reportIncident,
+      AppAction.manageCleaningTask,
     },
     UserRole.vendorSupervisor: {
       AppAction.viewWorkOrder,

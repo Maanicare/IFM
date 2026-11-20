@@ -1,0 +1,7 @@
+[
+  { "id": "ctip-1", "cleaningTaskId": "ct-1001", "sequence": 1, "description": "Floor dry and free of debris" },
+  { "id": "ctip-2", "cleaningTaskId": "ct-1001", "sequence": 2, "description": "All fixtures disinfected" },
+  { "id": "ctip-3", "cleaningTaskId": "ct-1001", "sequence": 3, "description": "Consumables (soap, tissue) restocked" },
+  { "id": "ctip-4", "cleaningTaskId": "ct-1002", "sequence": 1, "description": "No visible streaks or residue" },
+  { "id": "ctip-5", "cleaningTaskId": "ct-1002", "sequence": 2, "description": "No slip hazard left unmarked" }
+]

@@ -111,9 +111,28 @@ requirement is shown as a flag/type only (`permitRequired`/
 covered by the generic 3-question Safety Gate, not a per-WO controls
 list.
 
+## Screen 21 - Cleaning Task — DONE (with documented interpretations)
+
+Fields (Area/Cleaning type/SOP/Frequency/Last clean/Expected duration/
+Assigned employee/Materials) and Completion (Checklist/Photo if
+required/Consumables used/Exception) are built. Two deliberate
+interpretations, since the spec doesn't define the exact data shape:
+
+- **Inspection points (Fields) and Checklist (Completion) are one
+  structure**, not two — the predefined inspection points are what
+  get checked off (Pass/Fail) at completion, rather than building a
+  second parallel checklist system alongside the one [Checklists]
+  already provides for work orders.
+- **Consumables used is a free-text note**, not a real inventory
+  deduction — wiring it into `InventoryTransactions` needs the same
+  schema work already tracked above as the Screen 33 gap.
+
+Access gated by a new `manageCleaningTask` action, granted to
+Housekeeping Employee and Housekeeping Supervisor (another
+interpretation — the spec doesn't name roles per screen).
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 21 — Cleaning Task
 - Screen 22 — Washroom Experience
 - Screen 23 — Soft Service Inspection
 - Screen 34 — Safety Home

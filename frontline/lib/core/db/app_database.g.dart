@@ -18886,6 +18886,1915 @@ class TripsCompanion extends UpdateCompanion<Trip> {
   }
 }
 
+class $CleaningTasksTable extends CleaningTasks
+    with TableInfo<$CleaningTasksTable, CleaningTask> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CleaningTasksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<String> siteId = GeneratedColumn<String>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _spaceIdMeta = const VerificationMeta(
+    'spaceId',
+  );
+  @override
+  late final GeneratedColumn<String> spaceId = GeneratedColumn<String>(
+    'space_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES spaces (id)',
+    ),
+  );
+  static const VerificationMeta _cleaningTypeMeta = const VerificationMeta(
+    'cleaningType',
+  );
+  @override
+  late final GeneratedColumn<String> cleaningType = GeneratedColumn<String>(
+    'cleaning_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sopNoteMeta = const VerificationMeta(
+    'sopNote',
+  );
+  @override
+  late final GeneratedColumn<String> sopNote = GeneratedColumn<String>(
+    'sop_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _frequencyMeta = const VerificationMeta(
+    'frequency',
+  );
+  @override
+  late final GeneratedColumn<String> frequency = GeneratedColumn<String>(
+    'frequency',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastCleanAtMeta = const VerificationMeta(
+    'lastCleanAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastCleanAt = GeneratedColumn<DateTime>(
+    'last_clean_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _expectedMinutesMeta = const VerificationMeta(
+    'expectedMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> expectedMinutes = GeneratedColumn<int>(
+    'expected_minutes',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _assignedUserIdMeta = const VerificationMeta(
+    'assignedUserId',
+  );
+  @override
+  late final GeneratedColumn<String> assignedUserId = GeneratedColumn<String>(
+    'assigned_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _materialsNoteMeta = const VerificationMeta(
+    'materialsNote',
+  );
+  @override
+  late final GeneratedColumn<String> materialsNote = GeneratedColumn<String>(
+    'materials_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _photoRequiredMeta = const VerificationMeta(
+    'photoRequired',
+  );
+  @override
+  late final GeneratedColumn<bool> photoRequired = GeneratedColumn<bool>(
+    'photo_required',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("photo_required" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('pending'),
+  );
+  static const VerificationMeta _scheduledDateMeta = const VerificationMeta(
+    'scheduledDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> scheduledDate =
+      GeneratedColumn<DateTime>(
+        'scheduled_date',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _completedAtMeta = const VerificationMeta(
+    'completedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
+    'completed_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _consumablesNoteMeta = const VerificationMeta(
+    'consumablesNote',
+  );
+  @override
+  late final GeneratedColumn<String> consumablesNote = GeneratedColumn<String>(
+    'consumables_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _exceptionNoteMeta = const VerificationMeta(
+    'exceptionNote',
+  );
+  @override
+  late final GeneratedColumn<String> exceptionNote = GeneratedColumn<String>(
+    'exception_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hasPendingLocalChangesMeta =
+      const VerificationMeta('hasPendingLocalChanges');
+  @override
+  late final GeneratedColumn<bool> hasPendingLocalChanges =
+      GeneratedColumn<bool>(
+        'has_pending_local_changes',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("has_pending_local_changes" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    siteId,
+    spaceId,
+    cleaningType,
+    sopNote,
+    frequency,
+    lastCleanAt,
+    expectedMinutes,
+    assignedUserId,
+    materialsNote,
+    photoRequired,
+    status,
+    scheduledDate,
+    completedAt,
+    consumablesNote,
+    exceptionNote,
+    hasPendingLocalChanges,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cleaning_tasks';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CleaningTask> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('space_id')) {
+      context.handle(
+        _spaceIdMeta,
+        spaceId.isAcceptableOrUnknown(data['space_id']!, _spaceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_spaceIdMeta);
+    }
+    if (data.containsKey('cleaning_type')) {
+      context.handle(
+        _cleaningTypeMeta,
+        cleaningType.isAcceptableOrUnknown(
+          data['cleaning_type']!,
+          _cleaningTypeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_cleaningTypeMeta);
+    }
+    if (data.containsKey('sop_note')) {
+      context.handle(
+        _sopNoteMeta,
+        sopNote.isAcceptableOrUnknown(data['sop_note']!, _sopNoteMeta),
+      );
+    }
+    if (data.containsKey('frequency')) {
+      context.handle(
+        _frequencyMeta,
+        frequency.isAcceptableOrUnknown(data['frequency']!, _frequencyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_frequencyMeta);
+    }
+    if (data.containsKey('last_clean_at')) {
+      context.handle(
+        _lastCleanAtMeta,
+        lastCleanAt.isAcceptableOrUnknown(
+          data['last_clean_at']!,
+          _lastCleanAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('expected_minutes')) {
+      context.handle(
+        _expectedMinutesMeta,
+        expectedMinutes.isAcceptableOrUnknown(
+          data['expected_minutes']!,
+          _expectedMinutesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('assigned_user_id')) {
+      context.handle(
+        _assignedUserIdMeta,
+        assignedUserId.isAcceptableOrUnknown(
+          data['assigned_user_id']!,
+          _assignedUserIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('materials_note')) {
+      context.handle(
+        _materialsNoteMeta,
+        materialsNote.isAcceptableOrUnknown(
+          data['materials_note']!,
+          _materialsNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('photo_required')) {
+      context.handle(
+        _photoRequiredMeta,
+        photoRequired.isAcceptableOrUnknown(
+          data['photo_required']!,
+          _photoRequiredMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('scheduled_date')) {
+      context.handle(
+        _scheduledDateMeta,
+        scheduledDate.isAcceptableOrUnknown(
+          data['scheduled_date']!,
+          _scheduledDateMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_scheduledDateMeta);
+    }
+    if (data.containsKey('completed_at')) {
+      context.handle(
+        _completedAtMeta,
+        completedAt.isAcceptableOrUnknown(
+          data['completed_at']!,
+          _completedAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('consumables_note')) {
+      context.handle(
+        _consumablesNoteMeta,
+        consumablesNote.isAcceptableOrUnknown(
+          data['consumables_note']!,
+          _consumablesNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('exception_note')) {
+      context.handle(
+        _exceptionNoteMeta,
+        exceptionNote.isAcceptableOrUnknown(
+          data['exception_note']!,
+          _exceptionNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('has_pending_local_changes')) {
+      context.handle(
+        _hasPendingLocalChangesMeta,
+        hasPendingLocalChanges.isAcceptableOrUnknown(
+          data['has_pending_local_changes']!,
+          _hasPendingLocalChangesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CleaningTask map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CleaningTask(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_id'],
+      )!,
+      spaceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}space_id'],
+      )!,
+      cleaningType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cleaning_type'],
+      )!,
+      sopNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sop_note'],
+      ),
+      frequency: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}frequency'],
+      )!,
+      lastCleanAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_clean_at'],
+      ),
+      expectedMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}expected_minutes'],
+      ),
+      assignedUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}assigned_user_id'],
+      ),
+      materialsNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}materials_note'],
+      ),
+      photoRequired: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}photo_required'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      scheduledDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}scheduled_date'],
+      )!,
+      completedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}completed_at'],
+      ),
+      consumablesNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}consumables_note'],
+      ),
+      exceptionNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}exception_note'],
+      ),
+      hasPendingLocalChanges: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}has_pending_local_changes'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $CleaningTasksTable createAlias(String alias) {
+    return $CleaningTasksTable(attachedDatabase, alias);
+  }
+}
+
+class CleaningTask extends DataClass implements Insertable<CleaningTask> {
+  final String id;
+  final String siteId;
+  final String spaceId;
+  final String cleaningType;
+  final String? sopNote;
+  final String frequency;
+  final DateTime? lastCleanAt;
+  final int? expectedMinutes;
+  final String? assignedUserId;
+  final String? materialsNote;
+  final bool photoRequired;
+  final String status;
+  final DateTime scheduledDate;
+  final DateTime? completedAt;
+  final String? consumablesNote;
+  final String? exceptionNote;
+  final bool hasPendingLocalChanges;
+  final DateTime updatedAt;
+  const CleaningTask({
+    required this.id,
+    required this.siteId,
+    required this.spaceId,
+    required this.cleaningType,
+    this.sopNote,
+    required this.frequency,
+    this.lastCleanAt,
+    this.expectedMinutes,
+    this.assignedUserId,
+    this.materialsNote,
+    required this.photoRequired,
+    required this.status,
+    required this.scheduledDate,
+    this.completedAt,
+    this.consumablesNote,
+    this.exceptionNote,
+    required this.hasPendingLocalChanges,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['site_id'] = Variable<String>(siteId);
+    map['space_id'] = Variable<String>(spaceId);
+    map['cleaning_type'] = Variable<String>(cleaningType);
+    if (!nullToAbsent || sopNote != null) {
+      map['sop_note'] = Variable<String>(sopNote);
+    }
+    map['frequency'] = Variable<String>(frequency);
+    if (!nullToAbsent || lastCleanAt != null) {
+      map['last_clean_at'] = Variable<DateTime>(lastCleanAt);
+    }
+    if (!nullToAbsent || expectedMinutes != null) {
+      map['expected_minutes'] = Variable<int>(expectedMinutes);
+    }
+    if (!nullToAbsent || assignedUserId != null) {
+      map['assigned_user_id'] = Variable<String>(assignedUserId);
+    }
+    if (!nullToAbsent || materialsNote != null) {
+      map['materials_note'] = Variable<String>(materialsNote);
+    }
+    map['photo_required'] = Variable<bool>(photoRequired);
+    map['status'] = Variable<String>(status);
+    map['scheduled_date'] = Variable<DateTime>(scheduledDate);
+    if (!nullToAbsent || completedAt != null) {
+      map['completed_at'] = Variable<DateTime>(completedAt);
+    }
+    if (!nullToAbsent || consumablesNote != null) {
+      map['consumables_note'] = Variable<String>(consumablesNote);
+    }
+    if (!nullToAbsent || exceptionNote != null) {
+      map['exception_note'] = Variable<String>(exceptionNote);
+    }
+    map['has_pending_local_changes'] = Variable<bool>(hasPendingLocalChanges);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  CleaningTasksCompanion toCompanion(bool nullToAbsent) {
+    return CleaningTasksCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      spaceId: Value(spaceId),
+      cleaningType: Value(cleaningType),
+      sopNote: sopNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sopNote),
+      frequency: Value(frequency),
+      lastCleanAt: lastCleanAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastCleanAt),
+      expectedMinutes: expectedMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expectedMinutes),
+      assignedUserId: assignedUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(assignedUserId),
+      materialsNote: materialsNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(materialsNote),
+      photoRequired: Value(photoRequired),
+      status: Value(status),
+      scheduledDate: Value(scheduledDate),
+      completedAt: completedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(completedAt),
+      consumablesNote: consumablesNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(consumablesNote),
+      exceptionNote: exceptionNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exceptionNote),
+      hasPendingLocalChanges: Value(hasPendingLocalChanges),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory CleaningTask.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CleaningTask(
+      id: serializer.fromJson<String>(json['id']),
+      siteId: serializer.fromJson<String>(json['siteId']),
+      spaceId: serializer.fromJson<String>(json['spaceId']),
+      cleaningType: serializer.fromJson<String>(json['cleaningType']),
+      sopNote: serializer.fromJson<String?>(json['sopNote']),
+      frequency: serializer.fromJson<String>(json['frequency']),
+      lastCleanAt: serializer.fromJson<DateTime?>(json['lastCleanAt']),
+      expectedMinutes: serializer.fromJson<int?>(json['expectedMinutes']),
+      assignedUserId: serializer.fromJson<String?>(json['assignedUserId']),
+      materialsNote: serializer.fromJson<String?>(json['materialsNote']),
+      photoRequired: serializer.fromJson<bool>(json['photoRequired']),
+      status: serializer.fromJson<String>(json['status']),
+      scheduledDate: serializer.fromJson<DateTime>(json['scheduledDate']),
+      completedAt: serializer.fromJson<DateTime?>(json['completedAt']),
+      consumablesNote: serializer.fromJson<String?>(json['consumablesNote']),
+      exceptionNote: serializer.fromJson<String?>(json['exceptionNote']),
+      hasPendingLocalChanges: serializer.fromJson<bool>(
+        json['hasPendingLocalChanges'],
+      ),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'siteId': serializer.toJson<String>(siteId),
+      'spaceId': serializer.toJson<String>(spaceId),
+      'cleaningType': serializer.toJson<String>(cleaningType),
+      'sopNote': serializer.toJson<String?>(sopNote),
+      'frequency': serializer.toJson<String>(frequency),
+      'lastCleanAt': serializer.toJson<DateTime?>(lastCleanAt),
+      'expectedMinutes': serializer.toJson<int?>(expectedMinutes),
+      'assignedUserId': serializer.toJson<String?>(assignedUserId),
+      'materialsNote': serializer.toJson<String?>(materialsNote),
+      'photoRequired': serializer.toJson<bool>(photoRequired),
+      'status': serializer.toJson<String>(status),
+      'scheduledDate': serializer.toJson<DateTime>(scheduledDate),
+      'completedAt': serializer.toJson<DateTime?>(completedAt),
+      'consumablesNote': serializer.toJson<String?>(consumablesNote),
+      'exceptionNote': serializer.toJson<String?>(exceptionNote),
+      'hasPendingLocalChanges': serializer.toJson<bool>(hasPendingLocalChanges),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  CleaningTask copyWith({
+    String? id,
+    String? siteId,
+    String? spaceId,
+    String? cleaningType,
+    Value<String?> sopNote = const Value.absent(),
+    String? frequency,
+    Value<DateTime?> lastCleanAt = const Value.absent(),
+    Value<int?> expectedMinutes = const Value.absent(),
+    Value<String?> assignedUserId = const Value.absent(),
+    Value<String?> materialsNote = const Value.absent(),
+    bool? photoRequired,
+    String? status,
+    DateTime? scheduledDate,
+    Value<DateTime?> completedAt = const Value.absent(),
+    Value<String?> consumablesNote = const Value.absent(),
+    Value<String?> exceptionNote = const Value.absent(),
+    bool? hasPendingLocalChanges,
+    DateTime? updatedAt,
+  }) => CleaningTask(
+    id: id ?? this.id,
+    siteId: siteId ?? this.siteId,
+    spaceId: spaceId ?? this.spaceId,
+    cleaningType: cleaningType ?? this.cleaningType,
+    sopNote: sopNote.present ? sopNote.value : this.sopNote,
+    frequency: frequency ?? this.frequency,
+    lastCleanAt: lastCleanAt.present ? lastCleanAt.value : this.lastCleanAt,
+    expectedMinutes: expectedMinutes.present
+        ? expectedMinutes.value
+        : this.expectedMinutes,
+    assignedUserId: assignedUserId.present
+        ? assignedUserId.value
+        : this.assignedUserId,
+    materialsNote: materialsNote.present
+        ? materialsNote.value
+        : this.materialsNote,
+    photoRequired: photoRequired ?? this.photoRequired,
+    status: status ?? this.status,
+    scheduledDate: scheduledDate ?? this.scheduledDate,
+    completedAt: completedAt.present ? completedAt.value : this.completedAt,
+    consumablesNote: consumablesNote.present
+        ? consumablesNote.value
+        : this.consumablesNote,
+    exceptionNote: exceptionNote.present
+        ? exceptionNote.value
+        : this.exceptionNote,
+    hasPendingLocalChanges:
+        hasPendingLocalChanges ?? this.hasPendingLocalChanges,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  CleaningTask copyWithCompanion(CleaningTasksCompanion data) {
+    return CleaningTask(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      spaceId: data.spaceId.present ? data.spaceId.value : this.spaceId,
+      cleaningType: data.cleaningType.present
+          ? data.cleaningType.value
+          : this.cleaningType,
+      sopNote: data.sopNote.present ? data.sopNote.value : this.sopNote,
+      frequency: data.frequency.present ? data.frequency.value : this.frequency,
+      lastCleanAt: data.lastCleanAt.present
+          ? data.lastCleanAt.value
+          : this.lastCleanAt,
+      expectedMinutes: data.expectedMinutes.present
+          ? data.expectedMinutes.value
+          : this.expectedMinutes,
+      assignedUserId: data.assignedUserId.present
+          ? data.assignedUserId.value
+          : this.assignedUserId,
+      materialsNote: data.materialsNote.present
+          ? data.materialsNote.value
+          : this.materialsNote,
+      photoRequired: data.photoRequired.present
+          ? data.photoRequired.value
+          : this.photoRequired,
+      status: data.status.present ? data.status.value : this.status,
+      scheduledDate: data.scheduledDate.present
+          ? data.scheduledDate.value
+          : this.scheduledDate,
+      completedAt: data.completedAt.present
+          ? data.completedAt.value
+          : this.completedAt,
+      consumablesNote: data.consumablesNote.present
+          ? data.consumablesNote.value
+          : this.consumablesNote,
+      exceptionNote: data.exceptionNote.present
+          ? data.exceptionNote.value
+          : this.exceptionNote,
+      hasPendingLocalChanges: data.hasPendingLocalChanges.present
+          ? data.hasPendingLocalChanges.value
+          : this.hasPendingLocalChanges,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CleaningTask(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('cleaningType: $cleaningType, ')
+          ..write('sopNote: $sopNote, ')
+          ..write('frequency: $frequency, ')
+          ..write('lastCleanAt: $lastCleanAt, ')
+          ..write('expectedMinutes: $expectedMinutes, ')
+          ..write('assignedUserId: $assignedUserId, ')
+          ..write('materialsNote: $materialsNote, ')
+          ..write('photoRequired: $photoRequired, ')
+          ..write('status: $status, ')
+          ..write('scheduledDate: $scheduledDate, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('consumablesNote: $consumablesNote, ')
+          ..write('exceptionNote: $exceptionNote, ')
+          ..write('hasPendingLocalChanges: $hasPendingLocalChanges, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    siteId,
+    spaceId,
+    cleaningType,
+    sopNote,
+    frequency,
+    lastCleanAt,
+    expectedMinutes,
+    assignedUserId,
+    materialsNote,
+    photoRequired,
+    status,
+    scheduledDate,
+    completedAt,
+    consumablesNote,
+    exceptionNote,
+    hasPendingLocalChanges,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CleaningTask &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.spaceId == this.spaceId &&
+          other.cleaningType == this.cleaningType &&
+          other.sopNote == this.sopNote &&
+          other.frequency == this.frequency &&
+          other.lastCleanAt == this.lastCleanAt &&
+          other.expectedMinutes == this.expectedMinutes &&
+          other.assignedUserId == this.assignedUserId &&
+          other.materialsNote == this.materialsNote &&
+          other.photoRequired == this.photoRequired &&
+          other.status == this.status &&
+          other.scheduledDate == this.scheduledDate &&
+          other.completedAt == this.completedAt &&
+          other.consumablesNote == this.consumablesNote &&
+          other.exceptionNote == this.exceptionNote &&
+          other.hasPendingLocalChanges == this.hasPendingLocalChanges &&
+          other.updatedAt == this.updatedAt);
+}
+
+class CleaningTasksCompanion extends UpdateCompanion<CleaningTask> {
+  final Value<String> id;
+  final Value<String> siteId;
+  final Value<String> spaceId;
+  final Value<String> cleaningType;
+  final Value<String?> sopNote;
+  final Value<String> frequency;
+  final Value<DateTime?> lastCleanAt;
+  final Value<int?> expectedMinutes;
+  final Value<String?> assignedUserId;
+  final Value<String?> materialsNote;
+  final Value<bool> photoRequired;
+  final Value<String> status;
+  final Value<DateTime> scheduledDate;
+  final Value<DateTime?> completedAt;
+  final Value<String?> consumablesNote;
+  final Value<String?> exceptionNote;
+  final Value<bool> hasPendingLocalChanges;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const CleaningTasksCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.spaceId = const Value.absent(),
+    this.cleaningType = const Value.absent(),
+    this.sopNote = const Value.absent(),
+    this.frequency = const Value.absent(),
+    this.lastCleanAt = const Value.absent(),
+    this.expectedMinutes = const Value.absent(),
+    this.assignedUserId = const Value.absent(),
+    this.materialsNote = const Value.absent(),
+    this.photoRequired = const Value.absent(),
+    this.status = const Value.absent(),
+    this.scheduledDate = const Value.absent(),
+    this.completedAt = const Value.absent(),
+    this.consumablesNote = const Value.absent(),
+    this.exceptionNote = const Value.absent(),
+    this.hasPendingLocalChanges = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CleaningTasksCompanion.insert({
+    required String id,
+    required String siteId,
+    required String spaceId,
+    required String cleaningType,
+    this.sopNote = const Value.absent(),
+    required String frequency,
+    this.lastCleanAt = const Value.absent(),
+    this.expectedMinutes = const Value.absent(),
+    this.assignedUserId = const Value.absent(),
+    this.materialsNote = const Value.absent(),
+    this.photoRequired = const Value.absent(),
+    this.status = const Value.absent(),
+    required DateTime scheduledDate,
+    this.completedAt = const Value.absent(),
+    this.consumablesNote = const Value.absent(),
+    this.exceptionNote = const Value.absent(),
+    this.hasPendingLocalChanges = const Value.absent(),
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       siteId = Value(siteId),
+       spaceId = Value(spaceId),
+       cleaningType = Value(cleaningType),
+       frequency = Value(frequency),
+       scheduledDate = Value(scheduledDate),
+       updatedAt = Value(updatedAt);
+  static Insertable<CleaningTask> custom({
+    Expression<String>? id,
+    Expression<String>? siteId,
+    Expression<String>? spaceId,
+    Expression<String>? cleaningType,
+    Expression<String>? sopNote,
+    Expression<String>? frequency,
+    Expression<DateTime>? lastCleanAt,
+    Expression<int>? expectedMinutes,
+    Expression<String>? assignedUserId,
+    Expression<String>? materialsNote,
+    Expression<bool>? photoRequired,
+    Expression<String>? status,
+    Expression<DateTime>? scheduledDate,
+    Expression<DateTime>? completedAt,
+    Expression<String>? consumablesNote,
+    Expression<String>? exceptionNote,
+    Expression<bool>? hasPendingLocalChanges,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (spaceId != null) 'space_id': spaceId,
+      if (cleaningType != null) 'cleaning_type': cleaningType,
+      if (sopNote != null) 'sop_note': sopNote,
+      if (frequency != null) 'frequency': frequency,
+      if (lastCleanAt != null) 'last_clean_at': lastCleanAt,
+      if (expectedMinutes != null) 'expected_minutes': expectedMinutes,
+      if (assignedUserId != null) 'assigned_user_id': assignedUserId,
+      if (materialsNote != null) 'materials_note': materialsNote,
+      if (photoRequired != null) 'photo_required': photoRequired,
+      if (status != null) 'status': status,
+      if (scheduledDate != null) 'scheduled_date': scheduledDate,
+      if (completedAt != null) 'completed_at': completedAt,
+      if (consumablesNote != null) 'consumables_note': consumablesNote,
+      if (exceptionNote != null) 'exception_note': exceptionNote,
+      if (hasPendingLocalChanges != null)
+        'has_pending_local_changes': hasPendingLocalChanges,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CleaningTasksCompanion copyWith({
+    Value<String>? id,
+    Value<String>? siteId,
+    Value<String>? spaceId,
+    Value<String>? cleaningType,
+    Value<String?>? sopNote,
+    Value<String>? frequency,
+    Value<DateTime?>? lastCleanAt,
+    Value<int?>? expectedMinutes,
+    Value<String?>? assignedUserId,
+    Value<String?>? materialsNote,
+    Value<bool>? photoRequired,
+    Value<String>? status,
+    Value<DateTime>? scheduledDate,
+    Value<DateTime?>? completedAt,
+    Value<String?>? consumablesNote,
+    Value<String?>? exceptionNote,
+    Value<bool>? hasPendingLocalChanges,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return CleaningTasksCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      spaceId: spaceId ?? this.spaceId,
+      cleaningType: cleaningType ?? this.cleaningType,
+      sopNote: sopNote ?? this.sopNote,
+      frequency: frequency ?? this.frequency,
+      lastCleanAt: lastCleanAt ?? this.lastCleanAt,
+      expectedMinutes: expectedMinutes ?? this.expectedMinutes,
+      assignedUserId: assignedUserId ?? this.assignedUserId,
+      materialsNote: materialsNote ?? this.materialsNote,
+      photoRequired: photoRequired ?? this.photoRequired,
+      status: status ?? this.status,
+      scheduledDate: scheduledDate ?? this.scheduledDate,
+      completedAt: completedAt ?? this.completedAt,
+      consumablesNote: consumablesNote ?? this.consumablesNote,
+      exceptionNote: exceptionNote ?? this.exceptionNote,
+      hasPendingLocalChanges:
+          hasPendingLocalChanges ?? this.hasPendingLocalChanges,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<String>(siteId.value);
+    }
+    if (spaceId.present) {
+      map['space_id'] = Variable<String>(spaceId.value);
+    }
+    if (cleaningType.present) {
+      map['cleaning_type'] = Variable<String>(cleaningType.value);
+    }
+    if (sopNote.present) {
+      map['sop_note'] = Variable<String>(sopNote.value);
+    }
+    if (frequency.present) {
+      map['frequency'] = Variable<String>(frequency.value);
+    }
+    if (lastCleanAt.present) {
+      map['last_clean_at'] = Variable<DateTime>(lastCleanAt.value);
+    }
+    if (expectedMinutes.present) {
+      map['expected_minutes'] = Variable<int>(expectedMinutes.value);
+    }
+    if (assignedUserId.present) {
+      map['assigned_user_id'] = Variable<String>(assignedUserId.value);
+    }
+    if (materialsNote.present) {
+      map['materials_note'] = Variable<String>(materialsNote.value);
+    }
+    if (photoRequired.present) {
+      map['photo_required'] = Variable<bool>(photoRequired.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (scheduledDate.present) {
+      map['scheduled_date'] = Variable<DateTime>(scheduledDate.value);
+    }
+    if (completedAt.present) {
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
+    }
+    if (consumablesNote.present) {
+      map['consumables_note'] = Variable<String>(consumablesNote.value);
+    }
+    if (exceptionNote.present) {
+      map['exception_note'] = Variable<String>(exceptionNote.value);
+    }
+    if (hasPendingLocalChanges.present) {
+      map['has_pending_local_changes'] = Variable<bool>(
+        hasPendingLocalChanges.value,
+      );
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CleaningTasksCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('cleaningType: $cleaningType, ')
+          ..write('sopNote: $sopNote, ')
+          ..write('frequency: $frequency, ')
+          ..write('lastCleanAt: $lastCleanAt, ')
+          ..write('expectedMinutes: $expectedMinutes, ')
+          ..write('assignedUserId: $assignedUserId, ')
+          ..write('materialsNote: $materialsNote, ')
+          ..write('photoRequired: $photoRequired, ')
+          ..write('status: $status, ')
+          ..write('scheduledDate: $scheduledDate, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('consumablesNote: $consumablesNote, ')
+          ..write('exceptionNote: $exceptionNote, ')
+          ..write('hasPendingLocalChanges: $hasPendingLocalChanges, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CleaningTaskInspectionPointsTable extends CleaningTaskInspectionPoints
+    with
+        TableInfo<
+          $CleaningTaskInspectionPointsTable,
+          CleaningTaskInspectionPoint
+        > {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CleaningTaskInspectionPointsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cleaningTaskIdMeta = const VerificationMeta(
+    'cleaningTaskId',
+  );
+  @override
+  late final GeneratedColumn<String> cleaningTaskId = GeneratedColumn<String>(
+    'cleaning_task_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES cleaning_tasks (id)',
+    ),
+  );
+  static const VerificationMeta _sequenceMeta = const VerificationMeta(
+    'sequence',
+  );
+  @override
+  late final GeneratedColumn<int> sequence = GeneratedColumn<int>(
+    'sequence',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    cleaningTaskId,
+    sequence,
+    description,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cleaning_task_inspection_points';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CleaningTaskInspectionPoint> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('cleaning_task_id')) {
+      context.handle(
+        _cleaningTaskIdMeta,
+        cleaningTaskId.isAcceptableOrUnknown(
+          data['cleaning_task_id']!,
+          _cleaningTaskIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_cleaningTaskIdMeta);
+    }
+    if (data.containsKey('sequence')) {
+      context.handle(
+        _sequenceMeta,
+        sequence.isAcceptableOrUnknown(data['sequence']!, _sequenceMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sequenceMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CleaningTaskInspectionPoint map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CleaningTaskInspectionPoint(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      cleaningTaskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cleaning_task_id'],
+      )!,
+      sequence: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sequence'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+    );
+  }
+
+  @override
+  $CleaningTaskInspectionPointsTable createAlias(String alias) {
+    return $CleaningTaskInspectionPointsTable(attachedDatabase, alias);
+  }
+}
+
+class CleaningTaskInspectionPoint extends DataClass
+    implements Insertable<CleaningTaskInspectionPoint> {
+  final String id;
+  final String cleaningTaskId;
+  final int sequence;
+  final String description;
+  const CleaningTaskInspectionPoint({
+    required this.id,
+    required this.cleaningTaskId,
+    required this.sequence,
+    required this.description,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['cleaning_task_id'] = Variable<String>(cleaningTaskId);
+    map['sequence'] = Variable<int>(sequence);
+    map['description'] = Variable<String>(description);
+    return map;
+  }
+
+  CleaningTaskInspectionPointsCompanion toCompanion(bool nullToAbsent) {
+    return CleaningTaskInspectionPointsCompanion(
+      id: Value(id),
+      cleaningTaskId: Value(cleaningTaskId),
+      sequence: Value(sequence),
+      description: Value(description),
+    );
+  }
+
+  factory CleaningTaskInspectionPoint.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CleaningTaskInspectionPoint(
+      id: serializer.fromJson<String>(json['id']),
+      cleaningTaskId: serializer.fromJson<String>(json['cleaningTaskId']),
+      sequence: serializer.fromJson<int>(json['sequence']),
+      description: serializer.fromJson<String>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'cleaningTaskId': serializer.toJson<String>(cleaningTaskId),
+      'sequence': serializer.toJson<int>(sequence),
+      'description': serializer.toJson<String>(description),
+    };
+  }
+
+  CleaningTaskInspectionPoint copyWith({
+    String? id,
+    String? cleaningTaskId,
+    int? sequence,
+    String? description,
+  }) => CleaningTaskInspectionPoint(
+    id: id ?? this.id,
+    cleaningTaskId: cleaningTaskId ?? this.cleaningTaskId,
+    sequence: sequence ?? this.sequence,
+    description: description ?? this.description,
+  );
+  CleaningTaskInspectionPoint copyWithCompanion(
+    CleaningTaskInspectionPointsCompanion data,
+  ) {
+    return CleaningTaskInspectionPoint(
+      id: data.id.present ? data.id.value : this.id,
+      cleaningTaskId: data.cleaningTaskId.present
+          ? data.cleaningTaskId.value
+          : this.cleaningTaskId,
+      sequence: data.sequence.present ? data.sequence.value : this.sequence,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CleaningTaskInspectionPoint(')
+          ..write('id: $id, ')
+          ..write('cleaningTaskId: $cleaningTaskId, ')
+          ..write('sequence: $sequence, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, cleaningTaskId, sequence, description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CleaningTaskInspectionPoint &&
+          other.id == this.id &&
+          other.cleaningTaskId == this.cleaningTaskId &&
+          other.sequence == this.sequence &&
+          other.description == this.description);
+}
+
+class CleaningTaskInspectionPointsCompanion
+    extends UpdateCompanion<CleaningTaskInspectionPoint> {
+  final Value<String> id;
+  final Value<String> cleaningTaskId;
+  final Value<int> sequence;
+  final Value<String> description;
+  final Value<int> rowid;
+  const CleaningTaskInspectionPointsCompanion({
+    this.id = const Value.absent(),
+    this.cleaningTaskId = const Value.absent(),
+    this.sequence = const Value.absent(),
+    this.description = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CleaningTaskInspectionPointsCompanion.insert({
+    required String id,
+    required String cleaningTaskId,
+    required int sequence,
+    required String description,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       cleaningTaskId = Value(cleaningTaskId),
+       sequence = Value(sequence),
+       description = Value(description);
+  static Insertable<CleaningTaskInspectionPoint> custom({
+    Expression<String>? id,
+    Expression<String>? cleaningTaskId,
+    Expression<int>? sequence,
+    Expression<String>? description,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (cleaningTaskId != null) 'cleaning_task_id': cleaningTaskId,
+      if (sequence != null) 'sequence': sequence,
+      if (description != null) 'description': description,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CleaningTaskInspectionPointsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? cleaningTaskId,
+    Value<int>? sequence,
+    Value<String>? description,
+    Value<int>? rowid,
+  }) {
+    return CleaningTaskInspectionPointsCompanion(
+      id: id ?? this.id,
+      cleaningTaskId: cleaningTaskId ?? this.cleaningTaskId,
+      sequence: sequence ?? this.sequence,
+      description: description ?? this.description,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (cleaningTaskId.present) {
+      map['cleaning_task_id'] = Variable<String>(cleaningTaskId.value);
+    }
+    if (sequence.present) {
+      map['sequence'] = Variable<int>(sequence.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CleaningTaskInspectionPointsCompanion(')
+          ..write('id: $id, ')
+          ..write('cleaningTaskId: $cleaningTaskId, ')
+          ..write('sequence: $sequence, ')
+          ..write('description: $description, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CleaningTaskInspectionResponsesTable
+    extends CleaningTaskInspectionResponses
+    with
+        TableInfo<
+          $CleaningTaskInspectionResponsesTable,
+          CleaningTaskInspectionResponse
+        > {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CleaningTaskInspectionResponsesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cleaningTaskIdMeta = const VerificationMeta(
+    'cleaningTaskId',
+  );
+  @override
+  late final GeneratedColumn<String> cleaningTaskId = GeneratedColumn<String>(
+    'cleaning_task_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES cleaning_tasks (id)',
+    ),
+  );
+  static const VerificationMeta _inspectionPointIdMeta = const VerificationMeta(
+    'inspectionPointId',
+  );
+  @override
+  late final GeneratedColumn<String> inspectionPointId =
+      GeneratedColumn<String>(
+        'inspection_point_id',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES cleaning_task_inspection_points (id)',
+        ),
+      );
+  static const VerificationMeta _passedMeta = const VerificationMeta('passed');
+  @override
+  late final GeneratedColumn<bool> passed = GeneratedColumn<bool>(
+    'passed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("passed" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _capturedByMeta = const VerificationMeta(
+    'capturedBy',
+  );
+  @override
+  late final GeneratedColumn<String> capturedBy = GeneratedColumn<String>(
+    'captured_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _capturedAtMeta = const VerificationMeta(
+    'capturedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> capturedAt = GeneratedColumn<DateTime>(
+    'captured_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    cleaningTaskId,
+    inspectionPointId,
+    passed,
+    note,
+    capturedBy,
+    capturedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cleaning_task_inspection_responses';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CleaningTaskInspectionResponse> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('cleaning_task_id')) {
+      context.handle(
+        _cleaningTaskIdMeta,
+        cleaningTaskId.isAcceptableOrUnknown(
+          data['cleaning_task_id']!,
+          _cleaningTaskIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_cleaningTaskIdMeta);
+    }
+    if (data.containsKey('inspection_point_id')) {
+      context.handle(
+        _inspectionPointIdMeta,
+        inspectionPointId.isAcceptableOrUnknown(
+          data['inspection_point_id']!,
+          _inspectionPointIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_inspectionPointIdMeta);
+    }
+    if (data.containsKey('passed')) {
+      context.handle(
+        _passedMeta,
+        passed.isAcceptableOrUnknown(data['passed']!, _passedMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_passedMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('captured_by')) {
+      context.handle(
+        _capturedByMeta,
+        capturedBy.isAcceptableOrUnknown(data['captured_by']!, _capturedByMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_capturedByMeta);
+    }
+    if (data.containsKey('captured_at')) {
+      context.handle(
+        _capturedAtMeta,
+        capturedAt.isAcceptableOrUnknown(data['captured_at']!, _capturedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_capturedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CleaningTaskInspectionResponse map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CleaningTaskInspectionResponse(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      cleaningTaskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cleaning_task_id'],
+      )!,
+      inspectionPointId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}inspection_point_id'],
+      )!,
+      passed: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}passed'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      capturedBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}captured_by'],
+      )!,
+      capturedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}captured_at'],
+      )!,
+    );
+  }
+
+  @override
+  $CleaningTaskInspectionResponsesTable createAlias(String alias) {
+    return $CleaningTaskInspectionResponsesTable(attachedDatabase, alias);
+  }
+}
+
+class CleaningTaskInspectionResponse extends DataClass
+    implements Insertable<CleaningTaskInspectionResponse> {
+  final String id;
+  final String cleaningTaskId;
+  final String inspectionPointId;
+  final bool passed;
+  final String? note;
+  final String capturedBy;
+  final DateTime capturedAt;
+  const CleaningTaskInspectionResponse({
+    required this.id,
+    required this.cleaningTaskId,
+    required this.inspectionPointId,
+    required this.passed,
+    this.note,
+    required this.capturedBy,
+    required this.capturedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['cleaning_task_id'] = Variable<String>(cleaningTaskId);
+    map['inspection_point_id'] = Variable<String>(inspectionPointId);
+    map['passed'] = Variable<bool>(passed);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['captured_by'] = Variable<String>(capturedBy);
+    map['captured_at'] = Variable<DateTime>(capturedAt);
+    return map;
+  }
+
+  CleaningTaskInspectionResponsesCompanion toCompanion(bool nullToAbsent) {
+    return CleaningTaskInspectionResponsesCompanion(
+      id: Value(id),
+      cleaningTaskId: Value(cleaningTaskId),
+      inspectionPointId: Value(inspectionPointId),
+      passed: Value(passed),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      capturedBy: Value(capturedBy),
+      capturedAt: Value(capturedAt),
+    );
+  }
+
+  factory CleaningTaskInspectionResponse.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CleaningTaskInspectionResponse(
+      id: serializer.fromJson<String>(json['id']),
+      cleaningTaskId: serializer.fromJson<String>(json['cleaningTaskId']),
+      inspectionPointId: serializer.fromJson<String>(json['inspectionPointId']),
+      passed: serializer.fromJson<bool>(json['passed']),
+      note: serializer.fromJson<String?>(json['note']),
+      capturedBy: serializer.fromJson<String>(json['capturedBy']),
+      capturedAt: serializer.fromJson<DateTime>(json['capturedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'cleaningTaskId': serializer.toJson<String>(cleaningTaskId),
+      'inspectionPointId': serializer.toJson<String>(inspectionPointId),
+      'passed': serializer.toJson<bool>(passed),
+      'note': serializer.toJson<String?>(note),
+      'capturedBy': serializer.toJson<String>(capturedBy),
+      'capturedAt': serializer.toJson<DateTime>(capturedAt),
+    };
+  }
+
+  CleaningTaskInspectionResponse copyWith({
+    String? id,
+    String? cleaningTaskId,
+    String? inspectionPointId,
+    bool? passed,
+    Value<String?> note = const Value.absent(),
+    String? capturedBy,
+    DateTime? capturedAt,
+  }) => CleaningTaskInspectionResponse(
+    id: id ?? this.id,
+    cleaningTaskId: cleaningTaskId ?? this.cleaningTaskId,
+    inspectionPointId: inspectionPointId ?? this.inspectionPointId,
+    passed: passed ?? this.passed,
+    note: note.present ? note.value : this.note,
+    capturedBy: capturedBy ?? this.capturedBy,
+    capturedAt: capturedAt ?? this.capturedAt,
+  );
+  CleaningTaskInspectionResponse copyWithCompanion(
+    CleaningTaskInspectionResponsesCompanion data,
+  ) {
+    return CleaningTaskInspectionResponse(
+      id: data.id.present ? data.id.value : this.id,
+      cleaningTaskId: data.cleaningTaskId.present
+          ? data.cleaningTaskId.value
+          : this.cleaningTaskId,
+      inspectionPointId: data.inspectionPointId.present
+          ? data.inspectionPointId.value
+          : this.inspectionPointId,
+      passed: data.passed.present ? data.passed.value : this.passed,
+      note: data.note.present ? data.note.value : this.note,
+      capturedBy: data.capturedBy.present
+          ? data.capturedBy.value
+          : this.capturedBy,
+      capturedAt: data.capturedAt.present
+          ? data.capturedAt.value
+          : this.capturedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CleaningTaskInspectionResponse(')
+          ..write('id: $id, ')
+          ..write('cleaningTaskId: $cleaningTaskId, ')
+          ..write('inspectionPointId: $inspectionPointId, ')
+          ..write('passed: $passed, ')
+          ..write('note: $note, ')
+          ..write('capturedBy: $capturedBy, ')
+          ..write('capturedAt: $capturedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    cleaningTaskId,
+    inspectionPointId,
+    passed,
+    note,
+    capturedBy,
+    capturedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CleaningTaskInspectionResponse &&
+          other.id == this.id &&
+          other.cleaningTaskId == this.cleaningTaskId &&
+          other.inspectionPointId == this.inspectionPointId &&
+          other.passed == this.passed &&
+          other.note == this.note &&
+          other.capturedBy == this.capturedBy &&
+          other.capturedAt == this.capturedAt);
+}
+
+class CleaningTaskInspectionResponsesCompanion
+    extends UpdateCompanion<CleaningTaskInspectionResponse> {
+  final Value<String> id;
+  final Value<String> cleaningTaskId;
+  final Value<String> inspectionPointId;
+  final Value<bool> passed;
+  final Value<String?> note;
+  final Value<String> capturedBy;
+  final Value<DateTime> capturedAt;
+  final Value<int> rowid;
+  const CleaningTaskInspectionResponsesCompanion({
+    this.id = const Value.absent(),
+    this.cleaningTaskId = const Value.absent(),
+    this.inspectionPointId = const Value.absent(),
+    this.passed = const Value.absent(),
+    this.note = const Value.absent(),
+    this.capturedBy = const Value.absent(),
+    this.capturedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CleaningTaskInspectionResponsesCompanion.insert({
+    required String id,
+    required String cleaningTaskId,
+    required String inspectionPointId,
+    required bool passed,
+    this.note = const Value.absent(),
+    required String capturedBy,
+    required DateTime capturedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       cleaningTaskId = Value(cleaningTaskId),
+       inspectionPointId = Value(inspectionPointId),
+       passed = Value(passed),
+       capturedBy = Value(capturedBy),
+       capturedAt = Value(capturedAt);
+  static Insertable<CleaningTaskInspectionResponse> custom({
+    Expression<String>? id,
+    Expression<String>? cleaningTaskId,
+    Expression<String>? inspectionPointId,
+    Expression<bool>? passed,
+    Expression<String>? note,
+    Expression<String>? capturedBy,
+    Expression<DateTime>? capturedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (cleaningTaskId != null) 'cleaning_task_id': cleaningTaskId,
+      if (inspectionPointId != null) 'inspection_point_id': inspectionPointId,
+      if (passed != null) 'passed': passed,
+      if (note != null) 'note': note,
+      if (capturedBy != null) 'captured_by': capturedBy,
+      if (capturedAt != null) 'captured_at': capturedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CleaningTaskInspectionResponsesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? cleaningTaskId,
+    Value<String>? inspectionPointId,
+    Value<bool>? passed,
+    Value<String?>? note,
+    Value<String>? capturedBy,
+    Value<DateTime>? capturedAt,
+    Value<int>? rowid,
+  }) {
+    return CleaningTaskInspectionResponsesCompanion(
+      id: id ?? this.id,
+      cleaningTaskId: cleaningTaskId ?? this.cleaningTaskId,
+      inspectionPointId: inspectionPointId ?? this.inspectionPointId,
+      passed: passed ?? this.passed,
+      note: note ?? this.note,
+      capturedBy: capturedBy ?? this.capturedBy,
+      capturedAt: capturedAt ?? this.capturedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (cleaningTaskId.present) {
+      map['cleaning_task_id'] = Variable<String>(cleaningTaskId.value);
+    }
+    if (inspectionPointId.present) {
+      map['inspection_point_id'] = Variable<String>(inspectionPointId.value);
+    }
+    if (passed.present) {
+      map['passed'] = Variable<bool>(passed.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (capturedBy.present) {
+      map['captured_by'] = Variable<String>(capturedBy.value);
+    }
+    if (capturedAt.present) {
+      map['captured_at'] = Variable<DateTime>(capturedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CleaningTaskInspectionResponsesCompanion(')
+          ..write('id: $id, ')
+          ..write('cleaningTaskId: $cleaningTaskId, ')
+          ..write('inspectionPointId: $inspectionPointId, ')
+          ..write('passed: $passed, ')
+          ..write('note: $note, ')
+          ..write('capturedBy: $capturedBy, ')
+          ..write('capturedAt: $capturedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -18929,6 +20838,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $HazardsTable hazards = $HazardsTable(this);
   late final $VehiclesTable vehicles = $VehiclesTable(this);
   late final $TripsTable trips = $TripsTable(this);
+  late final $CleaningTasksTable cleaningTasks = $CleaningTasksTable(this);
+  late final $CleaningTaskInspectionPointsTable cleaningTaskInspectionPoints =
+      $CleaningTaskInspectionPointsTable(this);
+  late final $CleaningTaskInspectionResponsesTable
+  cleaningTaskInspectionResponses = $CleaningTaskInspectionResponsesTable(this);
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -18950,6 +20864,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final SafetyGateDao safetyGateDao = SafetyGateDao(this as AppDatabase);
   late final SafetyDao safetyDao = SafetyDao(this as AppDatabase);
   late final FleetDao fleetDao = FleetDao(this as AppDatabase);
+  late final CleaningTaskDao cleaningTaskDao = CleaningTaskDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -18984,6 +20901,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     hazards,
     vehicles,
     trips,
+    cleaningTasks,
+    cleaningTaskInspectionPoints,
+    cleaningTaskInspectionResponses,
   ];
 }
 
@@ -19191,6 +21111,24 @@ final class $$SitesTableReferences
     ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_hazardsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$CleaningTasksTable, List<CleaningTask>>
+  _cleaningTasksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.cleaningTasks,
+    aliasName: $_aliasNameGenerator(db.sites.id, db.cleaningTasks.siteId),
+  );
+
+  $$CleaningTasksTableProcessedTableManager get cleaningTasksRefs {
+    final manager = $$CleaningTasksTableTableManager(
+      $_db,
+      $_db.cleaningTasks,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_cleaningTasksRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -19466,6 +21404,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$HazardsTableFilterComposer(
             $db: $db,
             $table: $db.hazards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> cleaningTasksRefs(
+    Expression<bool> Function($$CleaningTasksTableFilterComposer f) f,
+  ) {
+    final $$CleaningTasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableFilterComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -19797,6 +21760,31 @@ class $$SitesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> cleaningTasksRefs<T extends Object>(
+    Expression<T> Function($$CleaningTasksTableAnnotationComposer a) f,
+  ) {
+    final $$CleaningTasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -19822,6 +21810,7 @@ class $$SitesTableTableManager
             bool shiftRosterEntriesRefs,
             bool incidentsRefs,
             bool hazardsRefs,
+            bool cleaningTasksRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -19900,6 +21889,7 @@ class $$SitesTableTableManager
                 shiftRosterEntriesRefs = false,
                 incidentsRefs = false,
                 hazardsRefs = false,
+                cleaningTasksRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -19913,6 +21903,7 @@ class $$SitesTableTableManager
                     if (shiftRosterEntriesRefs) db.shiftRosterEntries,
                     if (incidentsRefs) db.incidents,
                     if (hazardsRefs) db.hazards,
+                    if (cleaningTasksRefs) db.cleaningTasks,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -20078,6 +22069,27 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (cleaningTasksRefs)
+                        await $_getPrefetchedData<
+                          Site,
+                          $SitesTable,
+                          CleaningTask
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._cleaningTasksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).cleaningTasksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -20108,6 +22120,7 @@ typedef $$SitesTableProcessedTableManager =
         bool shiftRosterEntriesRefs,
         bool incidentsRefs,
         bool hazardsRefs,
+        bool cleaningTasksRefs,
       })
     >;
 typedef $$BuildingsTableCreateCompanionBuilder =
@@ -21006,6 +23019,24 @@ final class $$SpacesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$CleaningTasksTable, List<CleaningTask>>
+  _cleaningTasksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.cleaningTasks,
+    aliasName: $_aliasNameGenerator(db.spaces.id, db.cleaningTasks.spaceId),
+  );
+
+  $$CleaningTasksTableProcessedTableManager get cleaningTasksRefs {
+    final manager = $$CleaningTasksTableTableManager(
+      $_db,
+      $_db.cleaningTasks,
+    ).filter((f) => f.spaceId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_cleaningTasksRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SpacesTableFilterComposer
@@ -21181,6 +23212,31 @@ class $$SpacesTableFilterComposer
           }) => $$HazardsTableFilterComposer(
             $db: $db,
             $table: $db.hazards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> cleaningTasksRefs(
+    Expression<bool> Function($$CleaningTasksTableFilterComposer f) f,
+  ) {
+    final $$CleaningTasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableFilterComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -21422,6 +23478,31 @@ class $$SpacesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> cleaningTasksRefs<T extends Object>(
+    Expression<T> Function($$CleaningTasksTableAnnotationComposer a) f,
+  ) {
+    final $$CleaningTasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SpacesTableTableManager
@@ -21444,6 +23525,7 @@ class $$SpacesTableTableManager
             bool workOrdersRefs,
             bool incidentsRefs,
             bool hazardsRefs,
+            bool cleaningTasksRefs,
           })
         > {
   $$SpacesTableTableManager(_$AppDatabase db, $SpacesTable table)
@@ -21507,6 +23589,7 @@ class $$SpacesTableTableManager
                 workOrdersRefs = false,
                 incidentsRefs = false,
                 hazardsRefs = false,
+                cleaningTasksRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -21516,6 +23599,7 @@ class $$SpacesTableTableManager
                     if (workOrdersRefs) db.workOrders,
                     if (incidentsRefs) db.incidents,
                     if (hazardsRefs) db.hazards,
+                    if (cleaningTasksRefs) db.cleaningTasks,
                   ],
                   addJoins:
                       <
@@ -21644,6 +23728,27 @@ class $$SpacesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (cleaningTasksRefs)
+                        await $_getPrefetchedData<
+                          Space,
+                          $SpacesTable,
+                          CleaningTask
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SpacesTableReferences
+                              ._cleaningTasksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SpacesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).cleaningTasksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.spaceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -21671,6 +23776,7 @@ typedef $$SpacesTableProcessedTableManager =
         bool workOrdersRefs,
         bool incidentsRefs,
         bool hazardsRefs,
+        bool cleaningTasksRefs,
       })
     >;
 typedef $$AssetsTableCreateCompanionBuilder =
@@ -34548,6 +36654,1878 @@ typedef $$TripsTableProcessedTableManager =
       Trip,
       PrefetchHooks Function({bool vehicleId})
     >;
+typedef $$CleaningTasksTableCreateCompanionBuilder =
+    CleaningTasksCompanion Function({
+      required String id,
+      required String siteId,
+      required String spaceId,
+      required String cleaningType,
+      Value<String?> sopNote,
+      required String frequency,
+      Value<DateTime?> lastCleanAt,
+      Value<int?> expectedMinutes,
+      Value<String?> assignedUserId,
+      Value<String?> materialsNote,
+      Value<bool> photoRequired,
+      Value<String> status,
+      required DateTime scheduledDate,
+      Value<DateTime?> completedAt,
+      Value<String?> consumablesNote,
+      Value<String?> exceptionNote,
+      Value<bool> hasPendingLocalChanges,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$CleaningTasksTableUpdateCompanionBuilder =
+    CleaningTasksCompanion Function({
+      Value<String> id,
+      Value<String> siteId,
+      Value<String> spaceId,
+      Value<String> cleaningType,
+      Value<String?> sopNote,
+      Value<String> frequency,
+      Value<DateTime?> lastCleanAt,
+      Value<int?> expectedMinutes,
+      Value<String?> assignedUserId,
+      Value<String?> materialsNote,
+      Value<bool> photoRequired,
+      Value<String> status,
+      Value<DateTime> scheduledDate,
+      Value<DateTime?> completedAt,
+      Value<String?> consumablesNote,
+      Value<String?> exceptionNote,
+      Value<bool> hasPendingLocalChanges,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+final class $$CleaningTasksTableReferences
+    extends BaseReferences<_$AppDatabase, $CleaningTasksTable, CleaningTask> {
+  $$CleaningTasksTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) => db.sites.createAlias(
+    $_aliasNameGenerator(db.cleaningTasks.siteId, db.sites.id),
+  );
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<String>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SpacesTable _spaceIdTable(_$AppDatabase db) => db.spaces.createAlias(
+    $_aliasNameGenerator(db.cleaningTasks.spaceId, db.spaces.id),
+  );
+
+  $$SpacesTableProcessedTableManager get spaceId {
+    final $_column = $_itemColumn<String>('space_id')!;
+
+    final manager = $$SpacesTableTableManager(
+      $_db,
+      $_db.spaces,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_spaceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $CleaningTaskInspectionPointsTable,
+    List<CleaningTaskInspectionPoint>
+  >
+  _cleaningTaskInspectionPointsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.cleaningTaskInspectionPoints,
+        aliasName: $_aliasNameGenerator(
+          db.cleaningTasks.id,
+          db.cleaningTaskInspectionPoints.cleaningTaskId,
+        ),
+      );
+
+  $$CleaningTaskInspectionPointsTableProcessedTableManager
+  get cleaningTaskInspectionPointsRefs {
+    final manager = $$CleaningTaskInspectionPointsTableTableManager(
+      $_db,
+      $_db.cleaningTaskInspectionPoints,
+    ).filter((f) => f.cleaningTaskId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _cleaningTaskInspectionPointsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $CleaningTaskInspectionResponsesTable,
+    List<CleaningTaskInspectionResponse>
+  >
+  _cleaningTaskInspectionResponsesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.cleaningTaskInspectionResponses,
+        aliasName: $_aliasNameGenerator(
+          db.cleaningTasks.id,
+          db.cleaningTaskInspectionResponses.cleaningTaskId,
+        ),
+      );
+
+  $$CleaningTaskInspectionResponsesTableProcessedTableManager
+  get cleaningTaskInspectionResponsesRefs {
+    final manager = $$CleaningTaskInspectionResponsesTableTableManager(
+      $_db,
+      $_db.cleaningTaskInspectionResponses,
+    ).filter((f) => f.cleaningTaskId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _cleaningTaskInspectionResponsesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$CleaningTasksTableFilterComposer
+    extends Composer<_$AppDatabase, $CleaningTasksTable> {
+  $$CleaningTasksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get cleaningType => $composableBuilder(
+    column: $table.cleaningType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sopNote => $composableBuilder(
+    column: $table.sopNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get frequency => $composableBuilder(
+    column: $table.frequency,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastCleanAt => $composableBuilder(
+    column: $table.lastCleanAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get expectedMinutes => $composableBuilder(
+    column: $table.expectedMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get assignedUserId => $composableBuilder(
+    column: $table.assignedUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get materialsNote => $composableBuilder(
+    column: $table.materialsNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get photoRequired => $composableBuilder(
+    column: $table.photoRequired,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get scheduledDate => $composableBuilder(
+    column: $table.scheduledDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get consumablesNote => $composableBuilder(
+    column: $table.consumablesNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get exceptionNote => $composableBuilder(
+    column: $table.exceptionNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get hasPendingLocalChanges => $composableBuilder(
+    column: $table.hasPendingLocalChanges,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableFilterComposer get spaceId {
+    final $$SpacesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableFilterComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> cleaningTaskInspectionPointsRefs(
+    Expression<bool> Function(
+      $$CleaningTaskInspectionPointsTableFilterComposer f,
+    )
+    f,
+  ) {
+    final $$CleaningTaskInspectionPointsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.cleaningTaskInspectionPoints,
+          getReferencedColumn: (t) => t.cleaningTaskId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionPointsTableFilterComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionPoints,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<bool> cleaningTaskInspectionResponsesRefs(
+    Expression<bool> Function(
+      $$CleaningTaskInspectionResponsesTableFilterComposer f,
+    )
+    f,
+  ) {
+    final $$CleaningTaskInspectionResponsesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.cleaningTaskInspectionResponses,
+          getReferencedColumn: (t) => t.cleaningTaskId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionResponsesTableFilterComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionResponses,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$CleaningTasksTableOrderingComposer
+    extends Composer<_$AppDatabase, $CleaningTasksTable> {
+  $$CleaningTasksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get cleaningType => $composableBuilder(
+    column: $table.cleaningType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sopNote => $composableBuilder(
+    column: $table.sopNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get frequency => $composableBuilder(
+    column: $table.frequency,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastCleanAt => $composableBuilder(
+    column: $table.lastCleanAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get expectedMinutes => $composableBuilder(
+    column: $table.expectedMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get assignedUserId => $composableBuilder(
+    column: $table.assignedUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get materialsNote => $composableBuilder(
+    column: $table.materialsNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get photoRequired => $composableBuilder(
+    column: $table.photoRequired,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get scheduledDate => $composableBuilder(
+    column: $table.scheduledDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get consumablesNote => $composableBuilder(
+    column: $table.consumablesNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get exceptionNote => $composableBuilder(
+    column: $table.exceptionNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get hasPendingLocalChanges => $composableBuilder(
+    column: $table.hasPendingLocalChanges,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableOrderingComposer get spaceId {
+    final $$SpacesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableOrderingComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$CleaningTasksTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CleaningTasksTable> {
+  $$CleaningTasksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get cleaningType => $composableBuilder(
+    column: $table.cleaningType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sopNote =>
+      $composableBuilder(column: $table.sopNote, builder: (column) => column);
+
+  GeneratedColumn<String> get frequency =>
+      $composableBuilder(column: $table.frequency, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastCleanAt => $composableBuilder(
+    column: $table.lastCleanAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get expectedMinutes => $composableBuilder(
+    column: $table.expectedMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get assignedUserId => $composableBuilder(
+    column: $table.assignedUserId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get materialsNote => $composableBuilder(
+    column: $table.materialsNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get photoRequired => $composableBuilder(
+    column: $table.photoRequired,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get scheduledDate => $composableBuilder(
+    column: $table.scheduledDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get consumablesNote => $composableBuilder(
+    column: $table.consumablesNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get exceptionNote => $composableBuilder(
+    column: $table.exceptionNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get hasPendingLocalChanges => $composableBuilder(
+    column: $table.hasPendingLocalChanges,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableAnnotationComposer get spaceId {
+    final $$SpacesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> cleaningTaskInspectionPointsRefs<T extends Object>(
+    Expression<T> Function(
+      $$CleaningTaskInspectionPointsTableAnnotationComposer a,
+    )
+    f,
+  ) {
+    final $$CleaningTaskInspectionPointsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.cleaningTaskInspectionPoints,
+          getReferencedColumn: (t) => t.cleaningTaskId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionPointsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionPoints,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> cleaningTaskInspectionResponsesRefs<T extends Object>(
+    Expression<T> Function(
+      $$CleaningTaskInspectionResponsesTableAnnotationComposer a,
+    )
+    f,
+  ) {
+    final $$CleaningTaskInspectionResponsesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.cleaningTaskInspectionResponses,
+          getReferencedColumn: (t) => t.cleaningTaskId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionResponsesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionResponses,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$CleaningTasksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CleaningTasksTable,
+          CleaningTask,
+          $$CleaningTasksTableFilterComposer,
+          $$CleaningTasksTableOrderingComposer,
+          $$CleaningTasksTableAnnotationComposer,
+          $$CleaningTasksTableCreateCompanionBuilder,
+          $$CleaningTasksTableUpdateCompanionBuilder,
+          (CleaningTask, $$CleaningTasksTableReferences),
+          CleaningTask,
+          PrefetchHooks Function({
+            bool siteId,
+            bool spaceId,
+            bool cleaningTaskInspectionPointsRefs,
+            bool cleaningTaskInspectionResponsesRefs,
+          })
+        > {
+  $$CleaningTasksTableTableManager(_$AppDatabase db, $CleaningTasksTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CleaningTasksTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CleaningTasksTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CleaningTasksTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> siteId = const Value.absent(),
+                Value<String> spaceId = const Value.absent(),
+                Value<String> cleaningType = const Value.absent(),
+                Value<String?> sopNote = const Value.absent(),
+                Value<String> frequency = const Value.absent(),
+                Value<DateTime?> lastCleanAt = const Value.absent(),
+                Value<int?> expectedMinutes = const Value.absent(),
+                Value<String?> assignedUserId = const Value.absent(),
+                Value<String?> materialsNote = const Value.absent(),
+                Value<bool> photoRequired = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> scheduledDate = const Value.absent(),
+                Value<DateTime?> completedAt = const Value.absent(),
+                Value<String?> consumablesNote = const Value.absent(),
+                Value<String?> exceptionNote = const Value.absent(),
+                Value<bool> hasPendingLocalChanges = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CleaningTasksCompanion(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                cleaningType: cleaningType,
+                sopNote: sopNote,
+                frequency: frequency,
+                lastCleanAt: lastCleanAt,
+                expectedMinutes: expectedMinutes,
+                assignedUserId: assignedUserId,
+                materialsNote: materialsNote,
+                photoRequired: photoRequired,
+                status: status,
+                scheduledDate: scheduledDate,
+                completedAt: completedAt,
+                consumablesNote: consumablesNote,
+                exceptionNote: exceptionNote,
+                hasPendingLocalChanges: hasPendingLocalChanges,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String siteId,
+                required String spaceId,
+                required String cleaningType,
+                Value<String?> sopNote = const Value.absent(),
+                required String frequency,
+                Value<DateTime?> lastCleanAt = const Value.absent(),
+                Value<int?> expectedMinutes = const Value.absent(),
+                Value<String?> assignedUserId = const Value.absent(),
+                Value<String?> materialsNote = const Value.absent(),
+                Value<bool> photoRequired = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                required DateTime scheduledDate,
+                Value<DateTime?> completedAt = const Value.absent(),
+                Value<String?> consumablesNote = const Value.absent(),
+                Value<String?> exceptionNote = const Value.absent(),
+                Value<bool> hasPendingLocalChanges = const Value.absent(),
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => CleaningTasksCompanion.insert(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                cleaningType: cleaningType,
+                sopNote: sopNote,
+                frequency: frequency,
+                lastCleanAt: lastCleanAt,
+                expectedMinutes: expectedMinutes,
+                assignedUserId: assignedUserId,
+                materialsNote: materialsNote,
+                photoRequired: photoRequired,
+                status: status,
+                scheduledDate: scheduledDate,
+                completedAt: completedAt,
+                consumablesNote: consumablesNote,
+                exceptionNote: exceptionNote,
+                hasPendingLocalChanges: hasPendingLocalChanges,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CleaningTasksTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                siteId = false,
+                spaceId = false,
+                cleaningTaskInspectionPointsRefs = false,
+                cleaningTaskInspectionResponsesRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (cleaningTaskInspectionPointsRefs)
+                      db.cleaningTaskInspectionPoints,
+                    if (cleaningTaskInspectionResponsesRefs)
+                      db.cleaningTaskInspectionResponses,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$CleaningTasksTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$CleaningTasksTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (spaceId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.spaceId,
+                                    referencedTable:
+                                        $$CleaningTasksTableReferences
+                                            ._spaceIdTable(db),
+                                    referencedColumn:
+                                        $$CleaningTasksTableReferences
+                                            ._spaceIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (cleaningTaskInspectionPointsRefs)
+                        await $_getPrefetchedData<
+                          CleaningTask,
+                          $CleaningTasksTable,
+                          CleaningTaskInspectionPoint
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CleaningTasksTableReferences
+                              ._cleaningTaskInspectionPointsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CleaningTasksTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).cleaningTaskInspectionPointsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.cleaningTaskId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (cleaningTaskInspectionResponsesRefs)
+                        await $_getPrefetchedData<
+                          CleaningTask,
+                          $CleaningTasksTable,
+                          CleaningTaskInspectionResponse
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CleaningTasksTableReferences
+                              ._cleaningTaskInspectionResponsesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CleaningTasksTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).cleaningTaskInspectionResponsesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.cleaningTaskId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$CleaningTasksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CleaningTasksTable,
+      CleaningTask,
+      $$CleaningTasksTableFilterComposer,
+      $$CleaningTasksTableOrderingComposer,
+      $$CleaningTasksTableAnnotationComposer,
+      $$CleaningTasksTableCreateCompanionBuilder,
+      $$CleaningTasksTableUpdateCompanionBuilder,
+      (CleaningTask, $$CleaningTasksTableReferences),
+      CleaningTask,
+      PrefetchHooks Function({
+        bool siteId,
+        bool spaceId,
+        bool cleaningTaskInspectionPointsRefs,
+        bool cleaningTaskInspectionResponsesRefs,
+      })
+    >;
+typedef $$CleaningTaskInspectionPointsTableCreateCompanionBuilder =
+    CleaningTaskInspectionPointsCompanion Function({
+      required String id,
+      required String cleaningTaskId,
+      required int sequence,
+      required String description,
+      Value<int> rowid,
+    });
+typedef $$CleaningTaskInspectionPointsTableUpdateCompanionBuilder =
+    CleaningTaskInspectionPointsCompanion Function({
+      Value<String> id,
+      Value<String> cleaningTaskId,
+      Value<int> sequence,
+      Value<String> description,
+      Value<int> rowid,
+    });
+
+final class $$CleaningTaskInspectionPointsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $CleaningTaskInspectionPointsTable,
+          CleaningTaskInspectionPoint
+        > {
+  $$CleaningTaskInspectionPointsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $CleaningTasksTable _cleaningTaskIdTable(_$AppDatabase db) =>
+      db.cleaningTasks.createAlias(
+        $_aliasNameGenerator(
+          db.cleaningTaskInspectionPoints.cleaningTaskId,
+          db.cleaningTasks.id,
+        ),
+      );
+
+  $$CleaningTasksTableProcessedTableManager get cleaningTaskId {
+    final $_column = $_itemColumn<String>('cleaning_task_id')!;
+
+    final manager = $$CleaningTasksTableTableManager(
+      $_db,
+      $_db.cleaningTasks,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_cleaningTaskIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $CleaningTaskInspectionResponsesTable,
+    List<CleaningTaskInspectionResponse>
+  >
+  _cleaningTaskInspectionResponsesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.cleaningTaskInspectionResponses,
+        aliasName: $_aliasNameGenerator(
+          db.cleaningTaskInspectionPoints.id,
+          db.cleaningTaskInspectionResponses.inspectionPointId,
+        ),
+      );
+
+  $$CleaningTaskInspectionResponsesTableProcessedTableManager
+  get cleaningTaskInspectionResponsesRefs {
+    final manager =
+        $$CleaningTaskInspectionResponsesTableTableManager(
+          $_db,
+          $_db.cleaningTaskInspectionResponses,
+        ).filter(
+          (f) => f.inspectionPointId.id.sqlEquals($_itemColumn<String>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(
+      _cleaningTaskInspectionResponsesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$CleaningTaskInspectionPointsTableFilterComposer
+    extends Composer<_$AppDatabase, $CleaningTaskInspectionPointsTable> {
+  $$CleaningTaskInspectionPointsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sequence => $composableBuilder(
+    column: $table.sequence,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$CleaningTasksTableFilterComposer get cleaningTaskId {
+    final $$CleaningTasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.cleaningTaskId,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableFilterComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> cleaningTaskInspectionResponsesRefs(
+    Expression<bool> Function(
+      $$CleaningTaskInspectionResponsesTableFilterComposer f,
+    )
+    f,
+  ) {
+    final $$CleaningTaskInspectionResponsesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.cleaningTaskInspectionResponses,
+          getReferencedColumn: (t) => t.inspectionPointId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionResponsesTableFilterComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionResponses,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$CleaningTaskInspectionPointsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CleaningTaskInspectionPointsTable> {
+  $$CleaningTaskInspectionPointsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sequence => $composableBuilder(
+    column: $table.sequence,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CleaningTasksTableOrderingComposer get cleaningTaskId {
+    final $$CleaningTasksTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.cleaningTaskId,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableOrderingComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$CleaningTaskInspectionPointsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CleaningTaskInspectionPointsTable> {
+  $$CleaningTaskInspectionPointsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get sequence =>
+      $composableBuilder(column: $table.sequence, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  $$CleaningTasksTableAnnotationComposer get cleaningTaskId {
+    final $$CleaningTasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.cleaningTaskId,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> cleaningTaskInspectionResponsesRefs<T extends Object>(
+    Expression<T> Function(
+      $$CleaningTaskInspectionResponsesTableAnnotationComposer a,
+    )
+    f,
+  ) {
+    final $$CleaningTaskInspectionResponsesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.cleaningTaskInspectionResponses,
+          getReferencedColumn: (t) => t.inspectionPointId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionResponsesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionResponses,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$CleaningTaskInspectionPointsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CleaningTaskInspectionPointsTable,
+          CleaningTaskInspectionPoint,
+          $$CleaningTaskInspectionPointsTableFilterComposer,
+          $$CleaningTaskInspectionPointsTableOrderingComposer,
+          $$CleaningTaskInspectionPointsTableAnnotationComposer,
+          $$CleaningTaskInspectionPointsTableCreateCompanionBuilder,
+          $$CleaningTaskInspectionPointsTableUpdateCompanionBuilder,
+          (
+            CleaningTaskInspectionPoint,
+            $$CleaningTaskInspectionPointsTableReferences,
+          ),
+          CleaningTaskInspectionPoint,
+          PrefetchHooks Function({
+            bool cleaningTaskId,
+            bool cleaningTaskInspectionResponsesRefs,
+          })
+        > {
+  $$CleaningTaskInspectionPointsTableTableManager(
+    _$AppDatabase db,
+    $CleaningTaskInspectionPointsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CleaningTaskInspectionPointsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$CleaningTaskInspectionPointsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$CleaningTaskInspectionPointsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> cleaningTaskId = const Value.absent(),
+                Value<int> sequence = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CleaningTaskInspectionPointsCompanion(
+                id: id,
+                cleaningTaskId: cleaningTaskId,
+                sequence: sequence,
+                description: description,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String cleaningTaskId,
+                required int sequence,
+                required String description,
+                Value<int> rowid = const Value.absent(),
+              }) => CleaningTaskInspectionPointsCompanion.insert(
+                id: id,
+                cleaningTaskId: cleaningTaskId,
+                sequence: sequence,
+                description: description,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CleaningTaskInspectionPointsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                cleaningTaskId = false,
+                cleaningTaskInspectionResponsesRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (cleaningTaskInspectionResponsesRefs)
+                      db.cleaningTaskInspectionResponses,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (cleaningTaskId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.cleaningTaskId,
+                                    referencedTable:
+                                        $$CleaningTaskInspectionPointsTableReferences
+                                            ._cleaningTaskIdTable(db),
+                                    referencedColumn:
+                                        $$CleaningTaskInspectionPointsTableReferences
+                                            ._cleaningTaskIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (cleaningTaskInspectionResponsesRefs)
+                        await $_getPrefetchedData<
+                          CleaningTaskInspectionPoint,
+                          $CleaningTaskInspectionPointsTable,
+                          CleaningTaskInspectionResponse
+                        >(
+                          currentTable: table,
+                          referencedTable:
+                              $$CleaningTaskInspectionPointsTableReferences
+                                  ._cleaningTaskInspectionResponsesRefsTable(
+                                    db,
+                                  ),
+                          managerFromTypedResult: (p0) =>
+                              $$CleaningTaskInspectionPointsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).cleaningTaskInspectionResponsesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.inspectionPointId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$CleaningTaskInspectionPointsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CleaningTaskInspectionPointsTable,
+      CleaningTaskInspectionPoint,
+      $$CleaningTaskInspectionPointsTableFilterComposer,
+      $$CleaningTaskInspectionPointsTableOrderingComposer,
+      $$CleaningTaskInspectionPointsTableAnnotationComposer,
+      $$CleaningTaskInspectionPointsTableCreateCompanionBuilder,
+      $$CleaningTaskInspectionPointsTableUpdateCompanionBuilder,
+      (
+        CleaningTaskInspectionPoint,
+        $$CleaningTaskInspectionPointsTableReferences,
+      ),
+      CleaningTaskInspectionPoint,
+      PrefetchHooks Function({
+        bool cleaningTaskId,
+        bool cleaningTaskInspectionResponsesRefs,
+      })
+    >;
+typedef $$CleaningTaskInspectionResponsesTableCreateCompanionBuilder =
+    CleaningTaskInspectionResponsesCompanion Function({
+      required String id,
+      required String cleaningTaskId,
+      required String inspectionPointId,
+      required bool passed,
+      Value<String?> note,
+      required String capturedBy,
+      required DateTime capturedAt,
+      Value<int> rowid,
+    });
+typedef $$CleaningTaskInspectionResponsesTableUpdateCompanionBuilder =
+    CleaningTaskInspectionResponsesCompanion Function({
+      Value<String> id,
+      Value<String> cleaningTaskId,
+      Value<String> inspectionPointId,
+      Value<bool> passed,
+      Value<String?> note,
+      Value<String> capturedBy,
+      Value<DateTime> capturedAt,
+      Value<int> rowid,
+    });
+
+final class $$CleaningTaskInspectionResponsesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $CleaningTaskInspectionResponsesTable,
+          CleaningTaskInspectionResponse
+        > {
+  $$CleaningTaskInspectionResponsesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $CleaningTasksTable _cleaningTaskIdTable(_$AppDatabase db) =>
+      db.cleaningTasks.createAlias(
+        $_aliasNameGenerator(
+          db.cleaningTaskInspectionResponses.cleaningTaskId,
+          db.cleaningTasks.id,
+        ),
+      );
+
+  $$CleaningTasksTableProcessedTableManager get cleaningTaskId {
+    final $_column = $_itemColumn<String>('cleaning_task_id')!;
+
+    final manager = $$CleaningTasksTableTableManager(
+      $_db,
+      $_db.cleaningTasks,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_cleaningTaskIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $CleaningTaskInspectionPointsTable _inspectionPointIdTable(
+    _$AppDatabase db,
+  ) => db.cleaningTaskInspectionPoints.createAlias(
+    $_aliasNameGenerator(
+      db.cleaningTaskInspectionResponses.inspectionPointId,
+      db.cleaningTaskInspectionPoints.id,
+    ),
+  );
+
+  $$CleaningTaskInspectionPointsTableProcessedTableManager
+  get inspectionPointId {
+    final $_column = $_itemColumn<String>('inspection_point_id')!;
+
+    final manager = $$CleaningTaskInspectionPointsTableTableManager(
+      $_db,
+      $_db.cleaningTaskInspectionPoints,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_inspectionPointIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$CleaningTaskInspectionResponsesTableFilterComposer
+    extends Composer<_$AppDatabase, $CleaningTaskInspectionResponsesTable> {
+  $$CleaningTaskInspectionResponsesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get passed => $composableBuilder(
+    column: $table.passed,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get capturedBy => $composableBuilder(
+    column: $table.capturedBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get capturedAt => $composableBuilder(
+    column: $table.capturedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$CleaningTasksTableFilterComposer get cleaningTaskId {
+    final $$CleaningTasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.cleaningTaskId,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableFilterComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CleaningTaskInspectionPointsTableFilterComposer get inspectionPointId {
+    final $$CleaningTaskInspectionPointsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.inspectionPointId,
+          referencedTable: $db.cleaningTaskInspectionPoints,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionPointsTableFilterComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionPoints,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$CleaningTaskInspectionResponsesTableOrderingComposer
+    extends Composer<_$AppDatabase, $CleaningTaskInspectionResponsesTable> {
+  $$CleaningTaskInspectionResponsesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get passed => $composableBuilder(
+    column: $table.passed,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get capturedBy => $composableBuilder(
+    column: $table.capturedBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get capturedAt => $composableBuilder(
+    column: $table.capturedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CleaningTasksTableOrderingComposer get cleaningTaskId {
+    final $$CleaningTasksTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.cleaningTaskId,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableOrderingComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CleaningTaskInspectionPointsTableOrderingComposer get inspectionPointId {
+    final $$CleaningTaskInspectionPointsTableOrderingComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.inspectionPointId,
+          referencedTable: $db.cleaningTaskInspectionPoints,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionPointsTableOrderingComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionPoints,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$CleaningTaskInspectionResponsesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CleaningTaskInspectionResponsesTable> {
+  $$CleaningTaskInspectionResponsesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<bool> get passed =>
+      $composableBuilder(column: $table.passed, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<String> get capturedBy => $composableBuilder(
+    column: $table.capturedBy,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get capturedAt => $composableBuilder(
+    column: $table.capturedAt,
+    builder: (column) => column,
+  );
+
+  $$CleaningTasksTableAnnotationComposer get cleaningTaskId {
+    final $$CleaningTasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.cleaningTaskId,
+      referencedTable: $db.cleaningTasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CleaningTasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.cleaningTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CleaningTaskInspectionPointsTableAnnotationComposer get inspectionPointId {
+    final $$CleaningTaskInspectionPointsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.inspectionPointId,
+          referencedTable: $db.cleaningTaskInspectionPoints,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CleaningTaskInspectionPointsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.cleaningTaskInspectionPoints,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$CleaningTaskInspectionResponsesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CleaningTaskInspectionResponsesTable,
+          CleaningTaskInspectionResponse,
+          $$CleaningTaskInspectionResponsesTableFilterComposer,
+          $$CleaningTaskInspectionResponsesTableOrderingComposer,
+          $$CleaningTaskInspectionResponsesTableAnnotationComposer,
+          $$CleaningTaskInspectionResponsesTableCreateCompanionBuilder,
+          $$CleaningTaskInspectionResponsesTableUpdateCompanionBuilder,
+          (
+            CleaningTaskInspectionResponse,
+            $$CleaningTaskInspectionResponsesTableReferences,
+          ),
+          CleaningTaskInspectionResponse,
+          PrefetchHooks Function({bool cleaningTaskId, bool inspectionPointId})
+        > {
+  $$CleaningTaskInspectionResponsesTableTableManager(
+    _$AppDatabase db,
+    $CleaningTaskInspectionResponsesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CleaningTaskInspectionResponsesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$CleaningTaskInspectionResponsesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$CleaningTaskInspectionResponsesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> cleaningTaskId = const Value.absent(),
+                Value<String> inspectionPointId = const Value.absent(),
+                Value<bool> passed = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<String> capturedBy = const Value.absent(),
+                Value<DateTime> capturedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CleaningTaskInspectionResponsesCompanion(
+                id: id,
+                cleaningTaskId: cleaningTaskId,
+                inspectionPointId: inspectionPointId,
+                passed: passed,
+                note: note,
+                capturedBy: capturedBy,
+                capturedAt: capturedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String cleaningTaskId,
+                required String inspectionPointId,
+                required bool passed,
+                Value<String?> note = const Value.absent(),
+                required String capturedBy,
+                required DateTime capturedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => CleaningTaskInspectionResponsesCompanion.insert(
+                id: id,
+                cleaningTaskId: cleaningTaskId,
+                inspectionPointId: inspectionPointId,
+                passed: passed,
+                note: note,
+                capturedBy: capturedBy,
+                capturedAt: capturedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CleaningTaskInspectionResponsesTableReferences(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({cleaningTaskId = false, inspectionPointId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (cleaningTaskId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.cleaningTaskId,
+                                referencedTable:
+                                    $$CleaningTaskInspectionResponsesTableReferences
+                                        ._cleaningTaskIdTable(db),
+                                referencedColumn:
+                                    $$CleaningTaskInspectionResponsesTableReferences
+                                        ._cleaningTaskIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (inspectionPointId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.inspectionPointId,
+                                referencedTable:
+                                    $$CleaningTaskInspectionResponsesTableReferences
+                                        ._inspectionPointIdTable(db),
+                                referencedColumn:
+                                    $$CleaningTaskInspectionResponsesTableReferences
+                                        ._inspectionPointIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$CleaningTaskInspectionResponsesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CleaningTaskInspectionResponsesTable,
+      CleaningTaskInspectionResponse,
+      $$CleaningTaskInspectionResponsesTableFilterComposer,
+      $$CleaningTaskInspectionResponsesTableOrderingComposer,
+      $$CleaningTaskInspectionResponsesTableAnnotationComposer,
+      $$CleaningTaskInspectionResponsesTableCreateCompanionBuilder,
+      $$CleaningTaskInspectionResponsesTableUpdateCompanionBuilder,
+      (
+        CleaningTaskInspectionResponse,
+        $$CleaningTaskInspectionResponsesTableReferences,
+      ),
+      CleaningTaskInspectionResponse,
+      PrefetchHooks Function({bool cleaningTaskId, bool inspectionPointId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -34613,6 +38591,20 @@ class $AppDatabaseManager {
       $$VehiclesTableTableManager(_db, _db.vehicles);
   $$TripsTableTableManager get trips =>
       $$TripsTableTableManager(_db, _db.trips);
+  $$CleaningTasksTableTableManager get cleaningTasks =>
+      $$CleaningTasksTableTableManager(_db, _db.cleaningTasks);
+  $$CleaningTaskInspectionPointsTableTableManager
+  get cleaningTaskInspectionPoints =>
+      $$CleaningTaskInspectionPointsTableTableManager(
+        _db,
+        _db.cleaningTaskInspectionPoints,
+      );
+  $$CleaningTaskInspectionResponsesTableTableManager
+  get cleaningTaskInspectionResponses =>
+      $$CleaningTaskInspectionResponsesTableTableManager(
+        _db,
+        _db.cleaningTaskInspectionResponses,
+      );
 }
 
 // **************************************************************************

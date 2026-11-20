@@ -1,0 +1,31 @@
+[
+  {
+    "id": "ct-1001",
+    "siteId": "site-brt-01",
+    "spaceId": "spc-01",
+    "assignedUserId": "usr-hk-001",
+    "cleaningType": "Washroom deep clean",
+    "sopNote": "SOP-HK-04: Washroom Deep Clean",
+    "frequency": "daily",
+    "expectedMinutes": 30,
+    "materialsNote": "Disinfectant, mop, gloves, caution sign",
+    "photoRequired": true,
+    "status": "pending",
+    "scheduledDateOffsetMinutes": 0,
+    "lastCleanOffsetMinutes": -1440
+  },
+  {
+    "id": "ct-1002",
+    "siteId": "site-brt-01",
+    "spaceId": "spc-02",
+    "assignedUserId": "usr-hk-001",
+    "cleaningType": "Lobby floor polishing",
+    "sopNote": "SOP-HK-11: Hard Floor Polishing",
+    "frequency": "weekly",
+    "expectedMinutes": 45,
+    "materialsNote": "Floor polisher, polish solution",
+    "photoRequired": false,
+    "status": "pending",
+    "scheduledDateOffsetMinutes": 120
+  }
+]

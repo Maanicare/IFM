@@ -10,6 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'daos/asset_dao.dart';
 import 'daos/attachment_dao.dart';
 import 'daos/checklist_dao.dart';
+import 'daos/cleaning_task_dao.dart';
 import 'daos/fleet_dao.dart';
 import 'daos/identity_dao.dart';
 import 'daos/inventory_dao.dart';
@@ -25,6 +26,7 @@ import 'daos/work_order_dao.dart';
 import 'tables/asset_tables.dart';
 import 'tables/attachment_tables.dart';
 import 'tables/checklist_tables.dart';
+import 'tables/cleaning_task_tables.dart';
 import 'tables/fleet_tables.dart';
 import 'tables/identity_tables.dart';
 import 'tables/inventory_tables.dart';
@@ -81,6 +83,9 @@ part 'app_database.g.dart';
     Hazards,
     Vehicles,
     Trips,
+    CleaningTasks,
+    CleaningTaskInspectionPoints,
+    CleaningTaskInspectionResponses,
   ],
   daos: [
     LocationDao,
@@ -98,6 +103,7 @@ part 'app_database.g.dart';
     SafetyGateDao,
     SafetyDao,
     FleetDao,
+    CleaningTaskDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -114,7 +120,7 @@ class AppDatabase extends _$AppDatabase {
   // then fails with a Drift row-mapping error ("Null check operator
   // used on a null value"), not a clean "no such column" message.
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
