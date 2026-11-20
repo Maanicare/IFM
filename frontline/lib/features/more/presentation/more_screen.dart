@@ -68,6 +68,12 @@ class MoreScreen extends ConsumerWidget {
               subtitle: const Text('Desks, meeting rooms and other bookable spaces'),
               onTap: () => context.push('/reservations'),
             ),
+            ListTile(
+              leading: const Icon(Icons.mood_outlined),
+              title: const Text('Comfort feedback'),
+              subtitle: const Text('Too hot/cold, noise, air quality, lighting, cleanliness'),
+              onTap: () => context.push('/comfort-feedback'),
+            ),
           ],
           if (can(AppAction.manageShiftHandover)) ...[
             ListTile(

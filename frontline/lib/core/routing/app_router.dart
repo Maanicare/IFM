@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/assets/presentation/asset_profile_screen.dart';
 import '../../features/cleaning/presentation/cleaning_task_detail_screen.dart';
+import '../../features/comfort_feedback/presentation/comfort_feedback_screen.dart';
 import '../../features/cleaning/presentation/cleaning_tasks_screen.dart';
 import '../../features/fleet/presentation/my_vehicle_screen.dart';
 import '../../features/identity/presentation/auth_controller.dart';
@@ -131,6 +132,10 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => SpaceReservationDetailScreen(
           spaceId: state.pathParameters['spaceId']!,
         ),
+      ),
+      GoRoute(
+        path: '/comfort-feedback',
+        builder: (context, state) => const ComfortFeedbackScreen(),
       ),
       GoRoute(
         path: '/workplace',

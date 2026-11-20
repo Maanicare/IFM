@@ -251,9 +251,18 @@ Helpdesk Executive. Scan resolves a visitor pass QR to the visit.
   pre-registered expected-visitor list down - visitor
   pre-registration/host-notification is a manager/desktop concern.
 
+## Screen 46 - Comfort Feedback — DONE (with documented interpretation)
+
+One-Touch Categories (Too hot/Too cold/Noise/Air quality/Lighting/
+Cleanliness/Other) submit immediately on tap - "Other" is the one
+exception, asking for a short note since a bare "Other" tells nobody
+anything. **"Automatically map feedback to location"** uses the
+current site context (same as Create Request's auto-collection);
+**"...and sensor context" isn't modelled** - no IoT/sensor integration
+exists anywhere in this app.
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 46 — Comfort Feedback
 - Screen 53 — AI Assistant (explicitly deferred - "AI later")
 
 ## Other known gaps (from earlier audits)

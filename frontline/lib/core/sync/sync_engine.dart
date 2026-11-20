@@ -8,6 +8,7 @@ import '../../features/assets/data/asset_repository_provider.dart';
 import '../../features/attachments/data/attachment_upload_repository_provider.dart';
 import '../../features/checklists/data/checklist_repository_provider.dart';
 import '../../features/cleaning/data/cleaning_task_repository_provider.dart';
+import '../../features/comfort_feedback/data/comfort_feedback_repository_provider.dart';
 import '../../features/fleet/data/fleet_repository_provider.dart';
 import '../../features/inspections/data/inspection_repository_provider.dart';
 import '../../features/permits/data/permit_repository_provider.dart';
@@ -178,6 +179,9 @@ class SyncEngine {
           break;
         case 'visit_check_out':
           await _ref.read(visitorRepositoryProvider).pushCheckOut(entry.entityId);
+          break;
+        case 'comfort_feedback':
+          await _ref.read(comfortFeedbackRepositoryProvider).pushFeedback(entry.entityId);
           break;
         case 'cleaning_task_completion':
           await _ref.read(cleaningTaskRepositoryProvider).pushCompletion(entry.entityId);

@@ -26628,6 +26628,472 @@ class VisitsCompanion extends UpdateCompanion<Visit> {
   }
 }
 
+class $ComfortFeedbackEntriesTable extends ComfortFeedbackEntries
+    with TableInfo<$ComfortFeedbackEntriesTable, ComfortFeedbackEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ComfortFeedbackEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<String> siteId = GeneratedColumn<String>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _spaceIdMeta = const VerificationMeta(
+    'spaceId',
+  );
+  @override
+  late final GeneratedColumn<String> spaceId = GeneratedColumn<String>(
+    'space_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES spaces (id)',
+    ),
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _submittedByMeta = const VerificationMeta(
+    'submittedBy',
+  );
+  @override
+  late final GeneratedColumn<String> submittedBy = GeneratedColumn<String>(
+    'submitted_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    siteId,
+    spaceId,
+    category,
+    note,
+    submittedBy,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'comfort_feedback_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ComfortFeedbackEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('space_id')) {
+      context.handle(
+        _spaceIdMeta,
+        spaceId.isAcceptableOrUnknown(data['space_id']!, _spaceIdMeta),
+      );
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('submitted_by')) {
+      context.handle(
+        _submittedByMeta,
+        submittedBy.isAcceptableOrUnknown(
+          data['submitted_by']!,
+          _submittedByMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_submittedByMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ComfortFeedbackEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ComfortFeedbackEntry(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_id'],
+      )!,
+      spaceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}space_id'],
+      ),
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      submittedBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}submitted_by'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ComfortFeedbackEntriesTable createAlias(String alias) {
+    return $ComfortFeedbackEntriesTable(attachedDatabase, alias);
+  }
+}
+
+class ComfortFeedbackEntry extends DataClass
+    implements Insertable<ComfortFeedbackEntry> {
+  final String id;
+  final String siteId;
+  final String? spaceId;
+  final String category;
+  final String? note;
+  final String submittedBy;
+  final DateTime createdAt;
+  const ComfortFeedbackEntry({
+    required this.id,
+    required this.siteId,
+    this.spaceId,
+    required this.category,
+    this.note,
+    required this.submittedBy,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['site_id'] = Variable<String>(siteId);
+    if (!nullToAbsent || spaceId != null) {
+      map['space_id'] = Variable<String>(spaceId);
+    }
+    map['category'] = Variable<String>(category);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['submitted_by'] = Variable<String>(submittedBy);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ComfortFeedbackEntriesCompanion toCompanion(bool nullToAbsent) {
+    return ComfortFeedbackEntriesCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      spaceId: spaceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(spaceId),
+      category: Value(category),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      submittedBy: Value(submittedBy),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ComfortFeedbackEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ComfortFeedbackEntry(
+      id: serializer.fromJson<String>(json['id']),
+      siteId: serializer.fromJson<String>(json['siteId']),
+      spaceId: serializer.fromJson<String?>(json['spaceId']),
+      category: serializer.fromJson<String>(json['category']),
+      note: serializer.fromJson<String?>(json['note']),
+      submittedBy: serializer.fromJson<String>(json['submittedBy']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'siteId': serializer.toJson<String>(siteId),
+      'spaceId': serializer.toJson<String?>(spaceId),
+      'category': serializer.toJson<String>(category),
+      'note': serializer.toJson<String?>(note),
+      'submittedBy': serializer.toJson<String>(submittedBy),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ComfortFeedbackEntry copyWith({
+    String? id,
+    String? siteId,
+    Value<String?> spaceId = const Value.absent(),
+    String? category,
+    Value<String?> note = const Value.absent(),
+    String? submittedBy,
+    DateTime? createdAt,
+  }) => ComfortFeedbackEntry(
+    id: id ?? this.id,
+    siteId: siteId ?? this.siteId,
+    spaceId: spaceId.present ? spaceId.value : this.spaceId,
+    category: category ?? this.category,
+    note: note.present ? note.value : this.note,
+    submittedBy: submittedBy ?? this.submittedBy,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  ComfortFeedbackEntry copyWithCompanion(ComfortFeedbackEntriesCompanion data) {
+    return ComfortFeedbackEntry(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      spaceId: data.spaceId.present ? data.spaceId.value : this.spaceId,
+      category: data.category.present ? data.category.value : this.category,
+      note: data.note.present ? data.note.value : this.note,
+      submittedBy: data.submittedBy.present
+          ? data.submittedBy.value
+          : this.submittedBy,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ComfortFeedbackEntry(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('category: $category, ')
+          ..write('note: $note, ')
+          ..write('submittedBy: $submittedBy, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, siteId, spaceId, category, note, submittedBy, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ComfortFeedbackEntry &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.spaceId == this.spaceId &&
+          other.category == this.category &&
+          other.note == this.note &&
+          other.submittedBy == this.submittedBy &&
+          other.createdAt == this.createdAt);
+}
+
+class ComfortFeedbackEntriesCompanion
+    extends UpdateCompanion<ComfortFeedbackEntry> {
+  final Value<String> id;
+  final Value<String> siteId;
+  final Value<String?> spaceId;
+  final Value<String> category;
+  final Value<String?> note;
+  final Value<String> submittedBy;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const ComfortFeedbackEntriesCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.spaceId = const Value.absent(),
+    this.category = const Value.absent(),
+    this.note = const Value.absent(),
+    this.submittedBy = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ComfortFeedbackEntriesCompanion.insert({
+    required String id,
+    required String siteId,
+    this.spaceId = const Value.absent(),
+    required String category,
+    this.note = const Value.absent(),
+    required String submittedBy,
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       siteId = Value(siteId),
+       category = Value(category),
+       submittedBy = Value(submittedBy),
+       createdAt = Value(createdAt);
+  static Insertable<ComfortFeedbackEntry> custom({
+    Expression<String>? id,
+    Expression<String>? siteId,
+    Expression<String>? spaceId,
+    Expression<String>? category,
+    Expression<String>? note,
+    Expression<String>? submittedBy,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (spaceId != null) 'space_id': spaceId,
+      if (category != null) 'category': category,
+      if (note != null) 'note': note,
+      if (submittedBy != null) 'submitted_by': submittedBy,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ComfortFeedbackEntriesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? siteId,
+    Value<String?>? spaceId,
+    Value<String>? category,
+    Value<String?>? note,
+    Value<String>? submittedBy,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return ComfortFeedbackEntriesCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      spaceId: spaceId ?? this.spaceId,
+      category: category ?? this.category,
+      note: note ?? this.note,
+      submittedBy: submittedBy ?? this.submittedBy,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<String>(siteId.value);
+    }
+    if (spaceId.present) {
+      map['space_id'] = Variable<String>(spaceId.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (submittedBy.present) {
+      map['submitted_by'] = Variable<String>(submittedBy.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ComfortFeedbackEntriesCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('category: $category, ')
+          ..write('note: $note, ')
+          ..write('submittedBy: $submittedBy, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -26685,6 +27151,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $PermitsTable permits = $PermitsTable(this);
   late final $ReservationsTable reservations = $ReservationsTable(this);
   late final $VisitsTable visits = $VisitsTable(this);
+  late final $ComfortFeedbackEntriesTable comfortFeedbackEntries =
+      $ComfortFeedbackEntriesTable(this);
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -26717,6 +27185,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     this as AppDatabase,
   );
   late final VisitorDao visitorDao = VisitorDao(this as AppDatabase);
+  late final ComfortFeedbackDao comfortFeedbackDao = ComfortFeedbackDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -26760,6 +27231,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     permits,
     reservations,
     visits,
+    comfortFeedbackEntries,
   ];
 }
 
@@ -27069,6 +27541,34 @@ final class $$SitesTableReferences
     ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_visitsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $ComfortFeedbackEntriesTable,
+    List<ComfortFeedbackEntry>
+  >
+  _comfortFeedbackEntriesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.comfortFeedbackEntries,
+        aliasName: $_aliasNameGenerator(
+          db.sites.id,
+          db.comfortFeedbackEntries.siteId,
+        ),
+      );
+
+  $$ComfortFeedbackEntriesTableProcessedTableManager
+  get comfortFeedbackEntriesRefs {
+    final manager = $$ComfortFeedbackEntriesTableTableManager(
+      $_db,
+      $_db.comfortFeedbackEntries,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _comfortFeedbackEntriesRefsTable($_db),
+    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -27476,6 +27976,32 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> comfortFeedbackEntriesRefs(
+    Expression<bool> Function($$ComfortFeedbackEntriesTableFilterComposer f) f,
+  ) {
+    final $$ComfortFeedbackEntriesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.comfortFeedbackEntries,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ComfortFeedbackEntriesTableFilterComposer(
+                $db: $db,
+                $table: $db.comfortFeedbackEntries,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -27927,6 +28453,32 @@ class $$SitesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> comfortFeedbackEntriesRefs<T extends Object>(
+    Expression<T> Function($$ComfortFeedbackEntriesTableAnnotationComposer a) f,
+  ) {
+    final $$ComfortFeedbackEntriesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.comfortFeedbackEntries,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ComfortFeedbackEntriesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.comfortFeedbackEntries,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -27957,6 +28509,7 @@ class $$SitesTableTableManager
             bool softServiceInspectionsRefs,
             bool permitsRefs,
             bool visitsRefs,
+            bool comfortFeedbackEntriesRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -28040,6 +28593,7 @@ class $$SitesTableTableManager
                 softServiceInspectionsRefs = false,
                 permitsRefs = false,
                 visitsRefs = false,
+                comfortFeedbackEntriesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -28058,6 +28612,7 @@ class $$SitesTableTableManager
                     if (softServiceInspectionsRefs) db.softServiceInspections,
                     if (permitsRefs) db.permits,
                     if (visitsRefs) db.visits,
+                    if (comfortFeedbackEntriesRefs) db.comfortFeedbackEntries,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -28308,6 +28863,27 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (comfortFeedbackEntriesRefs)
+                        await $_getPrefetchedData<
+                          Site,
+                          $SitesTable,
+                          ComfortFeedbackEntry
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._comfortFeedbackEntriesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).comfortFeedbackEntriesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -28343,6 +28919,7 @@ typedef $$SitesTableProcessedTableManager =
         bool softServiceInspectionsRefs,
         bool permitsRefs,
         bool visitsRefs,
+        bool comfortFeedbackEntriesRefs,
       })
     >;
 typedef $$BuildingsTableCreateCompanionBuilder =
@@ -29331,6 +29908,34 @@ final class $$SpacesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $ComfortFeedbackEntriesTable,
+    List<ComfortFeedbackEntry>
+  >
+  _comfortFeedbackEntriesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.comfortFeedbackEntries,
+        aliasName: $_aliasNameGenerator(
+          db.spaces.id,
+          db.comfortFeedbackEntries.spaceId,
+        ),
+      );
+
+  $$ComfortFeedbackEntriesTableProcessedTableManager
+  get comfortFeedbackEntriesRefs {
+    final manager = $$ComfortFeedbackEntriesTableTableManager(
+      $_db,
+      $_db.comfortFeedbackEntries,
+    ).filter((f) => f.spaceId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _comfortFeedbackEntriesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SpacesTableFilterComposer
@@ -29633,6 +30238,32 @@ class $$SpacesTableFilterComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> comfortFeedbackEntriesRefs(
+    Expression<bool> Function($$ComfortFeedbackEntriesTableFilterComposer f) f,
+  ) {
+    final $$ComfortFeedbackEntriesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.comfortFeedbackEntries,
+          getReferencedColumn: (t) => t.spaceId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ComfortFeedbackEntriesTableFilterComposer(
+                $db: $db,
+                $table: $db.comfortFeedbackEntries,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -30007,6 +30638,32 @@ class $$SpacesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> comfortFeedbackEntriesRefs<T extends Object>(
+    Expression<T> Function($$ComfortFeedbackEntriesTableAnnotationComposer a) f,
+  ) {
+    final $$ComfortFeedbackEntriesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.comfortFeedbackEntries,
+          getReferencedColumn: (t) => t.spaceId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ComfortFeedbackEntriesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.comfortFeedbackEntries,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$SpacesTableTableManager
@@ -30033,6 +30690,7 @@ class $$SpacesTableTableManager
             bool washroomsRefs,
             bool softServiceInspectionsRefs,
             bool reservationsRefs,
+            bool comfortFeedbackEntriesRefs,
           })
         > {
   $$SpacesTableTableManager(_$AppDatabase db, $SpacesTable table)
@@ -30116,6 +30774,7 @@ class $$SpacesTableTableManager
                 washroomsRefs = false,
                 softServiceInspectionsRefs = false,
                 reservationsRefs = false,
+                comfortFeedbackEntriesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -30129,6 +30788,7 @@ class $$SpacesTableTableManager
                     if (washroomsRefs) db.washrooms,
                     if (softServiceInspectionsRefs) db.softServiceInspections,
                     if (reservationsRefs) db.reservations,
+                    if (comfortFeedbackEntriesRefs) db.comfortFeedbackEntries,
                   ],
                   addJoins:
                       <
@@ -30341,6 +31001,27 @@ class $$SpacesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (comfortFeedbackEntriesRefs)
+                        await $_getPrefetchedData<
+                          Space,
+                          $SpacesTable,
+                          ComfortFeedbackEntry
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SpacesTableReferences
+                              ._comfortFeedbackEntriesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SpacesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).comfortFeedbackEntriesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.spaceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -30372,6 +31053,7 @@ typedef $$SpacesTableProcessedTableManager =
         bool washroomsRefs,
         bool softServiceInspectionsRefs,
         bool reservationsRefs,
+        bool comfortFeedbackEntriesRefs,
       })
     >;
 typedef $$AssetsTableCreateCompanionBuilder =
@@ -48837,6 +49519,475 @@ typedef $$VisitsTableProcessedTableManager =
       Visit,
       PrefetchHooks Function({bool siteId})
     >;
+typedef $$ComfortFeedbackEntriesTableCreateCompanionBuilder =
+    ComfortFeedbackEntriesCompanion Function({
+      required String id,
+      required String siteId,
+      Value<String?> spaceId,
+      required String category,
+      Value<String?> note,
+      required String submittedBy,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$ComfortFeedbackEntriesTableUpdateCompanionBuilder =
+    ComfortFeedbackEntriesCompanion Function({
+      Value<String> id,
+      Value<String> siteId,
+      Value<String?> spaceId,
+      Value<String> category,
+      Value<String?> note,
+      Value<String> submittedBy,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+final class $$ComfortFeedbackEntriesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ComfortFeedbackEntriesTable,
+          ComfortFeedbackEntry
+        > {
+  $$ComfortFeedbackEntriesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) => db.sites.createAlias(
+    $_aliasNameGenerator(db.comfortFeedbackEntries.siteId, db.sites.id),
+  );
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<String>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SpacesTable _spaceIdTable(_$AppDatabase db) => db.spaces.createAlias(
+    $_aliasNameGenerator(db.comfortFeedbackEntries.spaceId, db.spaces.id),
+  );
+
+  $$SpacesTableProcessedTableManager? get spaceId {
+    final $_column = $_itemColumn<String>('space_id');
+    if ($_column == null) return null;
+    final manager = $$SpacesTableTableManager(
+      $_db,
+      $_db.spaces,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_spaceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ComfortFeedbackEntriesTableFilterComposer
+    extends Composer<_$AppDatabase, $ComfortFeedbackEntriesTable> {
+  $$ComfortFeedbackEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get submittedBy => $composableBuilder(
+    column: $table.submittedBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableFilterComposer get spaceId {
+    final $$SpacesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableFilterComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ComfortFeedbackEntriesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ComfortFeedbackEntriesTable> {
+  $$ComfortFeedbackEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get submittedBy => $composableBuilder(
+    column: $table.submittedBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableOrderingComposer get spaceId {
+    final $$SpacesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableOrderingComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ComfortFeedbackEntriesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ComfortFeedbackEntriesTable> {
+  $$ComfortFeedbackEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<String> get submittedBy => $composableBuilder(
+    column: $table.submittedBy,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableAnnotationComposer get spaceId {
+    final $$SpacesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ComfortFeedbackEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ComfortFeedbackEntriesTable,
+          ComfortFeedbackEntry,
+          $$ComfortFeedbackEntriesTableFilterComposer,
+          $$ComfortFeedbackEntriesTableOrderingComposer,
+          $$ComfortFeedbackEntriesTableAnnotationComposer,
+          $$ComfortFeedbackEntriesTableCreateCompanionBuilder,
+          $$ComfortFeedbackEntriesTableUpdateCompanionBuilder,
+          (ComfortFeedbackEntry, $$ComfortFeedbackEntriesTableReferences),
+          ComfortFeedbackEntry,
+          PrefetchHooks Function({bool siteId, bool spaceId})
+        > {
+  $$ComfortFeedbackEntriesTableTableManager(
+    _$AppDatabase db,
+    $ComfortFeedbackEntriesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ComfortFeedbackEntriesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$ComfortFeedbackEntriesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$ComfortFeedbackEntriesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> siteId = const Value.absent(),
+                Value<String?> spaceId = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<String> submittedBy = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ComfortFeedbackEntriesCompanion(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                category: category,
+                note: note,
+                submittedBy: submittedBy,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String siteId,
+                Value<String?> spaceId = const Value.absent(),
+                required String category,
+                Value<String?> note = const Value.absent(),
+                required String submittedBy,
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => ComfortFeedbackEntriesCompanion.insert(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                category: category,
+                note: note,
+                submittedBy: submittedBy,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ComfortFeedbackEntriesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, spaceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable:
+                                    $$ComfortFeedbackEntriesTableReferences
+                                        ._siteIdTable(db),
+                                referencedColumn:
+                                    $$ComfortFeedbackEntriesTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (spaceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.spaceId,
+                                referencedTable:
+                                    $$ComfortFeedbackEntriesTableReferences
+                                        ._spaceIdTable(db),
+                                referencedColumn:
+                                    $$ComfortFeedbackEntriesTableReferences
+                                        ._spaceIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ComfortFeedbackEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ComfortFeedbackEntriesTable,
+      ComfortFeedbackEntry,
+      $$ComfortFeedbackEntriesTableFilterComposer,
+      $$ComfortFeedbackEntriesTableOrderingComposer,
+      $$ComfortFeedbackEntriesTableAnnotationComposer,
+      $$ComfortFeedbackEntriesTableCreateCompanionBuilder,
+      $$ComfortFeedbackEntriesTableUpdateCompanionBuilder,
+      (ComfortFeedbackEntry, $$ComfortFeedbackEntriesTableReferences),
+      ComfortFeedbackEntry,
+      PrefetchHooks Function({bool siteId, bool spaceId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -48931,6 +50082,11 @@ class $AppDatabaseManager {
       $$ReservationsTableTableManager(_db, _db.reservations);
   $$VisitsTableTableManager get visits =>
       $$VisitsTableTableManager(_db, _db.visits);
+  $$ComfortFeedbackEntriesTableTableManager get comfortFeedbackEntries =>
+      $$ComfortFeedbackEntriesTableTableManager(
+        _db,
+        _db.comfortFeedbackEntries,
+      );
 }
 
 // **************************************************************************
