@@ -69,6 +69,15 @@ class WorkOrderDao extends DatabaseAccessor<AppDatabase>
   Future<void> upsertFromServer(WorkOrdersCompanion row) =>
       into(workOrders).insertOnConflictUpdate(row);
 
+  /// Screen 07 "Convert" (Request -> Work Order), created directly on
+  /// the device. Deliberately minimal: no checklist assignment or
+  /// scheduling, which are admin/manager-level fields with no mobile UI
+  /// anywhere in this app (see PENDING_FEATURES.md) - this creates the
+  /// bare work order so the job exists and is tracked, leaving
+  /// checklist/scheduling to be filled in server-side/by a manager.
+  Future<void> insertLocal(WorkOrdersCompanion row) =>
+      into(workOrders).insert(row);
+
   /// Applies a local status transition optimistically (before the outbox
   /// entry is confirmed by the server) so the UI reflects the technician's
   /// action immediately, and flags the row as having pending local changes

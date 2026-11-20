@@ -36,6 +36,8 @@
 	<string>Used to transcribe voice notes into structured work order fields.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Used to log in without typing your password.</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>Used to scan NFC tags on assets, spaces, inventory items and vehicles (Screen 11: Scan).</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

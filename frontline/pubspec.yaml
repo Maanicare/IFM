@@ -75,6 +75,7 @@ dependencies:
 
   # Voice note recording (Screen 06: "Optional: ... Voice note")
   record: ^6.0.0
+  nfc_manager: ^4.4.0
 
 dev_dependencies:
   flutter_test:

@@ -133,6 +133,12 @@ class SyncEngine {
         case 'fleet_trip':
           await _pushFleetTrip(entry);
           break;
+        case 'work_order_create':
+          await _ref.read(workOrderRepositoryProvider).pushNewWorkOrder(entry.entityId);
+          break;
+        case 'request_comment':
+          await _ref.read(requestRepositoryProvider).pushComment(entry.entityId);
+          break;
         case 'cleaning_task_completion':
           await _ref.read(cleaningTaskRepositoryProvider).pushCompletion(entry.entityId);
           break;

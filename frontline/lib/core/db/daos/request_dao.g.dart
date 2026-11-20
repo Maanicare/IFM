@@ -9,6 +9,7 @@ mixin _$RequestDaoMixin on DatabaseAccessor<AppDatabase> {
   $FloorsTable get floors => attachedDatabase.floors;
   $SpacesTable get spaces => attachedDatabase.spaces;
   $ServiceRequestsTable get serviceRequests => attachedDatabase.serviceRequests;
+  $RequestCommentsTable get requestComments => attachedDatabase.requestComments;
   RequestDaoManager get managers => RequestDaoManager(this);
 }
 
@@ -27,5 +28,10 @@ class RequestDaoManager {
       $$ServiceRequestsTableTableManager(
         _db.attachedDatabase,
         _db.serviceRequests,
+      );
+  $$RequestCommentsTableTableManager get requestComments =>
+      $$RequestCommentsTableTableManager(
+        _db.attachedDatabase,
+        _db.requestComments,
       );
 }

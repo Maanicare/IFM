@@ -61,6 +61,10 @@ class RequestDetailScreen extends ConsumerWidget {
                   SlaChip(target: r.resolutionDueAt),
                 ],
               ),
+              if (r.status == 'duplicate' && r.duplicateOfRequestId != null) ...[
+                const SizedBox(height: 8),
+                _DuplicateOfBanner(canonicalRequestId: r.duplicateOfRequestId!),
+              ],
               const SizedBox(height: 16),
               Text(r.title, style: Theme.of(context).textTheme.titleMedium),
               if (r.description != null) ...[
@@ -79,6 +83,8 @@ class RequestDetailScreen extends ConsumerWidget {
               _LinkedWorkOrderSection(requestId: r.id),
               const SizedBox(height: 12),
               _TimelineSection(request: r),
+              const SizedBox(height: 12),
+              _CommentsSection(requestId: r.id),
               const SizedBox(height: 16),
               _ActionBar(request: r),
             ],
@@ -241,6 +247,138 @@ class _LinkedWorkOrderSection extends ConsumerWidget {
   }
 }
 
+class _DuplicateOfBanner extends ConsumerWidget {
+  const _DuplicateOfBanner({required this.canonicalRequestId});
+  final String canonicalRequestId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final canonical = ref.watch(_requestStreamProvider(canonicalRequestId)).value;
+    return InkWell(
+      onTap: () => context.push('/requests/$canonicalRequestId'),
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.merge_type, size: 16, color: Colors.grey),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'Duplicate of ${canonical?.requestNumber ?? canonicalRequestId}',
+                style: const TextStyle(fontSize: 13),
+              ),
+            ),
+            const Icon(Icons.chevron_right, size: 18, color: Colors.grey),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Screen 07 "Comments" - append-only thread, open to anyone with site
+/// access (see the doc comment on `RequestController.addComment`).
+class _CommentsSection extends ConsumerStatefulWidget {
+  const _CommentsSection({required this.requestId});
+  final String requestId;
+
+  @override
+  ConsumerState<_CommentsSection> createState() => _CommentsSectionState();
+}
+
+class _CommentsSectionState extends ConsumerState<_CommentsSection> {
+  final _controller = TextEditingController();
+  bool _submitting = false;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final text = _controller.text.trim();
+    if (text.isEmpty) return;
+    setState(() => _submitting = true);
+    try {
+      await ref.read(requestControllerProvider.notifier).addComment(widget.requestId, text);
+      _controller.clear();
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final comments = ref.watch(_commentsProvider(widget.requestId)).value ?? const [];
+    final currentUserId = ref.watch(authControllerProvider).value?.id;
+    final fmt = DateFormat.yMMMd().add_Hm();
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Comments', style: Theme.of(context).textTheme.titleSmall),
+            const SizedBox(height: 8),
+            if (comments.isEmpty)
+              const Text('No comments yet.', style: TextStyle(color: Colors.grey))
+            else
+              for (final comment in comments)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        comment.authorId == currentUserId ? 'You' : comment.authorName,
+                        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                      ),
+                      Text(comment.body),
+                      Text(
+                        fmt.format(comment.createdAt),
+                        style: TextStyle(color: Colors.grey.shade500, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(hintText: 'Add a comment', isDense: true),
+                    minLines: 1,
+                    maxLines: 3,
+                  ),
+                ),
+                IconButton(
+                  icon: _submitting
+                      ? const SizedBox(height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                      : const Icon(Icons.send),
+                  onPressed: _submitting ? null : _submit,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+final _commentsProvider =
+    StreamProvider.family<List<RequestComment>, String>((ref, requestId) {
+  return ref.watch(appDatabaseProvider).requestDao.watchCommentsFor(requestId);
+});
+
 class _TimelineSection extends StatelessWidget {
   const _TimelineSection({required this.request});
   final ServiceRequest request;
@@ -341,6 +479,13 @@ class _ActionBar extends ConsumerWidget {
             label: const Text('Escalate'),
             onPressed: () => controller.escalate(request.id),
           ),
+        if (canTriage)
+          OutlinedButton.icon(
+            icon: const Icon(Icons.merge_type, size: 18),
+            label: const Text('Merge duplicate'),
+            onPressed: () => _mergeDuplicate(context, ref, controller),
+          ),
+        if (canTriage) _ConvertButton(request: request, controller: controller),
         if (canCancel)
           OutlinedButton.icon(
             icon: const Icon(Icons.cancel_outlined, size: 18, color: Colors.red),
@@ -349,6 +494,45 @@ class _ActionBar extends ConsumerWidget {
           ),
       ],
     );
+  }
+
+  Future<void> _mergeDuplicate(
+    BuildContext context,
+    WidgetRef ref,
+    RequestController controller,
+  ) async {
+    final db = ref.read(appDatabaseProvider);
+    final candidates = await db.requestDao.candidateDuplicatesAtSite(request.siteId, request.id);
+    if (!context.mounted) return;
+    if (candidates.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No other open requests at this site to merge with.')),
+      );
+      return;
+    }
+    final picked = await showModalBottomSheet<ServiceRequest>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: Text('Merge as duplicate of...', style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            for (final candidate in candidates)
+              ListTile(
+                title: Text(candidate.requestNumber),
+                subtitle: Text(candidate.title),
+                onTap: () => Navigator.of(context).pop(candidate),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (picked != null) {
+      await controller.markDuplicateOf(request.id, picked.id);
+    }
   }
 
   Future<void> _pickFromList(
@@ -385,5 +569,33 @@ class _ActionBar extends ConsumerWidget {
       ),
     );
     if (confirmed == true) onConfirmed();
+  }
+}
+
+/// Screen 07 action: "Convert" - only offered when no work order is
+/// already linked (see doc comment on `RequestController.convertToWorkOrder`).
+class _ConvertButton extends ConsumerWidget {
+  const _ConvertButton({required this.request, required this.controller});
+  final ServiceRequest request;
+  final RequestController controller;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FutureBuilder<WorkOrder?>(
+      future: ref.read(appDatabaseProvider).workOrderDao.byRequestId(request.id),
+      builder: (context, snapshot) {
+        if (snapshot.data != null) return const SizedBox.shrink();
+        return OutlinedButton.icon(
+          icon: const Icon(Icons.build_outlined, size: 18),
+          label: const Text('Convert'),
+          onPressed: () async {
+            final workOrderId = await controller.convertToWorkOrder(request.id);
+            if (workOrderId != null && context.mounted) {
+              context.push('/work-orders/$workOrderId');
+            }
+          },
+        );
+      },
+    );
   }
 }

@@ -35,6 +35,28 @@ class ServiceRequests extends Table {
   BoolColumn get escalated => boolean().withDefault(const Constant(false))();
   TextColumn get resolutionNote => text().nullable()();
 
+  // Screen 07 "Merge duplicate": a single self-reference rather than a
+  // separate many-to-many `duplicate_links` table - "merge" in the
+  // spec's one-line description reads as one request pointing at the
+  // canonical one it duplicates, not an arbitrary link graph.
+  TextColumn get duplicateOfRequestId => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Screen 07 "Comments" - a plain threaded log against a request. No
+/// edit/delete: comments are an append-only record of what was
+/// communicated, matching Section 51's "audit records shall not be
+/// editable" principle applied to this lighter-weight entity.
+class RequestComments extends Table {
+  TextColumn get id => text()(); // client-generated UUID
+  TextColumn get requestId => text().references(ServiceRequests, #id)();
+  TextColumn get authorId => text()();
+  TextColumn get authorName => text()();
+  TextColumn get body => text()();
+  DateTimeColumn get createdAt => dateTime()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

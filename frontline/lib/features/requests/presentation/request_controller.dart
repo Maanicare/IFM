@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/db/app_database.dart';
@@ -159,5 +160,90 @@ class RequestController extends _$RequestController {
       AppAction.cancelServiceRequest,
       () => db.requestDao.cancel(requestId),
     );
+  }
+
+  /// Screen 07 action: "Merge duplicate" - see the doc comment on
+  /// [ServiceRequests.duplicateOfRequestId].
+  Future<void> markDuplicateOf(String requestId, String canonicalRequestId) {
+    final db = ref.read(appDatabaseProvider);
+    return _updateAndQueue(
+      requestId,
+      AppAction.reassignWorkOrder,
+      () => db.requestDao.markDuplicateOf(requestId, canonicalRequestId),
+    );
+  }
+
+  /// Screen 07 action: "Comment". Any authenticated user with site
+  /// access may comment - this is a collaboration feature, not a
+  /// triage/escalation capability, so it isn't gated by one of the
+  /// existing triage-specific [AppAction]s.
+  Future<void> addComment(String requestId, String body) async {
+    final accessContext = ref.read(currentAccessContextProvider);
+    if (accessContext == null) return;
+    final db = ref.read(appDatabaseProvider);
+    final request = await db.requestDao.byId(requestId);
+    if (request == null || !accessContext.hasSiteAccess(request.siteId)) return;
+
+    final commentId = IdGenerator.newId();
+    await db.transaction(() async {
+      await db.requestDao.addComment(RequestCommentsCompanion.insert(
+        id: commentId,
+        requestId: requestId,
+        authorId: accessContext.userId,
+        authorName: accessContext.userId, // no synced user directory to resolve a display name from
+        body: body,
+        createdAt: DateTime.now(),
+      ));
+      await db.outboxDao.enqueue(
+        id: IdGenerator.newId(),
+        entityType: 'request_comment',
+        entityId: commentId,
+        operation: 'create',
+        payloadJson: jsonEncode({'requestId': requestId}),
+        createdBy: accessContext.userId,
+      );
+    });
+  }
+
+  /// Screen 07 action: "Convert" (to Work Order) - see the doc comment
+  /// on [WorkOrderDao.insertLocal] for what's deliberately left out.
+  Future<String?> convertToWorkOrder(String requestId) async {
+    final guard = ref.read(policyGuardProvider);
+    final accessContext = ref.read(currentAccessContextProvider);
+    if (accessContext == null) return null;
+    final db = ref.read(appDatabaseProvider);
+    final request = await db.requestDao.byId(requestId);
+    if (request == null) return null;
+    guard.ensure(accessContext, AppAction.reassignWorkOrder, siteId: request.siteId);
+    if (request.spaceId == null) {
+      throw StateError('Cannot convert a request with no location to a work order.');
+    }
+
+    final workOrderId = IdGenerator.newId();
+    final now = DateTime.now();
+    await db.transaction(() async {
+      await db.workOrderDao.insertLocal(WorkOrdersCompanion.insert(
+        id: workOrderId,
+        woNumber: 'LOCAL-${workOrderId.substring(0, 8).toUpperCase()}',
+        requestId: Value(requestId),
+        type: 'reactive',
+        assetId: Value(request.assetId),
+        spaceId: request.spaceId!,
+        siteId: request.siteId,
+        priority: request.priority,
+        status: 'assigned',
+        problemDescription: Value('${request.title}\n${request.description ?? ''}'.trim()),
+        updatedAt: now,
+      ));
+      await db.outboxDao.enqueue(
+        id: IdGenerator.newId(),
+        entityType: 'work_order_create',
+        entityId: workOrderId,
+        operation: 'create',
+        payloadJson: jsonEncode({'workOrderId': workOrderId}),
+        createdBy: accessContext.userId,
+      );
+    });
+    return workOrderId;
   }
 }

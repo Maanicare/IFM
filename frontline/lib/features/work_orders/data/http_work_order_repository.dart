@@ -130,4 +130,22 @@ class HttpWorkOrderRepository implements WorkOrderRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> pushNewWorkOrder(String workOrderId) async {
+    final wo = await _db.workOrderDao.byId(workOrderId);
+    if (wo == null) return;
+    await _dio.post<void>('/v1/work-orders', data: {
+      'id': wo.id,
+      'wo_number': wo.woNumber,
+      'request_id': wo.requestId,
+      'type': wo.type,
+      'asset_id': wo.assetId,
+      'space_id': wo.spaceId,
+      'site_id': wo.siteId,
+      'priority': wo.priority,
+      'status': wo.status,
+      'problem_description': wo.problemDescription,
+    });
+  }
 }

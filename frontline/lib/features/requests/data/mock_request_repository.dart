@@ -86,4 +86,9 @@ class MockRequestRepository implements RequestRepository {
   Future<void> pushUpdate(String requestId) async {
     await Future<void>.delayed(const Duration(milliseconds: 150));
   }
+
+  @override
+  Future<void> pushComment(String commentId) async {
+    await Future<void>.delayed(const Duration(milliseconds: 150));
+  }
 }

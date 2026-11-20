@@ -63,29 +63,41 @@ Hazard type and Location(site-level) are captured. **Photo** and
 at all - no evidence-capture integration here, unlike the Work Order
 evidence flow.
 
-## Screen 11 - Scan
+## Screen 11 - Scan — DONE
 
-- **NFC input** — spec lists QR/Barcode/NFC; only QR/Barcode are
-  implemented (`mobile_scanner` package). NFC needs a separate plugin
-  (e.g. `nfc_manager`), platform entitlements, and a decision on what
-  format is written to the tags - not a trivial add-on to the existing
-  scan flow.
+NFC added via `nfc_manager`. Reads the tag's raw hardware UID (hex)
+and resolves it through the same Asset/Space/Inventory/Vehicle lookup
+path as a scanned QR/barcode - no NDEF content format has been
+decided for OneMaanicare tags, so nothing is written to or expected
+on the tag beyond its built-in UID.
 
-## Screen 07 - Request Detail
+**Manual step still needed on macOS/Xcode**: `ios/Runner/Runner.entitlements`
+was added with the NFC reader-session entitlement, but wiring a new
+entitlements file into an Xcode project's `CODE_SIGN_ENTITLEMENTS`
+build setting isn't safe to do blind by editing `project.pbxproj` as
+text from Windows - open the project in Xcode and add the "Near Field
+Communication Tag Reading" capability under Signing & Capabilities
+(it will pick up this file automatically), or point
+`CODE_SIGN_ENTITLEMENTS` at it manually.
 
-- **Comments** — no comment-thread data model exists for requests
-  (needs a `RequestComments` table: id, requestId, authorId, body,
-  createdAt). Needs: table + DAO + controller + UI thread + outbox
-  sync case.
-- **Related requests / Merge duplicate** — needs a duplicate-detection
-  concept (a `duplicate_links` table: requestId, duplicateOfRequestId,
-  mergedBy, mergedAt) and a UI to find/pick a candidate duplicate.
-  Nothing in the current schema links one request to another.
-- **Convert (to Work Order)** — manually creating a full Work Order
-  (with checklist, scheduling, assignment) from a Request that wasn't
-  auto-converted server-side. Needs a WO-creation form reusing the
-  admin/manager-level fields (checklist assignment, scheduling) that
-  don't have a mobile UI anywhere yet.
+## Screen 07 - Request Detail — DONE
+
+- **Comments** — `RequestComments` table (id, requestId, authorId,
+  authorName, body, createdAt), append-only thread, pushed via its own
+  `request_comment` outbox entity type. Open to any user with site
+  access, not gated by a triage-specific action.
+- **Related requests / Merge duplicate** — simplified to a single
+  self-reference (`ServiceRequests.duplicateOfRequestId`) rather than
+  a many-to-many `duplicate_links` table, since "merge" reads as one
+  request pointing at the canonical one it duplicates. Picker lists
+  other open requests at the same site.
+- **Convert (to Work Order)** — creates a minimal Work Order directly
+  (type/asset/space/site/priority/problem description from the
+  request) via a new `work_order_create` outbox entity type.
+  Deliberately leaves out checklist assignment and scheduling, which
+  stay admin/manager-level fields with no mobile UI anywhere in this
+  app - those are expected to be filled in server-side or by a
+  manager after conversion.
 
 ## Screen 09 - Work Order Detail — DONE
 

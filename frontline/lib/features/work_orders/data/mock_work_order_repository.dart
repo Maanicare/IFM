@@ -120,4 +120,9 @@ class MockWorkOrderRepository implements WorkOrderRepository {
 
     return PushResult(newServerVersion: (baseServerVersion ?? 0) + 1);
   }
+
+  @override
+  Future<void> pushNewWorkOrder(String workOrderId) async {
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+  }
 }

@@ -5,7 +5,7 @@ import '../tables/request_tables.dart';
 
 part 'request_dao.g.dart';
 
-@DriftAccessor(tables: [ServiceRequests])
+@DriftAccessor(tables: [ServiceRequests, RequestComments])
 class RequestDao extends DatabaseAccessor<AppDatabase>
     with _$RequestDaoMixin {
   RequestDao(super.db);
@@ -53,6 +53,44 @@ class RequestDao extends DatabaseAccessor<AppDatabase>
       const ServiceRequestsCompanion(status: Value('cancelled')),
     );
   }
+
+  /// Screen 07 action: "Merge duplicate" - see the doc comment on
+  /// [ServiceRequests.duplicateOfRequestId].
+  Future<void> markDuplicateOf(String id, String canonicalRequestId) {
+    return (update(serviceRequests)..where((t) => t.id.equals(id))).write(
+      ServiceRequestsCompanion(
+        status: const Value('duplicate'),
+        duplicateOfRequestId: Value(canonicalRequestId),
+      ),
+    );
+  }
+
+  /// Screen 07 "Related requests": other open requests at the same site,
+  /// excluding this one - the candidate list a user picks a duplicate
+  /// target from.
+  Future<List<ServiceRequest>> candidateDuplicatesAtSite(String siteId, String excludingId) {
+    return (select(serviceRequests)
+          ..where((t) =>
+              t.siteId.equals(siteId) &
+              t.id.equals(excludingId).not() &
+              t.status.isNotIn(const ['closed', 'cancelled', 'rejected', 'duplicate']))
+          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)])
+          ..limit(20))
+        .get();
+  }
+
+  Stream<List<RequestComment>> watchCommentsFor(String requestId) {
+    return (select(requestComments)
+          ..where((t) => t.requestId.equals(requestId))
+          ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
+        .watch();
+  }
+
+  Future<void> addComment(RequestCommentsCompanion comment) =>
+      into(requestComments).insert(comment);
+
+  Future<RequestComment?> commentById(String id) =>
+      (select(requestComments)..where((t) => t.id.equals(id))).getSingleOrNull();
 
   Future<void> upsertFromServer(ServiceRequestsCompanion row) =>
       into(serviceRequests).insertOnConflictUpdate(row);

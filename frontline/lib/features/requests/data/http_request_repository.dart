@@ -124,6 +124,20 @@ class HttpRequestRepository implements RequestRepository {
       'assigned_team': request.assignedTeam,
       'escalated': request.escalated,
       'resolution_note': request.resolutionNote,
+      'duplicate_of_request_id': request.duplicateOfRequestId,
+    });
+  }
+
+  @override
+  Future<void> pushComment(String commentId) async {
+    final comment = await _db.requestDao.commentById(commentId);
+    if (comment == null) return;
+    await _dio.post<void>('/v1/requests/${comment.requestId}/comments', data: {
+      'id': comment.id,
+      'author_id': comment.authorId,
+      'author_name': comment.authorName,
+      'body': comment.body,
+      'created_at': comment.createdAt.toIso8601String(),
     });
   }
 }

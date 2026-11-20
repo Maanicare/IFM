@@ -32,4 +32,8 @@ abstract interface class WorkOrderRepository {
     double? longitude,
     String? locationSource,
   });
+
+  /// Screen 07 "Convert": pushes a work order that was created directly
+  /// on the device (see [WorkOrderDao.insertLocal]) to the server.
+  Future<void> pushNewWorkOrder(String workOrderId);
 }

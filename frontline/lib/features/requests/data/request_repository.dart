@@ -27,4 +27,8 @@ abstract interface class RequestRepository {
   /// they're all plain field updates, not a workflow transition that
   /// needs its own endpoint shape.
   Future<void> pushUpdate(String requestId);
+
+  /// Screen 07 "Comments" - pushes one comment (identified by its own
+  /// client-generated id).
+  Future<void> pushComment(String commentId);
 }

@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- Biometric login (Screen 01) -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!-- Scan (Screen 11): NFC tag reading, in addition to QR/barcode. -->
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc" android:required="false" />
     <application
         android:label="OneMaanicare"
         android:name="${applicationName}"

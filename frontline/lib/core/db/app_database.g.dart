@@ -4359,6 +4359,17 @@ class $ServiceRequestsTable extends ServiceRequests
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _duplicateOfRequestIdMeta =
+      const VerificationMeta('duplicateOfRequestId');
+  @override
+  late final GeneratedColumn<String> duplicateOfRequestId =
+      GeneratedColumn<String>(
+        'duplicate_of_request_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4382,6 +4393,7 @@ class $ServiceRequestsTable extends ServiceRequests
     assignedTeam,
     escalated,
     resolutionNote,
+    duplicateOfRequestId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4563,6 +4575,15 @@ class $ServiceRequestsTable extends ServiceRequests
         ),
       );
     }
+    if (data.containsKey('duplicate_of_request_id')) {
+      context.handle(
+        _duplicateOfRequestIdMeta,
+        duplicateOfRequestId.isAcceptableOrUnknown(
+          data['duplicate_of_request_id']!,
+          _duplicateOfRequestIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4656,6 +4677,10 @@ class $ServiceRequestsTable extends ServiceRequests
         DriftSqlType.string,
         data['${effectivePrefix}resolution_note'],
       ),
+      duplicateOfRequestId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}duplicate_of_request_id'],
+      ),
     );
   }
 
@@ -4687,6 +4712,7 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
   final String? assignedTeam;
   final bool escalated;
   final String? resolutionNote;
+  final String? duplicateOfRequestId;
   const ServiceRequest({
     required this.id,
     required this.requestNumber,
@@ -4709,6 +4735,7 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
     this.assignedTeam,
     required this.escalated,
     this.resolutionNote,
+    this.duplicateOfRequestId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4753,6 +4780,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
     map['escalated'] = Variable<bool>(escalated);
     if (!nullToAbsent || resolutionNote != null) {
       map['resolution_note'] = Variable<String>(resolutionNote);
+    }
+    if (!nullToAbsent || duplicateOfRequestId != null) {
+      map['duplicate_of_request_id'] = Variable<String>(duplicateOfRequestId);
     }
     return map;
   }
@@ -4800,6 +4830,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
       resolutionNote: resolutionNote == null && nullToAbsent
           ? const Value.absent()
           : Value(resolutionNote),
+      duplicateOfRequestId: duplicateOfRequestId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(duplicateOfRequestId),
     );
   }
 
@@ -4832,6 +4865,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
       assignedTeam: serializer.fromJson<String?>(json['assignedTeam']),
       escalated: serializer.fromJson<bool>(json['escalated']),
       resolutionNote: serializer.fromJson<String?>(json['resolutionNote']),
+      duplicateOfRequestId: serializer.fromJson<String?>(
+        json['duplicateOfRequestId'],
+      ),
     );
   }
   @override
@@ -4859,6 +4895,7 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
       'assignedTeam': serializer.toJson<String?>(assignedTeam),
       'escalated': serializer.toJson<bool>(escalated),
       'resolutionNote': serializer.toJson<String?>(resolutionNote),
+      'duplicateOfRequestId': serializer.toJson<String?>(duplicateOfRequestId),
     };
   }
 
@@ -4884,6 +4921,7 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
     Value<String?> assignedTeam = const Value.absent(),
     bool? escalated,
     Value<String?> resolutionNote = const Value.absent(),
+    Value<String?> duplicateOfRequestId = const Value.absent(),
   }) => ServiceRequest(
     id: id ?? this.id,
     requestNumber: requestNumber ?? this.requestNumber,
@@ -4914,6 +4952,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
     resolutionNote: resolutionNote.present
         ? resolutionNote.value
         : this.resolutionNote,
+    duplicateOfRequestId: duplicateOfRequestId.present
+        ? duplicateOfRequestId.value
+        : this.duplicateOfRequestId,
   );
   ServiceRequest copyWithCompanion(ServiceRequestsCompanion data) {
     return ServiceRequest(
@@ -4958,6 +4999,9 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
       resolutionNote: data.resolutionNote.present
           ? data.resolutionNote.value
           : this.resolutionNote,
+      duplicateOfRequestId: data.duplicateOfRequestId.present
+          ? data.duplicateOfRequestId.value
+          : this.duplicateOfRequestId,
     );
   }
 
@@ -4984,7 +5028,8 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
           ..write('safetyConcern: $safetyConcern, ')
           ..write('assignedTeam: $assignedTeam, ')
           ..write('escalated: $escalated, ')
-          ..write('resolutionNote: $resolutionNote')
+          ..write('resolutionNote: $resolutionNote, ')
+          ..write('duplicateOfRequestId: $duplicateOfRequestId')
           ..write(')'))
         .toString();
   }
@@ -5012,6 +5057,7 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
     assignedTeam,
     escalated,
     resolutionNote,
+    duplicateOfRequestId,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -5037,7 +5083,8 @@ class ServiceRequest extends DataClass implements Insertable<ServiceRequest> {
           other.safetyConcern == this.safetyConcern &&
           other.assignedTeam == this.assignedTeam &&
           other.escalated == this.escalated &&
-          other.resolutionNote == this.resolutionNote);
+          other.resolutionNote == this.resolutionNote &&
+          other.duplicateOfRequestId == this.duplicateOfRequestId);
 }
 
 class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
@@ -5062,6 +5109,7 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
   final Value<String?> assignedTeam;
   final Value<bool> escalated;
   final Value<String?> resolutionNote;
+  final Value<String?> duplicateOfRequestId;
   final Value<int> rowid;
   const ServiceRequestsCompanion({
     this.id = const Value.absent(),
@@ -5085,6 +5133,7 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     this.assignedTeam = const Value.absent(),
     this.escalated = const Value.absent(),
     this.resolutionNote = const Value.absent(),
+    this.duplicateOfRequestId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ServiceRequestsCompanion.insert({
@@ -5109,6 +5158,7 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     this.assignedTeam = const Value.absent(),
     this.escalated = const Value.absent(),
     this.resolutionNote = const Value.absent(),
+    this.duplicateOfRequestId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        requestNumber = Value(requestNumber),
@@ -5141,6 +5191,7 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     Expression<String>? assignedTeam,
     Expression<bool>? escalated,
     Expression<String>? resolutionNote,
+    Expression<String>? duplicateOfRequestId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5166,6 +5217,8 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
       if (assignedTeam != null) 'assigned_team': assignedTeam,
       if (escalated != null) 'escalated': escalated,
       if (resolutionNote != null) 'resolution_note': resolutionNote,
+      if (duplicateOfRequestId != null)
+        'duplicate_of_request_id': duplicateOfRequestId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5192,6 +5245,7 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     Value<String?>? assignedTeam,
     Value<bool>? escalated,
     Value<String?>? resolutionNote,
+    Value<String?>? duplicateOfRequestId,
     Value<int>? rowid,
   }) {
     return ServiceRequestsCompanion(
@@ -5216,6 +5270,7 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
       assignedTeam: assignedTeam ?? this.assignedTeam,
       escalated: escalated ?? this.escalated,
       resolutionNote: resolutionNote ?? this.resolutionNote,
+      duplicateOfRequestId: duplicateOfRequestId ?? this.duplicateOfRequestId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5286,6 +5341,11 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
     if (resolutionNote.present) {
       map['resolution_note'] = Variable<String>(resolutionNote.value);
     }
+    if (duplicateOfRequestId.present) {
+      map['duplicate_of_request_id'] = Variable<String>(
+        duplicateOfRequestId.value,
+      );
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -5316,6 +5376,7 @@ class ServiceRequestsCompanion extends UpdateCompanion<ServiceRequest> {
           ..write('assignedTeam: $assignedTeam, ')
           ..write('escalated: $escalated, ')
           ..write('resolutionNote: $resolutionNote, ')
+          ..write('duplicateOfRequestId: $duplicateOfRequestId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -20795,6 +20856,419 @@ class CleaningTaskInspectionResponsesCompanion
   }
 }
 
+class $RequestCommentsTable extends RequestComments
+    with TableInfo<$RequestCommentsTable, RequestComment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RequestCommentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _requestIdMeta = const VerificationMeta(
+    'requestId',
+  );
+  @override
+  late final GeneratedColumn<String> requestId = GeneratedColumn<String>(
+    'request_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES service_requests (id)',
+    ),
+  );
+  static const VerificationMeta _authorIdMeta = const VerificationMeta(
+    'authorId',
+  );
+  @override
+  late final GeneratedColumn<String> authorId = GeneratedColumn<String>(
+    'author_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _authorNameMeta = const VerificationMeta(
+    'authorName',
+  );
+  @override
+  late final GeneratedColumn<String> authorName = GeneratedColumn<String>(
+    'author_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bodyMeta = const VerificationMeta('body');
+  @override
+  late final GeneratedColumn<String> body = GeneratedColumn<String>(
+    'body',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    requestId,
+    authorId,
+    authorName,
+    body,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'request_comments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<RequestComment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('request_id')) {
+      context.handle(
+        _requestIdMeta,
+        requestId.isAcceptableOrUnknown(data['request_id']!, _requestIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_requestIdMeta);
+    }
+    if (data.containsKey('author_id')) {
+      context.handle(
+        _authorIdMeta,
+        authorId.isAcceptableOrUnknown(data['author_id']!, _authorIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_authorIdMeta);
+    }
+    if (data.containsKey('author_name')) {
+      context.handle(
+        _authorNameMeta,
+        authorName.isAcceptableOrUnknown(data['author_name']!, _authorNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_authorNameMeta);
+    }
+    if (data.containsKey('body')) {
+      context.handle(
+        _bodyMeta,
+        body.isAcceptableOrUnknown(data['body']!, _bodyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bodyMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  RequestComment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RequestComment(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      requestId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}request_id'],
+      )!,
+      authorId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}author_id'],
+      )!,
+      authorName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}author_name'],
+      )!,
+      body: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}body'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $RequestCommentsTable createAlias(String alias) {
+    return $RequestCommentsTable(attachedDatabase, alias);
+  }
+}
+
+class RequestComment extends DataClass implements Insertable<RequestComment> {
+  final String id;
+  final String requestId;
+  final String authorId;
+  final String authorName;
+  final String body;
+  final DateTime createdAt;
+  const RequestComment({
+    required this.id,
+    required this.requestId,
+    required this.authorId,
+    required this.authorName,
+    required this.body,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['request_id'] = Variable<String>(requestId);
+    map['author_id'] = Variable<String>(authorId);
+    map['author_name'] = Variable<String>(authorName);
+    map['body'] = Variable<String>(body);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  RequestCommentsCompanion toCompanion(bool nullToAbsent) {
+    return RequestCommentsCompanion(
+      id: Value(id),
+      requestId: Value(requestId),
+      authorId: Value(authorId),
+      authorName: Value(authorName),
+      body: Value(body),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory RequestComment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RequestComment(
+      id: serializer.fromJson<String>(json['id']),
+      requestId: serializer.fromJson<String>(json['requestId']),
+      authorId: serializer.fromJson<String>(json['authorId']),
+      authorName: serializer.fromJson<String>(json['authorName']),
+      body: serializer.fromJson<String>(json['body']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'requestId': serializer.toJson<String>(requestId),
+      'authorId': serializer.toJson<String>(authorId),
+      'authorName': serializer.toJson<String>(authorName),
+      'body': serializer.toJson<String>(body),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  RequestComment copyWith({
+    String? id,
+    String? requestId,
+    String? authorId,
+    String? authorName,
+    String? body,
+    DateTime? createdAt,
+  }) => RequestComment(
+    id: id ?? this.id,
+    requestId: requestId ?? this.requestId,
+    authorId: authorId ?? this.authorId,
+    authorName: authorName ?? this.authorName,
+    body: body ?? this.body,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  RequestComment copyWithCompanion(RequestCommentsCompanion data) {
+    return RequestComment(
+      id: data.id.present ? data.id.value : this.id,
+      requestId: data.requestId.present ? data.requestId.value : this.requestId,
+      authorId: data.authorId.present ? data.authorId.value : this.authorId,
+      authorName: data.authorName.present
+          ? data.authorName.value
+          : this.authorName,
+      body: data.body.present ? data.body.value : this.body,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RequestComment(')
+          ..write('id: $id, ')
+          ..write('requestId: $requestId, ')
+          ..write('authorId: $authorId, ')
+          ..write('authorName: $authorName, ')
+          ..write('body: $body, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, requestId, authorId, authorName, body, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RequestComment &&
+          other.id == this.id &&
+          other.requestId == this.requestId &&
+          other.authorId == this.authorId &&
+          other.authorName == this.authorName &&
+          other.body == this.body &&
+          other.createdAt == this.createdAt);
+}
+
+class RequestCommentsCompanion extends UpdateCompanion<RequestComment> {
+  final Value<String> id;
+  final Value<String> requestId;
+  final Value<String> authorId;
+  final Value<String> authorName;
+  final Value<String> body;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const RequestCommentsCompanion({
+    this.id = const Value.absent(),
+    this.requestId = const Value.absent(),
+    this.authorId = const Value.absent(),
+    this.authorName = const Value.absent(),
+    this.body = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  RequestCommentsCompanion.insert({
+    required String id,
+    required String requestId,
+    required String authorId,
+    required String authorName,
+    required String body,
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       requestId = Value(requestId),
+       authorId = Value(authorId),
+       authorName = Value(authorName),
+       body = Value(body),
+       createdAt = Value(createdAt);
+  static Insertable<RequestComment> custom({
+    Expression<String>? id,
+    Expression<String>? requestId,
+    Expression<String>? authorId,
+    Expression<String>? authorName,
+    Expression<String>? body,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (requestId != null) 'request_id': requestId,
+      if (authorId != null) 'author_id': authorId,
+      if (authorName != null) 'author_name': authorName,
+      if (body != null) 'body': body,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  RequestCommentsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? requestId,
+    Value<String>? authorId,
+    Value<String>? authorName,
+    Value<String>? body,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return RequestCommentsCompanion(
+      id: id ?? this.id,
+      requestId: requestId ?? this.requestId,
+      authorId: authorId ?? this.authorId,
+      authorName: authorName ?? this.authorName,
+      body: body ?? this.body,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (requestId.present) {
+      map['request_id'] = Variable<String>(requestId.value);
+    }
+    if (authorId.present) {
+      map['author_id'] = Variable<String>(authorId.value);
+    }
+    if (authorName.present) {
+      map['author_name'] = Variable<String>(authorName.value);
+    }
+    if (body.present) {
+      map['body'] = Variable<String>(body.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RequestCommentsCompanion(')
+          ..write('id: $id, ')
+          ..write('requestId: $requestId, ')
+          ..write('authorId: $authorId, ')
+          ..write('authorName: $authorName, ')
+          ..write('body: $body, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -20843,6 +21317,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $CleaningTaskInspectionPointsTable(this);
   late final $CleaningTaskInspectionResponsesTable
   cleaningTaskInspectionResponses = $CleaningTaskInspectionResponsesTable(this);
+  late final $RequestCommentsTable requestComments = $RequestCommentsTable(
+    this,
+  );
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -20904,6 +21381,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     cleaningTasks,
     cleaningTaskInspectionPoints,
     cleaningTaskInspectionResponses,
+    requestComments,
   ];
 }
 
@@ -25975,6 +26453,7 @@ typedef $$ServiceRequestsTableCreateCompanionBuilder =
       Value<String?> assignedTeam,
       Value<bool> escalated,
       Value<String?> resolutionNote,
+      Value<String?> duplicateOfRequestId,
       Value<int> rowid,
     });
 typedef $$ServiceRequestsTableUpdateCompanionBuilder =
@@ -26000,6 +26479,7 @@ typedef $$ServiceRequestsTableUpdateCompanionBuilder =
       Value<String?> assignedTeam,
       Value<bool> escalated,
       Value<String?> resolutionNote,
+      Value<String?> duplicateOfRequestId,
       Value<int> rowid,
     });
 
@@ -26064,6 +26544,29 @@ final class $$ServiceRequestsTableReferences
     ).filter((f) => f.requestId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_workOrdersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$RequestCommentsTable, List<RequestComment>>
+  _requestCommentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.requestComments,
+    aliasName: $_aliasNameGenerator(
+      db.serviceRequests.id,
+      db.requestComments.requestId,
+    ),
+  );
+
+  $$RequestCommentsTableProcessedTableManager get requestCommentsRefs {
+    final manager = $$RequestCommentsTableTableManager(
+      $_db,
+      $_db.requestComments,
+    ).filter((f) => f.requestId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _requestCommentsRefsTable($_db),
+    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -26174,6 +26677,11 @@ class $$ServiceRequestsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get duplicateOfRequestId => $composableBuilder(
+    column: $table.duplicateOfRequestId,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$SitesTableFilterComposer get siteId {
     final $$SitesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -26236,6 +26744,31 @@ class $$ServiceRequestsTableFilterComposer
           }) => $$WorkOrdersTableFilterComposer(
             $db: $db,
             $table: $db.workOrders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> requestCommentsRefs(
+    Expression<bool> Function($$RequestCommentsTableFilterComposer f) f,
+  ) {
+    final $$RequestCommentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.requestComments,
+      getReferencedColumn: (t) => t.requestId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RequestCommentsTableFilterComposer(
+            $db: $db,
+            $table: $db.requestComments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -26347,6 +26880,11 @@ class $$ServiceRequestsTableOrderingComposer
 
   ColumnOrderings<String> get resolutionNote => $composableBuilder(
     column: $table.resolutionNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get duplicateOfRequestId => $composableBuilder(
+    column: $table.duplicateOfRequestId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -26483,6 +27021,11 @@ class $$ServiceRequestsTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get duplicateOfRequestId => $composableBuilder(
+    column: $table.duplicateOfRequestId,
+    builder: (column) => column,
+  );
+
   $$SitesTableAnnotationComposer get siteId {
     final $$SitesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -26553,6 +27096,31 @@ class $$ServiceRequestsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> requestCommentsRefs<T extends Object>(
+    Expression<T> Function($$RequestCommentsTableAnnotationComposer a) f,
+  ) {
+    final $$RequestCommentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.requestComments,
+      getReferencedColumn: (t) => t.requestId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RequestCommentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.requestComments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ServiceRequestsTableTableManager
@@ -26572,6 +27140,7 @@ class $$ServiceRequestsTableTableManager
             bool siteId,
             bool spaceId,
             bool workOrdersRefs,
+            bool requestCommentsRefs,
           })
         > {
   $$ServiceRequestsTableTableManager(
@@ -26610,6 +27179,7 @@ class $$ServiceRequestsTableTableManager
                 Value<String?> assignedTeam = const Value.absent(),
                 Value<bool> escalated = const Value.absent(),
                 Value<String?> resolutionNote = const Value.absent(),
+                Value<String?> duplicateOfRequestId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ServiceRequestsCompanion(
                 id: id,
@@ -26633,6 +27203,7 @@ class $$ServiceRequestsTableTableManager
                 assignedTeam: assignedTeam,
                 escalated: escalated,
                 resolutionNote: resolutionNote,
+                duplicateOfRequestId: duplicateOfRequestId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -26658,6 +27229,7 @@ class $$ServiceRequestsTableTableManager
                 Value<String?> assignedTeam = const Value.absent(),
                 Value<bool> escalated = const Value.absent(),
                 Value<String?> resolutionNote = const Value.absent(),
+                Value<String?> duplicateOfRequestId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ServiceRequestsCompanion.insert(
                 id: id,
@@ -26681,6 +27253,7 @@ class $$ServiceRequestsTableTableManager
                 assignedTeam: assignedTeam,
                 escalated: escalated,
                 resolutionNote: resolutionNote,
+                duplicateOfRequestId: duplicateOfRequestId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -26692,10 +27265,18 @@ class $$ServiceRequestsTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({siteId = false, spaceId = false, workOrdersRefs = false}) {
+              ({
+                siteId = false,
+                spaceId = false,
+                workOrdersRefs = false,
+                requestCommentsRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
-                  explicitlyWatchedTables: [if (workOrdersRefs) db.workOrders],
+                  explicitlyWatchedTables: [
+                    if (workOrdersRefs) db.workOrders,
+                    if (requestCommentsRefs) db.requestComments,
+                  ],
                   addJoins:
                       <
                         T extends TableManagerState<
@@ -26768,6 +27349,27 @@ class $$ServiceRequestsTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (requestCommentsRefs)
+                        await $_getPrefetchedData<
+                          ServiceRequest,
+                          $ServiceRequestsTable,
+                          RequestComment
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServiceRequestsTableReferences
+                              ._requestCommentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServiceRequestsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).requestCommentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.requestId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -26788,7 +27390,12 @@ typedef $$ServiceRequestsTableProcessedTableManager =
       $$ServiceRequestsTableUpdateCompanionBuilder,
       (ServiceRequest, $$ServiceRequestsTableReferences),
       ServiceRequest,
-      PrefetchHooks Function({bool siteId, bool spaceId, bool workOrdersRefs})
+      PrefetchHooks Function({
+        bool siteId,
+        bool spaceId,
+        bool workOrdersRefs,
+        bool requestCommentsRefs,
+      })
     >;
 typedef $$WorkOrdersTableCreateCompanionBuilder =
     WorkOrdersCompanion Function({
@@ -38526,6 +39133,358 @@ typedef $$CleaningTaskInspectionResponsesTableProcessedTableManager =
       CleaningTaskInspectionResponse,
       PrefetchHooks Function({bool cleaningTaskId, bool inspectionPointId})
     >;
+typedef $$RequestCommentsTableCreateCompanionBuilder =
+    RequestCommentsCompanion Function({
+      required String id,
+      required String requestId,
+      required String authorId,
+      required String authorName,
+      required String body,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$RequestCommentsTableUpdateCompanionBuilder =
+    RequestCommentsCompanion Function({
+      Value<String> id,
+      Value<String> requestId,
+      Value<String> authorId,
+      Value<String> authorName,
+      Value<String> body,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+final class $$RequestCommentsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $RequestCommentsTable, RequestComment> {
+  $$RequestCommentsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ServiceRequestsTable _requestIdTable(_$AppDatabase db) =>
+      db.serviceRequests.createAlias(
+        $_aliasNameGenerator(
+          db.requestComments.requestId,
+          db.serviceRequests.id,
+        ),
+      );
+
+  $$ServiceRequestsTableProcessedTableManager get requestId {
+    final $_column = $_itemColumn<String>('request_id')!;
+
+    final manager = $$ServiceRequestsTableTableManager(
+      $_db,
+      $_db.serviceRequests,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_requestIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$RequestCommentsTableFilterComposer
+    extends Composer<_$AppDatabase, $RequestCommentsTable> {
+  $$RequestCommentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get authorId => $composableBuilder(
+    column: $table.authorId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get authorName => $composableBuilder(
+    column: $table.authorName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get body => $composableBuilder(
+    column: $table.body,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServiceRequestsTableFilterComposer get requestId {
+    final $$ServiceRequestsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.requestId,
+      referencedTable: $db.serviceRequests,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServiceRequestsTableFilterComposer(
+            $db: $db,
+            $table: $db.serviceRequests,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RequestCommentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RequestCommentsTable> {
+  $$RequestCommentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get authorId => $composableBuilder(
+    column: $table.authorId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get authorName => $composableBuilder(
+    column: $table.authorName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get body => $composableBuilder(
+    column: $table.body,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServiceRequestsTableOrderingComposer get requestId {
+    final $$ServiceRequestsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.requestId,
+      referencedTable: $db.serviceRequests,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServiceRequestsTableOrderingComposer(
+            $db: $db,
+            $table: $db.serviceRequests,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RequestCommentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RequestCommentsTable> {
+  $$RequestCommentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get authorId =>
+      $composableBuilder(column: $table.authorId, builder: (column) => column);
+
+  GeneratedColumn<String> get authorName => $composableBuilder(
+    column: $table.authorName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get body =>
+      $composableBuilder(column: $table.body, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$ServiceRequestsTableAnnotationComposer get requestId {
+    final $$ServiceRequestsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.requestId,
+      referencedTable: $db.serviceRequests,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServiceRequestsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.serviceRequests,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RequestCommentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $RequestCommentsTable,
+          RequestComment,
+          $$RequestCommentsTableFilterComposer,
+          $$RequestCommentsTableOrderingComposer,
+          $$RequestCommentsTableAnnotationComposer,
+          $$RequestCommentsTableCreateCompanionBuilder,
+          $$RequestCommentsTableUpdateCompanionBuilder,
+          (RequestComment, $$RequestCommentsTableReferences),
+          RequestComment,
+          PrefetchHooks Function({bool requestId})
+        > {
+  $$RequestCommentsTableTableManager(
+    _$AppDatabase db,
+    $RequestCommentsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RequestCommentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RequestCommentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RequestCommentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> requestId = const Value.absent(),
+                Value<String> authorId = const Value.absent(),
+                Value<String> authorName = const Value.absent(),
+                Value<String> body = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => RequestCommentsCompanion(
+                id: id,
+                requestId: requestId,
+                authorId: authorId,
+                authorName: authorName,
+                body: body,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String requestId,
+                required String authorId,
+                required String authorName,
+                required String body,
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => RequestCommentsCompanion.insert(
+                id: id,
+                requestId: requestId,
+                authorId: authorId,
+                authorName: authorName,
+                body: body,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$RequestCommentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({requestId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (requestId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.requestId,
+                                referencedTable:
+                                    $$RequestCommentsTableReferences
+                                        ._requestIdTable(db),
+                                referencedColumn:
+                                    $$RequestCommentsTableReferences
+                                        ._requestIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$RequestCommentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $RequestCommentsTable,
+      RequestComment,
+      $$RequestCommentsTableFilterComposer,
+      $$RequestCommentsTableOrderingComposer,
+      $$RequestCommentsTableAnnotationComposer,
+      $$RequestCommentsTableCreateCompanionBuilder,
+      $$RequestCommentsTableUpdateCompanionBuilder,
+      (RequestComment, $$RequestCommentsTableReferences),
+      RequestComment,
+      PrefetchHooks Function({bool requestId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -38605,6 +39564,8 @@ class $AppDatabaseManager {
         _db,
         _db.cleaningTaskInspectionResponses,
       );
+  $$RequestCommentsTableTableManager get requestComments =>
+      $$RequestCommentsTableTableManager(_db, _db.requestComments);
 }
 
 // **************************************************************************

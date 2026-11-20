@@ -5,17 +5,18 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../core/db/app_database.dart';
 import '../../../core/db/daos/inventory_dao.dart';
+import '../../../core/nfc/nfc_service.dart';
 import '../../location/presentation/current_site_provider.dart';
 
-/// SCREEN 11 - Scan. Resolves a QR/barcode against the local cache across
-/// everything this mobile app actually manages - Asset, Space, Inventory
-/// item, Vehicle (Section: "Can Identify: Asset; Space; Inventory item;
-/// Vehicle; Equipment; Room") - checked in that order since a shared code
-/// space across entity types is a real-world risk. "Equipment" and "Room"
-/// are not separate data models in this schema - they're covered by
-/// Asset and Space respectively. NFC is not implemented: `mobile_scanner`
-/// only reads QR/barcode; NFC would need a separate plugin and tag-format
-/// decision, tracked in PENDING_FEATURES.md rather than guessed at here.
+/// SCREEN 11 - Scan. Resolves a QR/barcode/NFC tag against the local
+/// cache across everything this mobile app actually manages - Asset,
+/// Space, Inventory item, Vehicle (Section: "Can Identify: Asset; Space;
+/// Inventory item; Vehicle; Equipment; Room") - checked in that order
+/// since a shared code space across entity types is a real-world risk.
+/// "Equipment" and "Room" are not separate data models in this schema -
+/// they're covered by Asset and Space respectively. NFC reads the tag's
+/// raw UID (see `NfcService`'s doc comment for why) through the same
+/// lookup/result-sheet path as a scanned code.
 class ScanScreen extends ConsumerStatefulWidget {
   const ScanScreen({super.key});
 
@@ -26,6 +27,7 @@ class ScanScreen extends ConsumerStatefulWidget {
 class _ScanScreenState extends ConsumerState<ScanScreen> {
   final MobileScannerController _controller = MobileScannerController();
   bool _handled = false;
+  bool _nfcScanning = false;
 
   @override
   void dispose() {
@@ -38,7 +40,29 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     final code = capture.barcodes.firstOrNull?.rawValue;
     if (code == null) return;
     _handled = true;
+    await _resolveCode(code);
+    _handled = false;
+  }
 
+  Future<void> _onScanNfc() async {
+    final available = await NfcService.isAvailable();
+    if (!mounted) return;
+    if (!available) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('NFC is not available on this device.')),
+      );
+      return;
+    }
+    setState(() => _nfcScanning = true);
+    try {
+      final tagId = await NfcService.scanTagId();
+      if (tagId != null) await _resolveCode(tagId);
+    } finally {
+      if (mounted) setState(() => _nfcScanning = false);
+    }
+  }
+
+  Future<void> _resolveCode(String code) async {
     final db = ref.read(appDatabaseProvider);
 
     final asset = await db.assetDao.byQrCode(code);
@@ -49,7 +73,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           builder: (context) => _AssetResultSheet(asset: asset),
         );
       }
-      _handled = false;
       return;
     }
 
@@ -61,7 +84,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           builder: (context) => _SpaceResultSheet(space: space),
         );
       }
-      _handled = false;
       return;
     }
 
@@ -77,7 +99,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           builder: (context) => _InventoryResultSheet(entry: withBalance!),
         );
       }
-      _handled = false;
       return;
     }
 
@@ -89,7 +110,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           builder: (context) => _VehicleResultSheet(vehicle: vehicle),
         );
       }
-      _handled = false;
       return;
     }
 
@@ -97,14 +117,31 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Nothing found for code "$code".')),
     );
-    _handled = false;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Scan')),
-      body: MobileScanner(controller: _controller, onDetect: _onDetect),
+      body: Stack(
+        children: [
+          MobileScanner(controller: _controller, onDetect: _onDetect),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 24,
+            child: Center(
+              child: FilledButton.icon(
+                onPressed: _nfcScanning ? null : _onScanNfc,
+                icon: _nfcScanning
+                    ? const SizedBox(height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                    : const Icon(Icons.nfc),
+                label: Text(_nfcScanning ? 'Hold device near tag...' : 'Scan NFC tag'),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
