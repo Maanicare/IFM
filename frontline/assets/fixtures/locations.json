@@ -37,7 +37,11 @@
       "spaceCode": "F8-MR-02",
       "name": "Meeting Room 2, Floor 8",
       "spaceType": "meeting_room",
-      "criticality": "high"
+      "criticality": "high",
+      "capacity": 8,
+      "reservable": true,
+      "equipmentNote": "TV screen, video conferencing, whiteboard",
+      "amenitiesNote": "Natural light, AC"
     },
     {
       "id": "spc-02",

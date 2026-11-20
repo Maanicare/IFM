@@ -19,6 +19,7 @@ import 'daos/notification_dao.dart';
 import 'daos/outbox_dao.dart';
 import 'daos/permit_dao.dart';
 import 'daos/request_dao.dart';
+import 'daos/reservation_dao.dart';
 import 'daos/safety_dao.dart';
 import 'daos/safety_gate_dao.dart';
 import 'daos/shift_handover_dao.dart';
@@ -38,6 +39,7 @@ import 'tables/notification_table.dart';
 import 'tables/outbox_table.dart';
 import 'tables/permit_tables.dart';
 import 'tables/request_tables.dart';
+import 'tables/reservation_tables.dart';
 import 'tables/safety_gate_tables.dart';
 import 'tables/safety_tables.dart';
 import 'tables/shift_handover_tables.dart';
@@ -96,6 +98,7 @@ part 'app_database.g.dart';
     Washrooms,
     SoftServiceInspections,
     Permits,
+    Reservations,
   ],
   daos: [
     LocationDao,
@@ -117,6 +120,7 @@ part 'app_database.g.dart';
     WashroomDao,
     SoftServiceInspectionDao,
     PermitDao,
+    ReservationDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -133,7 +137,7 @@ class AppDatabase extends _$AppDatabase {
   // then fails with a Drift row-mapping error ("Null check operator
   // used on a null value"), not a clean "no such column" message.
   @override
-  int get schemaVersion => 14;
+  int get schemaVersion => 15;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(

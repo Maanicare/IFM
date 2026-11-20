@@ -11,6 +11,7 @@ import '../../features/cleaning/data/cleaning_task_repository_provider.dart';
 import '../../features/fleet/data/fleet_repository_provider.dart';
 import '../../features/inspections/data/inspection_repository_provider.dart';
 import '../../features/permits/data/permit_repository_provider.dart';
+import '../../features/reservations/data/reservation_repository_provider.dart';
 import '../../features/inventory/data/inventory_repository_provider.dart';
 import '../../features/requests/data/request_repository_provider.dart';
 import '../../features/safety/data/safety_repository_provider.dart';
@@ -161,6 +162,15 @@ class SyncEngine {
           break;
         case 'permit_close':
           await _ref.read(permitRepositoryProvider).pushClose(entry.entityId);
+          break;
+        case 'reservation':
+          await _ref.read(reservationRepositoryProvider).pushReservation(entry.entityId);
+          break;
+        case 'reservation_cancel':
+          await _ref.read(reservationRepositoryProvider).pushCancel(entry.entityId);
+          break;
+        case 'reservation_check_in':
+          await _ref.read(reservationRepositoryProvider).pushCheckIn(entry.entityId);
           break;
         case 'cleaning_task_completion':
           await _ref.read(cleaningTaskRepositoryProvider).pushCompletion(entry.entityId);

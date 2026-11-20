@@ -1270,6 +1270,54 @@ class $SpacesTable extends Spaces with TableInfo<$SpacesTable, Space> {
     requiredDuringInsert: false,
     defaultValue: const Constant('normal'),
   );
+  static const VerificationMeta _capacityMeta = const VerificationMeta(
+    'capacity',
+  );
+  @override
+  late final GeneratedColumn<int> capacity = GeneratedColumn<int>(
+    'capacity',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _reservableMeta = const VerificationMeta(
+    'reservable',
+  );
+  @override
+  late final GeneratedColumn<bool> reservable = GeneratedColumn<bool>(
+    'reservable',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("reservable" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _equipmentNoteMeta = const VerificationMeta(
+    'equipmentNote',
+  );
+  @override
+  late final GeneratedColumn<String> equipmentNote = GeneratedColumn<String>(
+    'equipment_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _amenitiesNoteMeta = const VerificationMeta(
+    'amenitiesNote',
+  );
+  @override
+  late final GeneratedColumn<String> amenitiesNote = GeneratedColumn<String>(
+    'amenities_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1278,6 +1326,10 @@ class $SpacesTable extends Spaces with TableInfo<$SpacesTable, Space> {
     name,
     spaceType,
     criticality,
+    capacity,
+    reservable,
+    equipmentNote,
+    amenitiesNote,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1337,6 +1389,36 @@ class $SpacesTable extends Spaces with TableInfo<$SpacesTable, Space> {
         ),
       );
     }
+    if (data.containsKey('capacity')) {
+      context.handle(
+        _capacityMeta,
+        capacity.isAcceptableOrUnknown(data['capacity']!, _capacityMeta),
+      );
+    }
+    if (data.containsKey('reservable')) {
+      context.handle(
+        _reservableMeta,
+        reservable.isAcceptableOrUnknown(data['reservable']!, _reservableMeta),
+      );
+    }
+    if (data.containsKey('equipment_note')) {
+      context.handle(
+        _equipmentNoteMeta,
+        equipmentNote.isAcceptableOrUnknown(
+          data['equipment_note']!,
+          _equipmentNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('amenities_note')) {
+      context.handle(
+        _amenitiesNoteMeta,
+        amenitiesNote.isAcceptableOrUnknown(
+          data['amenities_note']!,
+          _amenitiesNoteMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1370,6 +1452,22 @@ class $SpacesTable extends Spaces with TableInfo<$SpacesTable, Space> {
         DriftSqlType.string,
         data['${effectivePrefix}criticality'],
       )!,
+      capacity: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}capacity'],
+      ),
+      reservable: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}reservable'],
+      )!,
+      equipmentNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}equipment_note'],
+      ),
+      amenitiesNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}amenities_note'],
+      ),
     );
   }
 
@@ -1386,6 +1484,10 @@ class Space extends DataClass implements Insertable<Space> {
   final String name;
   final String spaceType;
   final String criticality;
+  final int? capacity;
+  final bool reservable;
+  final String? equipmentNote;
+  final String? amenitiesNote;
   const Space({
     required this.id,
     required this.floorId,
@@ -1393,6 +1495,10 @@ class Space extends DataClass implements Insertable<Space> {
     required this.name,
     required this.spaceType,
     required this.criticality,
+    this.capacity,
+    required this.reservable,
+    this.equipmentNote,
+    this.amenitiesNote,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1403,6 +1509,16 @@ class Space extends DataClass implements Insertable<Space> {
     map['name'] = Variable<String>(name);
     map['space_type'] = Variable<String>(spaceType);
     map['criticality'] = Variable<String>(criticality);
+    if (!nullToAbsent || capacity != null) {
+      map['capacity'] = Variable<int>(capacity);
+    }
+    map['reservable'] = Variable<bool>(reservable);
+    if (!nullToAbsent || equipmentNote != null) {
+      map['equipment_note'] = Variable<String>(equipmentNote);
+    }
+    if (!nullToAbsent || amenitiesNote != null) {
+      map['amenities_note'] = Variable<String>(amenitiesNote);
+    }
     return map;
   }
 
@@ -1414,6 +1530,16 @@ class Space extends DataClass implements Insertable<Space> {
       name: Value(name),
       spaceType: Value(spaceType),
       criticality: Value(criticality),
+      capacity: capacity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(capacity),
+      reservable: Value(reservable),
+      equipmentNote: equipmentNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(equipmentNote),
+      amenitiesNote: amenitiesNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(amenitiesNote),
     );
   }
 
@@ -1429,6 +1555,10 @@ class Space extends DataClass implements Insertable<Space> {
       name: serializer.fromJson<String>(json['name']),
       spaceType: serializer.fromJson<String>(json['spaceType']),
       criticality: serializer.fromJson<String>(json['criticality']),
+      capacity: serializer.fromJson<int?>(json['capacity']),
+      reservable: serializer.fromJson<bool>(json['reservable']),
+      equipmentNote: serializer.fromJson<String?>(json['equipmentNote']),
+      amenitiesNote: serializer.fromJson<String?>(json['amenitiesNote']),
     );
   }
   @override
@@ -1441,6 +1571,10 @@ class Space extends DataClass implements Insertable<Space> {
       'name': serializer.toJson<String>(name),
       'spaceType': serializer.toJson<String>(spaceType),
       'criticality': serializer.toJson<String>(criticality),
+      'capacity': serializer.toJson<int?>(capacity),
+      'reservable': serializer.toJson<bool>(reservable),
+      'equipmentNote': serializer.toJson<String?>(equipmentNote),
+      'amenitiesNote': serializer.toJson<String?>(amenitiesNote),
     };
   }
 
@@ -1451,6 +1585,10 @@ class Space extends DataClass implements Insertable<Space> {
     String? name,
     String? spaceType,
     String? criticality,
+    Value<int?> capacity = const Value.absent(),
+    bool? reservable,
+    Value<String?> equipmentNote = const Value.absent(),
+    Value<String?> amenitiesNote = const Value.absent(),
   }) => Space(
     id: id ?? this.id,
     floorId: floorId ?? this.floorId,
@@ -1458,6 +1596,14 @@ class Space extends DataClass implements Insertable<Space> {
     name: name ?? this.name,
     spaceType: spaceType ?? this.spaceType,
     criticality: criticality ?? this.criticality,
+    capacity: capacity.present ? capacity.value : this.capacity,
+    reservable: reservable ?? this.reservable,
+    equipmentNote: equipmentNote.present
+        ? equipmentNote.value
+        : this.equipmentNote,
+    amenitiesNote: amenitiesNote.present
+        ? amenitiesNote.value
+        : this.amenitiesNote,
   );
   Space copyWithCompanion(SpacesCompanion data) {
     return Space(
@@ -1469,6 +1615,16 @@ class Space extends DataClass implements Insertable<Space> {
       criticality: data.criticality.present
           ? data.criticality.value
           : this.criticality,
+      capacity: data.capacity.present ? data.capacity.value : this.capacity,
+      reservable: data.reservable.present
+          ? data.reservable.value
+          : this.reservable,
+      equipmentNote: data.equipmentNote.present
+          ? data.equipmentNote.value
+          : this.equipmentNote,
+      amenitiesNote: data.amenitiesNote.present
+          ? data.amenitiesNote.value
+          : this.amenitiesNote,
     );
   }
 
@@ -1480,14 +1636,28 @@ class Space extends DataClass implements Insertable<Space> {
           ..write('spaceCode: $spaceCode, ')
           ..write('name: $name, ')
           ..write('spaceType: $spaceType, ')
-          ..write('criticality: $criticality')
+          ..write('criticality: $criticality, ')
+          ..write('capacity: $capacity, ')
+          ..write('reservable: $reservable, ')
+          ..write('equipmentNote: $equipmentNote, ')
+          ..write('amenitiesNote: $amenitiesNote')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, floorId, spaceCode, name, spaceType, criticality);
+  int get hashCode => Object.hash(
+    id,
+    floorId,
+    spaceCode,
+    name,
+    spaceType,
+    criticality,
+    capacity,
+    reservable,
+    equipmentNote,
+    amenitiesNote,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1497,7 +1667,11 @@ class Space extends DataClass implements Insertable<Space> {
           other.spaceCode == this.spaceCode &&
           other.name == this.name &&
           other.spaceType == this.spaceType &&
-          other.criticality == this.criticality);
+          other.criticality == this.criticality &&
+          other.capacity == this.capacity &&
+          other.reservable == this.reservable &&
+          other.equipmentNote == this.equipmentNote &&
+          other.amenitiesNote == this.amenitiesNote);
 }
 
 class SpacesCompanion extends UpdateCompanion<Space> {
@@ -1507,6 +1681,10 @@ class SpacesCompanion extends UpdateCompanion<Space> {
   final Value<String> name;
   final Value<String> spaceType;
   final Value<String> criticality;
+  final Value<int?> capacity;
+  final Value<bool> reservable;
+  final Value<String?> equipmentNote;
+  final Value<String?> amenitiesNote;
   final Value<int> rowid;
   const SpacesCompanion({
     this.id = const Value.absent(),
@@ -1515,6 +1693,10 @@ class SpacesCompanion extends UpdateCompanion<Space> {
     this.name = const Value.absent(),
     this.spaceType = const Value.absent(),
     this.criticality = const Value.absent(),
+    this.capacity = const Value.absent(),
+    this.reservable = const Value.absent(),
+    this.equipmentNote = const Value.absent(),
+    this.amenitiesNote = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SpacesCompanion.insert({
@@ -1524,6 +1706,10 @@ class SpacesCompanion extends UpdateCompanion<Space> {
     required String name,
     required String spaceType,
     this.criticality = const Value.absent(),
+    this.capacity = const Value.absent(),
+    this.reservable = const Value.absent(),
+    this.equipmentNote = const Value.absent(),
+    this.amenitiesNote = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        floorId = Value(floorId),
@@ -1537,6 +1723,10 @@ class SpacesCompanion extends UpdateCompanion<Space> {
     Expression<String>? name,
     Expression<String>? spaceType,
     Expression<String>? criticality,
+    Expression<int>? capacity,
+    Expression<bool>? reservable,
+    Expression<String>? equipmentNote,
+    Expression<String>? amenitiesNote,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1546,6 +1736,10 @@ class SpacesCompanion extends UpdateCompanion<Space> {
       if (name != null) 'name': name,
       if (spaceType != null) 'space_type': spaceType,
       if (criticality != null) 'criticality': criticality,
+      if (capacity != null) 'capacity': capacity,
+      if (reservable != null) 'reservable': reservable,
+      if (equipmentNote != null) 'equipment_note': equipmentNote,
+      if (amenitiesNote != null) 'amenities_note': amenitiesNote,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1557,6 +1751,10 @@ class SpacesCompanion extends UpdateCompanion<Space> {
     Value<String>? name,
     Value<String>? spaceType,
     Value<String>? criticality,
+    Value<int?>? capacity,
+    Value<bool>? reservable,
+    Value<String?>? equipmentNote,
+    Value<String?>? amenitiesNote,
     Value<int>? rowid,
   }) {
     return SpacesCompanion(
@@ -1566,6 +1764,10 @@ class SpacesCompanion extends UpdateCompanion<Space> {
       name: name ?? this.name,
       spaceType: spaceType ?? this.spaceType,
       criticality: criticality ?? this.criticality,
+      capacity: capacity ?? this.capacity,
+      reservable: reservable ?? this.reservable,
+      equipmentNote: equipmentNote ?? this.equipmentNote,
+      amenitiesNote: amenitiesNote ?? this.amenitiesNote,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1591,6 +1793,18 @@ class SpacesCompanion extends UpdateCompanion<Space> {
     if (criticality.present) {
       map['criticality'] = Variable<String>(criticality.value);
     }
+    if (capacity.present) {
+      map['capacity'] = Variable<int>(capacity.value);
+    }
+    if (reservable.present) {
+      map['reservable'] = Variable<bool>(reservable.value);
+    }
+    if (equipmentNote.present) {
+      map['equipment_note'] = Variable<String>(equipmentNote.value);
+    }
+    if (amenitiesNote.present) {
+      map['amenities_note'] = Variable<String>(amenitiesNote.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1606,6 +1820,10 @@ class SpacesCompanion extends UpdateCompanion<Space> {
           ..write('name: $name, ')
           ..write('spaceType: $spaceType, ')
           ..write('criticality: $criticality, ')
+          ..write('capacity: $capacity, ')
+          ..write('reservable: $reservable, ')
+          ..write('equipmentNote: $equipmentNote, ')
+          ..write('amenitiesNote: $amenitiesNote, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -24508,6 +24726,789 @@ class PermitsCompanion extends UpdateCompanion<Permit> {
   }
 }
 
+class $ReservationsTable extends Reservations
+    with TableInfo<$ReservationsTable, Reservation> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReservationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _spaceIdMeta = const VerificationMeta(
+    'spaceId',
+  );
+  @override
+  late final GeneratedColumn<String> spaceId = GeneratedColumn<String>(
+    'space_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES spaces (id)',
+    ),
+  );
+  static const VerificationMeta _organiserIdMeta = const VerificationMeta(
+    'organiserId',
+  );
+  @override
+  late final GeneratedColumn<String> organiserId = GeneratedColumn<String>(
+    'organiser_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _organiserNameMeta = const VerificationMeta(
+    'organiserName',
+  );
+  @override
+  late final GeneratedColumn<String> organiserName = GeneratedColumn<String>(
+    'organiser_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startTimeMeta = const VerificationMeta(
+    'startTime',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startTime = GeneratedColumn<DateTime>(
+    'start_time',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endTimeMeta = const VerificationMeta(
+    'endTime',
+  );
+  @override
+  late final GeneratedColumn<DateTime> endTime = GeneratedColumn<DateTime>(
+    'end_time',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _attendeeCountMeta = const VerificationMeta(
+    'attendeeCount',
+  );
+  @override
+  late final GeneratedColumn<int> attendeeCount = GeneratedColumn<int>(
+    'attendee_count',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _purposeMeta = const VerificationMeta(
+    'purpose',
+  );
+  @override
+  late final GeneratedColumn<String> purpose = GeneratedColumn<String>(
+    'purpose',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _inviteesNoteMeta = const VerificationMeta(
+    'inviteesNote',
+  );
+  @override
+  late final GeneratedColumn<String> inviteesNote = GeneratedColumn<String>(
+    'invitees_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _servicesNoteMeta = const VerificationMeta(
+    'servicesNote',
+  );
+  @override
+  late final GeneratedColumn<String> servicesNote = GeneratedColumn<String>(
+    'services_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('confirmed'),
+  );
+  static const VerificationMeta _checkedInMeta = const VerificationMeta(
+    'checkedIn',
+  );
+  @override
+  late final GeneratedColumn<bool> checkedIn = GeneratedColumn<bool>(
+    'checked_in',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("checked_in" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    spaceId,
+    organiserId,
+    organiserName,
+    startTime,
+    endTime,
+    attendeeCount,
+    purpose,
+    inviteesNote,
+    servicesNote,
+    status,
+    checkedIn,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'reservations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Reservation> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('space_id')) {
+      context.handle(
+        _spaceIdMeta,
+        spaceId.isAcceptableOrUnknown(data['space_id']!, _spaceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_spaceIdMeta);
+    }
+    if (data.containsKey('organiser_id')) {
+      context.handle(
+        _organiserIdMeta,
+        organiserId.isAcceptableOrUnknown(
+          data['organiser_id']!,
+          _organiserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_organiserIdMeta);
+    }
+    if (data.containsKey('organiser_name')) {
+      context.handle(
+        _organiserNameMeta,
+        organiserName.isAcceptableOrUnknown(
+          data['organiser_name']!,
+          _organiserNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_organiserNameMeta);
+    }
+    if (data.containsKey('start_time')) {
+      context.handle(
+        _startTimeMeta,
+        startTime.isAcceptableOrUnknown(data['start_time']!, _startTimeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startTimeMeta);
+    }
+    if (data.containsKey('end_time')) {
+      context.handle(
+        _endTimeMeta,
+        endTime.isAcceptableOrUnknown(data['end_time']!, _endTimeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_endTimeMeta);
+    }
+    if (data.containsKey('attendee_count')) {
+      context.handle(
+        _attendeeCountMeta,
+        attendeeCount.isAcceptableOrUnknown(
+          data['attendee_count']!,
+          _attendeeCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('purpose')) {
+      context.handle(
+        _purposeMeta,
+        purpose.isAcceptableOrUnknown(data['purpose']!, _purposeMeta),
+      );
+    }
+    if (data.containsKey('invitees_note')) {
+      context.handle(
+        _inviteesNoteMeta,
+        inviteesNote.isAcceptableOrUnknown(
+          data['invitees_note']!,
+          _inviteesNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('services_note')) {
+      context.handle(
+        _servicesNoteMeta,
+        servicesNote.isAcceptableOrUnknown(
+          data['services_note']!,
+          _servicesNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('checked_in')) {
+      context.handle(
+        _checkedInMeta,
+        checkedIn.isAcceptableOrUnknown(data['checked_in']!, _checkedInMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Reservation map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Reservation(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      spaceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}space_id'],
+      )!,
+      organiserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}organiser_id'],
+      )!,
+      organiserName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}organiser_name'],
+      )!,
+      startTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_time'],
+      )!,
+      endTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}end_time'],
+      )!,
+      attendeeCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}attendee_count'],
+      ),
+      purpose: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}purpose'],
+      ),
+      inviteesNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invitees_note'],
+      ),
+      servicesNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}services_note'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      checkedIn: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}checked_in'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ReservationsTable createAlias(String alias) {
+    return $ReservationsTable(attachedDatabase, alias);
+  }
+}
+
+class Reservation extends DataClass implements Insertable<Reservation> {
+  final String id;
+  final String spaceId;
+  final String organiserId;
+  final String organiserName;
+  final DateTime startTime;
+  final DateTime endTime;
+  final int? attendeeCount;
+  final String? purpose;
+  final String? inviteesNote;
+  final String? servicesNote;
+  final String status;
+  final bool checkedIn;
+  final DateTime createdAt;
+  const Reservation({
+    required this.id,
+    required this.spaceId,
+    required this.organiserId,
+    required this.organiserName,
+    required this.startTime,
+    required this.endTime,
+    this.attendeeCount,
+    this.purpose,
+    this.inviteesNote,
+    this.servicesNote,
+    required this.status,
+    required this.checkedIn,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['space_id'] = Variable<String>(spaceId);
+    map['organiser_id'] = Variable<String>(organiserId);
+    map['organiser_name'] = Variable<String>(organiserName);
+    map['start_time'] = Variable<DateTime>(startTime);
+    map['end_time'] = Variable<DateTime>(endTime);
+    if (!nullToAbsent || attendeeCount != null) {
+      map['attendee_count'] = Variable<int>(attendeeCount);
+    }
+    if (!nullToAbsent || purpose != null) {
+      map['purpose'] = Variable<String>(purpose);
+    }
+    if (!nullToAbsent || inviteesNote != null) {
+      map['invitees_note'] = Variable<String>(inviteesNote);
+    }
+    if (!nullToAbsent || servicesNote != null) {
+      map['services_note'] = Variable<String>(servicesNote);
+    }
+    map['status'] = Variable<String>(status);
+    map['checked_in'] = Variable<bool>(checkedIn);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ReservationsCompanion toCompanion(bool nullToAbsent) {
+    return ReservationsCompanion(
+      id: Value(id),
+      spaceId: Value(spaceId),
+      organiserId: Value(organiserId),
+      organiserName: Value(organiserName),
+      startTime: Value(startTime),
+      endTime: Value(endTime),
+      attendeeCount: attendeeCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(attendeeCount),
+      purpose: purpose == null && nullToAbsent
+          ? const Value.absent()
+          : Value(purpose),
+      inviteesNote: inviteesNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inviteesNote),
+      servicesNote: servicesNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(servicesNote),
+      status: Value(status),
+      checkedIn: Value(checkedIn),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Reservation.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Reservation(
+      id: serializer.fromJson<String>(json['id']),
+      spaceId: serializer.fromJson<String>(json['spaceId']),
+      organiserId: serializer.fromJson<String>(json['organiserId']),
+      organiserName: serializer.fromJson<String>(json['organiserName']),
+      startTime: serializer.fromJson<DateTime>(json['startTime']),
+      endTime: serializer.fromJson<DateTime>(json['endTime']),
+      attendeeCount: serializer.fromJson<int?>(json['attendeeCount']),
+      purpose: serializer.fromJson<String?>(json['purpose']),
+      inviteesNote: serializer.fromJson<String?>(json['inviteesNote']),
+      servicesNote: serializer.fromJson<String?>(json['servicesNote']),
+      status: serializer.fromJson<String>(json['status']),
+      checkedIn: serializer.fromJson<bool>(json['checkedIn']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'spaceId': serializer.toJson<String>(spaceId),
+      'organiserId': serializer.toJson<String>(organiserId),
+      'organiserName': serializer.toJson<String>(organiserName),
+      'startTime': serializer.toJson<DateTime>(startTime),
+      'endTime': serializer.toJson<DateTime>(endTime),
+      'attendeeCount': serializer.toJson<int?>(attendeeCount),
+      'purpose': serializer.toJson<String?>(purpose),
+      'inviteesNote': serializer.toJson<String?>(inviteesNote),
+      'servicesNote': serializer.toJson<String?>(servicesNote),
+      'status': serializer.toJson<String>(status),
+      'checkedIn': serializer.toJson<bool>(checkedIn),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Reservation copyWith({
+    String? id,
+    String? spaceId,
+    String? organiserId,
+    String? organiserName,
+    DateTime? startTime,
+    DateTime? endTime,
+    Value<int?> attendeeCount = const Value.absent(),
+    Value<String?> purpose = const Value.absent(),
+    Value<String?> inviteesNote = const Value.absent(),
+    Value<String?> servicesNote = const Value.absent(),
+    String? status,
+    bool? checkedIn,
+    DateTime? createdAt,
+  }) => Reservation(
+    id: id ?? this.id,
+    spaceId: spaceId ?? this.spaceId,
+    organiserId: organiserId ?? this.organiserId,
+    organiserName: organiserName ?? this.organiserName,
+    startTime: startTime ?? this.startTime,
+    endTime: endTime ?? this.endTime,
+    attendeeCount: attendeeCount.present
+        ? attendeeCount.value
+        : this.attendeeCount,
+    purpose: purpose.present ? purpose.value : this.purpose,
+    inviteesNote: inviteesNote.present ? inviteesNote.value : this.inviteesNote,
+    servicesNote: servicesNote.present ? servicesNote.value : this.servicesNote,
+    status: status ?? this.status,
+    checkedIn: checkedIn ?? this.checkedIn,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Reservation copyWithCompanion(ReservationsCompanion data) {
+    return Reservation(
+      id: data.id.present ? data.id.value : this.id,
+      spaceId: data.spaceId.present ? data.spaceId.value : this.spaceId,
+      organiserId: data.organiserId.present
+          ? data.organiserId.value
+          : this.organiserId,
+      organiserName: data.organiserName.present
+          ? data.organiserName.value
+          : this.organiserName,
+      startTime: data.startTime.present ? data.startTime.value : this.startTime,
+      endTime: data.endTime.present ? data.endTime.value : this.endTime,
+      attendeeCount: data.attendeeCount.present
+          ? data.attendeeCount.value
+          : this.attendeeCount,
+      purpose: data.purpose.present ? data.purpose.value : this.purpose,
+      inviteesNote: data.inviteesNote.present
+          ? data.inviteesNote.value
+          : this.inviteesNote,
+      servicesNote: data.servicesNote.present
+          ? data.servicesNote.value
+          : this.servicesNote,
+      status: data.status.present ? data.status.value : this.status,
+      checkedIn: data.checkedIn.present ? data.checkedIn.value : this.checkedIn,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Reservation(')
+          ..write('id: $id, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('organiserId: $organiserId, ')
+          ..write('organiserName: $organiserName, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime, ')
+          ..write('attendeeCount: $attendeeCount, ')
+          ..write('purpose: $purpose, ')
+          ..write('inviteesNote: $inviteesNote, ')
+          ..write('servicesNote: $servicesNote, ')
+          ..write('status: $status, ')
+          ..write('checkedIn: $checkedIn, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    spaceId,
+    organiserId,
+    organiserName,
+    startTime,
+    endTime,
+    attendeeCount,
+    purpose,
+    inviteesNote,
+    servicesNote,
+    status,
+    checkedIn,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Reservation &&
+          other.id == this.id &&
+          other.spaceId == this.spaceId &&
+          other.organiserId == this.organiserId &&
+          other.organiserName == this.organiserName &&
+          other.startTime == this.startTime &&
+          other.endTime == this.endTime &&
+          other.attendeeCount == this.attendeeCount &&
+          other.purpose == this.purpose &&
+          other.inviteesNote == this.inviteesNote &&
+          other.servicesNote == this.servicesNote &&
+          other.status == this.status &&
+          other.checkedIn == this.checkedIn &&
+          other.createdAt == this.createdAt);
+}
+
+class ReservationsCompanion extends UpdateCompanion<Reservation> {
+  final Value<String> id;
+  final Value<String> spaceId;
+  final Value<String> organiserId;
+  final Value<String> organiserName;
+  final Value<DateTime> startTime;
+  final Value<DateTime> endTime;
+  final Value<int?> attendeeCount;
+  final Value<String?> purpose;
+  final Value<String?> inviteesNote;
+  final Value<String?> servicesNote;
+  final Value<String> status;
+  final Value<bool> checkedIn;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const ReservationsCompanion({
+    this.id = const Value.absent(),
+    this.spaceId = const Value.absent(),
+    this.organiserId = const Value.absent(),
+    this.organiserName = const Value.absent(),
+    this.startTime = const Value.absent(),
+    this.endTime = const Value.absent(),
+    this.attendeeCount = const Value.absent(),
+    this.purpose = const Value.absent(),
+    this.inviteesNote = const Value.absent(),
+    this.servicesNote = const Value.absent(),
+    this.status = const Value.absent(),
+    this.checkedIn = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ReservationsCompanion.insert({
+    required String id,
+    required String spaceId,
+    required String organiserId,
+    required String organiserName,
+    required DateTime startTime,
+    required DateTime endTime,
+    this.attendeeCount = const Value.absent(),
+    this.purpose = const Value.absent(),
+    this.inviteesNote = const Value.absent(),
+    this.servicesNote = const Value.absent(),
+    this.status = const Value.absent(),
+    this.checkedIn = const Value.absent(),
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       spaceId = Value(spaceId),
+       organiserId = Value(organiserId),
+       organiserName = Value(organiserName),
+       startTime = Value(startTime),
+       endTime = Value(endTime),
+       createdAt = Value(createdAt);
+  static Insertable<Reservation> custom({
+    Expression<String>? id,
+    Expression<String>? spaceId,
+    Expression<String>? organiserId,
+    Expression<String>? organiserName,
+    Expression<DateTime>? startTime,
+    Expression<DateTime>? endTime,
+    Expression<int>? attendeeCount,
+    Expression<String>? purpose,
+    Expression<String>? inviteesNote,
+    Expression<String>? servicesNote,
+    Expression<String>? status,
+    Expression<bool>? checkedIn,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (spaceId != null) 'space_id': spaceId,
+      if (organiserId != null) 'organiser_id': organiserId,
+      if (organiserName != null) 'organiser_name': organiserName,
+      if (startTime != null) 'start_time': startTime,
+      if (endTime != null) 'end_time': endTime,
+      if (attendeeCount != null) 'attendee_count': attendeeCount,
+      if (purpose != null) 'purpose': purpose,
+      if (inviteesNote != null) 'invitees_note': inviteesNote,
+      if (servicesNote != null) 'services_note': servicesNote,
+      if (status != null) 'status': status,
+      if (checkedIn != null) 'checked_in': checkedIn,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ReservationsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? spaceId,
+    Value<String>? organiserId,
+    Value<String>? organiserName,
+    Value<DateTime>? startTime,
+    Value<DateTime>? endTime,
+    Value<int?>? attendeeCount,
+    Value<String?>? purpose,
+    Value<String?>? inviteesNote,
+    Value<String?>? servicesNote,
+    Value<String>? status,
+    Value<bool>? checkedIn,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return ReservationsCompanion(
+      id: id ?? this.id,
+      spaceId: spaceId ?? this.spaceId,
+      organiserId: organiserId ?? this.organiserId,
+      organiserName: organiserName ?? this.organiserName,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+      attendeeCount: attendeeCount ?? this.attendeeCount,
+      purpose: purpose ?? this.purpose,
+      inviteesNote: inviteesNote ?? this.inviteesNote,
+      servicesNote: servicesNote ?? this.servicesNote,
+      status: status ?? this.status,
+      checkedIn: checkedIn ?? this.checkedIn,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (spaceId.present) {
+      map['space_id'] = Variable<String>(spaceId.value);
+    }
+    if (organiserId.present) {
+      map['organiser_id'] = Variable<String>(organiserId.value);
+    }
+    if (organiserName.present) {
+      map['organiser_name'] = Variable<String>(organiserName.value);
+    }
+    if (startTime.present) {
+      map['start_time'] = Variable<DateTime>(startTime.value);
+    }
+    if (endTime.present) {
+      map['end_time'] = Variable<DateTime>(endTime.value);
+    }
+    if (attendeeCount.present) {
+      map['attendee_count'] = Variable<int>(attendeeCount.value);
+    }
+    if (purpose.present) {
+      map['purpose'] = Variable<String>(purpose.value);
+    }
+    if (inviteesNote.present) {
+      map['invitees_note'] = Variable<String>(inviteesNote.value);
+    }
+    if (servicesNote.present) {
+      map['services_note'] = Variable<String>(servicesNote.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (checkedIn.present) {
+      map['checked_in'] = Variable<bool>(checkedIn.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReservationsCompanion(')
+          ..write('id: $id, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('organiserId: $organiserId, ')
+          ..write('organiserName: $organiserName, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime, ')
+          ..write('attendeeCount: $attendeeCount, ')
+          ..write('purpose: $purpose, ')
+          ..write('inviteesNote: $inviteesNote, ')
+          ..write('servicesNote: $servicesNote, ')
+          ..write('status: $status, ')
+          ..write('checkedIn: $checkedIn, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -24563,6 +25564,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $SoftServiceInspectionsTable softServiceInspections =
       $SoftServiceInspectionsTable(this);
   late final $PermitsTable permits = $PermitsTable(this);
+  late final $ReservationsTable reservations = $ReservationsTable(this);
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -24591,6 +25593,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final SoftServiceInspectionDao softServiceInspectionDao =
       SoftServiceInspectionDao(this as AppDatabase);
   late final PermitDao permitDao = PermitDao(this as AppDatabase);
+  late final ReservationDao reservationDao = ReservationDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -24632,6 +25637,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     washrooms,
     softServiceInspections,
     permits,
+    reservations,
   ];
 }
 
@@ -26899,6 +27905,10 @@ typedef $$SpacesTableCreateCompanionBuilder =
       required String name,
       required String spaceType,
       Value<String> criticality,
+      Value<int?> capacity,
+      Value<bool> reservable,
+      Value<String?> equipmentNote,
+      Value<String?> amenitiesNote,
       Value<int> rowid,
     });
 typedef $$SpacesTableUpdateCompanionBuilder =
@@ -26909,6 +27919,10 @@ typedef $$SpacesTableUpdateCompanionBuilder =
       Value<String> name,
       Value<String> spaceType,
       Value<String> criticality,
+      Value<int?> capacity,
+      Value<bool> reservable,
+      Value<String?> equipmentNote,
+      Value<String?> amenitiesNote,
       Value<int> rowid,
     });
 
@@ -27091,6 +28105,24 @@ final class $$SpacesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$ReservationsTable, List<Reservation>>
+  _reservationsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.reservations,
+    aliasName: $_aliasNameGenerator(db.spaces.id, db.reservations.spaceId),
+  );
+
+  $$ReservationsTableProcessedTableManager get reservationsRefs {
+    final manager = $$ReservationsTableTableManager(
+      $_db,
+      $_db.reservations,
+    ).filter((f) => f.spaceId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_reservationsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SpacesTableFilterComposer
@@ -27124,6 +28156,26 @@ class $$SpacesTableFilterComposer
 
   ColumnFilters<String> get criticality => $composableBuilder(
     column: $table.criticality,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get capacity => $composableBuilder(
+    column: $table.capacity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get reservable => $composableBuilder(
+    column: $table.reservable,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get equipmentNote => $composableBuilder(
+    column: $table.equipmentNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get amenitiesNote => $composableBuilder(
+    column: $table.amenitiesNote,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -27350,6 +28402,31 @@ class $$SpacesTableFilterComposer
         );
     return f(composer);
   }
+
+  Expression<bool> reservationsRefs(
+    Expression<bool> Function($$ReservationsTableFilterComposer f) f,
+  ) {
+    final $$ReservationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.reservations,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReservationsTableFilterComposer(
+            $db: $db,
+            $table: $db.reservations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SpacesTableOrderingComposer
@@ -27383,6 +28460,26 @@ class $$SpacesTableOrderingComposer
 
   ColumnOrderings<String> get criticality => $composableBuilder(
     column: $table.criticality,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get capacity => $composableBuilder(
+    column: $table.capacity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get reservable => $composableBuilder(
+    column: $table.reservable,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get equipmentNote => $composableBuilder(
+    column: $table.equipmentNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get amenitiesNote => $composableBuilder(
+    column: $table.amenitiesNote,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -27433,6 +28530,24 @@ class $$SpacesTableAnnotationComposer
 
   GeneratedColumn<String> get criticality => $composableBuilder(
     column: $table.criticality,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get capacity =>
+      $composableBuilder(column: $table.capacity, builder: (column) => column);
+
+  GeneratedColumn<bool> get reservable => $composableBuilder(
+    column: $table.reservable,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get equipmentNote => $composableBuilder(
+    column: $table.equipmentNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get amenitiesNote => $composableBuilder(
+    column: $table.amenitiesNote,
     builder: (column) => column,
   );
 
@@ -27659,6 +28774,31 @@ class $$SpacesTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> reservationsRefs<T extends Object>(
+    Expression<T> Function($$ReservationsTableAnnotationComposer a) f,
+  ) {
+    final $$ReservationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.reservations,
+      getReferencedColumn: (t) => t.spaceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReservationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.reservations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SpacesTableTableManager
@@ -27684,6 +28824,7 @@ class $$SpacesTableTableManager
             bool cleaningTasksRefs,
             bool washroomsRefs,
             bool softServiceInspectionsRefs,
+            bool reservationsRefs,
           })
         > {
   $$SpacesTableTableManager(_$AppDatabase db, $SpacesTable table)
@@ -27705,6 +28846,10 @@ class $$SpacesTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<String> spaceType = const Value.absent(),
                 Value<String> criticality = const Value.absent(),
+                Value<int?> capacity = const Value.absent(),
+                Value<bool> reservable = const Value.absent(),
+                Value<String?> equipmentNote = const Value.absent(),
+                Value<String?> amenitiesNote = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SpacesCompanion(
                 id: id,
@@ -27713,6 +28858,10 @@ class $$SpacesTableTableManager
                 name: name,
                 spaceType: spaceType,
                 criticality: criticality,
+                capacity: capacity,
+                reservable: reservable,
+                equipmentNote: equipmentNote,
+                amenitiesNote: amenitiesNote,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -27723,6 +28872,10 @@ class $$SpacesTableTableManager
                 required String name,
                 required String spaceType,
                 Value<String> criticality = const Value.absent(),
+                Value<int?> capacity = const Value.absent(),
+                Value<bool> reservable = const Value.absent(),
+                Value<String?> equipmentNote = const Value.absent(),
+                Value<String?> amenitiesNote = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SpacesCompanion.insert(
                 id: id,
@@ -27731,6 +28884,10 @@ class $$SpacesTableTableManager
                 name: name,
                 spaceType: spaceType,
                 criticality: criticality,
+                capacity: capacity,
+                reservable: reservable,
+                equipmentNote: equipmentNote,
+                amenitiesNote: amenitiesNote,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -27750,6 +28907,7 @@ class $$SpacesTableTableManager
                 cleaningTasksRefs = false,
                 washroomsRefs = false,
                 softServiceInspectionsRefs = false,
+                reservationsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -27762,6 +28920,7 @@ class $$SpacesTableTableManager
                     if (cleaningTasksRefs) db.cleaningTasks,
                     if (washroomsRefs) db.washrooms,
                     if (softServiceInspectionsRefs) db.softServiceInspections,
+                    if (reservationsRefs) db.reservations,
                   ],
                   addJoins:
                       <
@@ -27953,6 +29112,27 @@ class $$SpacesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (reservationsRefs)
+                        await $_getPrefetchedData<
+                          Space,
+                          $SpacesTable,
+                          Reservation
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SpacesTableReferences
+                              ._reservationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SpacesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).reservationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.spaceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -27983,6 +29163,7 @@ typedef $$SpacesTableProcessedTableManager =
         bool cleaningTasksRefs,
         bool washroomsRefs,
         bool softServiceInspectionsRefs,
+        bool reservationsRefs,
       })
     >;
 typedef $$AssetsTableCreateCompanionBuilder =
@@ -45367,6 +46548,486 @@ typedef $$PermitsTableProcessedTableManager =
       Permit,
       PrefetchHooks Function({bool siteId, bool workOrderId})
     >;
+typedef $$ReservationsTableCreateCompanionBuilder =
+    ReservationsCompanion Function({
+      required String id,
+      required String spaceId,
+      required String organiserId,
+      required String organiserName,
+      required DateTime startTime,
+      required DateTime endTime,
+      Value<int?> attendeeCount,
+      Value<String?> purpose,
+      Value<String?> inviteesNote,
+      Value<String?> servicesNote,
+      Value<String> status,
+      Value<bool> checkedIn,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$ReservationsTableUpdateCompanionBuilder =
+    ReservationsCompanion Function({
+      Value<String> id,
+      Value<String> spaceId,
+      Value<String> organiserId,
+      Value<String> organiserName,
+      Value<DateTime> startTime,
+      Value<DateTime> endTime,
+      Value<int?> attendeeCount,
+      Value<String?> purpose,
+      Value<String?> inviteesNote,
+      Value<String?> servicesNote,
+      Value<String> status,
+      Value<bool> checkedIn,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+final class $$ReservationsTableReferences
+    extends BaseReferences<_$AppDatabase, $ReservationsTable, Reservation> {
+  $$ReservationsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SpacesTable _spaceIdTable(_$AppDatabase db) => db.spaces.createAlias(
+    $_aliasNameGenerator(db.reservations.spaceId, db.spaces.id),
+  );
+
+  $$SpacesTableProcessedTableManager get spaceId {
+    final $_column = $_itemColumn<String>('space_id')!;
+
+    final manager = $$SpacesTableTableManager(
+      $_db,
+      $_db.spaces,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_spaceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ReservationsTableFilterComposer
+    extends Composer<_$AppDatabase, $ReservationsTable> {
+  $$ReservationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get organiserId => $composableBuilder(
+    column: $table.organiserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get organiserName => $composableBuilder(
+    column: $table.organiserName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startTime => $composableBuilder(
+    column: $table.startTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get endTime => $composableBuilder(
+    column: $table.endTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get attendeeCount => $composableBuilder(
+    column: $table.attendeeCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get purpose => $composableBuilder(
+    column: $table.purpose,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get inviteesNote => $composableBuilder(
+    column: $table.inviteesNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get servicesNote => $composableBuilder(
+    column: $table.servicesNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get checkedIn => $composableBuilder(
+    column: $table.checkedIn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SpacesTableFilterComposer get spaceId {
+    final $$SpacesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableFilterComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReservationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ReservationsTable> {
+  $$ReservationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get organiserId => $composableBuilder(
+    column: $table.organiserId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get organiserName => $composableBuilder(
+    column: $table.organiserName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startTime => $composableBuilder(
+    column: $table.startTime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get endTime => $composableBuilder(
+    column: $table.endTime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get attendeeCount => $composableBuilder(
+    column: $table.attendeeCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get purpose => $composableBuilder(
+    column: $table.purpose,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get inviteesNote => $composableBuilder(
+    column: $table.inviteesNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get servicesNote => $composableBuilder(
+    column: $table.servicesNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get checkedIn => $composableBuilder(
+    column: $table.checkedIn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SpacesTableOrderingComposer get spaceId {
+    final $$SpacesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableOrderingComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReservationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ReservationsTable> {
+  $$ReservationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get organiserId => $composableBuilder(
+    column: $table.organiserId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get organiserName => $composableBuilder(
+    column: $table.organiserName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get startTime =>
+      $composableBuilder(column: $table.startTime, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endTime =>
+      $composableBuilder(column: $table.endTime, builder: (column) => column);
+
+  GeneratedColumn<int> get attendeeCount => $composableBuilder(
+    column: $table.attendeeCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get purpose =>
+      $composableBuilder(column: $table.purpose, builder: (column) => column);
+
+  GeneratedColumn<String> get inviteesNote => $composableBuilder(
+    column: $table.inviteesNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get servicesNote => $composableBuilder(
+    column: $table.servicesNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<bool> get checkedIn =>
+      $composableBuilder(column: $table.checkedIn, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$SpacesTableAnnotationComposer get spaceId {
+    final $$SpacesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReservationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ReservationsTable,
+          Reservation,
+          $$ReservationsTableFilterComposer,
+          $$ReservationsTableOrderingComposer,
+          $$ReservationsTableAnnotationComposer,
+          $$ReservationsTableCreateCompanionBuilder,
+          $$ReservationsTableUpdateCompanionBuilder,
+          (Reservation, $$ReservationsTableReferences),
+          Reservation,
+          PrefetchHooks Function({bool spaceId})
+        > {
+  $$ReservationsTableTableManager(_$AppDatabase db, $ReservationsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReservationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReservationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReservationsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> spaceId = const Value.absent(),
+                Value<String> organiserId = const Value.absent(),
+                Value<String> organiserName = const Value.absent(),
+                Value<DateTime> startTime = const Value.absent(),
+                Value<DateTime> endTime = const Value.absent(),
+                Value<int?> attendeeCount = const Value.absent(),
+                Value<String?> purpose = const Value.absent(),
+                Value<String?> inviteesNote = const Value.absent(),
+                Value<String?> servicesNote = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<bool> checkedIn = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReservationsCompanion(
+                id: id,
+                spaceId: spaceId,
+                organiserId: organiserId,
+                organiserName: organiserName,
+                startTime: startTime,
+                endTime: endTime,
+                attendeeCount: attendeeCount,
+                purpose: purpose,
+                inviteesNote: inviteesNote,
+                servicesNote: servicesNote,
+                status: status,
+                checkedIn: checkedIn,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String spaceId,
+                required String organiserId,
+                required String organiserName,
+                required DateTime startTime,
+                required DateTime endTime,
+                Value<int?> attendeeCount = const Value.absent(),
+                Value<String?> purpose = const Value.absent(),
+                Value<String?> inviteesNote = const Value.absent(),
+                Value<String?> servicesNote = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<bool> checkedIn = const Value.absent(),
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => ReservationsCompanion.insert(
+                id: id,
+                spaceId: spaceId,
+                organiserId: organiserId,
+                organiserName: organiserName,
+                startTime: startTime,
+                endTime: endTime,
+                attendeeCount: attendeeCount,
+                purpose: purpose,
+                inviteesNote: inviteesNote,
+                servicesNote: servicesNote,
+                status: status,
+                checkedIn: checkedIn,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ReservationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({spaceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (spaceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.spaceId,
+                                referencedTable: $$ReservationsTableReferences
+                                    ._spaceIdTable(db),
+                                referencedColumn: $$ReservationsTableReferences
+                                    ._spaceIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ReservationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ReservationsTable,
+      Reservation,
+      $$ReservationsTableFilterComposer,
+      $$ReservationsTableOrderingComposer,
+      $$ReservationsTableAnnotationComposer,
+      $$ReservationsTableCreateCompanionBuilder,
+      $$ReservationsTableUpdateCompanionBuilder,
+      (Reservation, $$ReservationsTableReferences),
+      Reservation,
+      PrefetchHooks Function({bool spaceId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -45457,6 +47118,8 @@ class $AppDatabaseManager {
       );
   $$PermitsTableTableManager get permits =>
       $$PermitsTableTableManager(_db, _db.permits);
+  $$ReservationsTableTableManager get reservations =>
+      $$ReservationsTableTableManager(_db, _db.reservations);
 }
 
 // **************************************************************************

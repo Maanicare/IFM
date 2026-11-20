@@ -64,6 +64,18 @@ class LocationDao extends DatabaseAccessor<AppDatabase>
     return rows.map((r) => r.readTable(spaces)).toList();
   }
 
+  /// Screen 43 (Reservation): "Available spaces" - reservable spaces at
+  /// a site, same site-scoping join as [searchSpacesAtSite].
+  Future<List<Space>> reservableSpacesAtSite(String siteId) async {
+    final q = select(spaces).join([
+      innerJoin(floors, floors.id.equalsExp(spaces.floorId)),
+      innerJoin(buildings, buildings.id.equalsExp(floors.buildingId)),
+    ])
+      ..where(buildings.siteId.equals(siteId) & spaces.reservable.equals(true));
+    final rows = await q.get();
+    return rows.map((r) => r.readTable(spaces)).toList();
+  }
+
   Future<void> upsertSite(SitesCompanion row) =>
       into(sites).insertOnConflictUpdate(row);
   Future<void> upsertBuilding(BuildingsCompanion row) =>

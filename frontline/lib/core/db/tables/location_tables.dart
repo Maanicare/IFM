@@ -51,6 +51,14 @@ class Spaces extends Table {
   TextColumn get spaceType => text()();
   TextColumn get criticality => text().withDefault(const Constant('normal'))();
 
+  // Screen 43 (Reservation): Capacity; Equipment; Amenities. Equipment/
+  // Amenities are free-text lists, not a structured catalogue - no
+  // such catalogue exists anywhere in this app.
+  IntColumn get capacity => integer().nullable()();
+  BoolColumn get reservable => boolean().withDefault(const Constant(false))();
+  TextColumn get equipmentNote => text().nullable()();
+  TextColumn get amenitiesNote => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

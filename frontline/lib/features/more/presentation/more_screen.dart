@@ -55,13 +55,20 @@ class MoreScreen extends ConsumerWidget {
                   )
                 : null,
           ),
-          if (can(AppAction.createServiceRequest))
+          if (can(AppAction.createServiceRequest)) ...[
             ListTile(
               leading: const Icon(Icons.apartment_outlined),
               title: const Text('Workplace'),
               subtitle: const Text('Book desk/room, request service, visitor, more'),
               onTap: () => context.push('/workplace'),
             ),
+            ListTile(
+              leading: const Icon(Icons.meeting_room_outlined),
+              title: const Text('Reserve a space'),
+              subtitle: const Text('Desks, meeting rooms and other bookable spaces'),
+              onTap: () => context.push('/reservations'),
+            ),
+          ],
           if (can(AppAction.manageShiftHandover)) ...[
             ListTile(
               leading: const Icon(Icons.swap_horiz),

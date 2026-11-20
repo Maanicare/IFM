@@ -5,11 +5,13 @@ import 'package:go_router/go_router.dart';
 /// hub into other screens, not an owner of its own data - "Request
 /// service" and "Report issue" both go to the existing Create Request
 /// flow (Screen 06), since this app's data model doesn't distinguish
-/// a "service request" from an "issue report". "Book desk"/"Book room"
-/// (Screen 43 - Reservation) and "Visitor" (Screen 44 - Visitor
-/// Management) aren't built yet - tapping them says so rather than
-/// faking a booking/check-in flow ahead of those screens actually
-/// existing. "Events" and "Amenities" have no owning screen or data
+/// a "service request" from an "issue report". "Book desk" and "Book
+/// room" both go to the same Screen 43 (Reservation) list - this
+/// app's `Spaces` model doesn't distinguish a bookable desk from a
+/// bookable room as different entities, just reservable Spaces.
+/// "Visitor" (Screen 44 - Visitor Management) isn't built yet -
+/// tapping it says so rather than faking a check-in flow ahead of
+/// that screen actually existing. "Events" and "Amenities" have no owning screen or data
 /// model anywhere in this app; "Wayfinding" needs floor-plan/indoor-map
 /// data that's a Web/Site Digital Map (Screen 18) concern. All four
 /// are tracked in PENDING_FEATURES.md.
@@ -40,12 +42,12 @@ class WorkplaceExperienceScreen extends StatelessWidget {
           _Tile(
             icon: Icons.desk_outlined,
             label: 'Book desk',
-            onTap: () => _comingSoon(context, 'Desk booking (Screen 43)'),
+            onTap: () => context.push('/reservations'),
           ),
           _Tile(
             icon: Icons.meeting_room_outlined,
             label: 'Book room',
-            onTap: () => _comingSoon(context, 'Room booking (Screen 43)'),
+            onTap: () => context.push('/reservations'),
           ),
           _Tile(
             icon: Icons.badge_outlined,

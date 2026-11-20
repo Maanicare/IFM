@@ -54,6 +54,10 @@ class MockLocationRepository implements LocationRepository {
           name: s['name'] as String,
           spaceType: s['spaceType'] as String,
           criticality: Value(s['criticality'] as String? ?? 'normal'),
+          capacity: Value((s['capacity'] as num?)?.toInt()),
+          reservable: Value(s['reservable'] as bool? ?? false),
+          equipmentNote: Value(s['equipmentNote'] as String?),
+          amenitiesNote: Value(s['amenitiesNote'] as String?),
         ));
       }
     });

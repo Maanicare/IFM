@@ -23,6 +23,8 @@ import '../../features/permits/presentation/create_permit_screen.dart';
 import '../../features/permits/presentation/permit_detail_screen.dart';
 import '../../features/permits/presentation/permits_screen.dart';
 import '../../features/requests/presentation/create_request_screen.dart';
+import '../../features/reservations/presentation/reservation_screen.dart';
+import '../../features/reservations/presentation/space_reservation_detail_screen.dart';
 import '../../features/requests/presentation/request_detail_screen.dart';
 import '../../features/requests/presentation/requests_screen.dart';
 import '../../features/safety/presentation/report_safety_issue_screen.dart';
@@ -102,6 +104,16 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/safety-home',
         builder: (context, state) => const SafetyHomeScreen(),
+      ),
+      GoRoute(
+        path: '/reservations',
+        builder: (context, state) => const ReservationScreen(),
+      ),
+      GoRoute(
+        path: '/reservations/:spaceId',
+        builder: (context, state) => SpaceReservationDetailScreen(
+          spaceId: state.pathParameters['spaceId']!,
+        ),
       ),
       GoRoute(
         path: '/workplace',

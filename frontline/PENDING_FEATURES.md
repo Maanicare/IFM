@@ -205,9 +205,9 @@ link to the issued permit otherwise).
 
 A hub screen with all 8 "Employee Side" tiles. Report issue/Request
 service both go to the existing Create Request flow (this app's data
-model doesn't distinguish the two). The other four are honest
-"not available yet" taps, not fabricated flows:
-- **Book desk / Book room** — need Screen 43 (Reservation), not built.
+model doesn't distinguish the two). Book desk/Book room now go to
+Screen 43 (Reservation). The rest are honest "not available yet"
+taps, not fabricated flows:
 - **Visitor** — needs Screen 44 (Visitor Management), not built.
 - **Events** — no owning screen or data model exists anywhere in this
   app's scope.
@@ -216,9 +216,27 @@ model doesn't distinguish the two). The other four are honest
 - **Wayfinding** — needs floor-plan/indoor-map data, a Site Digital
   Map (Screen 18) concern that's Web-only.
 
+## Screen 43 - Reservation — DONE (with documented interpretations)
+
+Display (Available spaces, Capacity, Equipment, Amenities) and
+Actions (Reserve, Invite, Order services, Check in) are all covered.
+Added `capacity`/`reservable`/`equipmentNote`/`amenitiesNote` to
+`Spaces` and a new `Reservations` table.
+
+- **Floor map** isn't shown - this app has no floor-plan/CAD data
+  (Screen 18's Web/BIM concern); a plain list is used instead.
+- **Temperature/IAQ if available** isn't shown - no sensor/IoT
+  integration exists in this app.
+- **Invite** and **Order services** are free-text notes captured at
+  booking time, not a real invite/notification system or service
+  catalogue - no employee directory or service catalogue exists here.
+- This app only creates/cancels/checks in its own reservations and
+  never syncs other users' bookings down, so "Available spaces"
+  reflects only what this device knows about, not a live cross-device
+  calendar.
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 43 — Reservation
 - Screen 44 — Visitor Management
 - Screen 46 — Comfort Feedback
 - Screen 53 — AI Assistant (explicitly deferred - "AI later")
