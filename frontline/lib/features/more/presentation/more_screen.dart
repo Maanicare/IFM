@@ -69,6 +69,13 @@ class MoreScreen extends ConsumerWidget {
               onTap: () => context.push('/shift-roster'),
             ),
           ],
+          if (can(AppAction.managePermit))
+            ListTile(
+              leading: const Icon(Icons.badge_outlined),
+              title: const Text('Permits to Work'),
+              subtitle: const Text('Hot work, height, confined space and more'),
+              onTap: () => context.push('/permits'),
+            ),
           if (can(AppAction.reportIncident)) ...[
             ListTile(
               leading: const Icon(Icons.health_and_safety_outlined),

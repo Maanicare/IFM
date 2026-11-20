@@ -104,6 +104,7 @@ class PolicyGuard {
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
       AppAction.reportIncident,
+      AppAction.managePermit,
     },
     UserRole.technicalManager: {
       AppAction.viewWorkOrder,
@@ -115,10 +116,12 @@ class PolicyGuard {
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
       AppAction.reportIncident,
+      AppAction.managePermit,
     },
     UserRole.safetyEhsManager: {
       AppAction.viewWorkOrder,
       AppAction.escalateWorkOrder,
+      AppAction.managePermit,
       AppAction.manageShiftHandover,
       AppAction.captureAttachment,
       AppAction.reportIncident,

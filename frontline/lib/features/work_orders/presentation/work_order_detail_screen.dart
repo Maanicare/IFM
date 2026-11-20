@@ -269,23 +269,79 @@ class _WorkPlanSection extends ConsumerWidget {
               ),
             const SizedBox(height: 8),
           ],
-          if (wo.permitRequired)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.orange.shade50,
-                borderRadius: BorderRadius.circular(8),
+          if (wo.permitRequired) _PermitLink(wo: wo),
+        ],
+      ),
+    );
+  }
+}
+
+/// Section C: "Permit requirements" - links to the actual issued
+/// Permit (Screen 37) when one exists, otherwise offers to issue one
+/// (gated by `managePermit`, same as the Permits screen itself).
+class _PermitLink extends ConsumerWidget {
+  const _PermitLink({required this.wo});
+  final WorkOrder wo;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final permit = ref.watch(_permitForWoProvider(wo.id)).value;
+    final accessContext = ref.watch(currentAccessContextProvider);
+    final guard = ref.watch(policyGuardProvider);
+    final canManage =
+        accessContext != null && guard.can(accessContext, AppAction.managePermit, siteId: wo.siteId);
+
+    if (permit != null) {
+      return InkWell(
+        onTap: () => context.push('/permits/${permit.id}'),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          decoration: BoxDecoration(
+            color: permit.status == 'active' ? Colors.orange.shade50 : Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.badge_outlined, size: 16, color: Colors.orange.shade800),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  'Permit ${permit.permitNumber} (${permit.status})',
+                  style: TextStyle(color: Colors.orange.shade800, fontSize: 12),
+                ),
               ),
-              child: Text(
-                'Permit required: ${wo.permitType ?? "type not specified"}',
-                style: TextStyle(color: Colors.orange.shade800, fontSize: 12),
-              ),
+              const Icon(Icons.chevron_right, size: 16, color: Colors.grey),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      decoration: BoxDecoration(color: Colors.orange.shade50, borderRadius: BorderRadius.circular(8)),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              'Permit required: ${wo.permitType ?? "type not specified"}',
+              style: TextStyle(color: Colors.orange.shade800, fontSize: 12),
+            ),
+          ),
+          if (canManage)
+            TextButton(
+              onPressed: () => context.push('/permits/new', extra: {'workOrderId': wo.id, 'siteId': wo.siteId}),
+              child: const Text('Issue'),
             ),
         ],
       ),
     );
   }
 }
+
+final _permitForWoProvider = StreamProvider.family<Permit?, String>((ref, workOrderId) {
+  return ref.watch(appDatabaseProvider).permitDao.watchForWorkOrder(workOrderId);
+});
 
 /// Section E (Closure): Root cause, Work performed, Remaining issue,
 /// Follow-up, QA. Shown once the job is past "assigned" - a technician

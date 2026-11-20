@@ -181,9 +181,28 @@ so this is the source that actually drives the count today). Added
 `correctiveCompleted` to Soft Service Inspections and a "Done" action
 here so the count doesn't grow forever.
 
+## Screen 37 - Permit to Work — DONE (with documented interpretations)
+
+Types (Hot work/Height/Confined space/Electrical/Excavation/Lifting/
+Other) and Display fields (Risk assessment, Authorised persons,
+Start/end, Controls, Isolation, Approvals) are all covered. New
+`managePermit` action granted to Safety/EHS Manager, Site Facility
+Manager and Technical Manager. Linked from Screen 09's Work Plan card
+(an "Issue" shortcut when `permitRequired` and none exists yet, a
+link to the issued permit otherwise).
+
+- **Vendor** is a free-text name, not a link to a Vendor directory
+  (this app has none).
+- **Authorised persons** and **Approvals** (Issuer/Receiver) are free
+  text, not links to specific employee records (no employee
+  directory, same reasoning used throughout this app).
+- **Risk assessment** is a text note plus an optional photo, not a
+  document-management attachment.
+- This app only creates/closes permits locally and pushes them - it
+  never syncs a permit list down from the server.
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 37 — Permit to Work
 - Screen 42 — Workplace Experience
 - Screen 43 — Reservation
 - Screen 44 — Visitor Management

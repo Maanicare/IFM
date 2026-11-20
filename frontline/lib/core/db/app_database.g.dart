@@ -23457,6 +23457,1057 @@ class SoftServiceInspectionsCompanion
   }
 }
 
+class $PermitsTable extends Permits with TableInfo<$PermitsTable, Permit> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PermitsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _permitNumberMeta = const VerificationMeta(
+    'permitNumber',
+  );
+  @override
+  late final GeneratedColumn<String> permitNumber = GeneratedColumn<String>(
+    'permit_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<String> siteId = GeneratedColumn<String>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _workOrderIdMeta = const VerificationMeta(
+    'workOrderId',
+  );
+  @override
+  late final GeneratedColumn<String> workOrderId = GeneratedColumn<String>(
+    'work_order_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES work_orders (id)',
+    ),
+  );
+  static const VerificationMeta _permitTypeMeta = const VerificationMeta(
+    'permitType',
+  );
+  @override
+  late final GeneratedColumn<String> permitType = GeneratedColumn<String>(
+    'permit_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _vendorNameMeta = const VerificationMeta(
+    'vendorName',
+  );
+  @override
+  late final GeneratedColumn<String> vendorName = GeneratedColumn<String>(
+    'vendor_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _validFromMeta = const VerificationMeta(
+    'validFrom',
+  );
+  @override
+  late final GeneratedColumn<DateTime> validFrom = GeneratedColumn<DateTime>(
+    'valid_from',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _validToMeta = const VerificationMeta(
+    'validTo',
+  );
+  @override
+  late final GeneratedColumn<DateTime> validTo = GeneratedColumn<DateTime>(
+    'valid_to',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _riskAssessmentNoteMeta =
+      const VerificationMeta('riskAssessmentNote');
+  @override
+  late final GeneratedColumn<String> riskAssessmentNote =
+      GeneratedColumn<String>(
+        'risk_assessment_note',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _authorisedPersonsMeta = const VerificationMeta(
+    'authorisedPersons',
+  );
+  @override
+  late final GeneratedColumn<String> authorisedPersons =
+      GeneratedColumn<String>(
+        'authorised_persons',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _controlsNoteMeta = const VerificationMeta(
+    'controlsNote',
+  );
+  @override
+  late final GeneratedColumn<String> controlsNote = GeneratedColumn<String>(
+    'controls_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isolationNoteMeta = const VerificationMeta(
+    'isolationNote',
+  );
+  @override
+  late final GeneratedColumn<String> isolationNote = GeneratedColumn<String>(
+    'isolation_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _issuerNameMeta = const VerificationMeta(
+    'issuerName',
+  );
+  @override
+  late final GeneratedColumn<String> issuerName = GeneratedColumn<String>(
+    'issuer_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _receiverNameMeta = const VerificationMeta(
+    'receiverName',
+  );
+  @override
+  late final GeneratedColumn<String> receiverName = GeneratedColumn<String>(
+    'receiver_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('active'),
+  );
+  static const VerificationMeta _createdByMeta = const VerificationMeta(
+    'createdBy',
+  );
+  @override
+  late final GeneratedColumn<String> createdBy = GeneratedColumn<String>(
+    'created_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _closedAtMeta = const VerificationMeta(
+    'closedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> closedAt = GeneratedColumn<DateTime>(
+    'closed_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    permitNumber,
+    siteId,
+    workOrderId,
+    permitType,
+    vendorName,
+    validFrom,
+    validTo,
+    riskAssessmentNote,
+    authorisedPersons,
+    controlsNote,
+    isolationNote,
+    issuerName,
+    receiverName,
+    status,
+    createdBy,
+    createdAt,
+    closedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'permits';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Permit> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('permit_number')) {
+      context.handle(
+        _permitNumberMeta,
+        permitNumber.isAcceptableOrUnknown(
+          data['permit_number']!,
+          _permitNumberMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_permitNumberMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('work_order_id')) {
+      context.handle(
+        _workOrderIdMeta,
+        workOrderId.isAcceptableOrUnknown(
+          data['work_order_id']!,
+          _workOrderIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('permit_type')) {
+      context.handle(
+        _permitTypeMeta,
+        permitType.isAcceptableOrUnknown(data['permit_type']!, _permitTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_permitTypeMeta);
+    }
+    if (data.containsKey('vendor_name')) {
+      context.handle(
+        _vendorNameMeta,
+        vendorName.isAcceptableOrUnknown(data['vendor_name']!, _vendorNameMeta),
+      );
+    }
+    if (data.containsKey('valid_from')) {
+      context.handle(
+        _validFromMeta,
+        validFrom.isAcceptableOrUnknown(data['valid_from']!, _validFromMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_validFromMeta);
+    }
+    if (data.containsKey('valid_to')) {
+      context.handle(
+        _validToMeta,
+        validTo.isAcceptableOrUnknown(data['valid_to']!, _validToMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_validToMeta);
+    }
+    if (data.containsKey('risk_assessment_note')) {
+      context.handle(
+        _riskAssessmentNoteMeta,
+        riskAssessmentNote.isAcceptableOrUnknown(
+          data['risk_assessment_note']!,
+          _riskAssessmentNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('authorised_persons')) {
+      context.handle(
+        _authorisedPersonsMeta,
+        authorisedPersons.isAcceptableOrUnknown(
+          data['authorised_persons']!,
+          _authorisedPersonsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('controls_note')) {
+      context.handle(
+        _controlsNoteMeta,
+        controlsNote.isAcceptableOrUnknown(
+          data['controls_note']!,
+          _controlsNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('isolation_note')) {
+      context.handle(
+        _isolationNoteMeta,
+        isolationNote.isAcceptableOrUnknown(
+          data['isolation_note']!,
+          _isolationNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('issuer_name')) {
+      context.handle(
+        _issuerNameMeta,
+        issuerName.isAcceptableOrUnknown(data['issuer_name']!, _issuerNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_issuerNameMeta);
+    }
+    if (data.containsKey('receiver_name')) {
+      context.handle(
+        _receiverNameMeta,
+        receiverName.isAcceptableOrUnknown(
+          data['receiver_name']!,
+          _receiverNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_receiverNameMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('created_by')) {
+      context.handle(
+        _createdByMeta,
+        createdBy.isAcceptableOrUnknown(data['created_by']!, _createdByMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdByMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('closed_at')) {
+      context.handle(
+        _closedAtMeta,
+        closedAt.isAcceptableOrUnknown(data['closed_at']!, _closedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Permit map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Permit(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      permitNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}permit_number'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_id'],
+      )!,
+      workOrderId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}work_order_id'],
+      ),
+      permitType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}permit_type'],
+      )!,
+      vendorName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vendor_name'],
+      ),
+      validFrom: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}valid_from'],
+      )!,
+      validTo: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}valid_to'],
+      )!,
+      riskAssessmentNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}risk_assessment_note'],
+      ),
+      authorisedPersons: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}authorised_persons'],
+      ),
+      controlsNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}controls_note'],
+      ),
+      isolationNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}isolation_note'],
+      ),
+      issuerName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}issuer_name'],
+      )!,
+      receiverName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}receiver_name'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      createdBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_by'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      closedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}closed_at'],
+      ),
+    );
+  }
+
+  @override
+  $PermitsTable createAlias(String alias) {
+    return $PermitsTable(attachedDatabase, alias);
+  }
+}
+
+class Permit extends DataClass implements Insertable<Permit> {
+  final String id;
+  final String permitNumber;
+  final String siteId;
+  final String? workOrderId;
+  final String permitType;
+  final String? vendorName;
+  final DateTime validFrom;
+  final DateTime validTo;
+  final String? riskAssessmentNote;
+  final String? authorisedPersons;
+  final String? controlsNote;
+  final String? isolationNote;
+  final String issuerName;
+  final String receiverName;
+  final String status;
+  final String createdBy;
+  final DateTime createdAt;
+  final DateTime? closedAt;
+  const Permit({
+    required this.id,
+    required this.permitNumber,
+    required this.siteId,
+    this.workOrderId,
+    required this.permitType,
+    this.vendorName,
+    required this.validFrom,
+    required this.validTo,
+    this.riskAssessmentNote,
+    this.authorisedPersons,
+    this.controlsNote,
+    this.isolationNote,
+    required this.issuerName,
+    required this.receiverName,
+    required this.status,
+    required this.createdBy,
+    required this.createdAt,
+    this.closedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['permit_number'] = Variable<String>(permitNumber);
+    map['site_id'] = Variable<String>(siteId);
+    if (!nullToAbsent || workOrderId != null) {
+      map['work_order_id'] = Variable<String>(workOrderId);
+    }
+    map['permit_type'] = Variable<String>(permitType);
+    if (!nullToAbsent || vendorName != null) {
+      map['vendor_name'] = Variable<String>(vendorName);
+    }
+    map['valid_from'] = Variable<DateTime>(validFrom);
+    map['valid_to'] = Variable<DateTime>(validTo);
+    if (!nullToAbsent || riskAssessmentNote != null) {
+      map['risk_assessment_note'] = Variable<String>(riskAssessmentNote);
+    }
+    if (!nullToAbsent || authorisedPersons != null) {
+      map['authorised_persons'] = Variable<String>(authorisedPersons);
+    }
+    if (!nullToAbsent || controlsNote != null) {
+      map['controls_note'] = Variable<String>(controlsNote);
+    }
+    if (!nullToAbsent || isolationNote != null) {
+      map['isolation_note'] = Variable<String>(isolationNote);
+    }
+    map['issuer_name'] = Variable<String>(issuerName);
+    map['receiver_name'] = Variable<String>(receiverName);
+    map['status'] = Variable<String>(status);
+    map['created_by'] = Variable<String>(createdBy);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || closedAt != null) {
+      map['closed_at'] = Variable<DateTime>(closedAt);
+    }
+    return map;
+  }
+
+  PermitsCompanion toCompanion(bool nullToAbsent) {
+    return PermitsCompanion(
+      id: Value(id),
+      permitNumber: Value(permitNumber),
+      siteId: Value(siteId),
+      workOrderId: workOrderId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(workOrderId),
+      permitType: Value(permitType),
+      vendorName: vendorName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vendorName),
+      validFrom: Value(validFrom),
+      validTo: Value(validTo),
+      riskAssessmentNote: riskAssessmentNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(riskAssessmentNote),
+      authorisedPersons: authorisedPersons == null && nullToAbsent
+          ? const Value.absent()
+          : Value(authorisedPersons),
+      controlsNote: controlsNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(controlsNote),
+      isolationNote: isolationNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isolationNote),
+      issuerName: Value(issuerName),
+      receiverName: Value(receiverName),
+      status: Value(status),
+      createdBy: Value(createdBy),
+      createdAt: Value(createdAt),
+      closedAt: closedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closedAt),
+    );
+  }
+
+  factory Permit.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Permit(
+      id: serializer.fromJson<String>(json['id']),
+      permitNumber: serializer.fromJson<String>(json['permitNumber']),
+      siteId: serializer.fromJson<String>(json['siteId']),
+      workOrderId: serializer.fromJson<String?>(json['workOrderId']),
+      permitType: serializer.fromJson<String>(json['permitType']),
+      vendorName: serializer.fromJson<String?>(json['vendorName']),
+      validFrom: serializer.fromJson<DateTime>(json['validFrom']),
+      validTo: serializer.fromJson<DateTime>(json['validTo']),
+      riskAssessmentNote: serializer.fromJson<String?>(
+        json['riskAssessmentNote'],
+      ),
+      authorisedPersons: serializer.fromJson<String?>(
+        json['authorisedPersons'],
+      ),
+      controlsNote: serializer.fromJson<String?>(json['controlsNote']),
+      isolationNote: serializer.fromJson<String?>(json['isolationNote']),
+      issuerName: serializer.fromJson<String>(json['issuerName']),
+      receiverName: serializer.fromJson<String>(json['receiverName']),
+      status: serializer.fromJson<String>(json['status']),
+      createdBy: serializer.fromJson<String>(json['createdBy']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      closedAt: serializer.fromJson<DateTime?>(json['closedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'permitNumber': serializer.toJson<String>(permitNumber),
+      'siteId': serializer.toJson<String>(siteId),
+      'workOrderId': serializer.toJson<String?>(workOrderId),
+      'permitType': serializer.toJson<String>(permitType),
+      'vendorName': serializer.toJson<String?>(vendorName),
+      'validFrom': serializer.toJson<DateTime>(validFrom),
+      'validTo': serializer.toJson<DateTime>(validTo),
+      'riskAssessmentNote': serializer.toJson<String?>(riskAssessmentNote),
+      'authorisedPersons': serializer.toJson<String?>(authorisedPersons),
+      'controlsNote': serializer.toJson<String?>(controlsNote),
+      'isolationNote': serializer.toJson<String?>(isolationNote),
+      'issuerName': serializer.toJson<String>(issuerName),
+      'receiverName': serializer.toJson<String>(receiverName),
+      'status': serializer.toJson<String>(status),
+      'createdBy': serializer.toJson<String>(createdBy),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'closedAt': serializer.toJson<DateTime?>(closedAt),
+    };
+  }
+
+  Permit copyWith({
+    String? id,
+    String? permitNumber,
+    String? siteId,
+    Value<String?> workOrderId = const Value.absent(),
+    String? permitType,
+    Value<String?> vendorName = const Value.absent(),
+    DateTime? validFrom,
+    DateTime? validTo,
+    Value<String?> riskAssessmentNote = const Value.absent(),
+    Value<String?> authorisedPersons = const Value.absent(),
+    Value<String?> controlsNote = const Value.absent(),
+    Value<String?> isolationNote = const Value.absent(),
+    String? issuerName,
+    String? receiverName,
+    String? status,
+    String? createdBy,
+    DateTime? createdAt,
+    Value<DateTime?> closedAt = const Value.absent(),
+  }) => Permit(
+    id: id ?? this.id,
+    permitNumber: permitNumber ?? this.permitNumber,
+    siteId: siteId ?? this.siteId,
+    workOrderId: workOrderId.present ? workOrderId.value : this.workOrderId,
+    permitType: permitType ?? this.permitType,
+    vendorName: vendorName.present ? vendorName.value : this.vendorName,
+    validFrom: validFrom ?? this.validFrom,
+    validTo: validTo ?? this.validTo,
+    riskAssessmentNote: riskAssessmentNote.present
+        ? riskAssessmentNote.value
+        : this.riskAssessmentNote,
+    authorisedPersons: authorisedPersons.present
+        ? authorisedPersons.value
+        : this.authorisedPersons,
+    controlsNote: controlsNote.present ? controlsNote.value : this.controlsNote,
+    isolationNote: isolationNote.present
+        ? isolationNote.value
+        : this.isolationNote,
+    issuerName: issuerName ?? this.issuerName,
+    receiverName: receiverName ?? this.receiverName,
+    status: status ?? this.status,
+    createdBy: createdBy ?? this.createdBy,
+    createdAt: createdAt ?? this.createdAt,
+    closedAt: closedAt.present ? closedAt.value : this.closedAt,
+  );
+  Permit copyWithCompanion(PermitsCompanion data) {
+    return Permit(
+      id: data.id.present ? data.id.value : this.id,
+      permitNumber: data.permitNumber.present
+          ? data.permitNumber.value
+          : this.permitNumber,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      workOrderId: data.workOrderId.present
+          ? data.workOrderId.value
+          : this.workOrderId,
+      permitType: data.permitType.present
+          ? data.permitType.value
+          : this.permitType,
+      vendorName: data.vendorName.present
+          ? data.vendorName.value
+          : this.vendorName,
+      validFrom: data.validFrom.present ? data.validFrom.value : this.validFrom,
+      validTo: data.validTo.present ? data.validTo.value : this.validTo,
+      riskAssessmentNote: data.riskAssessmentNote.present
+          ? data.riskAssessmentNote.value
+          : this.riskAssessmentNote,
+      authorisedPersons: data.authorisedPersons.present
+          ? data.authorisedPersons.value
+          : this.authorisedPersons,
+      controlsNote: data.controlsNote.present
+          ? data.controlsNote.value
+          : this.controlsNote,
+      isolationNote: data.isolationNote.present
+          ? data.isolationNote.value
+          : this.isolationNote,
+      issuerName: data.issuerName.present
+          ? data.issuerName.value
+          : this.issuerName,
+      receiverName: data.receiverName.present
+          ? data.receiverName.value
+          : this.receiverName,
+      status: data.status.present ? data.status.value : this.status,
+      createdBy: data.createdBy.present ? data.createdBy.value : this.createdBy,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      closedAt: data.closedAt.present ? data.closedAt.value : this.closedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Permit(')
+          ..write('id: $id, ')
+          ..write('permitNumber: $permitNumber, ')
+          ..write('siteId: $siteId, ')
+          ..write('workOrderId: $workOrderId, ')
+          ..write('permitType: $permitType, ')
+          ..write('vendorName: $vendorName, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo, ')
+          ..write('riskAssessmentNote: $riskAssessmentNote, ')
+          ..write('authorisedPersons: $authorisedPersons, ')
+          ..write('controlsNote: $controlsNote, ')
+          ..write('isolationNote: $isolationNote, ')
+          ..write('issuerName: $issuerName, ')
+          ..write('receiverName: $receiverName, ')
+          ..write('status: $status, ')
+          ..write('createdBy: $createdBy, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('closedAt: $closedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    permitNumber,
+    siteId,
+    workOrderId,
+    permitType,
+    vendorName,
+    validFrom,
+    validTo,
+    riskAssessmentNote,
+    authorisedPersons,
+    controlsNote,
+    isolationNote,
+    issuerName,
+    receiverName,
+    status,
+    createdBy,
+    createdAt,
+    closedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Permit &&
+          other.id == this.id &&
+          other.permitNumber == this.permitNumber &&
+          other.siteId == this.siteId &&
+          other.workOrderId == this.workOrderId &&
+          other.permitType == this.permitType &&
+          other.vendorName == this.vendorName &&
+          other.validFrom == this.validFrom &&
+          other.validTo == this.validTo &&
+          other.riskAssessmentNote == this.riskAssessmentNote &&
+          other.authorisedPersons == this.authorisedPersons &&
+          other.controlsNote == this.controlsNote &&
+          other.isolationNote == this.isolationNote &&
+          other.issuerName == this.issuerName &&
+          other.receiverName == this.receiverName &&
+          other.status == this.status &&
+          other.createdBy == this.createdBy &&
+          other.createdAt == this.createdAt &&
+          other.closedAt == this.closedAt);
+}
+
+class PermitsCompanion extends UpdateCompanion<Permit> {
+  final Value<String> id;
+  final Value<String> permitNumber;
+  final Value<String> siteId;
+  final Value<String?> workOrderId;
+  final Value<String> permitType;
+  final Value<String?> vendorName;
+  final Value<DateTime> validFrom;
+  final Value<DateTime> validTo;
+  final Value<String?> riskAssessmentNote;
+  final Value<String?> authorisedPersons;
+  final Value<String?> controlsNote;
+  final Value<String?> isolationNote;
+  final Value<String> issuerName;
+  final Value<String> receiverName;
+  final Value<String> status;
+  final Value<String> createdBy;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> closedAt;
+  final Value<int> rowid;
+  const PermitsCompanion({
+    this.id = const Value.absent(),
+    this.permitNumber = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.workOrderId = const Value.absent(),
+    this.permitType = const Value.absent(),
+    this.vendorName = const Value.absent(),
+    this.validFrom = const Value.absent(),
+    this.validTo = const Value.absent(),
+    this.riskAssessmentNote = const Value.absent(),
+    this.authorisedPersons = const Value.absent(),
+    this.controlsNote = const Value.absent(),
+    this.isolationNote = const Value.absent(),
+    this.issuerName = const Value.absent(),
+    this.receiverName = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdBy = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.closedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PermitsCompanion.insert({
+    required String id,
+    required String permitNumber,
+    required String siteId,
+    this.workOrderId = const Value.absent(),
+    required String permitType,
+    this.vendorName = const Value.absent(),
+    required DateTime validFrom,
+    required DateTime validTo,
+    this.riskAssessmentNote = const Value.absent(),
+    this.authorisedPersons = const Value.absent(),
+    this.controlsNote = const Value.absent(),
+    this.isolationNote = const Value.absent(),
+    required String issuerName,
+    required String receiverName,
+    this.status = const Value.absent(),
+    required String createdBy,
+    required DateTime createdAt,
+    this.closedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       permitNumber = Value(permitNumber),
+       siteId = Value(siteId),
+       permitType = Value(permitType),
+       validFrom = Value(validFrom),
+       validTo = Value(validTo),
+       issuerName = Value(issuerName),
+       receiverName = Value(receiverName),
+       createdBy = Value(createdBy),
+       createdAt = Value(createdAt);
+  static Insertable<Permit> custom({
+    Expression<String>? id,
+    Expression<String>? permitNumber,
+    Expression<String>? siteId,
+    Expression<String>? workOrderId,
+    Expression<String>? permitType,
+    Expression<String>? vendorName,
+    Expression<DateTime>? validFrom,
+    Expression<DateTime>? validTo,
+    Expression<String>? riskAssessmentNote,
+    Expression<String>? authorisedPersons,
+    Expression<String>? controlsNote,
+    Expression<String>? isolationNote,
+    Expression<String>? issuerName,
+    Expression<String>? receiverName,
+    Expression<String>? status,
+    Expression<String>? createdBy,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? closedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (permitNumber != null) 'permit_number': permitNumber,
+      if (siteId != null) 'site_id': siteId,
+      if (workOrderId != null) 'work_order_id': workOrderId,
+      if (permitType != null) 'permit_type': permitType,
+      if (vendorName != null) 'vendor_name': vendorName,
+      if (validFrom != null) 'valid_from': validFrom,
+      if (validTo != null) 'valid_to': validTo,
+      if (riskAssessmentNote != null)
+        'risk_assessment_note': riskAssessmentNote,
+      if (authorisedPersons != null) 'authorised_persons': authorisedPersons,
+      if (controlsNote != null) 'controls_note': controlsNote,
+      if (isolationNote != null) 'isolation_note': isolationNote,
+      if (issuerName != null) 'issuer_name': issuerName,
+      if (receiverName != null) 'receiver_name': receiverName,
+      if (status != null) 'status': status,
+      if (createdBy != null) 'created_by': createdBy,
+      if (createdAt != null) 'created_at': createdAt,
+      if (closedAt != null) 'closed_at': closedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PermitsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? permitNumber,
+    Value<String>? siteId,
+    Value<String?>? workOrderId,
+    Value<String>? permitType,
+    Value<String?>? vendorName,
+    Value<DateTime>? validFrom,
+    Value<DateTime>? validTo,
+    Value<String?>? riskAssessmentNote,
+    Value<String?>? authorisedPersons,
+    Value<String?>? controlsNote,
+    Value<String?>? isolationNote,
+    Value<String>? issuerName,
+    Value<String>? receiverName,
+    Value<String>? status,
+    Value<String>? createdBy,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? closedAt,
+    Value<int>? rowid,
+  }) {
+    return PermitsCompanion(
+      id: id ?? this.id,
+      permitNumber: permitNumber ?? this.permitNumber,
+      siteId: siteId ?? this.siteId,
+      workOrderId: workOrderId ?? this.workOrderId,
+      permitType: permitType ?? this.permitType,
+      vendorName: vendorName ?? this.vendorName,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
+      riskAssessmentNote: riskAssessmentNote ?? this.riskAssessmentNote,
+      authorisedPersons: authorisedPersons ?? this.authorisedPersons,
+      controlsNote: controlsNote ?? this.controlsNote,
+      isolationNote: isolationNote ?? this.isolationNote,
+      issuerName: issuerName ?? this.issuerName,
+      receiverName: receiverName ?? this.receiverName,
+      status: status ?? this.status,
+      createdBy: createdBy ?? this.createdBy,
+      createdAt: createdAt ?? this.createdAt,
+      closedAt: closedAt ?? this.closedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (permitNumber.present) {
+      map['permit_number'] = Variable<String>(permitNumber.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<String>(siteId.value);
+    }
+    if (workOrderId.present) {
+      map['work_order_id'] = Variable<String>(workOrderId.value);
+    }
+    if (permitType.present) {
+      map['permit_type'] = Variable<String>(permitType.value);
+    }
+    if (vendorName.present) {
+      map['vendor_name'] = Variable<String>(vendorName.value);
+    }
+    if (validFrom.present) {
+      map['valid_from'] = Variable<DateTime>(validFrom.value);
+    }
+    if (validTo.present) {
+      map['valid_to'] = Variable<DateTime>(validTo.value);
+    }
+    if (riskAssessmentNote.present) {
+      map['risk_assessment_note'] = Variable<String>(riskAssessmentNote.value);
+    }
+    if (authorisedPersons.present) {
+      map['authorised_persons'] = Variable<String>(authorisedPersons.value);
+    }
+    if (controlsNote.present) {
+      map['controls_note'] = Variable<String>(controlsNote.value);
+    }
+    if (isolationNote.present) {
+      map['isolation_note'] = Variable<String>(isolationNote.value);
+    }
+    if (issuerName.present) {
+      map['issuer_name'] = Variable<String>(issuerName.value);
+    }
+    if (receiverName.present) {
+      map['receiver_name'] = Variable<String>(receiverName.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (createdBy.present) {
+      map['created_by'] = Variable<String>(createdBy.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (closedAt.present) {
+      map['closed_at'] = Variable<DateTime>(closedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PermitsCompanion(')
+          ..write('id: $id, ')
+          ..write('permitNumber: $permitNumber, ')
+          ..write('siteId: $siteId, ')
+          ..write('workOrderId: $workOrderId, ')
+          ..write('permitType: $permitType, ')
+          ..write('vendorName: $vendorName, ')
+          ..write('validFrom: $validFrom, ')
+          ..write('validTo: $validTo, ')
+          ..write('riskAssessmentNote: $riskAssessmentNote, ')
+          ..write('authorisedPersons: $authorisedPersons, ')
+          ..write('controlsNote: $controlsNote, ')
+          ..write('isolationNote: $isolationNote, ')
+          ..write('issuerName: $issuerName, ')
+          ..write('receiverName: $receiverName, ')
+          ..write('status: $status, ')
+          ..write('createdBy: $createdBy, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('closedAt: $closedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -23511,6 +24562,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $WashroomsTable washrooms = $WashroomsTable(this);
   late final $SoftServiceInspectionsTable softServiceInspections =
       $SoftServiceInspectionsTable(this);
+  late final $PermitsTable permits = $PermitsTable(this);
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -23538,6 +24590,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final WashroomDao washroomDao = WashroomDao(this as AppDatabase);
   late final SoftServiceInspectionDao softServiceInspectionDao =
       SoftServiceInspectionDao(this as AppDatabase);
+  late final PermitDao permitDao = PermitDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -23578,6 +24631,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     requestComments,
     washrooms,
     softServiceInspections,
+    permits,
   ];
 }
 
@@ -23849,6 +24903,25 @@ final class $$SitesTableReferences
     final cache = $_typedResult.readTableOrNull(
       _softServiceInspectionsRefsTable($_db),
     );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$PermitsTable, List<Permit>> _permitsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.permits,
+    aliasName: $_aliasNameGenerator(db.sites.id, db.permits.siteId),
+  );
+
+  $$PermitsTableProcessedTableManager get permitsRefs {
+    final manager = $$PermitsTableTableManager(
+      $_db,
+      $_db.permits,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_permitsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -24206,6 +25279,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
                     $removeJoinBuilderFromRootComposer,
               ),
         );
+    return f(composer);
+  }
+
+  Expression<bool> permitsRefs(
+    Expression<bool> Function($$PermitsTableFilterComposer f) f,
+  ) {
+    final $$PermitsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.permits,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PermitsTableFilterComposer(
+            $db: $db,
+            $table: $db.permits,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -24607,6 +25705,31 @@ class $$SitesTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> permitsRefs<T extends Object>(
+    Expression<T> Function($$PermitsTableAnnotationComposer a) f,
+  ) {
+    final $$PermitsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.permits,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PermitsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.permits,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -24635,6 +25758,7 @@ class $$SitesTableTableManager
             bool cleaningTasksRefs,
             bool washroomsRefs,
             bool softServiceInspectionsRefs,
+            bool permitsRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -24716,6 +25840,7 @@ class $$SitesTableTableManager
                 cleaningTasksRefs = false,
                 washroomsRefs = false,
                 softServiceInspectionsRefs = false,
+                permitsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -24732,6 +25857,7 @@ class $$SitesTableTableManager
                     if (cleaningTasksRefs) db.cleaningTasks,
                     if (washroomsRefs) db.washrooms,
                     if (softServiceInspectionsRefs) db.softServiceInspections,
+                    if (permitsRefs) db.permits,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -24956,6 +26082,19 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (permitsRefs)
+                        await $_getPrefetchedData<Site, $SitesTable, Permit>(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._permitsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(db, table, p0).permitsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -24989,6 +26128,7 @@ typedef $$SitesTableProcessedTableManager =
         bool cleaningTasksRefs,
         bool washroomsRefs,
         bool softServiceInspectionsRefs,
+        bool permitsRefs,
       })
     >;
 typedef $$BuildingsTableCreateCompanionBuilder =
@@ -30285,6 +31425,25 @@ final class $$WorkOrdersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$PermitsTable, List<Permit>> _permitsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.permits,
+    aliasName: $_aliasNameGenerator(db.workOrders.id, db.permits.workOrderId),
+  );
+
+  $$PermitsTableProcessedTableManager get permitsRefs {
+    final manager = $$PermitsTableTableManager(
+      $_db,
+      $_db.permits,
+    ).filter((f) => f.workOrderId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_permitsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$WorkOrdersTableFilterComposer
@@ -30687,6 +31846,31 @@ class $$WorkOrdersTableFilterComposer
           }) => $$SafetyGateResponsesTableFilterComposer(
             $db: $db,
             $table: $db.safetyGateResponses,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> permitsRefs(
+    Expression<bool> Function($$PermitsTableFilterComposer f) f,
+  ) {
+    final $$PermitsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.permits,
+      getReferencedColumn: (t) => t.workOrderId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PermitsTableFilterComposer(
+            $db: $db,
+            $table: $db.permits,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -31371,6 +32555,31 @@ class $$WorkOrdersTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> permitsRefs<T extends Object>(
+    Expression<T> Function($$PermitsTableAnnotationComposer a) f,
+  ) {
+    final $$PermitsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.permits,
+      getReferencedColumn: (t) => t.workOrderId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PermitsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.permits,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$WorkOrdersTableTableManager
@@ -31396,6 +32605,7 @@ class $$WorkOrdersTableTableManager
             bool checklistResponsesRefs,
             bool inventoryTransactionsRefs,
             bool safetyGateResponsesRefs,
+            bool permitsRefs,
           })
         > {
   $$WorkOrdersTableTableManager(_$AppDatabase db, $WorkOrdersTable table)
@@ -31600,6 +32810,7 @@ class $$WorkOrdersTableTableManager
                 checklistResponsesRefs = false,
                 inventoryTransactionsRefs = false,
                 safetyGateResponsesRefs = false,
+                permitsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -31609,6 +32820,7 @@ class $$WorkOrdersTableTableManager
                     if (checklistResponsesRefs) db.checklistResponses,
                     if (inventoryTransactionsRefs) db.inventoryTransactions,
                     if (safetyGateResponsesRefs) db.safetyGateResponses,
+                    if (permitsRefs) db.permits,
                   ],
                   addJoins:
                       <
@@ -31792,6 +33004,27 @@ class $$WorkOrdersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (permitsRefs)
+                        await $_getPrefetchedData<
+                          WorkOrder,
+                          $WorkOrdersTable,
+                          Permit
+                        >(
+                          currentTable: table,
+                          referencedTable: $$WorkOrdersTableReferences
+                              ._permitsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$WorkOrdersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).permitsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.workOrderId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -31822,6 +33055,7 @@ typedef $$WorkOrdersTableProcessedTableManager =
         bool checklistResponsesRefs,
         bool inventoryTransactionsRefs,
         bool safetyGateResponsesRefs,
+        bool permitsRefs,
       })
     >;
 typedef $$WorkOrderStatusHistoryTableCreateCompanionBuilder =
@@ -43462,6 +44696,677 @@ typedef $$SoftServiceInspectionsTableProcessedTableManager =
       SoftServiceInspection,
       PrefetchHooks Function({bool siteId, bool spaceId})
     >;
+typedef $$PermitsTableCreateCompanionBuilder =
+    PermitsCompanion Function({
+      required String id,
+      required String permitNumber,
+      required String siteId,
+      Value<String?> workOrderId,
+      required String permitType,
+      Value<String?> vendorName,
+      required DateTime validFrom,
+      required DateTime validTo,
+      Value<String?> riskAssessmentNote,
+      Value<String?> authorisedPersons,
+      Value<String?> controlsNote,
+      Value<String?> isolationNote,
+      required String issuerName,
+      required String receiverName,
+      Value<String> status,
+      required String createdBy,
+      required DateTime createdAt,
+      Value<DateTime?> closedAt,
+      Value<int> rowid,
+    });
+typedef $$PermitsTableUpdateCompanionBuilder =
+    PermitsCompanion Function({
+      Value<String> id,
+      Value<String> permitNumber,
+      Value<String> siteId,
+      Value<String?> workOrderId,
+      Value<String> permitType,
+      Value<String?> vendorName,
+      Value<DateTime> validFrom,
+      Value<DateTime> validTo,
+      Value<String?> riskAssessmentNote,
+      Value<String?> authorisedPersons,
+      Value<String?> controlsNote,
+      Value<String?> isolationNote,
+      Value<String> issuerName,
+      Value<String> receiverName,
+      Value<String> status,
+      Value<String> createdBy,
+      Value<DateTime> createdAt,
+      Value<DateTime?> closedAt,
+      Value<int> rowid,
+    });
+
+final class $$PermitsTableReferences
+    extends BaseReferences<_$AppDatabase, $PermitsTable, Permit> {
+  $$PermitsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) => db.sites.createAlias(
+    $_aliasNameGenerator(db.permits.siteId, db.sites.id),
+  );
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<String>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $WorkOrdersTable _workOrderIdTable(_$AppDatabase db) =>
+      db.workOrders.createAlias(
+        $_aliasNameGenerator(db.permits.workOrderId, db.workOrders.id),
+      );
+
+  $$WorkOrdersTableProcessedTableManager? get workOrderId {
+    final $_column = $_itemColumn<String>('work_order_id');
+    if ($_column == null) return null;
+    final manager = $$WorkOrdersTableTableManager(
+      $_db,
+      $_db.workOrders,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_workOrderIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$PermitsTableFilterComposer
+    extends Composer<_$AppDatabase, $PermitsTable> {
+  $$PermitsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get permitNumber => $composableBuilder(
+    column: $table.permitNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get permitType => $composableBuilder(
+    column: $table.permitType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get vendorName => $composableBuilder(
+    column: $table.vendorName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get validFrom => $composableBuilder(
+    column: $table.validFrom,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get validTo => $composableBuilder(
+    column: $table.validTo,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get riskAssessmentNote => $composableBuilder(
+    column: $table.riskAssessmentNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get authorisedPersons => $composableBuilder(
+    column: $table.authorisedPersons,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get controlsNote => $composableBuilder(
+    column: $table.controlsNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get isolationNote => $composableBuilder(
+    column: $table.isolationNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get issuerName => $composableBuilder(
+    column: $table.issuerName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get receiverName => $composableBuilder(
+    column: $table.receiverName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdBy => $composableBuilder(
+    column: $table.createdBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get closedAt => $composableBuilder(
+    column: $table.closedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$WorkOrdersTableFilterComposer get workOrderId {
+    final $$WorkOrdersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.workOrderId,
+      referencedTable: $db.workOrders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WorkOrdersTableFilterComposer(
+            $db: $db,
+            $table: $db.workOrders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PermitsTableOrderingComposer
+    extends Composer<_$AppDatabase, $PermitsTable> {
+  $$PermitsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get permitNumber => $composableBuilder(
+    column: $table.permitNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get permitType => $composableBuilder(
+    column: $table.permitType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get vendorName => $composableBuilder(
+    column: $table.vendorName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get validFrom => $composableBuilder(
+    column: $table.validFrom,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get validTo => $composableBuilder(
+    column: $table.validTo,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get riskAssessmentNote => $composableBuilder(
+    column: $table.riskAssessmentNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get authorisedPersons => $composableBuilder(
+    column: $table.authorisedPersons,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get controlsNote => $composableBuilder(
+    column: $table.controlsNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get isolationNote => $composableBuilder(
+    column: $table.isolationNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get issuerName => $composableBuilder(
+    column: $table.issuerName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get receiverName => $composableBuilder(
+    column: $table.receiverName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdBy => $composableBuilder(
+    column: $table.createdBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get closedAt => $composableBuilder(
+    column: $table.closedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$WorkOrdersTableOrderingComposer get workOrderId {
+    final $$WorkOrdersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.workOrderId,
+      referencedTable: $db.workOrders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WorkOrdersTableOrderingComposer(
+            $db: $db,
+            $table: $db.workOrders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PermitsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PermitsTable> {
+  $$PermitsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get permitNumber => $composableBuilder(
+    column: $table.permitNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get permitType => $composableBuilder(
+    column: $table.permitType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get vendorName => $composableBuilder(
+    column: $table.vendorName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get validFrom =>
+      $composableBuilder(column: $table.validFrom, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get validTo =>
+      $composableBuilder(column: $table.validTo, builder: (column) => column);
+
+  GeneratedColumn<String> get riskAssessmentNote => $composableBuilder(
+    column: $table.riskAssessmentNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get authorisedPersons => $composableBuilder(
+    column: $table.authorisedPersons,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get controlsNote => $composableBuilder(
+    column: $table.controlsNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get isolationNote => $composableBuilder(
+    column: $table.isolationNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get issuerName => $composableBuilder(
+    column: $table.issuerName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get receiverName => $composableBuilder(
+    column: $table.receiverName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get createdBy =>
+      $composableBuilder(column: $table.createdBy, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get closedAt =>
+      $composableBuilder(column: $table.closedAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$WorkOrdersTableAnnotationComposer get workOrderId {
+    final $$WorkOrdersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.workOrderId,
+      referencedTable: $db.workOrders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WorkOrdersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.workOrders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PermitsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PermitsTable,
+          Permit,
+          $$PermitsTableFilterComposer,
+          $$PermitsTableOrderingComposer,
+          $$PermitsTableAnnotationComposer,
+          $$PermitsTableCreateCompanionBuilder,
+          $$PermitsTableUpdateCompanionBuilder,
+          (Permit, $$PermitsTableReferences),
+          Permit,
+          PrefetchHooks Function({bool siteId, bool workOrderId})
+        > {
+  $$PermitsTableTableManager(_$AppDatabase db, $PermitsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PermitsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PermitsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PermitsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> permitNumber = const Value.absent(),
+                Value<String> siteId = const Value.absent(),
+                Value<String?> workOrderId = const Value.absent(),
+                Value<String> permitType = const Value.absent(),
+                Value<String?> vendorName = const Value.absent(),
+                Value<DateTime> validFrom = const Value.absent(),
+                Value<DateTime> validTo = const Value.absent(),
+                Value<String?> riskAssessmentNote = const Value.absent(),
+                Value<String?> authorisedPersons = const Value.absent(),
+                Value<String?> controlsNote = const Value.absent(),
+                Value<String?> isolationNote = const Value.absent(),
+                Value<String> issuerName = const Value.absent(),
+                Value<String> receiverName = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String> createdBy = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> closedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PermitsCompanion(
+                id: id,
+                permitNumber: permitNumber,
+                siteId: siteId,
+                workOrderId: workOrderId,
+                permitType: permitType,
+                vendorName: vendorName,
+                validFrom: validFrom,
+                validTo: validTo,
+                riskAssessmentNote: riskAssessmentNote,
+                authorisedPersons: authorisedPersons,
+                controlsNote: controlsNote,
+                isolationNote: isolationNote,
+                issuerName: issuerName,
+                receiverName: receiverName,
+                status: status,
+                createdBy: createdBy,
+                createdAt: createdAt,
+                closedAt: closedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String permitNumber,
+                required String siteId,
+                Value<String?> workOrderId = const Value.absent(),
+                required String permitType,
+                Value<String?> vendorName = const Value.absent(),
+                required DateTime validFrom,
+                required DateTime validTo,
+                Value<String?> riskAssessmentNote = const Value.absent(),
+                Value<String?> authorisedPersons = const Value.absent(),
+                Value<String?> controlsNote = const Value.absent(),
+                Value<String?> isolationNote = const Value.absent(),
+                required String issuerName,
+                required String receiverName,
+                Value<String> status = const Value.absent(),
+                required String createdBy,
+                required DateTime createdAt,
+                Value<DateTime?> closedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PermitsCompanion.insert(
+                id: id,
+                permitNumber: permitNumber,
+                siteId: siteId,
+                workOrderId: workOrderId,
+                permitType: permitType,
+                vendorName: vendorName,
+                validFrom: validFrom,
+                validTo: validTo,
+                riskAssessmentNote: riskAssessmentNote,
+                authorisedPersons: authorisedPersons,
+                controlsNote: controlsNote,
+                isolationNote: isolationNote,
+                issuerName: issuerName,
+                receiverName: receiverName,
+                status: status,
+                createdBy: createdBy,
+                createdAt: createdAt,
+                closedAt: closedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$PermitsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, workOrderId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$PermitsTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn: $$PermitsTableReferences
+                                    ._siteIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (workOrderId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.workOrderId,
+                                referencedTable: $$PermitsTableReferences
+                                    ._workOrderIdTable(db),
+                                referencedColumn: $$PermitsTableReferences
+                                    ._workOrderIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$PermitsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PermitsTable,
+      Permit,
+      $$PermitsTableFilterComposer,
+      $$PermitsTableOrderingComposer,
+      $$PermitsTableAnnotationComposer,
+      $$PermitsTableCreateCompanionBuilder,
+      $$PermitsTableUpdateCompanionBuilder,
+      (Permit, $$PermitsTableReferences),
+      Permit,
+      PrefetchHooks Function({bool siteId, bool workOrderId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -43550,6 +45455,8 @@ class $AppDatabaseManager {
         _db,
         _db.softServiceInspections,
       );
+  $$PermitsTableTableManager get permits =>
+      $$PermitsTableTableManager(_db, _db.permits);
 }
 
 // **************************************************************************

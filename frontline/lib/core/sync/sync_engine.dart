@@ -10,6 +10,7 @@ import '../../features/checklists/data/checklist_repository_provider.dart';
 import '../../features/cleaning/data/cleaning_task_repository_provider.dart';
 import '../../features/fleet/data/fleet_repository_provider.dart';
 import '../../features/inspections/data/inspection_repository_provider.dart';
+import '../../features/permits/data/permit_repository_provider.dart';
 import '../../features/inventory/data/inventory_repository_provider.dart';
 import '../../features/requests/data/request_repository_provider.dart';
 import '../../features/safety/data/safety_repository_provider.dart';
@@ -154,6 +155,12 @@ class SyncEngine {
           break;
         case 'soft_service_inspection_corrective_complete':
           await _ref.read(inspectionRepositoryProvider).pushCorrectiveComplete(entry.entityId);
+          break;
+        case 'permit':
+          await _ref.read(permitRepositoryProvider).pushPermit(entry.entityId);
+          break;
+        case 'permit_close':
+          await _ref.read(permitRepositoryProvider).pushClose(entry.entityId);
           break;
         case 'cleaning_task_completion':
           await _ref.read(cleaningTaskRepositoryProvider).pushCompletion(entry.entityId);

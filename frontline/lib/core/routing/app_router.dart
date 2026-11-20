@@ -19,6 +19,9 @@ import '../../features/shift_handover/presentation/create_shift_handover_screen.
 import '../../features/shift_handover/presentation/shift_handover_screen.dart';
 import '../../features/shift_roster/presentation/shift_roster_screen.dart';
 import '../../features/notifications/presentation/notifications_screen.dart';
+import '../../features/permits/presentation/create_permit_screen.dart';
+import '../../features/permits/presentation/permit_detail_screen.dart';
+import '../../features/permits/presentation/permits_screen.dart';
 import '../../features/requests/presentation/create_request_screen.dart';
 import '../../features/requests/presentation/request_detail_screen.dart';
 import '../../features/requests/presentation/requests_screen.dart';
@@ -98,6 +101,26 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/safety-home',
         builder: (context, state) => const SafetyHomeScreen(),
+      ),
+      GoRoute(
+        path: '/permits',
+        builder: (context, state) => const PermitsScreen(),
+      ),
+      GoRoute(
+        path: '/permits/new',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return CreatePermitScreen(
+            siteId: extra?['siteId'] as String,
+            workOrderId: extra?['workOrderId'] as String?,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/permits/:id',
+        builder: (context, state) => PermitDetailScreen(
+          permitId: state.pathParameters['id']!,
+        ),
       ),
       GoRoute(
         path: '/my-vehicle',
