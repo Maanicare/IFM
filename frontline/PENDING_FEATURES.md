@@ -6,6 +6,63 @@ data that already exists. Each one was flagged during the Screen
 Contract (Section 15) audit and confirmed as "do later" rather than
 rushed.
 
+## Screen 25 - Shift Roster
+
+- **Swap / Replace** — spec lists these alongside Mark absence/Request
+  relief; only the two self-service actions (on the logged-in user's
+  own row) are built. Swap/Replace mean assigning a *different*
+  employee to a shift, which is roster authoring, not self-service -
+  needs an employee picker and is arguably a manager/desktop action,
+  but the spec does list it under this screen so it should be
+  confirmed rather than assumed out of scope.
+
+## Screen 48 - Vehicle Profile (My Vehicle)
+
+Trip history list — fixed (data already existed via
+`watchTripsForDriver`, just wasn't rendered).
+
+Still pending:
+- **VIN**, **Battery**, **Tyres** — spec lists these fields; the
+  `Vehicles` table has no columns for them at all. Needs new columns
+  (schema bump) + fixture/repository updates, not just a UI add.
+
+## Screen 32 - Inventory Item
+
+No dedicated "Inventory Item" profile screen exists at all - only a
+quick-info sheet from Scan and the inline "Add part" picker on a Work
+Order. The `InventoryItems`/`InventoryBalances` tables only cover
+SKU, Name, Category, Unit, Cost, Reorder level, and per-site Quantity.
+Missing entirely: **Warehouse**, **Reserved** quantity (vs. on-hand),
+**Min level** (distinct from Reorder level), **Supplier**,
+**Expiry**, **Serial/batch**. Needs new columns plus an actual
+profile screen, not a quick fix.
+
+## Screen 33 - Stock Transaction
+
+Only the "Issue" transaction type is implemented (via Work Order
+"Add part"), hardcoded in `InventoryDao.recordIssue`. The spec lists
+Receive/Issue/Transfer/Return/Repair/Scrap/Adjustment, and a required
+"reason" field that doesn't exist in `InventoryTransactions` at all
+(only `transactionType`, `quantity`, `userId`, `timestamp`). Needs a
+`reason` column plus six more transaction-type flows - a bigger
+feature than exists today, not a toggle to flip on.
+
+## Screen 35 - Incident Report
+
+Type, Severity, Injury, Description, Immediate action are captured.
+Missing: **Location** (only the current site is captured, not a
+specific space/location picker), **People involved**, **Asset**
+link, **Photos**, **Witnesses**. "System creates investigation
+workflow" also doesn't exist - an incident is just stored as a record,
+nothing downstream is generated.
+
+## Screen 36 - Hazard / Near Miss
+
+Hazard type and Location(site-level) are captured. **Photo** and
+**Voice** (both listed as "Optional") aren't wired into this screen
+at all - no evidence-capture integration here, unlike the Work Order
+evidence flow.
+
 ## Screen 11 - Scan
 
 - **NFC input** — spec lists QR/Barcode/NFC; only QR/Barcode are

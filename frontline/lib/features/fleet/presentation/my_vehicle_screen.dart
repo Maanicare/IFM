@@ -67,12 +67,66 @@ class _VehicleContent extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             _TripSection(vehicle: vehicle, driverId: driverId),
+            const SizedBox(height: 16),
+            _TripHistorySection(driverId: driverId),
           ],
         );
       },
     );
   }
 }
+
+/// Screen 48: "Trip history". The open/active trip is handled by
+/// [_TripSection] above; this lists completed trips, most recent first.
+class _TripHistorySection extends ConsumerWidget {
+  const _TripHistorySection({required this.driverId});
+  final String driverId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final trips = (ref.watch(_tripsProvider(driverId)).value ?? const [])
+        .where((t) => t.endTime != null)
+        .toList();
+    if (trips.isEmpty) return const SizedBox.shrink();
+
+    final fmt = DateFormat.yMMMd().add_Hm();
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Trip history', style: Theme.of(context).textTheme.titleSmall),
+            const SizedBox(height: 8),
+            for (final trip in trips)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${fmt.format(trip.startTime)} → ${fmt.format(trip.endTime!)}',
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      '${trip.startOdometer.toStringAsFixed(0)} → '
+                      '${trip.endOdometer!.toStringAsFixed(0)} km'
+                      '${trip.fuelUsed != null ? ' · ${trip.fuelUsed!.toStringAsFixed(1)} L fuel' : ''}',
+                      style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+final _tripsProvider = StreamProvider.family<List<Trip>, String>((ref, driverId) {
+  return ref.watch(appDatabaseProvider).fleetDao.watchTripsForDriver(driverId);
+});
 
 final _vehicleProvider = StreamProvider.family<Vehicle?, String>((ref, driverId) {
   return ref.watch(appDatabaseProvider).fleetDao.watchAssignedVehicle(driverId);
