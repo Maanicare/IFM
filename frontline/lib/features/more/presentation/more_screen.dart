@@ -89,6 +89,12 @@ class MoreScreen extends ConsumerWidget {
               subtitle: const Text('Cleaning status, consumables, complaints'),
               onTap: () => context.push('/washrooms'),
             ),
+            ListTile(
+              leading: const Icon(Icons.fact_check_outlined),
+              title: const Text('Soft service inspections'),
+              subtitle: const Text('Housekeeping, Pantry, Pest, Horticulture, Mailroom, Concierge'),
+              onTap: () => context.push('/inspections'),
+            ),
           ],
           if (can(AppAction.manageFleetTrip))
             ListTile(

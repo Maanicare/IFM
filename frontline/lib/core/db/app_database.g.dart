@@ -22582,6 +22582,725 @@ class WashroomsCompanion extends UpdateCompanion<Washroom> {
   }
 }
 
+class $SoftServiceInspectionsTable extends SoftServiceInspections
+    with TableInfo<$SoftServiceInspectionsTable, SoftServiceInspection> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SoftServiceInspectionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<String> siteId = GeneratedColumn<String>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _spaceIdMeta = const VerificationMeta(
+    'spaceId',
+  );
+  @override
+  late final GeneratedColumn<String> spaceId = GeneratedColumn<String>(
+    'space_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES spaces (id)',
+    ),
+  );
+  static const VerificationMeta _templateMeta = const VerificationMeta(
+    'template',
+  );
+  @override
+  late final GeneratedColumn<String> template = GeneratedColumn<String>(
+    'template',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _scoreMeta = const VerificationMeta('score');
+  @override
+  late final GeneratedColumn<double> score = GeneratedColumn<double>(
+    'score',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nonConformanceNoteMeta =
+      const VerificationMeta('nonConformanceNote');
+  @override
+  late final GeneratedColumn<String> nonConformanceNote =
+      GeneratedColumn<String>(
+        'non_conformance_note',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _correctiveTaskNoteMeta =
+      const VerificationMeta('correctiveTaskNote');
+  @override
+  late final GeneratedColumn<String> correctiveTaskNote =
+      GeneratedColumn<String>(
+        'corrective_task_note',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _correctiveOwnerNameMeta =
+      const VerificationMeta('correctiveOwnerName');
+  @override
+  late final GeneratedColumn<String> correctiveOwnerName =
+      GeneratedColumn<String>(
+        'corrective_owner_name',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _correctiveDueDateMeta = const VerificationMeta(
+    'correctiveDueDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> correctiveDueDate =
+      GeneratedColumn<DateTime>(
+        'corrective_due_date',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _inspectedByMeta = const VerificationMeta(
+    'inspectedBy',
+  );
+  @override
+  late final GeneratedColumn<String> inspectedBy = GeneratedColumn<String>(
+    'inspected_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _inspectedAtMeta = const VerificationMeta(
+    'inspectedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> inspectedAt = GeneratedColumn<DateTime>(
+    'inspected_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    siteId,
+    spaceId,
+    template,
+    score,
+    nonConformanceNote,
+    correctiveTaskNote,
+    correctiveOwnerName,
+    correctiveDueDate,
+    inspectedBy,
+    inspectedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'soft_service_inspections';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SoftServiceInspection> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('space_id')) {
+      context.handle(
+        _spaceIdMeta,
+        spaceId.isAcceptableOrUnknown(data['space_id']!, _spaceIdMeta),
+      );
+    }
+    if (data.containsKey('template')) {
+      context.handle(
+        _templateMeta,
+        template.isAcceptableOrUnknown(data['template']!, _templateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_templateMeta);
+    }
+    if (data.containsKey('score')) {
+      context.handle(
+        _scoreMeta,
+        score.isAcceptableOrUnknown(data['score']!, _scoreMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_scoreMeta);
+    }
+    if (data.containsKey('non_conformance_note')) {
+      context.handle(
+        _nonConformanceNoteMeta,
+        nonConformanceNote.isAcceptableOrUnknown(
+          data['non_conformance_note']!,
+          _nonConformanceNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('corrective_task_note')) {
+      context.handle(
+        _correctiveTaskNoteMeta,
+        correctiveTaskNote.isAcceptableOrUnknown(
+          data['corrective_task_note']!,
+          _correctiveTaskNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('corrective_owner_name')) {
+      context.handle(
+        _correctiveOwnerNameMeta,
+        correctiveOwnerName.isAcceptableOrUnknown(
+          data['corrective_owner_name']!,
+          _correctiveOwnerNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('corrective_due_date')) {
+      context.handle(
+        _correctiveDueDateMeta,
+        correctiveDueDate.isAcceptableOrUnknown(
+          data['corrective_due_date']!,
+          _correctiveDueDateMeta,
+        ),
+      );
+    }
+    if (data.containsKey('inspected_by')) {
+      context.handle(
+        _inspectedByMeta,
+        inspectedBy.isAcceptableOrUnknown(
+          data['inspected_by']!,
+          _inspectedByMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_inspectedByMeta);
+    }
+    if (data.containsKey('inspected_at')) {
+      context.handle(
+        _inspectedAtMeta,
+        inspectedAt.isAcceptableOrUnknown(
+          data['inspected_at']!,
+          _inspectedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_inspectedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SoftServiceInspection map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SoftServiceInspection(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_id'],
+      )!,
+      spaceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}space_id'],
+      ),
+      template: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}template'],
+      )!,
+      score: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}score'],
+      )!,
+      nonConformanceNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}non_conformance_note'],
+      ),
+      correctiveTaskNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}corrective_task_note'],
+      ),
+      correctiveOwnerName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}corrective_owner_name'],
+      ),
+      correctiveDueDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}corrective_due_date'],
+      ),
+      inspectedBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}inspected_by'],
+      )!,
+      inspectedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}inspected_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SoftServiceInspectionsTable createAlias(String alias) {
+    return $SoftServiceInspectionsTable(attachedDatabase, alias);
+  }
+}
+
+class SoftServiceInspection extends DataClass
+    implements Insertable<SoftServiceInspection> {
+  final String id;
+  final String siteId;
+  final String? spaceId;
+  final String template;
+  final double score;
+  final String? nonConformanceNote;
+  final String? correctiveTaskNote;
+  final String? correctiveOwnerName;
+  final DateTime? correctiveDueDate;
+  final String inspectedBy;
+  final DateTime inspectedAt;
+  const SoftServiceInspection({
+    required this.id,
+    required this.siteId,
+    this.spaceId,
+    required this.template,
+    required this.score,
+    this.nonConformanceNote,
+    this.correctiveTaskNote,
+    this.correctiveOwnerName,
+    this.correctiveDueDate,
+    required this.inspectedBy,
+    required this.inspectedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['site_id'] = Variable<String>(siteId);
+    if (!nullToAbsent || spaceId != null) {
+      map['space_id'] = Variable<String>(spaceId);
+    }
+    map['template'] = Variable<String>(template);
+    map['score'] = Variable<double>(score);
+    if (!nullToAbsent || nonConformanceNote != null) {
+      map['non_conformance_note'] = Variable<String>(nonConformanceNote);
+    }
+    if (!nullToAbsent || correctiveTaskNote != null) {
+      map['corrective_task_note'] = Variable<String>(correctiveTaskNote);
+    }
+    if (!nullToAbsent || correctiveOwnerName != null) {
+      map['corrective_owner_name'] = Variable<String>(correctiveOwnerName);
+    }
+    if (!nullToAbsent || correctiveDueDate != null) {
+      map['corrective_due_date'] = Variable<DateTime>(correctiveDueDate);
+    }
+    map['inspected_by'] = Variable<String>(inspectedBy);
+    map['inspected_at'] = Variable<DateTime>(inspectedAt);
+    return map;
+  }
+
+  SoftServiceInspectionsCompanion toCompanion(bool nullToAbsent) {
+    return SoftServiceInspectionsCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      spaceId: spaceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(spaceId),
+      template: Value(template),
+      score: Value(score),
+      nonConformanceNote: nonConformanceNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nonConformanceNote),
+      correctiveTaskNote: correctiveTaskNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(correctiveTaskNote),
+      correctiveOwnerName: correctiveOwnerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(correctiveOwnerName),
+      correctiveDueDate: correctiveDueDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(correctiveDueDate),
+      inspectedBy: Value(inspectedBy),
+      inspectedAt: Value(inspectedAt),
+    );
+  }
+
+  factory SoftServiceInspection.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SoftServiceInspection(
+      id: serializer.fromJson<String>(json['id']),
+      siteId: serializer.fromJson<String>(json['siteId']),
+      spaceId: serializer.fromJson<String?>(json['spaceId']),
+      template: serializer.fromJson<String>(json['template']),
+      score: serializer.fromJson<double>(json['score']),
+      nonConformanceNote: serializer.fromJson<String?>(
+        json['nonConformanceNote'],
+      ),
+      correctiveTaskNote: serializer.fromJson<String?>(
+        json['correctiveTaskNote'],
+      ),
+      correctiveOwnerName: serializer.fromJson<String?>(
+        json['correctiveOwnerName'],
+      ),
+      correctiveDueDate: serializer.fromJson<DateTime?>(
+        json['correctiveDueDate'],
+      ),
+      inspectedBy: serializer.fromJson<String>(json['inspectedBy']),
+      inspectedAt: serializer.fromJson<DateTime>(json['inspectedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'siteId': serializer.toJson<String>(siteId),
+      'spaceId': serializer.toJson<String?>(spaceId),
+      'template': serializer.toJson<String>(template),
+      'score': serializer.toJson<double>(score),
+      'nonConformanceNote': serializer.toJson<String?>(nonConformanceNote),
+      'correctiveTaskNote': serializer.toJson<String?>(correctiveTaskNote),
+      'correctiveOwnerName': serializer.toJson<String?>(correctiveOwnerName),
+      'correctiveDueDate': serializer.toJson<DateTime?>(correctiveDueDate),
+      'inspectedBy': serializer.toJson<String>(inspectedBy),
+      'inspectedAt': serializer.toJson<DateTime>(inspectedAt),
+    };
+  }
+
+  SoftServiceInspection copyWith({
+    String? id,
+    String? siteId,
+    Value<String?> spaceId = const Value.absent(),
+    String? template,
+    double? score,
+    Value<String?> nonConformanceNote = const Value.absent(),
+    Value<String?> correctiveTaskNote = const Value.absent(),
+    Value<String?> correctiveOwnerName = const Value.absent(),
+    Value<DateTime?> correctiveDueDate = const Value.absent(),
+    String? inspectedBy,
+    DateTime? inspectedAt,
+  }) => SoftServiceInspection(
+    id: id ?? this.id,
+    siteId: siteId ?? this.siteId,
+    spaceId: spaceId.present ? spaceId.value : this.spaceId,
+    template: template ?? this.template,
+    score: score ?? this.score,
+    nonConformanceNote: nonConformanceNote.present
+        ? nonConformanceNote.value
+        : this.nonConformanceNote,
+    correctiveTaskNote: correctiveTaskNote.present
+        ? correctiveTaskNote.value
+        : this.correctiveTaskNote,
+    correctiveOwnerName: correctiveOwnerName.present
+        ? correctiveOwnerName.value
+        : this.correctiveOwnerName,
+    correctiveDueDate: correctiveDueDate.present
+        ? correctiveDueDate.value
+        : this.correctiveDueDate,
+    inspectedBy: inspectedBy ?? this.inspectedBy,
+    inspectedAt: inspectedAt ?? this.inspectedAt,
+  );
+  SoftServiceInspection copyWithCompanion(
+    SoftServiceInspectionsCompanion data,
+  ) {
+    return SoftServiceInspection(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      spaceId: data.spaceId.present ? data.spaceId.value : this.spaceId,
+      template: data.template.present ? data.template.value : this.template,
+      score: data.score.present ? data.score.value : this.score,
+      nonConformanceNote: data.nonConformanceNote.present
+          ? data.nonConformanceNote.value
+          : this.nonConformanceNote,
+      correctiveTaskNote: data.correctiveTaskNote.present
+          ? data.correctiveTaskNote.value
+          : this.correctiveTaskNote,
+      correctiveOwnerName: data.correctiveOwnerName.present
+          ? data.correctiveOwnerName.value
+          : this.correctiveOwnerName,
+      correctiveDueDate: data.correctiveDueDate.present
+          ? data.correctiveDueDate.value
+          : this.correctiveDueDate,
+      inspectedBy: data.inspectedBy.present
+          ? data.inspectedBy.value
+          : this.inspectedBy,
+      inspectedAt: data.inspectedAt.present
+          ? data.inspectedAt.value
+          : this.inspectedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SoftServiceInspection(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('template: $template, ')
+          ..write('score: $score, ')
+          ..write('nonConformanceNote: $nonConformanceNote, ')
+          ..write('correctiveTaskNote: $correctiveTaskNote, ')
+          ..write('correctiveOwnerName: $correctiveOwnerName, ')
+          ..write('correctiveDueDate: $correctiveDueDate, ')
+          ..write('inspectedBy: $inspectedBy, ')
+          ..write('inspectedAt: $inspectedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    siteId,
+    spaceId,
+    template,
+    score,
+    nonConformanceNote,
+    correctiveTaskNote,
+    correctiveOwnerName,
+    correctiveDueDate,
+    inspectedBy,
+    inspectedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SoftServiceInspection &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.spaceId == this.spaceId &&
+          other.template == this.template &&
+          other.score == this.score &&
+          other.nonConformanceNote == this.nonConformanceNote &&
+          other.correctiveTaskNote == this.correctiveTaskNote &&
+          other.correctiveOwnerName == this.correctiveOwnerName &&
+          other.correctiveDueDate == this.correctiveDueDate &&
+          other.inspectedBy == this.inspectedBy &&
+          other.inspectedAt == this.inspectedAt);
+}
+
+class SoftServiceInspectionsCompanion
+    extends UpdateCompanion<SoftServiceInspection> {
+  final Value<String> id;
+  final Value<String> siteId;
+  final Value<String?> spaceId;
+  final Value<String> template;
+  final Value<double> score;
+  final Value<String?> nonConformanceNote;
+  final Value<String?> correctiveTaskNote;
+  final Value<String?> correctiveOwnerName;
+  final Value<DateTime?> correctiveDueDate;
+  final Value<String> inspectedBy;
+  final Value<DateTime> inspectedAt;
+  final Value<int> rowid;
+  const SoftServiceInspectionsCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.spaceId = const Value.absent(),
+    this.template = const Value.absent(),
+    this.score = const Value.absent(),
+    this.nonConformanceNote = const Value.absent(),
+    this.correctiveTaskNote = const Value.absent(),
+    this.correctiveOwnerName = const Value.absent(),
+    this.correctiveDueDate = const Value.absent(),
+    this.inspectedBy = const Value.absent(),
+    this.inspectedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SoftServiceInspectionsCompanion.insert({
+    required String id,
+    required String siteId,
+    this.spaceId = const Value.absent(),
+    required String template,
+    required double score,
+    this.nonConformanceNote = const Value.absent(),
+    this.correctiveTaskNote = const Value.absent(),
+    this.correctiveOwnerName = const Value.absent(),
+    this.correctiveDueDate = const Value.absent(),
+    required String inspectedBy,
+    required DateTime inspectedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       siteId = Value(siteId),
+       template = Value(template),
+       score = Value(score),
+       inspectedBy = Value(inspectedBy),
+       inspectedAt = Value(inspectedAt);
+  static Insertable<SoftServiceInspection> custom({
+    Expression<String>? id,
+    Expression<String>? siteId,
+    Expression<String>? spaceId,
+    Expression<String>? template,
+    Expression<double>? score,
+    Expression<String>? nonConformanceNote,
+    Expression<String>? correctiveTaskNote,
+    Expression<String>? correctiveOwnerName,
+    Expression<DateTime>? correctiveDueDate,
+    Expression<String>? inspectedBy,
+    Expression<DateTime>? inspectedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (spaceId != null) 'space_id': spaceId,
+      if (template != null) 'template': template,
+      if (score != null) 'score': score,
+      if (nonConformanceNote != null)
+        'non_conformance_note': nonConformanceNote,
+      if (correctiveTaskNote != null)
+        'corrective_task_note': correctiveTaskNote,
+      if (correctiveOwnerName != null)
+        'corrective_owner_name': correctiveOwnerName,
+      if (correctiveDueDate != null) 'corrective_due_date': correctiveDueDate,
+      if (inspectedBy != null) 'inspected_by': inspectedBy,
+      if (inspectedAt != null) 'inspected_at': inspectedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SoftServiceInspectionsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? siteId,
+    Value<String?>? spaceId,
+    Value<String>? template,
+    Value<double>? score,
+    Value<String?>? nonConformanceNote,
+    Value<String?>? correctiveTaskNote,
+    Value<String?>? correctiveOwnerName,
+    Value<DateTime?>? correctiveDueDate,
+    Value<String>? inspectedBy,
+    Value<DateTime>? inspectedAt,
+    Value<int>? rowid,
+  }) {
+    return SoftServiceInspectionsCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      spaceId: spaceId ?? this.spaceId,
+      template: template ?? this.template,
+      score: score ?? this.score,
+      nonConformanceNote: nonConformanceNote ?? this.nonConformanceNote,
+      correctiveTaskNote: correctiveTaskNote ?? this.correctiveTaskNote,
+      correctiveOwnerName: correctiveOwnerName ?? this.correctiveOwnerName,
+      correctiveDueDate: correctiveDueDate ?? this.correctiveDueDate,
+      inspectedBy: inspectedBy ?? this.inspectedBy,
+      inspectedAt: inspectedAt ?? this.inspectedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<String>(siteId.value);
+    }
+    if (spaceId.present) {
+      map['space_id'] = Variable<String>(spaceId.value);
+    }
+    if (template.present) {
+      map['template'] = Variable<String>(template.value);
+    }
+    if (score.present) {
+      map['score'] = Variable<double>(score.value);
+    }
+    if (nonConformanceNote.present) {
+      map['non_conformance_note'] = Variable<String>(nonConformanceNote.value);
+    }
+    if (correctiveTaskNote.present) {
+      map['corrective_task_note'] = Variable<String>(correctiveTaskNote.value);
+    }
+    if (correctiveOwnerName.present) {
+      map['corrective_owner_name'] = Variable<String>(
+        correctiveOwnerName.value,
+      );
+    }
+    if (correctiveDueDate.present) {
+      map['corrective_due_date'] = Variable<DateTime>(correctiveDueDate.value);
+    }
+    if (inspectedBy.present) {
+      map['inspected_by'] = Variable<String>(inspectedBy.value);
+    }
+    if (inspectedAt.present) {
+      map['inspected_at'] = Variable<DateTime>(inspectedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SoftServiceInspectionsCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('spaceId: $spaceId, ')
+          ..write('template: $template, ')
+          ..write('score: $score, ')
+          ..write('nonConformanceNote: $nonConformanceNote, ')
+          ..write('correctiveTaskNote: $correctiveTaskNote, ')
+          ..write('correctiveOwnerName: $correctiveOwnerName, ')
+          ..write('correctiveDueDate: $correctiveDueDate, ')
+          ..write('inspectedBy: $inspectedBy, ')
+          ..write('inspectedAt: $inspectedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -22634,6 +23353,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     this,
   );
   late final $WashroomsTable washrooms = $WashroomsTable(this);
+  late final $SoftServiceInspectionsTable softServiceInspections =
+      $SoftServiceInspectionsTable(this);
   late final LocationDao locationDao = LocationDao(this as AppDatabase);
   late final AssetDao assetDao = AssetDao(this as AppDatabase);
   late final RequestDao requestDao = RequestDao(this as AppDatabase);
@@ -22659,6 +23380,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     this as AppDatabase,
   );
   late final WashroomDao washroomDao = WashroomDao(this as AppDatabase);
+  late final SoftServiceInspectionDao softServiceInspectionDao =
+      SoftServiceInspectionDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -22698,6 +23421,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     cleaningTaskInspectionResponses,
     requestComments,
     washrooms,
+    softServiceInspections,
   ];
 }
 
@@ -22941,6 +23665,34 @@ final class $$SitesTableReferences
     ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_washroomsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $SoftServiceInspectionsTable,
+    List<SoftServiceInspection>
+  >
+  _softServiceInspectionsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.softServiceInspections,
+        aliasName: $_aliasNameGenerator(
+          db.sites.id,
+          db.softServiceInspections.siteId,
+        ),
+      );
+
+  $$SoftServiceInspectionsTableProcessedTableManager
+  get softServiceInspectionsRefs {
+    final manager = $$SoftServiceInspectionsTableTableManager(
+      $_db,
+      $_db.softServiceInspections,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _softServiceInspectionsRefsTable($_db),
+    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -23272,6 +24024,32 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> softServiceInspectionsRefs(
+    Expression<bool> Function($$SoftServiceInspectionsTableFilterComposer f) f,
+  ) {
+    final $$SoftServiceInspectionsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.softServiceInspections,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SoftServiceInspectionsTableFilterComposer(
+                $db: $db,
+                $table: $db.softServiceInspections,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -23647,6 +24425,32 @@ class $$SitesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> softServiceInspectionsRefs<T extends Object>(
+    Expression<T> Function($$SoftServiceInspectionsTableAnnotationComposer a) f,
+  ) {
+    final $$SoftServiceInspectionsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.softServiceInspections,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SoftServiceInspectionsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.softServiceInspections,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -23674,6 +24478,7 @@ class $$SitesTableTableManager
             bool hazardsRefs,
             bool cleaningTasksRefs,
             bool washroomsRefs,
+            bool softServiceInspectionsRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -23754,6 +24559,7 @@ class $$SitesTableTableManager
                 hazardsRefs = false,
                 cleaningTasksRefs = false,
                 washroomsRefs = false,
+                softServiceInspectionsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -23769,6 +24575,7 @@ class $$SitesTableTableManager
                     if (hazardsRefs) db.hazards,
                     if (cleaningTasksRefs) db.cleaningTasks,
                     if (washroomsRefs) db.washrooms,
+                    if (softServiceInspectionsRefs) db.softServiceInspections,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -23972,6 +24779,27 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (softServiceInspectionsRefs)
+                        await $_getPrefetchedData<
+                          Site,
+                          $SitesTable,
+                          SoftServiceInspection
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._softServiceInspectionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).softServiceInspectionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -24004,6 +24832,7 @@ typedef $$SitesTableProcessedTableManager =
         bool hazardsRefs,
         bool cleaningTasksRefs,
         bool washroomsRefs,
+        bool softServiceInspectionsRefs,
       })
     >;
 typedef $$BuildingsTableCreateCompanionBuilder =
@@ -24938,6 +25767,34 @@ final class $$SpacesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $SoftServiceInspectionsTable,
+    List<SoftServiceInspection>
+  >
+  _softServiceInspectionsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.softServiceInspections,
+        aliasName: $_aliasNameGenerator(
+          db.spaces.id,
+          db.softServiceInspections.spaceId,
+        ),
+      );
+
+  $$SoftServiceInspectionsTableProcessedTableManager
+  get softServiceInspectionsRefs {
+    final manager = $$SoftServiceInspectionsTableTableManager(
+      $_db,
+      $_db.softServiceInspections,
+    ).filter((f) => f.spaceId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _softServiceInspectionsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SpacesTableFilterComposer
@@ -25169,6 +26026,32 @@ class $$SpacesTableFilterComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> softServiceInspectionsRefs(
+    Expression<bool> Function($$SoftServiceInspectionsTableFilterComposer f) f,
+  ) {
+    final $$SoftServiceInspectionsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.softServiceInspections,
+          getReferencedColumn: (t) => t.spaceId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SoftServiceInspectionsTableFilterComposer(
+                $db: $db,
+                $table: $db.softServiceInspections,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -25454,6 +26337,32 @@ class $$SpacesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> softServiceInspectionsRefs<T extends Object>(
+    Expression<T> Function($$SoftServiceInspectionsTableAnnotationComposer a) f,
+  ) {
+    final $$SoftServiceInspectionsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.softServiceInspections,
+          getReferencedColumn: (t) => t.spaceId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SoftServiceInspectionsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.softServiceInspections,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$SpacesTableTableManager
@@ -25478,6 +26387,7 @@ class $$SpacesTableTableManager
             bool hazardsRefs,
             bool cleaningTasksRefs,
             bool washroomsRefs,
+            bool softServiceInspectionsRefs,
           })
         > {
   $$SpacesTableTableManager(_$AppDatabase db, $SpacesTable table)
@@ -25543,6 +26453,7 @@ class $$SpacesTableTableManager
                 hazardsRefs = false,
                 cleaningTasksRefs = false,
                 washroomsRefs = false,
+                softServiceInspectionsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -25554,6 +26465,7 @@ class $$SpacesTableTableManager
                     if (hazardsRefs) db.hazards,
                     if (cleaningTasksRefs) db.cleaningTasks,
                     if (washroomsRefs) db.washrooms,
+                    if (softServiceInspectionsRefs) db.softServiceInspections,
                   ],
                   addJoins:
                       <
@@ -25724,6 +26636,27 @@ class $$SpacesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (softServiceInspectionsRefs)
+                        await $_getPrefetchedData<
+                          Space,
+                          $SpacesTable,
+                          SoftServiceInspection
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SpacesTableReferences
+                              ._softServiceInspectionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SpacesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).softServiceInspectionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.spaceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -25753,6 +26686,7 @@ typedef $$SpacesTableProcessedTableManager =
         bool hazardsRefs,
         bool cleaningTasksRefs,
         bool washroomsRefs,
+        bool softServiceInspectionsRefs,
       })
     >;
 typedef $$AssetsTableCreateCompanionBuilder =
@@ -41756,6 +42690,561 @@ typedef $$WashroomsTableProcessedTableManager =
       Washroom,
       PrefetchHooks Function({bool siteId, bool spaceId})
     >;
+typedef $$SoftServiceInspectionsTableCreateCompanionBuilder =
+    SoftServiceInspectionsCompanion Function({
+      required String id,
+      required String siteId,
+      Value<String?> spaceId,
+      required String template,
+      required double score,
+      Value<String?> nonConformanceNote,
+      Value<String?> correctiveTaskNote,
+      Value<String?> correctiveOwnerName,
+      Value<DateTime?> correctiveDueDate,
+      required String inspectedBy,
+      required DateTime inspectedAt,
+      Value<int> rowid,
+    });
+typedef $$SoftServiceInspectionsTableUpdateCompanionBuilder =
+    SoftServiceInspectionsCompanion Function({
+      Value<String> id,
+      Value<String> siteId,
+      Value<String?> spaceId,
+      Value<String> template,
+      Value<double> score,
+      Value<String?> nonConformanceNote,
+      Value<String?> correctiveTaskNote,
+      Value<String?> correctiveOwnerName,
+      Value<DateTime?> correctiveDueDate,
+      Value<String> inspectedBy,
+      Value<DateTime> inspectedAt,
+      Value<int> rowid,
+    });
+
+final class $$SoftServiceInspectionsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $SoftServiceInspectionsTable,
+          SoftServiceInspection
+        > {
+  $$SoftServiceInspectionsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) => db.sites.createAlias(
+    $_aliasNameGenerator(db.softServiceInspections.siteId, db.sites.id),
+  );
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<String>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SpacesTable _spaceIdTable(_$AppDatabase db) => db.spaces.createAlias(
+    $_aliasNameGenerator(db.softServiceInspections.spaceId, db.spaces.id),
+  );
+
+  $$SpacesTableProcessedTableManager? get spaceId {
+    final $_column = $_itemColumn<String>('space_id');
+    if ($_column == null) return null;
+    final manager = $$SpacesTableTableManager(
+      $_db,
+      $_db.spaces,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_spaceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SoftServiceInspectionsTableFilterComposer
+    extends Composer<_$AppDatabase, $SoftServiceInspectionsTable> {
+  $$SoftServiceInspectionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get template => $composableBuilder(
+    column: $table.template,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get score => $composableBuilder(
+    column: $table.score,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get nonConformanceNote => $composableBuilder(
+    column: $table.nonConformanceNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get correctiveTaskNote => $composableBuilder(
+    column: $table.correctiveTaskNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get correctiveOwnerName => $composableBuilder(
+    column: $table.correctiveOwnerName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get correctiveDueDate => $composableBuilder(
+    column: $table.correctiveDueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get inspectedBy => $composableBuilder(
+    column: $table.inspectedBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get inspectedAt => $composableBuilder(
+    column: $table.inspectedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableFilterComposer get spaceId {
+    final $$SpacesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableFilterComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SoftServiceInspectionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SoftServiceInspectionsTable> {
+  $$SoftServiceInspectionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get template => $composableBuilder(
+    column: $table.template,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get score => $composableBuilder(
+    column: $table.score,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get nonConformanceNote => $composableBuilder(
+    column: $table.nonConformanceNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get correctiveTaskNote => $composableBuilder(
+    column: $table.correctiveTaskNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get correctiveOwnerName => $composableBuilder(
+    column: $table.correctiveOwnerName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get correctiveDueDate => $composableBuilder(
+    column: $table.correctiveDueDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get inspectedBy => $composableBuilder(
+    column: $table.inspectedBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get inspectedAt => $composableBuilder(
+    column: $table.inspectedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableOrderingComposer get spaceId {
+    final $$SpacesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableOrderingComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SoftServiceInspectionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SoftServiceInspectionsTable> {
+  $$SoftServiceInspectionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get template =>
+      $composableBuilder(column: $table.template, builder: (column) => column);
+
+  GeneratedColumn<double> get score =>
+      $composableBuilder(column: $table.score, builder: (column) => column);
+
+  GeneratedColumn<String> get nonConformanceNote => $composableBuilder(
+    column: $table.nonConformanceNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get correctiveTaskNote => $composableBuilder(
+    column: $table.correctiveTaskNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get correctiveOwnerName => $composableBuilder(
+    column: $table.correctiveOwnerName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get correctiveDueDate => $composableBuilder(
+    column: $table.correctiveDueDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get inspectedBy => $composableBuilder(
+    column: $table.inspectedBy,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get inspectedAt => $composableBuilder(
+    column: $table.inspectedAt,
+    builder: (column) => column,
+  );
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SpacesTableAnnotationComposer get spaceId {
+    final $$SpacesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.spaceId,
+      referencedTable: $db.spaces,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SpacesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.spaces,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SoftServiceInspectionsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SoftServiceInspectionsTable,
+          SoftServiceInspection,
+          $$SoftServiceInspectionsTableFilterComposer,
+          $$SoftServiceInspectionsTableOrderingComposer,
+          $$SoftServiceInspectionsTableAnnotationComposer,
+          $$SoftServiceInspectionsTableCreateCompanionBuilder,
+          $$SoftServiceInspectionsTableUpdateCompanionBuilder,
+          (SoftServiceInspection, $$SoftServiceInspectionsTableReferences),
+          SoftServiceInspection,
+          PrefetchHooks Function({bool siteId, bool spaceId})
+        > {
+  $$SoftServiceInspectionsTableTableManager(
+    _$AppDatabase db,
+    $SoftServiceInspectionsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SoftServiceInspectionsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$SoftServiceInspectionsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$SoftServiceInspectionsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> siteId = const Value.absent(),
+                Value<String?> spaceId = const Value.absent(),
+                Value<String> template = const Value.absent(),
+                Value<double> score = const Value.absent(),
+                Value<String?> nonConformanceNote = const Value.absent(),
+                Value<String?> correctiveTaskNote = const Value.absent(),
+                Value<String?> correctiveOwnerName = const Value.absent(),
+                Value<DateTime?> correctiveDueDate = const Value.absent(),
+                Value<String> inspectedBy = const Value.absent(),
+                Value<DateTime> inspectedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SoftServiceInspectionsCompanion(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                template: template,
+                score: score,
+                nonConformanceNote: nonConformanceNote,
+                correctiveTaskNote: correctiveTaskNote,
+                correctiveOwnerName: correctiveOwnerName,
+                correctiveDueDate: correctiveDueDate,
+                inspectedBy: inspectedBy,
+                inspectedAt: inspectedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String siteId,
+                Value<String?> spaceId = const Value.absent(),
+                required String template,
+                required double score,
+                Value<String?> nonConformanceNote = const Value.absent(),
+                Value<String?> correctiveTaskNote = const Value.absent(),
+                Value<String?> correctiveOwnerName = const Value.absent(),
+                Value<DateTime?> correctiveDueDate = const Value.absent(),
+                required String inspectedBy,
+                required DateTime inspectedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => SoftServiceInspectionsCompanion.insert(
+                id: id,
+                siteId: siteId,
+                spaceId: spaceId,
+                template: template,
+                score: score,
+                nonConformanceNote: nonConformanceNote,
+                correctiveTaskNote: correctiveTaskNote,
+                correctiveOwnerName: correctiveOwnerName,
+                correctiveDueDate: correctiveDueDate,
+                inspectedBy: inspectedBy,
+                inspectedAt: inspectedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SoftServiceInspectionsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, spaceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable:
+                                    $$SoftServiceInspectionsTableReferences
+                                        ._siteIdTable(db),
+                                referencedColumn:
+                                    $$SoftServiceInspectionsTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (spaceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.spaceId,
+                                referencedTable:
+                                    $$SoftServiceInspectionsTableReferences
+                                        ._spaceIdTable(db),
+                                referencedColumn:
+                                    $$SoftServiceInspectionsTableReferences
+                                        ._spaceIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$SoftServiceInspectionsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SoftServiceInspectionsTable,
+      SoftServiceInspection,
+      $$SoftServiceInspectionsTableFilterComposer,
+      $$SoftServiceInspectionsTableOrderingComposer,
+      $$SoftServiceInspectionsTableAnnotationComposer,
+      $$SoftServiceInspectionsTableCreateCompanionBuilder,
+      $$SoftServiceInspectionsTableUpdateCompanionBuilder,
+      (SoftServiceInspection, $$SoftServiceInspectionsTableReferences),
+      SoftServiceInspection,
+      PrefetchHooks Function({bool siteId, bool spaceId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -41839,6 +43328,11 @@ class $AppDatabaseManager {
       $$RequestCommentsTableTableManager(_db, _db.requestComments);
   $$WashroomsTableTableManager get washrooms =>
       $$WashroomsTableTableManager(_db, _db.washrooms);
+  $$SoftServiceInspectionsTableTableManager get softServiceInspections =>
+      $$SoftServiceInspectionsTableTableManager(
+        _db,
+        _db.softServiceInspections,
+      );
 }
 
 // **************************************************************************

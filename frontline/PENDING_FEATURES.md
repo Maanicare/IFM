@@ -152,9 +152,20 @@ space, and "Complaints" is just the open requests at that space. This
 reuses the existing Request pipeline (tracking, SLA) instead of
 building a second, parallel one.
 
+## Screen 23 - Soft Service Inspection — DONE (with documented interpretation)
+
+Templates (Housekeeping/Pantry/Pest/Horticulture/Mailroom/Concierge)
+and Record fields (Score, Non-conformance, Photo, Corrective task,
+Owner, Due date) are all captured. **One row per inspection with a
+single overall Score**, not a per-item checklist with template/items/
+responses like [Checklists] - the spec's "Record" list names a score,
+not itemized checks, unlike Screen 21's explicit "Checklist". Owner
+is a free-text name (no employee directory), and the corrective task
+has no assignment/notification workflow - it's a captured field, not
+a trackable task entity.
+
 ## Screens not yet built at all (App-relevant, confirmed earlier)
 
-- Screen 23 — Soft Service Inspection
 - Screen 34 — Safety Home
 - Screen 37 — Permit to Work
 - Screen 42 — Workplace Experience

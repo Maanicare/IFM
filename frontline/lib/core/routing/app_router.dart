@@ -7,6 +7,8 @@ import '../../features/cleaning/presentation/cleaning_task_detail_screen.dart';
 import '../../features/cleaning/presentation/cleaning_tasks_screen.dart';
 import '../../features/fleet/presentation/my_vehicle_screen.dart';
 import '../../features/identity/presentation/auth_controller.dart';
+import '../../features/inspections/presentation/create_inspection_screen.dart';
+import '../../features/inspections/presentation/inspections_screen.dart';
 import '../../features/inventory/presentation/inventory_item_screen.dart';
 import '../../features/washrooms/presentation/washroom_detail_screen.dart';
 import '../../features/washrooms/presentation/washrooms_screen.dart';
@@ -101,6 +103,14 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => InventoryItemScreen(
           itemId: state.pathParameters['id']!,
         ),
+      ),
+      GoRoute(
+        path: '/inspections',
+        builder: (context, state) => const InspectionsScreen(),
+      ),
+      GoRoute(
+        path: '/inspections/new',
+        builder: (context, state) => const CreateInspectionScreen(),
       ),
       GoRoute(
         path: '/washrooms',

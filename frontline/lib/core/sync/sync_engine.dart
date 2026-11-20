@@ -9,6 +9,7 @@ import '../../features/attachments/data/attachment_upload_repository_provider.da
 import '../../features/checklists/data/checklist_repository_provider.dart';
 import '../../features/cleaning/data/cleaning_task_repository_provider.dart';
 import '../../features/fleet/data/fleet_repository_provider.dart';
+import '../../features/inspections/data/inspection_repository_provider.dart';
 import '../../features/inventory/data/inventory_repository_provider.dart';
 import '../../features/requests/data/request_repository_provider.dart';
 import '../../features/safety/data/safety_repository_provider.dart';
@@ -147,6 +148,9 @@ class SyncEngine {
           break;
         case 'request_comment':
           await _ref.read(requestRepositoryProvider).pushComment(entry.entityId);
+          break;
+        case 'soft_service_inspection':
+          await _ref.read(inspectionRepositoryProvider).pushInspection(entry.entityId);
           break;
         case 'cleaning_task_completion':
           await _ref.read(cleaningTaskRepositoryProvider).pushCompletion(entry.entityId);
